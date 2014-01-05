@@ -1,7 +1,0 @@
-{
-    "raptor": {
-        "dependencies": [
-            "optimizer-cli.js"
-        ]
-    }
-}

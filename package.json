@@ -25,6 +25,7 @@
     "raptor-files": "~0.1.0-SNAPSHOT",
     "raptor-modules": "~0.1.0-SNAPSHOT",
     "raptor-regexp": "~0.1.0-SNAPSHOT",
+    "raptor-detect": "~0.1.0-SNAPSHOT",
     "mime": "~1.2.7",
     "sqwish": "~0.2.1",
     "uglify-js": "1.3.x",
