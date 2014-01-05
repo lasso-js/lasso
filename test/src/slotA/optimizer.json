@@ -1,0 +1,12 @@
+{
+    "dependencies": [
+        {
+            "path": "slotA.js",
+            "slot": "head"
+        },
+        {
+            "path": "slotA.css",
+            "slot": "body"
+        }
+    ]
+}

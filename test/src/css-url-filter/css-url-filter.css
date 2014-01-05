@@ -1,0 +1,4 @@
+.test-1 {background-image: url(ebay-logo.png);}
+.test-2 {background-image: url("ebay-logo.png");}
+.test-3 {background-image: url('ebay-logo.png');}
+.test-4 {background-image: url('ebay-logo.png?base64');}

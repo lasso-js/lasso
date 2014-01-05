@@ -1,0 +1,17 @@
+{
+    "dependencies": [
+        {
+            "async": true,
+            "package": "nestedA"
+        },
+        {
+            "async": true,
+            "package": "nestedB"
+        },
+        {
+            "package": "moduleA"
+        },
+        "asyncA.js",
+        "asyncA.css"
+    ]
+}

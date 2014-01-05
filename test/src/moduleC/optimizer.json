@@ -1,0 +1,5 @@
+{
+    "dependencies": [
+        "moduleC.js"
+    ]
+}

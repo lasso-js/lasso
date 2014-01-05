@@ -1,0 +1,1 @@
+moduleB_js
