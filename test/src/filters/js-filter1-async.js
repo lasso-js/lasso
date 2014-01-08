@@ -1,19 +1,27 @@
-var promises = require('raptor-promises');
+var eventStream = require('event-stream');
 
-exports.filter = function(code, contentType, context) {
-    if (!code) {
-        throw new Error('code expected');
+exports.stream = true;
+
+exports.filter = function(inStream, contentType, context) {
+    if (!inStream) {
+        throw new Error('inStream expected');
     }
     
     if (contentType === 'application/javascript') {
-        var deferred = promises.defer();
-        setTimeout(function() {
-            deferred.resolve(code + '-JavaScriptFilter1Async');
-        }, 200);
-        return deferred.promise;
+        var code = '';
+
+        return inStream.pipe(eventStream.through(function write(data) {
+                code += data;
+            },
+            function end () {
+                setTimeout(function() {
+                    this.queue(code + '-JavaScriptFilter1Async');
+                    this.emit('end');
+                }.bind(this), 200);
+            }));
     }
     else {
-        return code;
+        return inStream;
     }
 };
 

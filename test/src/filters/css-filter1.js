@@ -1,6 +1,17 @@
-exports.filter = function(code, contentType, context) {
+var eventStream = require('event-stream');
+
+exports.stream = true;
+
+exports.filter = function(inStream, contentType, context) {
     if (contentType === 'text/css') {
-        return code + '-CSSFilter1';
+        return inStream.pipe(eventStream.through(null,
+            function end () { //optional
+                this.queue('-CSSFilter1');
+                this.emit('end');
+            }));
+    }
+    else {
+        return inStream;
     }
 };
 

@@ -1,16 +1,20 @@
-var promises = require('raptor-promises');
+var ok = require('assert').ok;
+var raptorPromises = require('raptor-promises');
+
+exports.stream = false;
+
+exports.contentType = 'application/javascript';
 
 exports.filter = function(code, contentType, context) {
-    if (contentType === 'application/javascript') {
-        var deferred = promises.defer();
-        setTimeout(function() {
-            deferred.resolve(code + '-JavaScriptFilter2Async');
-        }, 50);
-        return deferred.promise;
-    }
-    else {
-        return code;
-    }
+    ok(contentType === 'application/javascript', '"application/javascript" content type expected');
+
+    var deferred = raptorPromises.defer();
+
+    setTimeout(function() {
+        deferred.resolve(code + '-JavaScriptFilter2Async');
+    }, 200);
+
+    return deferred.promise;
 };
 
 exports.name = module.id;

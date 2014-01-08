@@ -1,31 +1,40 @@
 var raptorUtil = require('raptor-util');
-var listeners = require('raptor-listeners');
+var eventStream = require('event-stream');
+var nodePath = require('path');
 
-function MockWriter() {
+function MockWriter(config) {
+    config.outputDir = nodePath.resolve(__dirname, config.outputDir);
     MockWriter.$super.apply(this, arguments);
     this.outputFilesByPath = {};
     this.outputFilesByName = {};
-    listeners.makeObservable(this, MockWriter.prototype, ['fileWritten']);
     this.__MockWriter = true;
 }
 
 MockWriter.prototype = {
-    _recordOutputFile: function(outputFile, code) {
-        this.outputFilesByPath[outputFile.getAbsolutePath()] = code;
-        this.outputFilesByName[outputFile.getName()] = code;
-        this.publish('fileWritten', {
-            file: outputFile,
-            filename: outputFile.getName(),
-            code: code
-        });
+    _recordOutputFile: function(outputFile) {
+
+        var _this = this;
+
+        var code = '';
+        return eventStream.through(function write(data) {
+                code += data;
+            },
+            function end() {
+                _this.outputFilesByPath[outputFile] = code;
+                _this.outputFilesByName[nodePath.basename(outputFile)] = code;
+                this.emit('close');
+            });
+
+
+        
     },
 
-    writeBundleFile: function(outputFile, code) {
-        this._recordOutputFile(outputFile, code);
+    getBundleFileOutputStream: function(outputFile) {
+        return this._recordOutputFile(outputFile);
     },
 
-    writeResourceFile: function(outputFile, data) {
-        this._recordOutputFile(outputFile, data);
+    getResourceFileOutputStream: function(outputFile) {
+        return this._recordOutputFile(outputFile);
     },
 
     getOutputPaths: function() {
@@ -42,13 +51,17 @@ MockWriter.prototype = {
 
     getCodeForFilename: function(filename) {
         return this.outputFilesByName[filename];
+    },
+
+    toString: function() {
+        return '[MockWriter@' + module.filename + ']';
     }
 };
 
-raptorUtil.inherit(MockWriter, require('../lib/OptimizerFileWriter'));
+raptorUtil.inherit(MockWriter, require('../lib/writers/FileWriter'));
 
-MockWriter.create = function() {
-    return new MockWriter();
+MockWriter.create = function(config) {
+    return new MockWriter(config);
 };
 
 module.exports = MockWriter;
