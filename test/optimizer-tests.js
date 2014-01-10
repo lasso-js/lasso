@@ -159,16 +159,17 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    xit('should allow for loader metadata', function(done) {
-        var writer = require('./MockWriter').create();
+    it('should allow for loader metadata', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            urlPrefix: '/',
+            includeSlotNames: true,
+            checksumsEnabled: false
+        });
         var optimizer = require('../');
 
         optimizer.configure({
-                outputDir: 'build',
-                urlPrefix: '/',
-                includeBundleSlotNames: true,
-                enabledExtensions: ['jquery', 'browser'],
-                checksumsEnabled: false
+                enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
             .then(function(pageOptimizer) {
                 return pageOptimizer.optimizePage({
@@ -182,6 +183,12 @@ describe('raptor-optimizer' , function() {
                     });
             })
             .then(function(optimizedPage) {
+
+                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}};');
+                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
+
+                expect(writer.getOutputFilenames()).to.deep.equal(['testPage-async-body.js', 'testPage-async-head.css', 'testPage-body.js', 'testPage-head.css']);
+                // console.log(writer.getCodeForFilename('testPage-body.js'));
                 expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-head.css">');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="/testPage-body.js"></script>');
 
@@ -189,7 +196,75 @@ describe('raptor-optimizer' , function() {
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
                 expect(writer.getCodeForFilename('testPage-async-body.js')).to.equal('nestedB_js\nnestedA_js');
                 expect(writer.getCodeForFilename('testPage-async-head.css')).to.equal('nestedB_css\nnestedA_css');
-                expect(writer.getCodeForFilename('testPage-body.js')).to.equal("mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={\"nestedA\":{\"css\":[\"/testPage-async-head.css\"],\"js\":[\"/testPage-async-body.js\"]}};");
+                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}};');
+                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
+            })
+            .then(done)
+            .fail(done);
+    });
+
+    it('should allow for loader metadata with configurable bundles', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            urlPrefix: '/',
+            includeSlotNames: true,
+            checksumsEnabled: false
+        });
+        var optimizer = require('../');
+
+        optimizer.configure({
+                enabledExtensions: ['jquery', 'browser'],
+                bundlingEnabled: true,
+                bundles: [
+                    {
+                        name: 'nestedB',
+                        dependencies: [
+                            { "package": "nestedB" }
+                        ]
+                    },
+                    {
+                        name: 'nestedA',
+                        dependencies: [
+                            { "package": "nestedA" }
+                        ]
+                    }
+                ]                
+            }, __dirname, __filename)
+            .then(function(pageOptimizer) {
+                return pageOptimizer.optimizePage({
+                        pageName: "testPage",
+                        writer: writer,
+                        dependencies: [
+                            { "package": "mixedA"},
+                            { "package": "asyncA" },
+                            { "type": "loader-metadata" }],
+                        from: module
+                    });
+            })
+            .then(function(optimizedPage) {
+                // console.log(writer.getOutputFilenames());
+                // console.log(writer.getCodeForFilename('testPage-body.js'));
+                expect(writer.getOutputFilenames()).to.deep.equal([
+                    'nestedA-body.js',
+                    'nestedA-head.css',
+                    'nestedB-body.js',
+                    'nestedB-head.css',
+                    'testPage-body.js',
+                    'testPage-head.css']);
+
+                
+                expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-head.css">');
+                expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="/testPage-body.js"></script>');
+
+                // ACTUAL:
+                // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
+                expect(writer.getCodeForFilename('nestedA-body.js')).to.equal('nestedA_js');
+                expect(writer.getCodeForFilename('nestedA-head.css')).to.equal('nestedA_css');
+
+                expect(writer.getCodeForFilename('nestedB-body.js')).to.equal('nestedB_js');
+                expect(writer.getCodeForFilename('nestedB-head.css')).to.equal('nestedB_css');
+
+                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/nestedB-head.css","/nestedA-head.css"],"js":["/nestedB-body.js","/nestedA-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/nestedB-head.css"],"js":["/nestedB-body.js"]}};');
                 expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
             })
             .then(done)

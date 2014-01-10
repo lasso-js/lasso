@@ -32,7 +32,8 @@
     "app-module-path": "~0.1.0",
     "event-stream": "~3.0.20",
     "combined-stream": "0.0.4",
-    "then-fs": "~1.0.3"
+    "then-fs": "~1.0.3",
+    "resumer": "0.0.0"
   },
   "devDependencies": {
     "raptor-logging": "~0.1.0-SNAPSHOT",
