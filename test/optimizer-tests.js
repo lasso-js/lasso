@@ -219,7 +219,7 @@ describe('raptor-optimizer' , function() {
                     {
                         name: 'nestedB',
                         dependencies: [
-                            { "package": "nestedB" }
+                            { "package": "nestedB", recursive: true }
                         ]
                     },
                     {
