@@ -159,6 +159,137 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
+    it('should allow for configurable bundles', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            urlPrefix: '/',
+            checksumsEnabled: false
+        });
+        var optimizer = require('../');
+
+        optimizer.configure({
+                enabledExtensions: ['jquery', 'browser'],
+                bundlingEnabled: true,
+                bundles: [
+                    {
+                        name: 'bundleA',
+                        dependencies: [
+                            { "package": "nestedA" }
+                        ]
+                    },
+                    {
+                        name: 'bundleB',
+                        dependencies: [
+                            { "package": "nestedB" }
+                        ]
+                    },
+                    {
+                        name: 'bundleC',
+                        dependencies: [
+                            { "package": "nestedC" }
+                        ]
+                    }
+                ]                
+            }, __dirname, __filename)
+            .then(function(pageOptimizer) {
+                return pageOptimizer.optimizePage({
+                        pageName: "testPage",
+                        writer: writer,
+                        dependencies: [
+                            { "package": "nestedA"},
+                            { "package": "nestedB" },
+                            { "package": "nestedC" }],
+                        from: module
+                    });
+            })
+            .then(function(optimizedPage) {
+                // console.log(writer.getOutputFilenames());
+                // console.log(writer.getCodeForFilename('testPage-body.js'));
+                expect(writer.getOutputFilenames()).to.deep.equal([
+                    'bundleA.css',
+                    'bundleA.js',
+                    'bundleB.css',
+                    'bundleB.js',
+                    'bundleC.css',
+                    'bundleC.js']);
+
+                
+                expect(writer.getCodeForFilename('bundleA.js')).to.equal('nestedA_js');
+                expect(writer.getCodeForFilename('bundleA.css')).to.equal('nestedA_css');
+
+                expect(writer.getCodeForFilename('bundleB.js')).to.equal('nestedB_js');
+                expect(writer.getCodeForFilename('bundleB.css')).to.equal('nestedB_css');
+
+                expect(writer.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
+                expect(writer.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
+            })
+            .then(done)
+            .fail(done);
+    });
+
+    it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            urlPrefix: '/',
+            checksumsEnabled: false
+        });
+        var optimizer = require('../');
+
+        optimizer.configure({
+                enabledExtensions: ['jquery', 'browser'],
+                bundlingEnabled: true,
+                bundles: [
+                    {
+                        name: 'bundleA',
+                        dependencies: [
+                            { "package": "nestedA", "recurseInto": "all" }
+                        ]
+                    },
+                    {
+                        name: 'bundleB',
+                        dependencies: [
+                            { "package": "nestedB" }
+                        ]
+                    },
+                    {
+                        name: 'bundleC',
+                        dependencies: [
+                            { "package": "nestedC" }
+                        ]
+                    }
+                ]                
+            }, __dirname, __filename)
+            .then(function(pageOptimizer) {
+                return pageOptimizer.optimizePage({
+                        pageName: "testPage",
+                        writer: writer,
+                        dependencies: [
+                            { "package": "nestedA"},
+                            { "package": "nestedB" },
+                            { "package": "nestedC" }],
+                        from: module
+                    });
+            })
+            .then(function(optimizedPage) {
+                // console.log(writer.getOutputFilenames());
+                // console.log(writer.getCodeForFilename('testPage-body.js'));
+                expect(writer.getOutputFilenames()).to.deep.equal([
+                    'bundleA.css',
+                    'bundleA.js',
+                    'bundleC.css',
+                    'bundleC.js']);
+
+                
+                expect(writer.getCodeForFilename('bundleA.js')).to.equal('nestedB_js\nnestedA_js');
+                expect(writer.getCodeForFilename('bundleA.css')).to.equal('nestedB_css\nnestedA_css');
+
+                expect(writer.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
+                expect(writer.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
+            })
+            .then(done)
+            .fail(done);
+    });
+
     it('should allow for loader metadata', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
