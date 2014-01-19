@@ -26,7 +26,7 @@ describe('raptor-optimizer' , function() {
         done();
     });
 
-    it.only('should handle de-duplication correctly', function(done) {
+    it('should handle require for modules with dependencies', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             checksumsEnabled: false
