@@ -8,3 +8,5 @@
 .DS_Store
 coverage
 /test/build
+*.actual.js
+*.actual.html
