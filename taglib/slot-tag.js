@@ -1,8 +1,16 @@
-
-
-var promises = require('raptor-promises');
+var raptorPromisesUtil = require('raptor-promises/util');
 var logger = require('raptor-logging').logger(module);
 var optimizer = require('../');
+
+function renderSlot(slotName, optimizedPage, context, optimizerContext) {
+    var slotHtml = optimizedPage.getSlotHtml(slotName);
+    
+    if (slotHtml) {
+        context.write(slotHtml);
+    }
+
+    optimizerContext.emitAfterSlot(slotName, context);
+}
 
 module.exports = {
     process: function(input, context) {
@@ -12,47 +20,22 @@ module.exports = {
         var optimizerContext = optimizer.getRenderContext(context);
 
         if (!optimizedPagePromise) {
-            throw require('raptor').createError(new Error('Optimized page not found for slot "' + slotName + '". The <optimizer:page> tag should be used to generate the optimized page.'));
+            throw new Error('Optimized page not found for slot "' + slotName + '". The <optimizer:page> tag should be used to generate the optimized page.');
         }
 
         optimizerContext.emitBeforeSlot(slotName, context);
 
-        function renderSlot(context, optimizedPage) {
-            
-            var slotHtml = optimizedPage.getSlotHtml(slotName);
-            
-            if (slotHtml) {
-                context.write(slotHtml);
-            }
-
-            optimizerContext.emitAfterSlot(slotName, context);
-        }
-
-        var optimizedPage = promises.valueOfPromise(optimizedPagePromise);
-
+        var optimizedPage = raptorPromisesUtil.valueOfPromise(optimizedPagePromise);
         if (optimizedPage) {
-            renderSlot(context, optimizedPage);
-        }
-        else {
+            renderSlot(slotName, optimizedPage, context, optimizerContext);
+        } else {
             context.beginAsyncFragment(function(asyncContext, asyncFragment) {
-                var onError = function(e) {
-                    logger.error('An error has occurred for slot "' + slotName + '". Exception: ' + (e.stack || e));
-                    asyncFragment.end();
-                };
-                
-                optimizedPagePromise
-                    .then(function(optimizedPage) {
-                        try
-                        {
-                            renderSlot(asyncContext, optimizedPage);
-                            asyncFragment.end();
-                        }
-                        catch(e) {
-                            onError(e);
-                        }
-                    })
-                    .fail(onError);
+                return optimizedPagePromise.then(function(optimizedPage) {
+                    renderSlot(slotName, optimizedPage, asyncContext, optimizerContext);
+                });
             });
         }
+
+        
     }
 };
