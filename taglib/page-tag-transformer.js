@@ -1,9 +1,6 @@
 
 module.exports = {
     process: function(node, compiler, template) {
-        var templatePath = template.makeExpression(JSON.stringify(template.getPath()));
-        node.setProperty("templatePath", templatePath);
-        
         function convertDependencyTags(parent) {
             parent.forEachChild(function(child) {
                 if (child.isElementNode() && !child.uri) {
