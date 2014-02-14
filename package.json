@@ -26,6 +26,7 @@
     "raptor-modules": "~0.1.0-SNAPSHOT",
     "raptor-regexp": "~0.1.0-SNAPSHOT",
     "raptor-detect": "~0.1.0-SNAPSHOT",
+    "property-handlers": "~0.1.0",
     "mime": "~1.2.7",
     "sqwish": "~0.2.1",
     "uglify-js": "1.3.x",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "raptor-logging": "~0.1.0-SNAPSHOT",
+    "raptor-templates": "~0.1.0-SNAPSHOT",
     "mocha": "~1.15.1",
     "chai": "~1.8.1",
     "jshint": "~2.3.0"
