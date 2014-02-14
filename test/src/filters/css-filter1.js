@@ -7,7 +7,7 @@ exports.filter = function(inStream, contentType, context) {
         return inStream.pipe(eventStream.through(null,
             function end () { //optional
                 this.queue('-CSSFilter1');
-                this.emit('end');
+                this.queue(null);
             }));
     }
     else {

@@ -54,7 +54,7 @@ describe('raptor-optimizer' , function() {
                         nodePath.join(__dirname, 'build/testPage.js')
                     ]);
 
-                console.log(writer.getCodeForFilename('testPage.js'));
+                // console.log(writer.getCodeForFilename('testPage.js'));
 
                 expect(writer.getCodeForFilename('testPage.js')).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.js'), {encoding: 'utf8'}));

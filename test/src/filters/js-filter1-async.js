@@ -16,7 +16,7 @@ exports.filter = function(inStream, contentType, context) {
             function end () {
                 setTimeout(function() {
                     this.queue(code + '-JavaScriptFilter1Async');
-                    this.emit('end');
+                    this.queue(null);
                 }.bind(this), 200);
             }));
     }
