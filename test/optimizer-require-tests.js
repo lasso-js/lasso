@@ -33,6 +33,8 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
+        require('raptor-modules/optimizer').INCLUDE_CLIENT = false;
+
         optimizer.configure({
                 enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
