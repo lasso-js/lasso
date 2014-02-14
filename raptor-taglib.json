@@ -36,6 +36,12 @@
                 "name": "string"
             }
         },
+        "head": {
+            "renderer": "taglib/head-tag.js"
+        },
+        "body": {
+            "renderer": "taglib/body-tag.js"
+        },
         "enable-extension": {
             "renderer": "taglib/enable-extension-tag.js",
             "attributes": {
