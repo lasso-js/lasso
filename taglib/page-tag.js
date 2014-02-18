@@ -3,6 +3,7 @@ var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var immediateThen = require('raptor-promises/util').immediateThen;
 
+
 module.exports = {
     process: function(input, context) {
         var pageOptimizer = input.optimizer;
@@ -54,7 +55,8 @@ module.exports = {
                         pageName: pageName,
                         dependencies: dependencies,
                         from: input.module || input.dirname,
-                        basePath: input.basePath
+                        basePath: input.basePath,
+                        enabledExtensions: enabledExtensions
                     });
                 });
         }

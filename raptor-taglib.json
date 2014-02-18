@@ -14,7 +14,8 @@
                 "base-path": "string",
                 "optimizer": "expression",
                 "dependencies": "expression",
-                "enabled-extensions": "expression"
+                "enabled-extensions": "expression",
+                "extensions": "string"
             },
             "var": "_dependenciesParent",
             "import-var": {
