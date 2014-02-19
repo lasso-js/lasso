@@ -37,29 +37,31 @@ module.exports = {
 
             return cache.getOptimizedPage(
                 cacheKey,
-                function() {
-                    var dependencies = input.dependencies;
+                {
+                    builder: function() {
+                        var dependencies = input.dependencies;
 
-                    if (!dependencies) {
-                        dependencies = [];
-                        input.invokeBody({
-                            addDependency: function(dependency) {
-                                dependencies.push(dependency);
-                            }
+                        if (!dependencies) {
+                            dependencies = [];
+                            input.invokeBody({
+                                addDependency: function(dependency) {
+                                    dependencies.push(dependency);
+                                }
+                            });
+                        }
+
+                        if (!dependencies) {
+                            dependencies = [];
+                        }
+
+                        return pageOptimizer.optimizePage({
+                            pageName: pageName,
+                            dependencies: dependencies,
+                            from: input.module || input.dirname,
+                            basePath: input.basePath,
+                            enabledExtensions: enabledExtensions
                         });
                     }
-
-                    if (!dependencies) {
-                        dependencies = [];
-                    }
-
-                    return pageOptimizer.optimizePage({
-                        pageName: pageName,
-                        dependencies: dependencies,
-                        from: input.module || input.dirname,
-                        basePath: input.basePath,
-                        enabledExtensions: enabledExtensions
-                    });
                 });
         }
         
