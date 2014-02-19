@@ -593,7 +593,7 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    it.only('should bundle require dependencies correctly', function(done) {
+    it('should bundle require dependencies correctly', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             checksumsEnabled: false

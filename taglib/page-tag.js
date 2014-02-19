@@ -21,7 +21,7 @@ module.exports = {
 
         function doOptimizePage(pageOptimizer) {
             var enabledExtensions = pageOptimizer.resolveEnabledExtensions(optimizerRenderContext, input);
-            var dependencies = input.dependencies;
+            
 
             var cache = pageOptimizer.getCache({
                 renderContext: context,
@@ -32,25 +32,27 @@ module.exports = {
                 logger.debug("Enabled page extensions: " + enabledExtensions);
             }
 
-            if (!dependencies) {
-                dependencies = [];
-                input.invokeBody({
-                    addDependency: function(dependency) {
-                        dependencies.push(dependency);
-                    }
-                });
-            }
-
-            if (!dependencies) {
-                dependencies = [];
-            }
-            
             var pageName = input.name || input.pageName;
             var cacheKey = input.cacheKey || pageName;
 
             return cache.getOptimizedPage(
                 cacheKey,
                 function() {
+                    var dependencies = input.dependencies;
+
+                    if (!dependencies) {
+                        dependencies = [];
+                        input.invokeBody({
+                            addDependency: function(dependency) {
+                                dependencies.push(dependency);
+                            }
+                        });
+                    }
+
+                    if (!dependencies) {
+                        dependencies = [];
+                    }
+
                     return pageOptimizer.optimizePage({
                         pageName: pageName,
                         dependencies: dependencies,
