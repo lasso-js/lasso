@@ -1,7 +1,7 @@
 exports.stream = false;
 
 exports.filter = function(code, contentType, context) {
-    if (contentType === 'text/css') {
+    if (contentType === 'css') {
         return code.toUpperCase() + '-CSSFilter2';
     }
 };

@@ -7,7 +7,7 @@ exports.filter = function(inStream, contentType, context) {
         throw new Error('inStream expected');
     }
     
-    if (contentType === 'application/javascript') {
+    if (contentType === 'js') {
         var code = '';
 
         return inStream.pipe(eventStream.through(function write(data) {

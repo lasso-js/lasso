@@ -3,10 +3,10 @@ var raptorPromises = require('raptor-promises');
 
 exports.stream = false;
 
-exports.contentType = 'application/javascript';
+exports.contentType = 'js';
 
 exports.filter = function(code, contentType, context) {
-    ok(contentType === 'application/javascript', '"application/javascript" content type expected');
+    ok(contentType === 'js', '"js" content type expected');
 
     var deferred = raptorPromises.defer();
 
