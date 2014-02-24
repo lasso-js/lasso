@@ -30,12 +30,15 @@ describe('raptor-optimizer' , function() {
         var dependencyWalker = require('../lib/dependency-walker');
         var OptimizerManifest = require('../lib/OptimizerManifest');
         var OptimizerContext = require('../lib/OptimizerContext');
+        var DependencyRegistry = require('../lib/dependencies').DependencyRegistry;
 
         var optimizerManifest = new OptimizerManifest({
                 dependencies: [
                     { "package": "asyncA" }
                 ]
-            }, __dirname);
+            },
+            new DependencyRegistry(),
+            __dirname);
 
         var context = new OptimizerContext();
 
