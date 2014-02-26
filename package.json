@@ -1,6 +1,6 @@
 {
   "name": "raptor-optimizer",
-  "version": "0.1.0-SNAPSHOT",
+  "version": "0.2.0-beta",
   "description": "Module to support the optimized delivery of web application resources",
   "repository": {
     "type": "git",
@@ -9,23 +9,23 @@
   "scripts": {
     "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib"
   },
-  "author": "Patrick Steele-Idem <psteeleidem@ebay.com>",
-  "maintainers": "Patrick Steele-Idem <psteeleidem@ebay.com>",
+  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
   "dependencies": {
-    "raptor-promises": "~0.1.0-SNAPSHOT",
-    "raptor-ecma": "~0.1.0-SNAPSHOT",
-    "raptor-util": "~0.1.0-SNAPSHOT",
-    "raptor-listeners": "~0.1.0-SNAPSHOT",
-    "raptor-strings": "~0.1.0-SNAPSHOT",
-    "raptor-xml": "~0.1.0-SNAPSHOT",
-    "raptor-logging": "~0.1.0-SNAPSHOT",
-    "raptor-css-parser": "~0.1.0-SNAPSHOT",
-    "raptor-objects": "~0.1.0-SNAPSHOT",
-    "raptor-cache": "~0.1.0-SNAPSHOT",
-    "raptor-files": "~0.1.0-SNAPSHOT",
-    "raptor-modules": "~0.1.0-SNAPSHOT",
-    "raptor-regexp": "~0.1.0-SNAPSHOT",
-    "raptor-detect": "~0.1.0-SNAPSHOT",
+    "raptor-promises": "^0.2.0-beta",
+    "raptor-ecma": "^0.2.0-beta",
+    "raptor-util": "^0.2.0-beta",
+    "raptor-listeners": "^0.2.0-beta",
+    "raptor-strings": "^0.2.0-beta",
+    "raptor-xml": "^0.2.0-beta",
+    "raptor-logging": "^0.2.0-beta",
+    "raptor-css-parser": "^0.2.0-beta",
+    "raptor-objects": "^0.2.0-beta",
+    "raptor-cache": "^0.2.0-beta",
+    "raptor-files": "^0.2.0-beta",
+    "raptor-modules": "^0.2.0-beta",
+    "raptor-regexp": "^0.2.0-beta",
+    "raptor-detect": "^0.2.0-beta",
     "property-handlers": "~0.1.0",
     "mime": "~1.2.7",
     "sqwish": "~0.2.1",
@@ -37,8 +37,8 @@
     "resumer": "0.0.0"
   },
   "devDependencies": {
-    "raptor-logging": "~0.1.0-SNAPSHOT",
-    "raptor-templates": "~0.1.0-SNAPSHOT",
+    "raptor-logging": "^0.2.0-beta",
+    "raptor-templates": "^0.2.0-beta",
     "mocha": "~1.15.1",
     "chai": "~1.8.1",
     "jshint": "~2.3.0"
