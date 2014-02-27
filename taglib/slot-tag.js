@@ -1,5 +1,4 @@
 var raptorPromisesUtil = require('raptor-promises/util');
-var logger = require('raptor-logging').logger(module);
 var optimizer = require('../');
 
 function renderSlot(slotName, optimizedPage, context, optimizerContext) {
