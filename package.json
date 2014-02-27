@@ -1,52 +1,53 @@
 {
-  "name": "raptor-optimizer",
-  "version": "0.2.0-beta",
-  "description": "Module to support the optimized delivery of web application resources",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/raptorjs/raptor-optimizer.git"
-  },
-  "scripts": {
-    "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib"
-  },
-  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
-  "dependencies": {
-    "raptor-promises": "^0.2.0-beta",
-    "raptor-ecma": "^0.2.0-beta",
-    "raptor-util": "^0.2.0-beta",
-    "raptor-listeners": "^0.2.0-beta",
-    "raptor-strings": "^0.2.0-beta",
-    "raptor-xml": "^0.2.0-beta",
-    "raptor-logging": "^0.2.0-beta",
-    "raptor-css-parser": "^0.2.0-beta",
-    "raptor-objects": "^0.2.0-beta",
-    "raptor-cache": "^0.2.0-beta",
-    "raptor-files": "^0.2.0-beta",
-    "raptor-modules": "^0.2.0-beta",
-    "raptor-regexp": "^0.2.0-beta",
-    "raptor-detect": "^0.2.0-beta",
-    "property-handlers": "~0.1.0",
-    "mime": "~1.2.7",
-    "sqwish": "~0.2.1",
-    "uglify-js": "1.3.x",
-    "app-module-path": "~0.1.0",
-    "event-stream": "~3.0.20",
-    "combined-stream": "0.0.4",
-    "then-fs": "~1.0.4",
-    "resumer": "0.0.0"
-  },
-  "devDependencies": {
-    "raptor-logging": "^0.2.0-beta",
-    "raptor-templates": "^0.2.0-beta",
-    "mocha": "~1.15.1",
-    "chai": "~1.8.1",
-    "jshint": "~2.3.0"
-  },
-  "license": "Apache License v2.0",
-  "bin": {},
-  "main": "lib/raptor-optimizer.js",
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
-  }
+    "path": "/Users/psteeleidem/development/github/raptorjs3/raptor-optimizer/package.json",
+    "name": "raptor-optimizer",
+    "description": "Module to support the optimized delivery of web application resources",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/raptorjs/raptor-optimizer.git"
+    },
+    "scripts": {
+        "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib"
+    },
+    "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+    "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+    "dependencies": {
+        "raptor-promises": "^0.2.0-beta",
+        "raptor-ecma": "^0.2.0-beta",
+        "raptor-util": "^0.2.0-beta",
+        "raptor-listeners": "^0.2.0-beta",
+        "raptor-strings": "^0.2.0-beta",
+        "raptor-xml": "^0.2.0-beta",
+        "raptor-logging": "^0.2.0-beta",
+        "raptor-css-parser": "^0.2.0-beta",
+        "raptor-objects": "^0.2.0-beta",
+        "raptor-cache": "^0.2.0-beta",
+        "raptor-files": "^0.2.0-beta",
+        "raptor-modules": "^0.2.0-beta",
+        "raptor-regexp": "^0.2.0-beta",
+        "raptor-detect": "^0.2.0-beta",
+        "property-handlers": "~0.1.0",
+        "mime": "~1.2.7",
+        "sqwish": "~0.2.1",
+        "uglify-js": "1.3.x",
+        "app-module-path": "~0.1.0",
+        "event-stream": "~3.0.20",
+        "combined-stream": "0.0.4",
+        "then-fs": "~1.0.4",
+        "resumer": "0.0.0"
+    },
+    "devDependencies": {
+        "raptor-logging": "^0.2.0-beta",
+        "raptor-templates": "^0.2.0-beta",
+        "mocha": "~1.15.1",
+        "chai": "~1.8.1",
+        "jshint": "~2.3.0"
+    },
+    "license": "Apache License v2.0",
+    "bin": {},
+    "main": "lib/raptor-optimizer.js",
+    "publishConfig": {
+        "registry": "https://registry.npmjs.org/"
+    },
+    "version": "0.2.1-beta"
 }
