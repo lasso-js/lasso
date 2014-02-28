@@ -2,7 +2,9 @@ var optimizer = require('../');
 var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var immediateThen = require('raptor-promises/util').immediateThen;
-
+var ok = require('assert').ok;
+var nodePath = require('path');
+var fs = require('fs');
 
 module.exports = {
     process: function(input, context) {
@@ -40,17 +42,32 @@ module.exports = {
                 {
                     builder: function() {
                         var dependencies = input.dependencies;
+                        var packagePath = input.packagePath;
 
-                        if (!dependencies) {
+                        if (packagePath) {
+                            if (input.dirname) {
+                                packagePath = nodePath.resolve(input.dirname, packagePath);
+                            }
+                        } else if (dependencies) {
+
+                        } else if (input.invokeBody) {
                             dependencies = [];
                             input.invokeBody({
                                 addDependency: function(dependency) {
                                     dependencies.push(dependency);
                                 }
                             });
+                        } else {
+                            // Look for an optimizer.json in the same directory
+                            if (input.dirname) {
+                                packagePath = nodePath.join(input.dirname, 'optimizer.json');
+                                if (!fs.existsSync(packagePath)) {
+                                    packagePath = null;
+                                }
+                            }
                         }
 
-                        if (!dependencies) {
+                        if (!dependencies && !packagePath) {
                             dependencies = [];
                         }
 
@@ -59,7 +76,8 @@ module.exports = {
                             dependencies: dependencies,
                             from: input.module || input.dirname,
                             basePath: input.basePath,
-                            enabledExtensions: enabledExtensions
+                            enabledExtensions: enabledExtensions,
+                            packagePath: packagePath
                         });
                     }
                 });
