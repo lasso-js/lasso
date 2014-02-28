@@ -19,7 +19,7 @@
             },
             "var": "_dependenciesParent",
             "import-var": {
-                "module": "module"
+                "dirname": "__dirname"
             }
         },
         "dependencies": {
