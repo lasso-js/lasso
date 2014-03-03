@@ -32,7 +32,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundles: [
                     {
@@ -88,7 +88,7 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
             .then(function(pageOptimizer) {
@@ -131,7 +131,7 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
             .then(function(pageOptimizer) {
@@ -167,7 +167,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -235,7 +235,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -299,7 +299,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
             .then(function(pageOptimizer) {
@@ -343,7 +343,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -411,7 +411,7 @@ describe('raptor-optimizer' , function() {
         
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 filters: [
                     './src/filters/css-filter1.js',
@@ -448,7 +448,7 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 inPlaceDeployment: {
                     enabled: true
@@ -483,7 +483,7 @@ describe('raptor-optimizer' , function() {
         
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 inPlaceDeployment: {
                     enabled: true
@@ -521,7 +521,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 filters: [
                     'resolve-css-urls'
                 ]
@@ -560,7 +560,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 bundlingEnabled: false,
                 filters: [
                     'resolve-css-urls'
@@ -600,7 +600,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundles: [
                     {

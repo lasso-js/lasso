@@ -80,7 +80,7 @@ require('raptor-logging').configureLoggers({
     'raptor-optimizer': 'DEBUG'
 });
 
-require('raptor-optimizer').configureDefault({
+require('raptor-optimizer').configure({
     fileWriter: {
         outputDir: nodePath.join(__dirname, 'build'),
         urlPrefix: '/static',

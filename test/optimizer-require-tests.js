@@ -35,7 +35,7 @@ describe('raptor-optimizer' , function() {
 
         require('raptor-modules/optimizer-plugin').INCLUDE_CLIENT = false;
 
-        optimizer.configure({
+        optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
             }, __dirname, __filename)
             .then(function(pageOptimizer) {
