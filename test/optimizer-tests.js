@@ -592,51 +592,5 @@ describe('raptor-optimizer' , function() {
             .then(done)
             .fail(done);
     });
-
-    it('should bundle require dependencies correctly', function(done) {
-        var writer = require('./MockWriter').create({
-            outputDir: 'build',
-            checksumsEnabled: false
-        });
-        var optimizer = require('../');
-
-        optimizer.create({
-                enabledExtensions: ['jquery', 'browser'],
-                bundles: [
-                    {
-                        name: 'core',
-                        dependencies: [
-                            'raptor-modules/client'
-                        ]
-                    },
-                    {
-                        name: 'jquery',
-                        dependencies: [
-                            'require jquery'
-                        ]
-                    }
-                ]
-            }, path.join(__dirname, 'test-project'))
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            "require jquery",
-                            "require foo"
-                        ],
-                        from: path.join(__dirname, 'test-project')
-                    });
-            })
-            .then(function(optimizedPage) {
-                expect(writer.getOutputPaths()).to.deep.equal([
-                        path.join(__dirname, 'build/core.js'),
-                        path.join(__dirname, 'build/jquery.js'),
-                        path.join(__dirname, 'build/testPage.js')
-                    ]);
-            })
-            .then(done)
-            .fail(done);
-    });
 });
 

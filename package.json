@@ -38,8 +38,6 @@
         "jsonminify": "~0.2.3"
     },
     "devDependencies": {
-        "raptor-logging": "^0.2.0-beta",
-        "raptor-templates": "^0.2.0-beta",
         "mocha": "~1.15.1",
         "chai": "~1.8.1",
         "jshint": "~2.3.0"
