@@ -2,7 +2,7 @@ var eventStream = require('event-stream');
 
 exports.stream = true;
 
-exports.filter = function(inStream, contentType, context) {
+exports.transform = function(inStream, contentType, context) {
     if (!inStream) {
         throw new Error('inStream expected');
     }
@@ -15,7 +15,7 @@ exports.filter = function(inStream, contentType, context) {
             },
             function end () {
                 setTimeout(function() {
-                    this.queue(code + '-JavaScriptFilter1Async');
+                    this.queue(code + '-JavaScriptTransform1Async');
                     this.queue(null);
                 }.bind(this), 200);
             }));

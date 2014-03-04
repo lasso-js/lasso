@@ -2,11 +2,11 @@ var eventStream = require('event-stream');
 
 exports.stream = true;
 
-exports.filter = function(inStream, contentType, context) {
+exports.transform = function(inStream, contentType, context) {
     if (contentType === 'css') {
         return inStream.pipe(eventStream.through(null,
             function end () { //optional
-                this.queue('-CSSFilter1');
+                this.queue('-CSSTransform1');
                 this.queue(null);
             }));
     }
