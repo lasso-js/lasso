@@ -15,7 +15,6 @@
         "raptor-promises": "^0.2.0-beta",
         "raptor-ecma": "^0.2.0-beta",
         "raptor-util": "^0.2.0-beta",
-        "raptor-listeners": "^0.2.0-beta",
         "raptor-strings": "^0.2.0-beta",
         "raptor-xml": "^0.2.0-beta",
         "raptor-logging": "^0.2.0-beta",
