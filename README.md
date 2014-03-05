@@ -89,7 +89,8 @@ optimizer.optimizePage({
         dependencies: [
             'foo.js',
             'bar.js',
-            'baz.css'
+            'baz.js',
+            'qux.css'
         ]
     },
     function(err, optimizedPage) {
