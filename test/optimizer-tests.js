@@ -290,7 +290,7 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    it('should allow for loader metadata', function(done) {
+    xit('should allow for loader metadata', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             urlPrefix: '/',
@@ -334,7 +334,7 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    it('should allow for loader metadata with configurable bundles', function(done) {
+    xit('should allow for loader metadata with configurable bundles', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             urlPrefix: '/',
