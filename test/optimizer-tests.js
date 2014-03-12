@@ -264,7 +264,7 @@ describe('raptor-optimizer' , function() {
                         pageName: "testPage",
                         writer: writer,
                         dependencies: [
-                            { "package": "nestedA"},
+                            "package:nestedA",
                             { "package": "nestedB" },
                             { "package": "nestedC" }],
                         from: module
