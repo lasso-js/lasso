@@ -1,0 +1,10 @@
+{
+    "async": {
+        "asyncB/foo": [
+            "mixedA"    
+        ],
+        "asyncB/bar": [
+            "mixedB"
+        ]
+    }
+}

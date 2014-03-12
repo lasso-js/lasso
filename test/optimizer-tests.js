@@ -290,7 +290,7 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    xit('should allow for loader metadata', function(done) {
+    it('should allow for loader metadata', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             urlPrefix: '/',
@@ -315,8 +315,8 @@ describe('raptor-optimizer' , function() {
             })
             .then(function(optimizedPage) {
 
-                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}};');
-                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
+                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\n$rloaderMeta={"asyncA/foo":{"js":["/testPage-async-body.js"]},"asyncA/bar":{"css":["/testPage-async-head.css"]}};');
+                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css');
 
                 expect(writer.getOutputFilenames()).to.deep.equal(['testPage-async-body.js', 'testPage-async-head.css', 'testPage-body.js', 'testPage-head.css']);
                 // console.log(writer.getCodeForFilename('testPage-body.js'));
@@ -325,16 +325,14 @@ describe('raptor-optimizer' , function() {
 
                 // ACTUAL:
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
-                expect(writer.getCodeForFilename('testPage-async-body.js')).to.equal('nestedB_js\nnestedA_js');
-                expect(writer.getCodeForFilename('testPage-async-head.css')).to.equal('nestedB_css\nnestedA_css');
-                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}};');
-                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
+                expect(writer.getCodeForFilename('testPage-async-body.js')).to.equal('asyncA_js');
+                expect(writer.getCodeForFilename('testPage-async-head.css')).to.equal('asyncA_css');
             })
             .then(done)
             .fail(done);
     });
 
-    xit('should allow for loader metadata with configurable bundles', function(done) {
+    it('should allow for loader metadata with configurable bundles', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             urlPrefix: '/',
@@ -348,15 +346,15 @@ describe('raptor-optimizer' , function() {
                 bundlingEnabled: true,
                 bundles: [
                     {
-                        name: 'nestedB',
+                        name: 'mixedA',
                         dependencies: [
-                            { "package": "nestedB", recursive: true }
+                            { "package": "mixedA" }
                         ]
                     },
                     {
-                        name: 'nestedA',
+                        name: 'mixedB',
                         dependencies: [
-                            { "package": "nestedA" }
+                            { "package": "mixedB" }
                         ]
                     }
                 ]                
@@ -366,8 +364,8 @@ describe('raptor-optimizer' , function() {
                         pageName: "testPage",
                         writer: writer,
                         dependencies: [
-                            { "package": "mixedA"},
-                            { "package": "asyncA" },
+                            { "package": "asyncB" },
+                            { "package": "moduleA"},
                             { "type": "loader-metadata" }],
                         from: module
                     });
@@ -376,27 +374,25 @@ describe('raptor-optimizer' , function() {
                 // console.log(writer.getOutputFilenames());
                 // console.log(writer.getCodeForFilename('testPage-body.js'));
                 expect(writer.getOutputFilenames()).to.deep.equal([
-                    'nestedA-body.js',
-                    'nestedA-head.css',
-                    'nestedB-body.js',
-                    'nestedB-head.css',
-                    'testPage-body.js',
-                    'testPage-head.css']);
+                    'mixedA-body.js',
+                    'mixedA-head.css',
+                    'mixedB-body.js',
+                    'mixedB-head.css',
+                    'testPage-body.js']);
 
                 
-                expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-head.css">');
+                expect(optimizedPage.getSlotHtml('head')).to.equal('');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="/testPage-body.js"></script>');
 
                 // ACTUAL:
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
-                expect(writer.getCodeForFilename('nestedA-body.js')).to.equal('nestedA_js');
-                expect(writer.getCodeForFilename('nestedA-head.css')).to.equal('nestedA_css');
+                expect(writer.getCodeForFilename('mixedA-body.js')).to.equal('mixedA_js');
+                expect(writer.getCodeForFilename('mixedA-head.css')).to.equal('mixedA_css');
 
-                expect(writer.getCodeForFilename('nestedB-body.js')).to.equal('nestedB_js');
-                expect(writer.getCodeForFilename('nestedB-head.css')).to.equal('nestedB_css');
+                expect(writer.getCodeForFilename('mixedB-body.js')).to.equal('mixedB_js');
+                expect(writer.getCodeForFilename('mixedB-head.css')).to.equal('mixedB_css');
 
-                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\nasyncA_js\n$rloaderMeta={"/src/nestedA/optimizer.json":{"aliases":["nestedA@/src/asyncA"],"css":["/nestedB-head.css","/nestedA-head.css"],"js":["/nestedB-body.js","/nestedA-body.js"]},"/src/nestedB/optimizer.json":{"aliases":["nestedB@/src/asyncA"],"css":["/nestedB-head.css"],"js":["/nestedB-body.js"]}};');
-                expect(writer.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css\nasyncA_css');
+                expect(writer.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n$rloaderMeta={"asyncB/foo":{"css":["/mixedA-head.css"],"js":["/mixedA-body.js"]},"asyncB/bar":{"css":["/mixedB-head.css"],"js":["/mixedB-body.js"]}};');
             })
             .then(done)
             .fail(done);

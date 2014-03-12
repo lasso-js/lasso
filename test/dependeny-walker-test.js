@@ -71,16 +71,8 @@ describe('raptor-optimizer' , function() {
 
                     expect(dependencies).to.deep.equal([
                         '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
-                        '[package: async=true, path="' + nodePath.join(__dirname, 'src/nestedA/optimizer.json') + '"]',
-                        '[package: path="' + nodePath.join(__dirname, 'src/nestedB/optimizer.json') + '"]',
-                        '[js: path="' + nodePath.join(__dirname, 'src/nestedB/nestedB.js') + '"]',
-                        '[css: path="' + nodePath.join(__dirname, 'src/nestedB/nestedB.css') + '"]',
-                        '[js: path="' + nodePath.join(__dirname, 'src/nestedA/nestedA.js') + '"]',
-                        '[css: path="' + nodePath.join(__dirname, 'src/nestedA/nestedA.css') + '"]',
                         '[package: path="' + nodePath.join(__dirname, 'src/moduleA/optimizer.json') + '"]',
-                        '[js: path="' + nodePath.join(__dirname, 'src/moduleA/moduleA.js') + '"]',
-                        '[js: path="' + nodePath.join(__dirname, 'src/asyncA/asyncA.js') + '"]',
-                        '[css: path="' + nodePath.join(__dirname, 'src/asyncA/asyncA.css') + '"]'
+                        '[js: path="' + nodePath.join(__dirname, 'src/moduleA/moduleA.js') + '"]'
                     ]);
                     
                     done();
