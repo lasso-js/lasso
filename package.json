@@ -3,7 +3,7 @@
     "description": "Module to support the optimized delivery of web application resources",
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs/raptor-optimizer.git"
+        "url": "https://github.com/raptorjs3/raptor-optimizer.git"
     },
     "scripts": {
         "test": "node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib"
