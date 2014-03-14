@@ -32,7 +32,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundles: [
                     {
@@ -50,18 +50,18 @@ describe('raptor-optimizer' , function() {
                         ]
                     }
                 ]
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "moduleA" },
-                            { "package": "moduleB" },
-                            { "package": "moduleC" },
-                            { "package": "moduleD" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "moduleA" },
+                    { "package": "moduleB" },
+                    { "package": "moduleC" },
+                    { "package": "moduleD" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 expect(writer.getOutputPaths()).to.deep.equal([
@@ -88,18 +88,17 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "mixedA" },
-                            { "package": "slotA" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "mixedA" },
+                    { "package": "slotA" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 expect(writer.getOutputPaths()).to.deep.equal([
@@ -131,18 +130,17 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "mixedA", "js-slot": "custom-body", "css-slot": "custom-head"},
-                            { "package": "slotB" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "mixedA", "js-slot": "custom-body", "css-slot": "custom-head"},
+                    { "package": "slotB" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 expect(optimizedPage.getSlotHtml('custom-head')).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-custom-head.css">');
@@ -167,7 +165,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -190,17 +188,16 @@ describe('raptor-optimizer' , function() {
                         ]
                     }
                 ]                
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "nestedA"},
-                            { "package": "nestedB" },
-                            { "package": "nestedC" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "nestedA"},
+                    { "package": "nestedB" },
+                    { "package": "nestedC" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 // console.log(writer.getOutputFilenames());
@@ -235,7 +232,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -258,17 +255,16 @@ describe('raptor-optimizer' , function() {
                         ]
                     }
                 ]                
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            "package:nestedA",
-                            { "package": "nestedB" },
-                            { "package": "nestedC" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    "package:nestedA",
+                    { "package": "nestedB" },
+                    { "package": "nestedC" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 // console.log(writer.getOutputFilenames());
@@ -299,19 +295,18 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser']
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "mixedA"},
-                            { "package": "asyncA" },
-                            { "type": "loader-metadata" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "mixedA"},
+                    { "package": "asyncA" },
+                    { "type": "loader-metadata" }],
+                from: module
             })
             .then(function(optimizedPage) {
 
@@ -341,7 +336,7 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 bundlingEnabled: true,
                 bundles: [
@@ -358,17 +353,16 @@ describe('raptor-optimizer' , function() {
                         ]
                     }
                 ]                
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "asyncB" },
-                            { "package": "moduleA"},
-                            { "type": "loader-metadata" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "asyncB" },
+                    { "package": "moduleA"},
+                    { "type": "loader-metadata" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 // console.log(writer.getOutputFilenames());
@@ -407,7 +401,7 @@ describe('raptor-optimizer' , function() {
         
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 transforms: [
                     './src/transforms/css-transform1.js',
@@ -415,15 +409,14 @@ describe('raptor-optimizer' , function() {
                     './src/transforms/js-transform1-async.js',
                     './src/transforms/js-transform2-async.js'
                 ]
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "transformsA"}],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "transformsA"}],
+                from: module
             })
             .then(function(optimizedPage) {
                 // console.log(writer.outputFilesByPath);
@@ -444,22 +437,21 @@ describe('raptor-optimizer' , function() {
 
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 inPlaceDeployment: {
                     enabled: true
                 },
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "mixedA" },
-                            { "package": "mixedB" }],
-                        from: module,
-                        basePath: __dirname
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "mixedA" },
+                    { "package": "mixedB" }],
+                from: module,
+                basePath: __dirname
             })
             .then(function(optimizedPage) {
                 expect(writer.getOutputFilenames()).to.deep.equal([]);
@@ -479,21 +471,20 @@ describe('raptor-optimizer' , function() {
         
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
                 inPlaceDeployment: {
                     enabled: true
                 },
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "mixedA" },
-                            { "package": "mixedB" }],
-                        from: module
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "mixedA" },
+                    { "package": "mixedB" }],
+                from: module
             })
             .then(function(optimizedPage) {
                 expect(writer.getOutputFilenames()).to.deep.equal([]);
@@ -517,20 +508,19 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 transforms: [
                     'resolve-css-urls'
                 ]
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "css-url-transform" }],
-                        from: module,
-                        basePath: __dirname
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "css-url-transform" }],
+                from: module,
+                basePath: __dirname
             })
             .then(function(optimizedPage) {
 
@@ -556,21 +546,20 @@ describe('raptor-optimizer' , function() {
         });
         var optimizer = require('../');
 
-        optimizer.create({
+        var pageOptimizer = optimizer.create({
                 bundlingEnabled: false,
                 transforms: [
                     'resolve-css-urls'
                 ]
-            }, __dirname, __filename)
-            .then(function(pageOptimizer) {
-                return pageOptimizer.optimizePage({
-                        pageName: "testPage",
-                        writer: writer,
-                        dependencies: [
-                            { "package": "css-url-transform" }],
-                        from: module,
-                        basePath: __dirname
-                    });
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "css-url-transform" }],
+                from: module,
+                basePath: __dirname
             })
             .then(function(optimizedPage) {
 
