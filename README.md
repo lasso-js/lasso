@@ -83,7 +83,7 @@ The next section describes how to configure the `raptor-optimizer`.
 
 ## Configuration
 
-```json
+```javascript
 {
     // Plugins with custom dependency compilers, writers, etc.:
     "plugins": { 
