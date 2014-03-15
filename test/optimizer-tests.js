@@ -510,7 +510,7 @@ describe('raptor-optimizer' , function() {
 
         var pageOptimizer = optimizer.create({
                 transforms: [
-                    'resolve-css-urls'
+                    'raptor-optimizer-resolve-css-urls'
                 ]
             }, __dirname, __filename);
 
@@ -549,7 +549,7 @@ describe('raptor-optimizer' , function() {
         var pageOptimizer = optimizer.create({
                 bundlingEnabled: false,
                 transforms: [
-                    'resolve-css-urls'
+                    'raptor-optimizer-resolve-css-urls'
                 ]
             }, __dirname, __filename);
 
