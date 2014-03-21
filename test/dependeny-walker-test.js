@@ -67,7 +67,7 @@ describe('raptor-optimizer' , function() {
                 .then(function() {
                     console.log('Walked dependency tree in ' + (Date.now() - startTime) + 'ms');
 
-                    console.log(JSON.stringify(dependencies, null, 4));
+                    // console.log(JSON.stringify(dependencies, null, 4));
 
                     expect(dependencies).to.deep.equal([
                         '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
