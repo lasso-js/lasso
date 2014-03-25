@@ -62,16 +62,17 @@ optimizer jquery.js style.css some-module
 
 With additional options:
 ```bash
-optimizer jquery.js style.less require-run:./main.js \
+optimizer jquery.js style.less
+    --main main.js                           # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
     --url-prefix /static \                   # URL prefix
     --checksum \                             # Include checksums
     --html \                                 # Head and body HTML
-    --plugin raptor-optimizer-require \      # Browser-side Node.js-style require
-    --plugin raptor-optimizer-less \         # Compile Less files
-    --transform raptor-optimizer-minify-js \ # Minify JS
-    --transform raptor-optimizer-minify-css  # Minify CSS
+    --minify \                               # Minify JavaScript and CSS
+    --inject-into index.html \               # Inject HTML markup into a static HTML file
+    --plugin my-plugin \                     # Enable a custom plugin
+    --transform my-transform                 # Enable a custom output transform
 ```
 
 Alternatively, you can create a JSON configuration file and use that instead (recommended):
@@ -91,7 +92,7 @@ The next section describes how to configure the `raptor-optimizer`.
         // is the plugin config:
         "raptor-optimizer-less": {},
         "./src/optimizer/my-plugin": {}
-    }, // See [Available Plugins](#available-plugins) below
+    }, // See Available Plugins below
     // Configure the default bundle file writer:
     "fileWriter": {
         "outputDir": "static",     // Where to write the bundles
@@ -105,7 +106,7 @@ The next section describes how to configure the `raptor-optimizer`.
         "raptor-optimizer-minify-css",
         "raptor-optimizer-resolve-css-urls",
         "./src/optimizer/my-transform.js"
-    ], // See [Available Output Transforms](#available-output-transforms) below
+    ], // See Available Output Transforms below
     // Pre-configured bundles that apply to all pages:
     "bundles": [
         {
@@ -238,14 +239,17 @@ If the path does not have a file extension then it is assumed to be a path to an
 
 Below is a list of available plugins supported by the `raptor-optimizer`:
 
-* [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
-* [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-* [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
+* Core plugins
+    * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
+    * [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
+    * [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
+* Third-party plugins
+    * (coming soon)
 
-To use any of the above plugins, you must first install it using `npm install`. For example:
+To use a third-party plugin, you must first install it using `npm install`. For example:
 
 ```bash
-npm install raptor-optimizer-less --save
+npm install my-plugin --save
 ```
 
 If you create your own `raptor-optimizer` plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-plugin` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
@@ -253,15 +257,17 @@ If you create your own `raptor-optimizer` plugin please send a Pull Request and 
 # Available Output Transforms
 
 Below is a list of available output transforms supported by the `raptor-optimizer`:
+* Core transforms
+    * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+    * [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+    * [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+* Third-party transforms
+    * (coming soon)
 
-* [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-* [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-* [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
-
-To use any of the above output transforms, you must first install it using `npm install`. For example:
+To use a third-party transform, you must first install it using `npm install`. For example:
 
 ```bash
-npm install raptor-optimizer-minify-js --save
+npm install my-transform --save
 ```
 
 If you create your own `raptor-optimizer` transform please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-transform` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
