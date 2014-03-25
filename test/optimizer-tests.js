@@ -616,7 +616,7 @@ describe('raptor-optimizer' , function() {
             .fail(done);
     });
 
-    it.only('should allow for require.resolve', function(done) {
+    it('should allow for require.resolve', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',
             checksumsEnabled: false

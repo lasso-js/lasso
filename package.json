@@ -32,7 +32,10 @@
     "resumer": "0.0.0",
     "jsonminify": "~0.2.3",
     "raptor-optimizer-rhtml": "^0.1.5-beta",
-    "raptor-optimizer-less": "^0.1.5-beta"
+    "raptor-optimizer-less": "^0.1.5-beta",
+    "raptor-args": "^0.1.5-beta",
+    "raptor-optimizer-minify-js": "0.1.0-beta",
+    "raptor-optimizer-minify-css": "0.1.0-beta"
   },
   "devDependencies": {
     "mocha": "~1.15.1",
@@ -41,7 +44,9 @@
     "raptor-optimizer-resolve-css-urls": "0.1.0-beta"
   },
   "license": "Apache License v2.0",
-  "bin": {},
+  "bin": {
+    "raptor-optimizer": "./bin/raptor-optimizer"
+  },
   "main": "lib/raptor-optimizer.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
