@@ -1,8 +1,36 @@
 raptor-optimizer
 ================
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Overview](#overview)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+	- [Command Line Interface](#command-line-interface)
+	- [Configuration](#configuration)
+	- [JavaScript API](#javascript-api)
+		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
+		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
+		- [Optimizing a Page](#optimizing-a-page)
+- [Dependencies](#dependencies)
+- [Available Plugins](#available-plugins)
+- [Available Output Transforms](#available-output-transforms)
+- [Additional Reading](#additional-reading)
+	- [Custom Dependency Types](#custom-dependency-types)
+	- [Custom Transforms](#custom-transforms)
+	- [Custom Plugins](#custom-plugins)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Overview
+
 The `raptor-optimizer` module is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies.
 
 # Features
+
 * Optimize Client-side Dependencies
     * Supports all types of dependencies (JavaScript, CSS, images, Less, CoffeeScript, etc.)
     * Resource bundling
@@ -75,7 +103,7 @@ optimizer jquery.js style.less
     --transform my-transform                 # Enable a custom output transform
 ```
 
-Alternatively, you can create a JSON configuration file and use that instead (recommended):
+Alternatively, you can create a JSON configuration file and use that instead:
 ```bash
 optimizer --config optimizer-config.json
 ```
@@ -257,6 +285,7 @@ If you create your own `raptor-optimizer` plugin please send a Pull Request and 
 # Available Output Transforms
 
 Below is a list of available output transforms supported by the `raptor-optimizer`:
+
 * Core transforms
     * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
     * [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
