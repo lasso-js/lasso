@@ -37,17 +37,17 @@ function run(argv) {
             },
             '--transforms -transform -t': {
                 type: '[]', 
-                description: 'Plugins to enable',
+                description: 'Transforms to enable',
                 options: {
                     '--module -m *': 'string',
                     '-*': null
                 }
             }
         })
-        .example('Optimize a single Node.js module for the browser', '$0 --main run.js')
+        .example('Optimize a single Node.js module for the browser', '$0 --main run.js --name my-page')
         .example('Optimize a set of dependencies', '$0 style.less jquery.js template.rhtml')
-        .example('Enable CSS and JS minification', '$0 style.less jquery.js template.rhtml --minify')
-        .example('Change the output directory', '$0 style.less jquery.js template.rhtml --output-dir build')
+        .example('Enable CSS and JS minification', '$0 style.less jquery.js template.rhtml --name my-page --minify')
+        .example('Change the output directory', '$0 style.less jquery.js template.rhtml --name my-page --output-dir build')
         .validate(function(result) {
             if (result.help) {
                 this.printUsage();
@@ -125,7 +125,7 @@ function run(argv) {
         });
     }
 
-    extensions = Object.keys(extensions);
+    extensions = extensions && extensions.length ? Object.keys(extensions) : null;
 
     if (transforms.length) {
         config.transforms = config.transforms ? config.transforms.concat(transforms) : transforms;    
@@ -177,7 +177,7 @@ function run(argv) {
 
         optimizePage(pageConfig);
     } else {
-        var pageNames = Object.keys(config.pages);
+        var pageNames = config.pages ? Object.keys(config.pages) : [];
         if (!pageNames.length) {
             throw new Error('No pages found in config');
         }
