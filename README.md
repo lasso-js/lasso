@@ -1,11 +1,14 @@
 raptor-optimizer
 ================
 
+The `raptor-optimizer` module is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the `raptor-optimizer` supports configurable bundles, Node.js-style require and asynchronous loading.
+
+Lastly, the `raptor-optimizer` module supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
+
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
-- [Overview](#overview)
 - [Features](#features)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -16,18 +19,19 @@ raptor-optimizer
 		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 		- [Optimizing a Page](#optimizing-a-page)
 - [Dependencies](#dependencies)
+- [Node.js-style Module Support](#nodejs-style-module-support)
+- [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Available Output Transforms](#available-output-transforms)
-- [Additional Reading](#additional-reading)
-	- [Custom Dependency Types](#custom-dependency-types)
-	- [Custom Transforms](#custom-transforms)
+- [Extending the RaptorJS Optimizer](#extending-the-raptorjs-optimizer)
 	- [Custom Plugins](#custom-plugins)
+	- [Custom Dependency Types](#custom-dependency-types)
+		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
+		- [Custom CSS Dependency Type](#custom-css-dependency-type)
+		- [Custom Package Type](#custom-package-type)
+	- [Custom Output Transforms](#custom-output-transforms)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
-# Overview
-
-The `raptor-optimizer` module is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies.
 
 # Features
 
@@ -83,14 +87,17 @@ npm install raptor-optimizer --global
 
 ## Command Line Interface
 
-Simple usage that writes out a JavaScript bundle and a CSS bundle to the `CWD/static/` directory that includes all of the required dependencies
+The `raptor-optimizer` module includes a command line interface (CLI) that can be used to generated optimized resource bundles from the command line.
+
+A simple usage that writes out a JavaScript bundle and a CSS bundle to the `static/` directory that includes all of the required dependencies is shown below:
+
 ```bash
-optimizer jquery.js style.css some-module
+raptor-optimizer jquery.js style.css --main main.js
 ```
 
 With additional options:
 ```bash
-optimizer jquery.js style.less
+raptor-optimizer jquery.js style.less
     --main main.js                           # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
@@ -105,10 +112,10 @@ optimizer jquery.js style.less
 
 Alternatively, you can create a JSON configuration file and use that instead:
 ```bash
-optimizer --config optimizer-config.json
+raptor-optimizer --config optimizer-config.json
 ```
 
-The next section describes how to configure the `raptor-optimizer`.
+The next section describes the onfiguration options supported by the `raptor-optimizer`.
 
 ## Configuration
 
@@ -140,7 +147,8 @@ The next section describes how to configure the `raptor-optimizer`.
         {
             "name": "bundle1",
             "dependencies": [
-                "foo.js"
+                "foo.js",
+                "baz.js"
             ]
         },
         {
@@ -263,6 +271,89 @@ If the path does not have a file extension then it is assumed to be a path to an
 ]
 ```
 
+# Node.js-style Module Support
+
+The `raptor-optimizer` module provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser. 
+
+This functionality is offered by the core [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin which introduces a new `require` dependency type. For example:
+```json
+[
+    "require: ./path-to-some-module"
+]
+```
+
+If you want to include a module and have it run when loaded (i.e. self-executing) then you should use the `require-run` dependency type:
+```json
+[
+    "require-run: ./main"
+]
+```
+
+The `raptor-optimizer-require` plugin will automatically scan the source for for any required module to automatically include any modules that are required by another module. For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+
+The `raptor-optimizer-require` plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
+
+The `raptor-optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
+
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin.
+
+# Asynchronous Module Loading
+
+The RaptorJS Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs3/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
+
+```javascript
+require('raptor-loader').async(function() {
+    // All of the requires nested in this function block will be lazily loaded.
+    // When all of the required resources are loaded then the function will be invoked.
+    var foo = require('foo');
+    var bar = require('bar');
+});
+```
+
+You can also specify additional explicit dependencies if necessary:
+
+```javascript
+require('raptor-loader').async(
+    [
+        'style.less',
+        'some/other/optimizer.json'
+    ],
+    function() {
+        // All of the requires nested in this function block will be lazily loaded.
+        // When all of the required resources are loaded then the function will be invoked.
+        var foo = require('foo');
+        var bar = require('bar');
+    });
+```
+
+You can also choose to declare async dependencies in an `optimizer.json` file:
+
+```json
+{
+    "dependencies": [
+        ...
+    ],
+    "async": {
+        "my-module/lazy": [
+            "require: foo",
+            "require: bar",
+            "style.less",
+            "some/other/optimizer.json"
+        ]
+    }
+}
+```
+
+The async dependencies can then be referenced in code:
+```javascript
+require('raptor-loader').async(
+    'my-module/lazy',
+    function() {
+        var foo = require('foo');
+        var bar = require('bar');
+    });
+```
+
 # Available Plugins
 
 Below is a list of available plugins supported by the `raptor-optimizer`:
@@ -277,7 +368,7 @@ Below is a list of available plugins supported by the `raptor-optimizer`:
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
 ```bash
-npm install my-plugin --save
+npm install raptor-optimizer-my-plugin --save
 ```
 
 If you create your own `raptor-optimizer` plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-plugin` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
@@ -301,13 +392,200 @@ npm install my-transform --save
 
 If you create your own `raptor-optimizer` transform please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-transform` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
 
-# Additional Reading
+# Extending the RaptorJS Optimizer
 
-## Custom Dependency Types
-
-## Custom Transforms
+Only read below if you are building plugins or transforms to further enhance the `raptor-optimizer` module.
 
 ## Custom Plugins
 
+A plugin can be used to change how the optimizer operates. This includes the following:
+
+* Register a custom dependency type
+    * _Need to support a new pre-processor or compiler? No problem!_
+* Register a custom bundle writer
+    * _Want to upload your bundles instead of writing them to disk? No problem!_
+
+## Custom Dependency Types
+
+There are three types of dependencies that are supported:
+
+* __JavaScript dependency:__ Produces JavaScript code
+* __CSS dependency:__ Produces CSS code
+* __Package dependency:__ Produces a package of additional JavaScript and CSS dependencies
+
+Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less)).
+
+### Custom JavaScript Dependency Type
+
+If you would like to introduce your own custom dependency types then you will need to have your plugin register a dependency handler. This is illustrated in the following sample code:
+
+```javascript
+module.exports = function myPlugin(optimizer, config) {
+    optimizer.dependencies.registerJavaScriptType(
+        'my-custom-type',
+        {
+            // Declare which properties can be passed to the dependency type
+            properties: { 
+                'path': 'string'
+            },
+
+            // Validation checks and initialization based on properties:
+            init: function() {
+                if (!this.path) {
+                    throw new Error('"path" is required');
+                }
+
+                // NOTE: resolvePath can be used to resolve a provided relative path to a full path
+                this.path = this.resolvePath(this.path);
+            },
+
+            // Read the resource:
+            read: function(context, callback) {
+                var path = this.path;
+
+                fs.readFile(path, {encoding: 'utf8'}, function(err, src) {
+                    if (err) {
+                        return callback(err);
+                    }
+
+                    myCompiler.compile(src, callback);
+                });
+                
+                // NOTE: A stream can also be returned
+            },
+
+            // getSourceFile is optional and is only used to determine the last modified time
+            // stamp and to give the output file a reasonable name when bundling is disabled
+            getSourceFile: function() {
+                return this.path;
+            }
+        });
+};
+```
+
+Once registered, the above dependency can then be referenced from an `optimizer.json` as shown in the following code:
+
+```json
+{
+    "dependencies": [
+        "my-custom-type: hello.file"
+    ]
+}
+```
+
+If a custom dependency supported more than just a `path` property, additional properties could be provided as shown in the following sample code:
+
+```json
+{
+    "dependencies": [
+        {
+            "type": "my-custom-type",
+            "path": "hello.file",
+            "foo": "bar",
+            "hello": true
+        }
+    ]
+}
+```
 
 
+### Custom CSS Dependency Type
+
+If you would like to introduce your own custom dependency types then you will need to have your plugin register a dependency handler as shown in the following sample code:
+
+```javascript
+module.exports = function myPlugin(optimizer, config) {
+    optimizer.dependencies.registerJavaScriptType(
+        'my-custom-type',
+        handler);
+};
+```
+
+The `handler` argument for a CSS dependency has the exact same interface as a handler for a JavaScript dependency (described earlier).
+
+### Custom Package Type
+
+A dependency that resolves to additional dependencies can be helpful for resolving dynamic dependencies or for resulting dependencies based on some input. 
+
+The sample package dependency handler below just includes every file in a given directory:
+
+```javascript
+var fs = require('fs');
+optimizer.dependencies.registerPackageType('dir', {
+    properties: {
+        'path': 'string'
+    },
+
+    init: function() {
+        if (!this.path) {
+            throw new Error('"path" is required');
+        }
+
+        this.path = this.resolvePath(this.path);
+
+        if (fs.statSync(this.path).isDirectory() === false) {
+            throw new Error('Directory expected: ' + this.path);
+        }
+    },
+    
+    getDependencies: function(context, callback) {
+        fs.readdir(this.path, callback);
+    },
+
+    getDir: function() {
+        // If the dependencies are associated with a directory then return that directory.
+        // Otherwise, return null
+        return nodePath.dirname(this.path);
+    }
+});
+```
+
+## Custom Output Transforms
+
+Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle.
+
+For example, the following unhelpful transform will convert all source code to upper case:
+
+```javascript
+module.exports = {
+
+    // Only apply to JavaScript code
+    contentType: 'js', //  'css' is the other option
+
+    // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
+    name: module.id,
+
+    // If stream is set to false then a String will be provided. Otherwise, a readable stream will be provided
+    stream: false,
+
+    // Do the magic:
+    transform: function(code, contentType, dependency, bundle) {
+        return code.toUpperCase();
+    }
+};
+```
+
+Below is the streams version of the same transform:
+
+```javascript
+var through = require('through');
+
+module.exports = {
+
+    // Only apply to JavaScript code
+    contentType: 'js', //  'css' is the other option
+
+    // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
+    name: module.id,
+
+    stream: true, // We want the code to be streamed to us
+
+    // Do the magic:
+    transform: function(inStream, contentType, dependency, bundle) {
+        return inStream.pipe(through(
+            function write(data) {
+                this.queue(data.toUpperCase());
+            }));
+    }
+};
+```
