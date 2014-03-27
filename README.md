@@ -1,9 +1,9 @@
 raptor-optimizer
 ================
 
-The `raptor-optimizer` module is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the `raptor-optimizer` supports configurable bundles, Node.js-style require and asynchronous loading.
+The RaptorJS Optimizer is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the `raptor-optimizer` supports configurable bundles, Node.js-style require and asynchronous loading.
 
-Lastly, the `raptor-optimizer` module supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
+Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -92,13 +92,13 @@ The `raptor-optimizer` module includes a command line interface (CLI) that can b
 A simple usage that writes out a JavaScript bundle and a CSS bundle to the `static/` directory that includes all of the required dependencies is shown below:
 
 ```bash
-raptor-optimizer jquery.js style.css --main main.js
+raptor-optimizer jquery.js style.css --main main.js --name my-page
 ```
 
 With additional options:
 ```bash
 raptor-optimizer jquery.js style.less
-    --main main.js                           # Entry JavaScript module for the browser
+    --main main.js \                         # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
     --url-prefix /static \                   # URL prefix
@@ -115,9 +115,21 @@ Alternatively, you can create a JSON configuration file and use that instead:
 raptor-optimizer --config optimizer-config.json
 ```
 
-The next section describes the onfiguration options supported by the `raptor-optimizer`.
+The next section describes the configuration options supported by the `raptor-optimizer`.
 
 ## Configuration
+
+### Default Configuration
+```javascript
+{
+    "fileWriter": {
+        "outputDir": "static",     // Write all bundles into the "static" directory
+        "checksumsEnabled": true  // Include checksum in output files
+    }
+}
+```
+
+### Complete Configuration
 
 ```javascript
 {
@@ -125,22 +137,20 @@ The next section describes the onfiguration options supported by the `raptor-opt
     "plugins": { 
         // Each key should be a module name/path and the value 
         // is the plugin config:
-        "raptor-optimizer-less": {},
+        "raptor-optimizer-my-plugin": {},
         "./src/optimizer/my-plugin": {}
     }, // See Available Plugins below
     // Configure the default bundle file writer:
     "fileWriter": {
         "outputDir": "static",     // Where to write the bundles
-        "urlPrefix": "/static",    // Generate URLs with specified prefix
-        "checksumsEnabled": false, // Include checksum in output files?
+        "urlPrefix": "http://mycdn/static",    // Generate URLs with specified prefix
+        "checksumsEnabled": true, // Include checksum in output files?
         "includeSlotNames": false  // Include slot name in output files?
     },
     // Output transforms:
     "transforms": [
-        "raptor-optimizer-minify-js",
-        "raptor-optimizer-minify-css",
-        "raptor-optimizer-resolve-css-urls",
-        "./src/optimizer/my-transform.js"
+        "raptor-optimizer-my-transform",
+        "./src/optimizer/my-transform"
     ], // See Available Output Transforms below
     // Pre-configured bundles that apply to all pages:
     "bundles": [
@@ -230,7 +240,7 @@ optimizer.optimizePage({
 
 # Dependencies
 
-To optimize a page or build pre-configured bundles the `raptor-optimizer` module walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file. 
+To optimize a page the RaptorJS Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file. 
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -296,6 +306,82 @@ The `raptor-optimizer-require` plugin will automatically wrap all Node.js module
 The `raptor-optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
 For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin.
+
+# Configurable Bundles
+
+By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also gneerates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
+
+If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle. 
+
+## Configuarable Bundles Example
+
+
+Given the following configured bundles:
+
+```json
+{
+    ...
+    "bundles": [
+        {
+            "name": "bundle1",
+            "dependencies": [
+                "foo.js",
+                "baz.js"
+            ]
+        },
+        {
+            "name": "bundle2",
+            "dependencies": [
+                "bar.js"
+            ]
+        }
+    ]
+}
+```
+
+
+Optimizing a page that does not include any dependencies in application-level bundles:
+```bash
+raptor-optimizer app.js style.css --name my-page -c optimizer-config.json
+```
+
+Output:
+
+```
+Output for page "my-page":
+  Resource bundle files:
+    static/my-page.js
+    static/my-page.css
+  HTML slots file:
+    build/my-page.html.json
+```
+
+
+Optimizing a page that includes "foo.js" that is part of "bundle1":
+```bash
+raptor-optimizer app.js foo.js style.css --name my-page -c optimizer-config.json
+```
+
+Output:
+
+```
+Output for page "my-page":
+  Resource bundle files:
+    static/my-page.js
+    static/bundle1.js
+    static/my-page.css
+  HTML slots file:
+    build/my-page.html.json
+```
+
+For reference, the following is the content of `build/my-page.html.json` after running the last command:
+
+```json
+{
+    "body": "<script type=\"text/javascript\" src=\"static/my-page.js\"></script>\n<script type=\"text/javascript\" src=\"static/bundle1.js\"></script>",
+    "head": "<link rel=\"stylesheet\" type=\"text/css\" href=\"static/my-page.css\">"
+}
+```
 
 # Asynchronous Module Loading
 
@@ -404,6 +490,29 @@ A plugin can be used to change how the optimizer operates. This includes the fol
     * _Need to support a new pre-processor or compiler? No problem!_
 * Register a custom bundle writer
     * _Want to upload your bundles instead of writing them to disk? No problem!_
+
+
+A plugin is simply a Node.js module that exports a function with the following signature:
+```javascript
+/**
+ * A plugin for the RaptorJS Optimizer
+ * @param  {raptor-optimizer/lib/PageOptimizer} optimizer An instance of a PageOptimizer that can be configured
+ * @param  {Object} The plugin configuration provided by the user
+ */
+module.exports = function(optimizer, config) {
+
+    // Register dependency types:
+    optimizer.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
+    optimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
+    optimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
+
+    // Register a custom Node.js module compiler for a filename extension
+    // var myModule = require('hello.test');
+    optimizer.dependencies.registerRequireExtension('test', function(path, context, callback) {
+        callback(null, "exports.sayHello = function() { console.log('Hello!'); }");
+    });
+};
+```
 
 ## Custom Dependency Types
 
@@ -542,9 +651,9 @@ optimizer.dependencies.registerPackageType('dir', {
 
 ## Custom Output Transforms
 
-Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle.
+Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle. Another example is that an output transform may be used to remove `console.log` statements from output JavaScript code.
 
-For example, the following unhelpful transform will convert all source code to upper case:
+As an example, the following unhelpful transform will convert all JavaScript source code to upper case:
 
 ```javascript
 module.exports = {
@@ -565,7 +674,7 @@ module.exports = {
 };
 ```
 
-Below is the streams version of the same transform:
+Below is the streaming version of the same transform:
 
 ```javascript
 var through = require('through');
