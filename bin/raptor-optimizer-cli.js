@@ -1,5 +1,5 @@
 require('raptor-ecma/es6');
-var raptorOptimizer = require('../raptor-optimizer');
+var raptorOptimizer = require('../');
 var fs = require('fs');
 var nodePath = require('path');
 var raptorPromises = require('raptor-promises');
@@ -43,6 +43,31 @@ function run(argv) {
                     '-*': null
                 }
             }
+        })
+        .example('Optimize a single Node.js module for the browser', '$0 --main run.js')
+        .example('Optimize a set of dependencies', '$0 style.less jquery.js template.rhtml')
+        .example('Enable CSS and JS minification', '$0 style.less jquery.js template.rhtml --minify')
+        .example('Change the output directory', '$0 style.less jquery.js template.rhtml --output-dir build')
+        .validate(function(result) {
+            if (result.help) {
+                this.printUsage();
+                process.exit(0);
+            }
+
+            if (!result.dependencies && !result.main) {
+                this.printUsage();
+                process.exit(1);
+            }
+        })
+        .onError(function(err) {
+            this.printUsage();
+
+            if (err) {
+                console.log();
+                console.log(err);
+            }
+
+            process.exit(1);
         })
         .usage('Usage: $0 [depdendency1, dependency2, ...] [OPTIONS]');
 
