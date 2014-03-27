@@ -97,7 +97,7 @@ raptor-optimizer jquery.js style.css --main main.js --name my-page
 
 With additional options:
 ```bash
-raptor-optimizer jquery.js style.less
+raptor-optimizer jquery.js style.less \
     --main main.js \                         # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
