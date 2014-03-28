@@ -65,7 +65,7 @@ describe('raptor-optimizer' , function() {
                     }
                 })
                 .then(function() {
-                    console.log('Walked dependency tree in ' + (Date.now() - startTime) + 'ms');
+                    // console.log('Walked dependency tree in ' + (Date.now() - startTime) + 'ms');
 
                     // console.log(JSON.stringify(dependencies, null, 4));
 
