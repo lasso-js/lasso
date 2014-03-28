@@ -14,15 +14,22 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 - [Usage](#usage)
 	- [Command Line Interface](#command-line-interface)
 	- [Configuration](#configuration)
+		- [Default Configuration](#default-configuration)
+		- [Complete Configuration](#complete-configuration)
 	- [JavaScript API](#javascript-api)
 		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
 		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 		- [Optimizing a Page](#optimizing-a-page)
 - [Dependencies](#dependencies)
 - [Node.js-style Module Support](#nodejs-style-module-support)
+- [Configurable Bundles](#configurable-bundles)
+	- [Configuarable Bundles Example](#configuarable-bundles-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Available Output Transforms](#available-output-transforms)
+- [Optimizer Taglib](#optimizer-taglib)
+	- [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
+	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
 - [Extending the RaptorJS Optimizer](#extending-the-raptorjs-optimizer)
 	- [Custom Plugins](#custom-plugins)
 	- [Custom Dependency Types](#custom-dependency-types)
@@ -37,20 +44,29 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 
 * Optimize Client-side Dependencies
     * Supports all types of dependencies (JavaScript, CSS, images, Less, CoffeeScript, etc.)
-    * Resource bundling
+    * Configurable resource bundling
     * JavaScript minification (based on [uglifyjs](https://github.com/mishoo/UglifyJS))
     * CSS minification (based on [sqwish](https://github.com/ded/sqwish))
     * Checksummed resource URLs
-    * CDN urls
-    * Base64 image encoding inside CSS files
-    * Custom transforms
-    * Declarative package dependencies using simple `optimizer.json` files
+    * Prefix resources with CDN host name
+    * Optional base64 image encoding inside CSS files
+    * Custom output transforms
+    * Declarative browser-side package dependencies using simple `optimizer.json` files
     * Generates the HTML markup required to include optimized resources
     * etc.
 * Browser-side Node.js Module Loader
     * Conflict-free CommonJS module loader for the browser
+    * Complete compatibility with Node.js
+        * Supports `module.exports`, `exports, `require`, `require.resolve`, `__dirname`, `__filename`, `process`, etc.
     * Supports the [package.json `browser` field](https://gist.github.com/defunctzombie/4339901)
     * Full support for [browserify](http://browserify.org/) shims and transforms
+    * Maintains line numbers in wrapped code
+* Developer Friendly
+    * Disable bundling and minification in development
+    * Line numbers are maintained for Node.js modules source
+    * Extremely fast!
+        * Only modified bundles are rewritten to disk
+        * Disk caches are utilized to avoid repeating the same work
 * Dependency Compilation
     * Less
     * Raptor Templates
@@ -59,7 +75,8 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 * Extensible
     * Custom dependency compilers
     * Custom code transforms
-    * Plugins
+    * Custom bundle writers
+    * Custom plugins
 * Configurable
     * Configurable resource bundles
     * Enable/disable transforms
@@ -70,7 +87,6 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
     * Integrate with build tools
     * Use with Express or any other web development framework
     * JavaScript API and CLI
-
 
 # Installation
 The following command should be used to install the `raptor-optimizer` module into your project:
@@ -477,6 +493,111 @@ npm install my-transform --save
 ```
 
 If you create your own `raptor-optimizer` transform please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-transform` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
+
+# Optimizer Taglib
+
+If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them in your page. Here's how:
+
+## Using the Optimizer Taglib with Raptor Templates
+
+1. `npm install raptor-optimizer --save`
+2. `npm install raptor-templates --save`
+3. `npm install raptor-optimizer-taglib --save`
+
+You can now add the optimizer tags to your page templates. For example:
+
+```html
+<optimizer:page name="my-page" package-path="./optimizer.json"/>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <optimizer:head/>
+</head>
+<body>
+    <h1>Test Page</h1>
+    <optimizer:body/>
+</body>
+</html>
+```
+
+You will then need to create an `optimizer.json` in the same directory as your page template. For example:
+
+_optimizer.json_:
+```json
+{
+    "dependencies": [
+        "jquery.js",
+        "foo.js",
+        "bar.js",
+        "style.less"
+    ]
+}
+```
+
+Now when the page renders you will get something similar to the following:
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    <link rel="stylesheet" type="text/css" href="/static/my-page-85e3288e.css">
+</head>
+<body>
+    <h1>Test Page</h1>
+    <script type="text/javascript" src="/static/bundle1-6df28666.js"></script>
+    <script type="text/javascript" src="/static/bundle2-132d1091.js"></script>
+    <script type="text/javascript" src="/static/my-page-1de22b65.js"></script>
+</body>
+</html>
+```
+
+The optimized result is cached so you can skip the build step!
+
+You can also configure the default page optimizer used by the optimizer tags:
+
+```javascript
+require('raptor-optimizer').configure({...});
+```
+
+## Using the Optimizer Taglib with Dust
+
+You should follow the same steps as above, except you must use the [raptor-dust](https://github.com/cubejs/raptor-dust) module to register the helpers for Dust using the steps below:
+
+1. `npm install dustjs-linkedin --save`
+2. `npm install raptor-dust --save`
+3. Register the Dust helpers during initialization:
+
+```javascript
+var dust = require('dustjs-linkedin');
+require('raptor-dust').addHelpers(dust, {
+        "baseDir": "path:./src" // Base directory for all templates
+    })
+```
+
+Finally, in your Dust templates you can use the new optimizer helpers as shown below:
+
+```html
+
+{@optimizerPage name="my-page" packagePath="./optimizer.json" /}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Page</title>
+    {@optimizerHead /}
+</head>
+<body>
+    <h1>Test Page</h1>
+    {@optimizerBody /}
+</body>
+</html>
+```
 
 # Extending the RaptorJS Optimizer
 
