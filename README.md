@@ -117,7 +117,7 @@ raptor-optimizer jquery.js style.less \
     --main main.js \                         # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
-    --url-prefix http://mycdn/static/        # URL prefix
+    --url-prefix http://mycdn/static/ \      # URL prefix
     --checksum \                             # Include checksums
     --html \                                 # Head and body HTML
     --minify \                               # Minify JavaScript and CSS
