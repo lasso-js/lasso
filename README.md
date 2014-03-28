@@ -1,7 +1,7 @@
-raptor-optimizer
-================
+RaptorJS Optimizer
+==================
 
-The RaptorJS Optimizer is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the `raptor-optimizer` supports configurable bundles, Node.js-style require and asynchronous loading.
+The RaptorJS Optimizer is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require and asynchronous loading.
 
 Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
 
@@ -117,7 +117,7 @@ raptor-optimizer jquery.js style.less \
     --main main.js \                         # Entry JavaScript module for the browser
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
-    --url-prefix /static \                   # URL prefix
+    --url-prefix http://mycdn/static/        # URL prefix
     --checksum \                             # Include checksums
     --html \                                 # Head and body HTML
     --minify \                               # Minify JavaScript and CSS
@@ -325,7 +325,7 @@ For more details on how the Node.js modules are supported on the browser, please
 
 # Configurable Bundles
 
-By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also gneerates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
+By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle. 
 
@@ -496,7 +496,7 @@ If you create your own `raptor-optimizer` transform please send a Pull Request a
 
 # Optimizer Taglib
 
-If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them in your page. Here's how:
+If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them in your page.
 
 ## Using the Optimizer Taglib with Raptor Templates
 
@@ -703,7 +703,7 @@ Once registered, the above dependency can then be referenced from an `optimizer.
 }
 ```
 
-If a custom dependency supported more than just a `path` property, additional properties could be provided as shown in the following sample code:
+If a custom dependency supports more than just a `path` property, additional properties could be provided as shown in the following sample code:
 
 ```json
 {
