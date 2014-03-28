@@ -315,7 +315,7 @@ If you want to include a module and have it run when loaded (i.e. self-executing
 ]
 ```
 
-The `raptor-optimizer-require` plugin will automatically scan the source for for any required module to automatically include any modules that are required by another module. For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+The `raptor-optimizer-require` plugin will automatically scan the source for for any required module to automatically include any modules that are required by a particular module. For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
 
 The `raptor-optimizer-require` plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
 
