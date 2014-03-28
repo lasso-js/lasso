@@ -1,7 +1,7 @@
 RaptorJS Optimizer
 ==================
 
-The RaptorJS Optimizer is an extensible server-side tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require and asynchronous loading.
+The RaptorJS Optimizer is an extensible server-side resource bundler tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require and asynchronous loading.
 
 Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
 
