@@ -237,5 +237,42 @@ describe('raptor-optimizer-require' , function() {
             })
             .fail(done);
     });
+
+    it('should allow for modules to be mapped to globals', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            checksumsEnabled: false
+        });
+        var optimizer = require('../');
+
+        var plugins = {};
+        plugins['raptor-optimizer-require'] = {
+            includeClient: false,
+            transforms: [],
+            rootDir: nodePath.join(__dirname, 'test-project')
+        };
+
+        var pageOptimizer = optimizer.create({
+                plugins: plugins
+            }, nodePath.join(__dirname, 'test-project'));
+        
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    "require: jquery"
+                ],
+                from: nodePath.join(__dirname, 'test-project')
+            })
+            .then(function(optimizedPage) {
+
+                var actual = writer.getCodeForFilename('testPage.js');
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/jquery-global.actual.js'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/jquery-global.expected.js'), {encoding: 'utf8'}));
+                done();
+            })
+            .fail(done);
+    });
 });
 
