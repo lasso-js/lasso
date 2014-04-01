@@ -102,9 +102,15 @@ function run(argv) {
     }
 
     var transforms = args.transforms || [];
-    if (args.minify) {
-        transforms.push('raptor-optimizer-minify-js');
-        transforms.push('raptor-optimizer-minify-css');
+
+    if (args.development) {
+        config.bundlingEnabled = false;
+
+    } else {
+        if (args.minify) {
+            transforms.push('raptor-optimizer-minify-js');
+            transforms.push('raptor-optimizer-minify-css');
+        }
     }
 
     var extensions = {};
@@ -222,7 +228,7 @@ function run(argv) {
                             args.injectInto.forEach(function(target) {
                                 target = nodePath.resolve(cwd, target);
                                 var targetHtml = fs.readFileSync(target, {encoding: 'utf8'});
-                                var injector = require('../html-injector');
+                                var injector = require('../lib/html-injector');
                                 targetHtml = injector.inject(targetHtml, optimizedPage);
                                 fs.writeFileSync(target, targetHtml, {enconding: 'utf8'});
                                 lines.push('  Updated HTML file:\n    ' + relPath(target));
