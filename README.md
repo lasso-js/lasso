@@ -24,7 +24,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 - [Dependencies](#dependencies)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Configurable Bundles](#configurable-bundles)
-	- [Configuarable Bundles Example](#configuarable-bundles-example)
+	- [Configurable Bundles Example](#configuarable-bundles-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Available Output Transforms](#available-output-transforms)
@@ -514,7 +514,7 @@ By default, all dependencies required for a page will be bundled into a single J
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle. 
 
-## Configuarable Bundles Example
+## Configurable Bundles Example
 
 
 Given the following configured bundles:
