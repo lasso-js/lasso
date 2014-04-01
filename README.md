@@ -132,7 +132,7 @@ Add a Less StyleSheet:
 
 _style.less:_
 
-```less
+```css
 .gradient (@startColor: #eee, @endColor: white) {
     background-color: @startColor;
     background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
