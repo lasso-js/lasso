@@ -45,9 +45,9 @@ function run(argv) {
             }
         })
         .example('Optimize a single Node.js module for the browser', '$0 --main run.js --name my-page')
-        .example('Optimize a set of dependencies', '$0 style.less jquery.js template.rhtml')
-        .example('Enable CSS and JS minification', '$0 style.less jquery.js template.rhtml --name my-page --minify')
-        .example('Change the output directory', '$0 style.less jquery.js template.rhtml --name my-page --output-dir build')
+        .example('Optimize a set of dependencies', '$0 style.less foo.js template.rhtml')
+        .example('Enable CSS and JS minification', '$0 style.less foo.js template.rhtml --name my-page --minify')
+        .example('Change the output directory', '$0 style.less foo.js template.rhtml --name my-page --output-dir build')
         .validate(function(result) {
             if (result.help) {
                 this.printUsage();
