@@ -484,7 +484,7 @@ If the path does not have a file extension then it is assumed to be a path to an
 
 # Node.js-style Module Support
 
-The `raptor-optimizer` module provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser. 
+The RaptorJS Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser. 
 
 This functionality is offered by the core [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin which introduces a new `require` dependency type. For example:
 ```json
@@ -643,7 +643,7 @@ require('raptor-loader').async(
 
 # Available Plugins
 
-Below is a list of available plugins supported by the `raptor-optimizer`:
+Below is a list of available plugins supported by the RaptorJS Optimizer:
 
 * Core plugins
     * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
@@ -662,7 +662,7 @@ If you create your own `raptor-optimizer` plugin please send a Pull Request and 
 
 # Available Output Transforms
 
-Below is a list of available output transforms supported by the `raptor-optimizer`:
+Below is a list of available output transforms supported by the RaptorJS Optimizer:
 
 * Core transforms
     * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
