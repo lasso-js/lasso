@@ -19,7 +19,8 @@ function run(argv) {
             '--checksum': {type: 'boolean', description: 'Include checksums in filenames'},
             '--help -h': {type: 'boolean', description: 'Show this help screen'},
             '--url-prefix -u': {type: 'string', description: 'URL prefix for resource bundles (e.g. "http://mycdn/")'},
-            '--development -d': {type: 'boolean', description: 'Enable development mode (no minification and no bundling)'},
+            '--development --dev -d': {type: 'boolean', description: 'Enable development mode (no minification, bundling or checksums)'},
+            '--production -prod': {type: 'boolean', description: 'Enable production mode (minification, bundling and checksums)'},
             '--base-path -b': {type: 'string', description: 'File system path used to calculate relative paths to generated bundles'},
             '--html -h': {type: 'boolean', description: 'Generate a JSON file that contains the HTML markup required to include the dependencies (organized by slot)'},
             '--html-dir': {type: 'boolean', description: 'Output directory for JSON files (defaults to "build")'},
@@ -93,9 +94,7 @@ function run(argv) {
         fileWriter.urlPrefix = args.urlPrefix;
     }
 
-    if (args.checksum) {
-        fileWriter.checksumsEnabled = true;
-    }
+    
 
     if (!fileWriter.outputDir) {
         fileWriter.outputDir = nodePath.join(cwd, 'static');
@@ -105,11 +104,20 @@ function run(argv) {
 
     if (args.development) {
         config.bundlingEnabled = false;
-
+        fileWriter.checksumsEnabled = false;
+    } else if (args.production) {
+        config.bundlingEnabled = true;
+        transforms.push('raptor-optimizer-minify-js');
+        transforms.push('raptor-optimizer-minify-css');
+        fileWriter.checksumsEnabled = true;
     } else {
         if (args.minify) {
             transforms.push('raptor-optimizer-minify-js');
             transforms.push('raptor-optimizer-minify-css');
+        }
+
+        if (args.checksum) {
+            fileWriter.checksumsEnabled = true;
         }
     }
 
