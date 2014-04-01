@@ -10,6 +10,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [Features](#features)
+- [Example](#example)
 - [Installation](#installation)
 - [Usage](#usage)
 	- [Command Line Interface](#command-line-interface)
@@ -88,6 +89,125 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
     * Use with Express or any other web development framework
     * JavaScript API and CLI
 
+# Example
+
+Install the command line interface for the RaptorJS Optimizer:
+
+```bash
+npm install raptor-optimizer --global
+```
+
+Install jQuery:
+
+```bash
+npm install jquery
+```
+
+Then create the following files in a new directory:
+
+_add.js:_
+
+```javascript
+module.exports = function(a, b) {
+    return a + b;
+};
+```
+
+_main.js:_
+
+```javascript
+var add = require('./add');
+var jquery = require('jquery');
+
+jquery(function() {
+    $(document.body).append('2+2=' + add(2, 2));
+});
+```
+
+_style.less:_
+
+```less
+.gradient (@startColor: #eee, @endColor: white) {
+    background-color: @startColor;
+    background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
+    background: -webkit-linear-gradient(top, @startColor, @endColor);
+    background: -moz-linear-gradient(top, @startColor, @endColor);
+    background: -ms-linear-gradient(top, @startColor, @endColor);
+    background: -o-linear-gradient(top, @startColor, @endColor);
+}
+
+.rounded(@radius: 2px) {
+  -webkit-border-radius: @radius;
+  -moz-border-radius: @radius;
+  border-radius: @radius;
+}
+
+h1 {
+    .gradient(#f0f9ff, #a1dbff);
+    .rounded(4px);
+    padding: 8px;
+}
+```
+
+_index.html:_
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RaptorJS Optimizer Demo</title>
+</head>
+<body>
+    <h1>RaptorJS Optimizer Demo</h1>
+</body>
+</html>
+```
+
+Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
+```bash
+raptor-optimizer style.less --main main.js --name index --inject-into index.html
+```
+
+If everything worked correctly then you should see output that includes the following:
+
+```
+Output for page "index":
+  Resource bundle files:
+    static/index.js
+    static/index.css
+  HTML slots file:
+    build/index.html.json
+  Updated HTML file:
+    index.html
+```
+
+The updated `index.html` file should be similar to the following:
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RaptorJS Optimizer Demo</title>
+    <!-- <optimizer:head> -->
+    <link rel="stylesheet" type="text/css" href="static/index.css">
+    <!-- </optimizer:head> -->
+</head>
+<body>
+    <h1>RaptorJS Optimizer Demo</h1>
+    <!-- <optimizer:body> -->
+    <script type="text/javascript" src="static/index.js"></script>
+    <script type="text/javascript">$rmod.ready();</script>
+    <!-- </optimizer:body> -->
+</body>
+</html>
+```
+
+If you open up `index.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
+
+The example above is only one way to use the RaptorJS Optimizer. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
+
 # Installation
 The following command should be used to install the `raptor-optimizer` module into your project:
 ```bash
@@ -108,7 +228,7 @@ The `raptor-optimizer` module includes a command line interface (CLI) that can b
 A simple usage that writes out a JavaScript bundle and a CSS bundle to the `static/` directory that includes all of the required dependencies is shown below:
 
 ```bash
-raptor-optimizer jquery.js style.css --main main.js --name my-page
+raptor-optimizer foo.js style.less --main main.js --name my-page
 ```
 
 With additional options:
@@ -124,6 +244,12 @@ raptor-optimizer jquery.js style.less \
     --inject-into index.html \               # Inject HTML markup into a static HTML file
     --plugin my-plugin \                     # Enable a custom plugin
     --transform my-transform                 # Enable a custom output transform
+```
+
+For additional help from the command line, you can run the following command:
+
+```bash
+raptor-optimizer --help
 ```
 
 Alternatively, you can create a JSON configuration file and use that instead:
