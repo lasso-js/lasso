@@ -58,7 +58,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 * Browser-side Node.js Module Loader
     * Conflict-free CommonJS module loader for the browser
     * Complete compatibility with Node.js
-        * Supports `module.exports`, `exports, `require`, `require.resolve`, `__dirname`, `__filename`, `process`, etc.
+        * Supports `module.exports`, `exports`, `require`, `require.resolve`, `__dirname`, `__filename`, `process`, etc.
     * Supports the [package.json `browser` field](https://gist.github.com/defunctzombie/4339901)
     * Full support for [browserify](http://browserify.org/) shims and transforms
     * Maintains line numbers in wrapped code
@@ -97,13 +97,15 @@ Install the command line interface for the RaptorJS Optimizer:
 npm install raptor-optimizer --global
 ```
 
-Install jQuery:
+In a new directory, create a simple application as described below:
+
+Install the `jquery` module using [npm](https://www.npmjs.org/) since we are going to be using that module in our client code:
 
 ```bash
 npm install jquery
 ```
 
-Then create the following files in a new directory:
+Create a test JavaScript module:
 
 _add.js:_
 
@@ -112,6 +114,8 @@ module.exports = function(a, b) {
     return a + b;
 };
 ```
+
+Create the entry point for our client-side application:
 
 _main.js:_
 
@@ -123,6 +127,8 @@ jquery(function() {
     $(document.body).append('2+2=' + add(2, 2));
 });
 ```
+
+Add a Less StyleSheet:
 
 _style.less:_
 
@@ -149,6 +155,8 @@ h1 {
 }
 ```
 
+Now create an HTML page to host our application:
+
 _index.html:_
 
 ```html
@@ -166,7 +174,7 @@ _index.html:_
 
 Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
 ```bash
-raptor-optimizer style.less --main main.js --name index --inject-into index.html
+raptor-optimizer style.less --main main.js --name index --inject-into index.html --development
 ```
 
 If everything worked correctly then you should see output that includes the following:
@@ -174,8 +182,12 @@ If everything worked correctly then you should see output that includes the foll
 ```
 Output for page "index":
   Resource bundle files:
-    static/index.js
-    static/index.css
+    static/add.js
+    static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js
+    static/node_modules/jquery/dist/jquery.js
+    static/raptor-modules-meta.js
+    static/main.js
+    static/style.less.css
   HTML slots file:
     build/index.html.json
   Updated HTML file:
@@ -191,13 +203,17 @@ The updated `index.html` file should be similar to the following:
     <meta charset="UTF-8">
     <title>RaptorJS Optimizer Demo</title>
     <!-- <optimizer:head> -->
-    <link rel="stylesheet" type="text/css" href="static/index.css">
+    <link rel="stylesheet" type="text/css" href="static/style.less.css">
     <!-- </optimizer:head> -->
 </head>
 <body>
     <h1>RaptorJS Optimizer Demo</h1>
     <!-- <optimizer:body> -->
-    <script type="text/javascript" src="static/index.js"></script>
+    <script type="text/javascript" src="static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js"></script>
+    <script type="text/javascript" src="static/add.js"></script>
+    <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
+    <script type="text/javascript" src="static/main.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
     <!-- </optimizer:body> -->
 </body>
@@ -205,6 +221,49 @@ The updated `index.html` file should be similar to the following:
 ```
 
 If you open up `index.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
+
+Now try again with `production` mode:
+
+```bash
+raptor-optimizer style.less --main main.js --name index --inject-into index.html --production
+```
+
+```
+Output for page "index":
+  Resource bundle files:
+    static/index-aa303229.js
+    static/index-122dcfc9.css
+  HTML slots file:
+    build/index.html.json
+  Updated HTML file:
+    index.html
+```
+
+The updated `index.html` file should be similar to the following:
+
+```html
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RaptorJS Optimizer Demo</title>
+    <!-- <optimizer:head> -->
+    <link rel="stylesheet" type="text/css" href="static/index-122dcfc9.css">
+    <!-- </optimizer:head> -->
+</head>
+<body>
+    <h1>RaptorJS Optimizer Demo</h1>
+    <!-- <optimizer:body> -->
+    <script type="text/javascript" src="static/index-aa303229.js"></script>
+    <script type="text/javascript">$rmod.ready();</script>
+    <!-- </optimizer:body> -->
+</body>
+</html>
+```
+
+With the `production` option enabled, all of the resources are concatenated together, minified and checksummed–perfect for high performance web applications running in production.
+
+As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
 The example above is only one way to use the RaptorJS Optimizer. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
 
@@ -257,7 +316,7 @@ Alternatively, you can create a JSON configuration file and use that instead:
 raptor-optimizer --config optimizer-config.json
 ```
 
-The next section describes the configuration options supported by the `raptor-optimizer`.
+The next section describes the configuration options supported by the RaptorJS Optimizer.
 
 ## Configuration
 
@@ -404,7 +463,7 @@ In the examples, the dependency type is inferred from the filename extension. Al
 ]
 ```
 
-You can also create a dependency that references dependencies in a separate `optimizer.json` file. For esxample:
+You can also create a dependency that references dependencies in a separate `optimizer.json` file. For example:
 ```js
 [
     // Relative path:
@@ -441,7 +500,7 @@ If you want to include a module and have it run when loaded (i.e. self-executing
 ]
 ```
 
-The `raptor-optimizer-require` plugin will automatically scan the source for for any required module to automatically include any modules that are required by a particular module. For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+The `raptor-optimizer-require` plugin will automatically scan the source for for any required module to include any additional modules that are required by a particular module (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
 
 The `raptor-optimizer-require` plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
 
