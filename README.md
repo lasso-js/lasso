@@ -202,20 +202,20 @@ The updated `index.html` file should be similar to the following:
 <head>
     <meta charset="UTF-8">
     <title>RaptorJS Optimizer Demo</title>
-    <!-- <optimizer:head> -->
+    <!-- <optimizer-head> -->
     <link rel="stylesheet" type="text/css" href="static/style.less.css">
-    <!-- </optimizer:head> -->
+    <!-- </optimizer-head> -->
 </head>
 <body>
     <h1>RaptorJS Optimizer Demo</h1>
-    <!-- <optimizer:body> -->
+    <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
     <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
     <script type="text/javascript" src="static/main.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
-    <!-- </optimizer:body> -->
+    <!-- </optimizer-body> -->
 </body>
 </html>
 ```
@@ -247,16 +247,16 @@ The updated `index.html` file should be similar to the following:
 <head>
     <meta charset="UTF-8">
     <title>RaptorJS Optimizer Demo</title>
-    <!-- <optimizer:head> -->
+    <!-- <optimizer-head> -->
     <link rel="stylesheet" type="text/css" href="static/index-122dcfc9.css">
-    <!-- </optimizer:head> -->
+    <!-- </optimizer-head> -->
 </head>
 <body>
     <h1>RaptorJS Optimizer Demo</h1>
-    <!-- <optimizer:body> -->
+    <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/index-aa303229.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
-    <!-- </optimizer:body> -->
+    <!-- </optimizer-body> -->
 </body>
 </html>
 ```
@@ -692,18 +692,18 @@ If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-template
 You can now add the optimizer tags to your page templates. For example:
 
 ```html
-<optimizer:page name="my-page" package-path="./optimizer.json"/>
+<optimizer-page name="my-page" package-path="./optimizer.json"/>
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    <optimizer:head/>
+    <optimizer-head/>
 </head>
 <body>
     <h1>Test Page</h1>
-    <optimizer:body/>
+    <optimizer-body/>
 </body>
 </html>
 ```
