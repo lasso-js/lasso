@@ -1,0 +1,68 @@
+{
+    "tags": {
+        "optimizer-page": {
+            "renderer": "./taglib/page-tag",
+            "transformer": "./taglib/page-tag-transformer",
+            "attributes": {
+                "name": "string",
+                "cache-key": "string",
+                "package-path": "string",
+                "package-paths": "string",
+                "base-path": "string",
+                "optimizer": "expression",
+                "dependencies": "expression",
+                "enabled-extensions": "expression",
+                "extensions": "string"
+            },
+            "var": "_dependenciesParent",
+            "import-var": {
+                "dirname": "__dirname"
+            }
+        },
+        "optimizer-dependencies": {
+            "renderer": "./taglib/dependencies-tag"
+        },
+        "optimizer-dependency": {
+            "renderer": "./taglib/dependency-tag",
+            "import-var": {
+                "dependenciesParent": "_dependenciesParent"
+            }
+        },
+        "optimizer-slot": {
+            "renderer": "./taglib/slot-tag",
+            "attributes": {
+                "name": "string"
+            }
+        },
+        "optimizer-head": {
+            "renderer": "./taglib/head-tag"
+        },
+        "optimizer-body": {
+            "renderer": "./taglib/body-tag"
+        },
+        "optimizer-enable-extension": {
+            "renderer": "./taglib/enable-extension-tag",
+            "attributes": {
+                "name": "string"
+            }
+        },
+        "optimizer-disable-extension": {
+            "renderer": "./taglib/disable-extension-tag",
+            "attributes": {
+                "name": "string"
+            }
+        },
+        "optimizer-img": {
+            "renderer": "./taglib/img-tag",
+            "attributes": {
+                "src": "string",
+                "base-path": "string",
+                "optimizer": "expression",
+                "*": "string"
+            },
+            "import-var": {
+                "dirname": "__dirname"
+            }
+        }
+    }
+}

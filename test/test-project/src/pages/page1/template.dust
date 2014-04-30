@@ -1,0 +1,10 @@
+{@optimizer-page name="page1" packagePath=packagePath /}
+
+<html>
+    <head>
+        {@optimizer-head /}
+    </head>
+    <body>
+        {@optimizer-body /}
+    </body>
+</html>
