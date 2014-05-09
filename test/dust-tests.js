@@ -6,20 +6,6 @@ var expect = require('chai').expect;
 var nodePath = require('path');
 var fs = require('fs');
 
-var dust = require('dustjs-linkedin');
-dust.onLoad = function(path, callback) {
-    if (!fs.existsSync(path)) {
-        if (!path.endsWith('.dust')) {
-            path += '.dust';
-        }
-    }
-
-    fs.readFile(path, 'utf-8', callback);
-};
-
-
-require('../dust').registerHelpers(dust);
-
 function testRender(path, data, done, options) {
     var inputPath = nodePath.join(__dirname, path);
     var expectedPath = nodePath.join(__dirname, path + '.expected.html');
@@ -33,7 +19,7 @@ function testRender(path, data, done, options) {
     // fs.writeFileSync(compiledPath, compiledSrc, {encoding: 'utf8'});
 
     
-    
+    var dust = require('dustjs-linkedin');
 
     dust.render(inputPath, data, function(err, output) {
         if (err) {
@@ -64,14 +50,28 @@ function testRender(path, data, done, options) {
 }
 
 require('raptor-logging').configureLoggers({
-    'raptor-optimizer': 'DEBUG'
-});
+        'raptor-optimizer': 'WARN'
+    });
 
 
 
-describe('raptor-optimizer/taglib' , function() {
+describe('raptor-optimizer/dust' , function() {
 
     beforeEach(function(done) {
+        var dust = require('dustjs-linkedin');
+        dust.onLoad = function(path, callback) {
+            if (!fs.existsSync(path)) {
+                if (!path.endsWith('.dust')) {
+                    path += '.dust';
+                }
+            }
+
+            fs.readFile(path, 'utf-8', callback);
+        };
+
+
+        require('../dust').registerHelpers(dust);
+
         require('../').configure({
             fileWriter: {
                 outputDir: nodePath.join(__dirname, 'build'),
@@ -89,7 +89,17 @@ describe('raptor-optimizer/taglib' , function() {
     //     testCompiler('test-project/src/pages/page1.rhtml');
     // });
 
-    it.only('should render a simple page template', function(done) {
+    it('should render a simple page template for Dust', function(done) {
+        require('../').configure({
+            fileWriter: {
+                outputDir: nodePath.join(__dirname, 'build'),
+                urlPrefix: '/static',
+                includeSlotNames: false,
+                checksumsEnabled: false
+            },
+            enabledExtensions: ['browser']
+        }, __dirname);
+
         testRender('test-project/src/pages/page1/template.dust', {
             packagePath: nodePath.join(__dirname, 'test-project/src/pages/page1/optimizer.json')
         }, done);

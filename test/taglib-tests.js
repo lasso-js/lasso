@@ -26,7 +26,6 @@ function testRender(path, data, done, options) {
 
     raptorTemplates.render(inputPath, data, context)
         .on('end', function() {
-            console.log('END');
             try {
                 var output = context.getOutput();
 
@@ -59,14 +58,22 @@ function testRender(path, data, done, options) {
 }
 
 require('raptor-logging').configureLoggers({
-    'raptor-optimizer': 'DEBUG'
-});
-
+        'raptor-optimizer': 'WARN'
+    });
 
 
 describe('raptor-optimizer/taglib' , function() {
 
     beforeEach(function(done) {
+        
+        done();
+    });
+
+    // it('should compile a simple page template', function() {
+    //     testCompiler('test-project/src/pages/page1.rhtml');
+    // });
+
+    it('should render a simple page template', function(done) {
         require('../').configure({
             fileWriter: {
                 outputDir: nodePath.join(__dirname, 'build'),
@@ -77,14 +84,7 @@ describe('raptor-optimizer/taglib' , function() {
             enabledExtensions: ['browser']
         }, __dirname);
 
-        done();
-    });
 
-    // it('should compile a simple page template', function() {
-    //     testCompiler('test-project/src/pages/page1.rhtml');
-    // });
-
-    it.only('should render a simple page template', function(done) {
         testRender('test-project/src/pages/page1/template.rhtml', {}, done);
     });
 

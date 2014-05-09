@@ -25,6 +25,43 @@ describe('raptor-optimizer' , function() {
         done();
     });
 
+    it('should allow for optimizing a page with checksums enabled', function(done) {
+        var writer = require('./MockWriter').create({
+            outputDir: 'build',
+            urlPrefix: '/',
+            checksumsEnabled: true
+        });
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                enabledExtensions: ['jquery', 'browser'],
+                bundlingEnabled: true,               
+            }, __dirname, __filename);
+
+        pageOptimizer.optimizePage({
+                pageName: "testPage",
+                writer: writer,
+                dependencies: [
+                    { "package": "nestedA"},
+                    { "package": "nestedB" },
+                    { "package": "nestedC" }],
+                from: module
+            })
+            .then(function(optimizedPage) {
+                // console.log(writer.getOutputFilenames());
+                // console.log(writer.getCodeForFilename('testPage-body.js'));
+                expect(writer.getOutputFilenames()).to.deep.equal([
+                    'testPage-7fe8fdc6.js',
+                    'testPage-ad75c8ad.css']);
+
+                
+                expect(writer.getCodeForFilename('testPage-7fe8fdc6.js')).to.equal('nestedB_js\nnestedA_js\nnestedC_js');
+                expect(writer.getCodeForFilename('testPage-ad75c8ad.css')).to.equal('nestedB_css\nnestedA_css\nnestedC_css');
+            })
+            .then(done)
+            .fail(done);
+    });
+
     it('should handle de-duplication correctly', function(done) {
         var writer = require('./MockWriter').create({
             outputDir: 'build',

@@ -19,7 +19,7 @@ describe('raptor-optimizer' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'DEBUG'
+            'raptor-optimizer': 'WARN'
         });
 
         done();
