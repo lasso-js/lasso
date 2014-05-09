@@ -34,16 +34,16 @@
         "raptor-optimizer-rhtml": "^0.1.5-beta",
         "raptor-optimizer-less": "^0.1.5-beta",
         "raptor-args": "^0.1.5-beta",
-        "raptor-optimizer-minify-js": "0.1.0-beta",
-        "raptor-optimizer-minify-css": "0.1.0-beta",
+        "raptor-optimizer-minify-js": "^0.1.0-beta",
+        "raptor-optimizer-minify-css": "^0.1.0-beta",
+        "raptor-optimizer-resolve-css-urls": "^0.1.0-beta",
         "raptor-dust": "^0.3.6-beta"
     },
     "devDependencies": {
         "mocha": "~1.15.1",
         "chai": "~1.8.1",
         "jshint": "~2.3.0",
-        "raptor-optimizer-resolve-css-urls": "0.1.0-beta",
-        "raptor-templates": "^0.2.32-beta",
+        "raptor-templates": "^1.0.0",
         "dustjs-linkedin": "^2.3.4"
     },
     "license": "Apache License v2.0",
