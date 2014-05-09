@@ -348,11 +348,15 @@ The next section describes the configuration options supported by the RaptorJS O
         "checksumsEnabled": true, // Include checksum in output files?
         "includeSlotNames": false  // Include slot name in output files?
     },
+    "minify": true, // If true then the "raptor-optimizer-minify-js" and
+                    // "raptor-optimizer-minify-css" transforms will be
+                    // enabled (defaults to false)
     // Output transforms:
     "transforms": [
         "raptor-optimizer-my-transform",
         "./src/optimizer/my-transform"
     ], // See Available Output Transforms below
+    "bundlingEnabled": true, // If true then resources will be bundled (defaults to true)
     // Pre-configured bundles that apply to all pages:
     "bundles": [
         {
