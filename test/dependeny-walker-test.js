@@ -42,8 +42,6 @@ describe('raptor-optimizer' , function() {
 
         var context = new OptimizerContext();
 
-        var startTime = Date.now();
-
         var dependencies = [];
         var contexts = [];
 

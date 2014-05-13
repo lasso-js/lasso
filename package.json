@@ -24,6 +24,7 @@
         "raptor-modules": "^0.2.3-beta",
         "raptor-regexp": "^0.2.0-beta",
         "raptor-detect": "^0.2.0-beta",
+        "raptor-async": "^0.2.0-beta",
         "property-handlers": "~0.1.0",
         "mime": "~1.2.7",
         "app-module-path": "~0.1.0",
