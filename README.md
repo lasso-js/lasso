@@ -914,7 +914,7 @@ If you would like to introduce your own custom dependency types then you will ne
 
 ```javascript
 module.exports = function myPlugin(optimizer, config) {
-    optimizer.dependencies.registerJavaScriptType(
+    optimizer.dependencies.registerStyleSheetType(
         'my-custom-type',
         handler);
 };
