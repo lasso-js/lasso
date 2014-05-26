@@ -1,7 +1,7 @@
 {
     "async": {
         "asyncB/foo": [
-            "mixedA"    
+            "mixedA"
         ],
         "asyncB/bar": [
             "mixedB"

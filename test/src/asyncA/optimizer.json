@@ -6,7 +6,7 @@
     ],
     "async": {
         "asyncA/foo": [
-            "asyncA.js"    
+            "asyncA.js"
         ],
         "asyncA/bar": [
             "asyncA.css"

@@ -8,7 +8,7 @@ var util = require('./util');
 var outputDir = path.join(__dirname, 'build');
 require('app-module-path').addPath(path.join(__dirname, 'src'));
 describe('raptor-optimizer', function() {
-    beforeEach( function(done) {
+    beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
             if (require.cache.hasOwnProperty(k)) {
@@ -16,14 +16,14 @@ describe('raptor-optimizer', function() {
             }
         }
         require('raptor-promises').enableLongStacks();
-        require('raptor-logging').configureLoggers( {
+        require('raptor-logging').configureLoggers({
             'raptor-optimizer': 'WARN'
-        } );
+        });
         done();
-    } );
+    });
     it('should allow for optimizing a page with checksums enabled', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -33,7 +33,7 @@ describe('raptor-optimizer', function() {
             bundlingEnabled: true,
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -46,8 +46,8 @@ describe('raptor-optimizer', function() {
                         'package': 'nestedC'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [
@@ -55,13 +55,13 @@ describe('raptor-optimizer', function() {
                     'testPage-ad75c8ad.css'] );
                 expect(writerTracker.getCodeForFilename('testPage-7fe8fdc6.js')).to.equal('nestedB_js\nnestedA_js\nnestedC_js');
                 expect(writerTracker.getCodeForFilename('testPage-ad75c8ad.css')).to.equal('nestedB_css\nnestedA_css\nnestedC_css');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should handle de-duplication correctly', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 checksumsEnabled: false
@@ -85,7 +85,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -101,8 +101,8 @@ describe('raptor-optimizer', function() {
                         'package': 'moduleD'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputPaths()).to.deep.equal( [
                     path.join(__dirname, 'build/bundle1.js'),
                     path.join(__dirname, 'build/bundle2.js'),
@@ -111,13 +111,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('bundle1.js')).to.equal('moduleA_js\nmoduleB_js');
                 expect(writerTracker.getCodeForFilename('bundle2.js')).to.equal('moduleC_js');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('moduleD_js');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for slots', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -127,7 +127,7 @@ describe('raptor-optimizer', function() {
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -137,8 +137,8 @@ describe('raptor-optimizer', function() {
                         'package': 'slotA'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputPaths()).to.deep.equal( [
                     path.join(__dirname, 'build/testPage-body.css'),
                     path.join(__dirname, 'build/testPage-body.js'),
@@ -151,13 +151,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-head.js')).to.equal('slotA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body.css')).to.equal('slotA_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for slots overriding', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -167,7 +167,7 @@ describe('raptor-optimizer', function() {
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -179,8 +179,8 @@ describe('raptor-optimizer', function() {
                         'package': 'slotB'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(optimizedPage.getSlotHtml('custom-head')).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-custom-head.css">');
                 expect(optimizedPage.getSlotHtml('custom-body')).to.equal('<script type="text/javascript" src="/testPage-custom-body.js"></script>');
                 expect(optimizedPage.getSlotHtml('head2')).to.equal('<script type="text/javascript" src="/testPage-head2.js"></script>');
@@ -189,13 +189,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-custom-body.js')).to.equal('mixedA_js\nslotB_js');
                 expect(writerTracker.getCodeForFilename('testPage-head2.js')).to.equal('nestedB_js\nnestedA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body2.css')).to.equal('nestedB_css\nnestedA_css');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for configurable bundles', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -231,7 +231,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -244,8 +244,8 @@ describe('raptor-optimizer', function() {
                         'package': 'nestedC'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [
@@ -261,13 +261,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('bundleB.css')).to.equal('nestedB_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -304,7 +304,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'package:nestedA',
@@ -315,8 +315,8 @@ describe('raptor-optimizer', function() {
                         'package': 'nestedC'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [
@@ -328,13 +328,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('bundleA.css')).to.equal('nestedB_css\nnestedA_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for loader metadata', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -344,7 +344,7 @@ describe('raptor-optimizer', function() {
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -357,8 +357,8 @@ describe('raptor-optimizer', function() {
                         'type': 'loader-metadata'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\n$rloaderMeta={"asyncA/foo":{"js":["/testPage-async-body.js"]},"asyncA/bar":{"css":["/testPage-async-head.css"]}};');
                 expect(writerTracker.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css');
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage-async-body.js', 'testPage-async-head.css', 'testPage-body.js', 'testPage-head.css'] );
@@ -370,13 +370,13 @@ describe('raptor-optimizer', function() {
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
                 expect(writerTracker.getCodeForFilename('testPage-async-body.js')).to.equal('asyncA_js');
                 expect(writerTracker.getCodeForFilename('testPage-async-head.css')).to.equal('asyncA_css');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for loader metadata with configurable bundles', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -405,7 +405,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -418,8 +418,8 @@ describe('raptor-optimizer', function() {
                         'type': 'loader-metadata'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [
@@ -438,13 +438,13 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('mixedB-body.js')).to.equal('mixedB_js');
                 expect(writerTracker.getCodeForFilename('mixedB-head.css')).to.equal('mixedB_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n$rloaderMeta={"asyncB/foo":{"css":["/mixedA-head.css"],"js":["/mixedA-body.js"]},"asyncB/bar":{"css":["/mixedB-head.css"],"js":["/mixedB-body.js"]}};');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for output transforms', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -459,26 +459,26 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
                         'package': 'transformsA'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log(writerTracker.outputFilesByPath);
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage.css', 'testPage.js'] );
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('transformsA_js-JavaScriptTransform1Async-JavaScriptTransform2Async');
                 expect(writerTracker.getCodeForFilename('testPage.css')).to.equal('TRANSFORMSA_CSS-CSSTRANSFORM1-CSSTransform2');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for in-place deployment', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -490,7 +490,7 @@ describe('raptor-optimizer', function() {
             },
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -501,18 +501,18 @@ describe('raptor-optimizer', function() {
                     }],
                 from: module,
                 basePath: __dirname
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
                 expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="src/mixedB/mixedB.css">');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="src/mixedB/mixedB.js"></script>');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for URLs with the file:// protocol when in-place deployment is enabled', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -524,7 +524,7 @@ describe('raptor-optimizer', function() {
             },
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -534,8 +534,8 @@ describe('raptor-optimizer', function() {
                         'package': 'mixedB'
                     }],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
                 var mixedACSSPath = path.join(__dirname, 'src/mixedA/mixedA.css');
                 var mixedAJSPath = path.join(__dirname, 'src/mixedA/mixedA.js');
@@ -543,13 +543,13 @@ describe('raptor-optimizer', function() {
                 var mixedBJSPath = path.join(__dirname, 'src/mixedB/mixedB.js');
                 expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="file://' + mixedACSSPath + '">\n<link rel="stylesheet" type="text/css" href="file://' + mixedBCSSPath + '">');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="file://' + mixedAJSPath + '"></script>\n<script type="text/javascript" src="file://' + mixedBJSPath + '"></script>');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for image URLs in CSS files to be resolved', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 checksumsEnabled: true
@@ -559,7 +559,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -567,8 +567,8 @@ describe('raptor-optimizer', function() {
                     }],
                 from: module,
                 basePath: __dirname
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [
                     'ebay-logo-d481eb85.png',
                     'testPage-4b7673cd.css'
@@ -577,13 +577,13 @@ describe('raptor-optimizer', function() {
                 var actual = writerTracker.getCodeForFilename('testPage-4b7673cd.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for image URLs in CSS files to be resolved when bundling is disabled', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 checksumsEnabled: false
@@ -594,7 +594,7 @@ describe('raptor-optimizer', function() {
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -602,8 +602,8 @@ describe('raptor-optimizer', function() {
                     }],
                 from: module,
                 basePath: __dirname
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 expect(writerTracker.getOutputPaths()).to.deep.equal( [
                     path.join(__dirname, 'build/src/css-url-transform/css-url-transform.css'),
                     path.join(__dirname, 'build/src/css-url-transform/ebay-logo.png')
@@ -612,13 +612,13 @@ describe('raptor-optimizer', function() {
                 var actual = writerTracker.getCodeForFilename('css-url-transform.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
+    });
     it('should allow for external resource URLs', function(done) {
         var optimizer = require('../');
-        var pageOptimizer = optimizer.create( {
+        var pageOptimizer = optimizer.create({
             enabledExtensions: ['jquery', 'browser'],
             fileWriter: {
                 outputDir: outputDir,
@@ -626,19 +626,19 @@ describe('raptor-optimizer', function() {
             },
             bundles: []
         }, __dirname, __filename);
-        pageOptimizer.optimizePage( {
+        pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'js: http://code.jquery.com/jquery-1.11.0.min.js'
                 ],
                 from: module
-            } )
-            .then( function(optimizedPage) {
+            })
+            .then(function(optimizedPage) {
                 // console.log('OPTIMIZED PAGE: ', optimizedPage);
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
-            } )
+            })
             .then(done)
             .fail(done);
-    } );
-} );
+    });
+});
