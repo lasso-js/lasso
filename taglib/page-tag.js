@@ -33,9 +33,8 @@ module.exports = function render(input, context) {
         });
 
         if (logger.isDebugEnabled()) {
-            logger.debug("Enabled page extensions: " + enabledExtensions);
+            logger.debug('Enabled page extensions: ' + enabledExtensions);
         }
-
         
         var cacheKey = input.cacheKey || pageName;
 
@@ -84,7 +83,7 @@ module.exports = function render(input, context) {
 
                     return pageOptimizer.optimizePage({
                         pageName: pageName,
-                        context: optimizerRenderContext.attributes,
+                        context: input.context || optimizerRenderContext.attributes,
                         dependencies: dependencies,
                         from: input.module || input.dirname,
                         basePath: input.basePath,

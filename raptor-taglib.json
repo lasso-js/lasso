@@ -10,6 +10,7 @@
                 "package-paths": "string",
                 "base-path": "string",
                 "optimizer": "expression",
+                "context": "expression",
                 "dependencies": "expression",
                 "enabled-extensions": "expression",
                 "extensions": "string"
@@ -26,6 +27,9 @@
             "renderer": "./taglib/dependency-tag",
             "import-var": {
                 "dependenciesParent": "_dependenciesParent"
+            },
+            "attributes": {
+                "*": "string"
             }
         },
         "optimizer-slot": {
