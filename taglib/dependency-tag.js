@@ -1,3 +1,5 @@
+var extend = require('raptor-util').extend;
+
 module.exports = function render(input, context) {
     var dependenciesParent = input.dependenciesParent;
     if (!dependenciesParent) {
@@ -6,5 +8,7 @@ module.exports = function render(input, context) {
 
     delete input.dependenciesParent;
 
-    dependenciesParent.addDependency(input);
+    var dependency = extend({}, input['*']);
+
+    dependenciesParent.addDependency(dependency);
 };
