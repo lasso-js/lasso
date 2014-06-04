@@ -33,6 +33,7 @@
         "resumer": "0.0.0",
         "jsonminify": "~0.2.3",
         "raptor-optimizer-rhtml": "^0.1.5-beta",
+        "raptor-optimizer-dust": "^0.1.0-beta",
         "raptor-optimizer-less": "^0.1.5-beta",
         "raptor-args": "^0.1.5-beta",
         "raptor-optimizer-minify-js": "^0.1.0-beta",
