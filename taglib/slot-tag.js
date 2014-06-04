@@ -32,7 +32,6 @@ module.exports = function render(input, context) {
         
         optimizedPagePromise
             .then(function(optimizedPage) {
-                
                 renderSlot(slotName, optimizedPage, asyncContext, optimizerContext);
                 asyncContext.end();
             })
