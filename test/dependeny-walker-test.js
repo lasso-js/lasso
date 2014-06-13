@@ -26,7 +26,7 @@ describe('raptor-optimizer' , function() {
     });
 
 
-    it('should allow for loader metadata with configurable bundles', function(done) {
+    it('should walk dependencies correctly', function(done) {
         var dependencyWalker = require('../lib/dependency-walker');
         var OptimizerManifest = require('../lib/OptimizerManifest');
         var OptimizerContext = require('../lib/OptimizerContext');
