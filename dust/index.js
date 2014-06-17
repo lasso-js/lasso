@@ -9,7 +9,7 @@ exports.registerHelpers = function(dust) {
                 var packagePath = params.packagePath;
                 if (!packagePath) {
                     params.packagePath = nodePath.join(nodePath.dirname(context.templateName), 'optimizer.json');
-                } else if (packagePath.startsWith('./')) {
+                } else if (packagePath.startsWith('.')) {
                     params.packagePath = nodePath.join(nodePath.dirname(context.templateName), packagePath);
                 }
                 
