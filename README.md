@@ -265,7 +265,7 @@ With the `production` option enabled, all of the resources are concatenated toge
 
 As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
-The example above is only one way to use the RaptorJS Optimizer. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
+The example above is only one way to use the RaptorJS Optimizer. An easy to use JavaScript API is also supported and client-side dependencies can also be declared using simple JSON files. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
 
 # Installation
 The following command should be used to install the `raptor-optimizer` module into your project:
@@ -282,7 +282,7 @@ npm install raptor-optimizer --global
 
 ## Command Line Interface
 
-The `raptor-optimizer` module includes a command line interface (CLI) that can be used to generated optimized resource bundles from the command line.
+The `raptor-optimizer` module includes a command line interface (CLI) that can be used to generate optimized resource bundles from the command line.
 
 A simple usage that writes out a JavaScript bundle and a CSS bundle to the `static/` directory that includes all of the required dependencies is shown below:
 
@@ -691,7 +691,6 @@ If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-template
 
 1. `npm install raptor-optimizer --save`
 2. `npm install raptor-templates --save`
-3. `npm install raptor-optimizer-taglib --save`
 
 You can now add the optimizer tags to your page templates. For example:
 
