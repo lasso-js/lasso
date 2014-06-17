@@ -1,6 +1,6 @@
 var raptorDust = require('raptor-dust');
 var nodePath = require('path');
-require('raptor-ecma/es6');
+require('raptor-polyfill/string/startsWith');
 
 exports.registerHelpers = function(dust) {
     raptorDust.registerHelpers({

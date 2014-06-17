@@ -1,4 +1,3 @@
-require('raptor-ecma/es6');
 var raptorOptimizer = require('../');
 var fs = require('fs');
 var nodePath = require('path');
