@@ -335,8 +335,8 @@ The next section describes the configuration options supported by the RaptorJS O
 ```javascript
 {
     // Plugins with custom dependency compilers, writers, etc.:
-    "plugins": { 
-        // Each key should be a module name/path and the value 
+    "plugins": {
+        // Each key should be a module name/path and the value
         // is the plugin config:
         "raptor-optimizer-my-plugin": {},
         "./src/optimizer/my-plugin": {}
@@ -372,7 +372,7 @@ The next section describes the configuration options supported by the RaptorJS O
                 "bar.js"
             ]
         }
-    ],    
+    ],
     // Optional set of pre-configured page bundles
     "pages": {
         "index": {
@@ -445,7 +445,7 @@ optimizer.optimizePage({
 
 # Dependencies
 
-To optimize a page the RaptorJS Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file. 
+To optimize a page the RaptorJS Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file.
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -471,10 +471,10 @@ You can also create a dependency that references dependencies in a separate `opt
 ```js
 [
     // Relative path:
-    "./some-module/optimizer.json", 
+    "./some-module/optimizer.json",
 
     // Look for "my-module/optimizer.json" in "node_modules":
-    "my-module/optimizer.json", 
+    "my-module/optimizer.json",
 ]
 ```
 
@@ -482,13 +482,13 @@ If the path does not have a file extension then it is assumed to be a path to an
 ```js
 [
     "./some-module"
-    "my-module", 
+    "my-module",
 ]
 ```
 
 # Node.js-style Module Support
 
-The RaptorJS Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser. 
+The RaptorJS Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
 This functionality is offered by the core [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin which introduces a new `require` dependency type. For example:
 ```json
@@ -516,7 +516,7 @@ For more details on how the Node.js modules are supported on the browser, please
 
 By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
 
-If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle. 
+If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle.
 
 ## Configurable Bundles Example
 
@@ -843,7 +843,7 @@ module.exports = function myPlugin(optimizer, config) {
         'my-custom-type',
         {
             // Declare which properties can be passed to the dependency type
-            properties: { 
+            properties: {
                 'path': 'string'
             },
 
@@ -923,7 +923,7 @@ The `handler` argument for a CSS dependency has the exact same interface as a ha
 
 ### Custom Package Type
 
-A dependency that resolves to additional dependencies can be helpful for resolving dynamic dependencies or for resulting dependencies based on some input. 
+A dependency that resolves to additional dependencies can be helpful for resolving dynamic dependencies or for resulting dependencies based on some input.
 
 The sample package dependency handler below just includes every file in a given directory:
 
