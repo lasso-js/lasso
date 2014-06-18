@@ -52,9 +52,9 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    "require: ./test-project/test.rhtml"
+                    'require: ./test-project/test.rhtml'
                 ],
                 from: module,
                 basePath: __dirname
@@ -91,9 +91,9 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    "require: ./test-project/test.js"
+                    'require: ./test-project/test.js'
                 ],
                 from: module,
                 basePath: __dirname
@@ -130,10 +130,10 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    { "require": "foo" },
-                    { "require": "bar" }],
+                    { 'require': 'foo' },
+                    { 'require': 'bar' }],
                 from: nodePath.join(__dirname, 'test-project/index.js')
             })
             .then(function(optimizedPage) {
@@ -188,10 +188,10 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    "require: jquery",
-                    "require: foo"
+                    'require: jquery',
+                    'require: foo'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
             })
@@ -229,9 +229,9 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    "require ./amd-module"
+                    'require ./amd-module'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
             })
@@ -267,9 +267,9 @@ describe('raptor-optimizer-require' , function() {
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         
         pageOptimizer.optimizePage({
-                pageName: "testPage",
+                pageName: 'testPage',
                 dependencies: [
-                    "require: jquery"
+                    'require: jquery'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
             })
