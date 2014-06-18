@@ -179,7 +179,7 @@ describe('raptor-optimizer-require' , function() {
                     {
                         name: 'jquery',
                         dependencies: [
-                            'require jquery'
+                            'require: jquery'
                         ]
                     }
                 ]
