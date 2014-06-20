@@ -8,9 +8,15 @@ exports.registerHelpers = function(dust) {
             buildInput: function(chunk, context, bodies, params, renderContext) {
                 var packagePath = params.packagePath;
                 if (!packagePath) {
-                    params.packagePath = nodePath.join(nodePath.dirname(context.templateName), 'optimizer.json');
+                    if (!params.dependencies) {
+                        params.packagePath = nodePath.join(nodePath.dirname(context.templateName), 'optimizer.json');    
+                    }
                 } else if (packagePath.startsWith('.')) {
                     params.packagePath = nodePath.join(nodePath.dirname(context.templateName), packagePath);
+                }
+
+                if (!params.name && !params.pageName) {
+                    params.pageName = context.templateName || 'default';
                 }
                 
                 return params;
