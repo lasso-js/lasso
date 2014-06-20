@@ -60,5 +60,5 @@
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
-    "version": "0.2.57-beta"
+    "version": "0.2.58-beta"
 }
