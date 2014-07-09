@@ -5,6 +5,8 @@ var nodePath = require('path');
 var fs = require('fs');
 var cwd = process.cwd();
 
+var DataHolder = require('raptor-async/DataHolder');
+
 module.exports = function render(input, context) {
     var pageOptimizer = input.optimizer;
 
@@ -12,7 +14,6 @@ module.exports = function render(input, context) {
         pageOptimizer = optimizer.defaultPageOptimizer;
     }
 
-    var optimizedPage;
     var optimizerRenderContext = optimizer.getRenderContext(context);
 
     var pageName = input.name || input.pageName;
@@ -21,6 +22,17 @@ module.exports = function render(input, context) {
         if (input.dirname) {
             pageName = nodePath.relative(cwd, input.dirname);
         }
+    }
+
+    var optimizedPageDataHolder = new DataHolder();
+
+    function done(err, optimizedPage) {
+        if (err) {
+            optimizedPageDataHolder.reject(err);
+        } else {
+            optimizedPageDataHolder.resolve(optimizedPage);    
+        }
+        
     }
 
     function doOptimizePage() {
@@ -37,18 +49,14 @@ module.exports = function render(input, context) {
         }
         
         var cacheKey = input.cacheKey || pageName;
-
         
-
-        return cache.getOptimizedPage(
+        cache.getOptimizedPage(
             cacheKey,
             {
                 builder: function() {
                     var dependencies = input.dependencies;
                     var packagePath = input.packagePath;
                     var packagePaths = input.packagePaths;
-
-                    
 
                     if (packagePath) {
                         if (input.dirname) {
@@ -81,29 +89,32 @@ module.exports = function render(input, context) {
                         dependencies = [];
                     }
 
-                    return pageOptimizer.optimizePage({
-                        pageName: pageName,
-                        context: input.context || optimizerRenderContext.attributes,
-                        dependencies: dependencies,
-                        from: input.module || input.dirname,
-                        basePath: input.basePath,
-                        enabledExtensions: enabledExtensions,
-                        packagePath: packagePath,
-                        packagePaths: packagePaths
-                    });
+                    pageOptimizer.optimizePage({
+                            pageName: pageName,
+                            context: input.context || optimizerRenderContext.attributes,
+                            dependencies: dependencies,
+                            from: input.module || input.dirname,
+                            basePath: input.basePath,
+                            enabledExtensions: enabledExtensions,
+                            packagePath: packagePath,
+                            packagePaths: packagePaths
+                        },
+                        done);
                 }
-            });
+            },
+            done);
     }
 
     var waitFor = optimizerRenderContext.getWaitFor();
     if (waitFor && waitFor.length) {
         logger.debug('Waiting for ' + waitFor.length + ' promise(s) to complete before optimizing page.');
-        optimizedPage = raptorPromises.all(waitFor)
-            .then(doOptimizePage);
+        raptorPromises.all(waitFor)
+            .then(doOptimizePage)
+            .done();
     }
     else {
-        optimizedPage = doOptimizePage();
+        doOptimizePage();
     }
 
-    context.attributes.optimizedPage = optimizedPage;
+    context.attributes.optimizedPage = optimizedPageDataHolder;
 };

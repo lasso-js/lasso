@@ -30,7 +30,8 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'WARN'
+            'raptor-optimizer': 'WARN',
+            'raptor-optimizer/perf': 'DEBUG'
         });
 
         done();
