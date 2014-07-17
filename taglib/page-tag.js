@@ -1,4 +1,4 @@
-var optimizer = require('../');
+var raptorOptimizer = require('../');
 var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var nodePath = require('path');
@@ -11,10 +11,10 @@ module.exports = function render(input, context) {
     var pageOptimizer = input.optimizer;
 
     if (!pageOptimizer) {
-        pageOptimizer = optimizer.defaultPageOptimizer;
+        pageOptimizer = raptorOptimizer.defaultPageOptimizer;
     }
 
-    var optimizerRenderContext = optimizer.getRenderContext(context);
+    var optimizerRenderContext = raptorOptimizer.getOptimizerRenderContext(context);
 
     var pageName = input.name || input.pageName;
 
@@ -24,33 +24,38 @@ module.exports = function render(input, context) {
         }
     }
 
-    var optimizedPageDataHolder = new DataHolder();
+    var optimizedPageDataHolder;
+    
+    // store optimized page data holder in the context attributes (used by slot tags)
+    context.attributes.optimizedPage = optimizedPageDataHolder = new DataHolder();
 
     function done(err, optimizedPage) {
         if (err) {
             optimizedPageDataHolder.reject(err);
         } else {
-            optimizedPageDataHolder.resolve(optimizedPage);    
+            optimizedPageDataHolder.resolve(optimizedPage);
         }
         
     }
 
     function doOptimizePage() {
+        
         var enabledExtensions = pageOptimizer.resolveEnabledExtensions(optimizerRenderContext, input);
 
-
-        var cache = pageOptimizer.getCache({
-            renderContext: context,
+        var optimizerContext = {
+            pageName: pageName,
             enabledExtensions: enabledExtensions
-        });
+        };
 
+        var optimizerCache = pageOptimizer.getOptimizerCache(optimizerContext);
+        
         if (logger.isDebugEnabled()) {
             logger.debug('Enabled page extensions: ' + enabledExtensions);
         }
         
         var cacheKey = input.cacheKey || pageName;
         
-        cache.getOptimizedPage(
+        optimizerCache.getOptimizedPage(
             cacheKey,
             {
                 builder: function() {
@@ -90,13 +95,28 @@ module.exports = function render(input, context) {
                     }
 
                     pageOptimizer.optimizePage({
+                            // the page name (used for caching)
                             pageName: pageName,
-                            context: input.context || optimizerRenderContext.attributes,
-                            dependencies: dependencies,
+                            
+                            // properties for the optimizer context
+                            optimizerContext: input.optimizerContext || optimizerRenderContext.attributes,
+                            
+                            // what is this for?
                             from: input.module || input.dirname,
+                            
+                            // what is this for?
                             basePath: input.basePath,
+                            
+                            // extensions to be enabled at time of rendering
                             enabledExtensions: enabledExtensions,
+                            
+                            // list of dependencies from which to start optimization
+                            dependencies: dependencies,
+                            
+                            // path to an optimizer.json file from wich to start optimization
                             packagePath: packagePath,
+                            
+                            // an array of paths to optimizer.json files from wich to start optimization
                             packagePaths: packagePaths
                         },
                         done);
@@ -115,6 +135,4 @@ module.exports = function render(input, context) {
     else {
         doOptimizePage();
     }
-
-    context.attributes.optimizedPage = optimizedPageDataHolder;
 };

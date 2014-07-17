@@ -1,4 +1,4 @@
-var optimizer = require('../');
+var raptorOptimizer = require('../');
 var logger = require('raptor-logging').logger(module);
 
 function renderSlot(slotName, optimizedPage, context, optimizerContext) {
@@ -15,7 +15,7 @@ module.exports = function render(input, context) {
     var slotName = input.name;
     
     var optimizedPageDataHolder = context.attributes.optimizedPage;
-    var optimizerContext = optimizer.getRenderContext(context);
+    var optimizerContext = raptorOptimizer.getOptimizerRenderContext(context);
 
     if (!optimizedPageDataHolder) {
         throw new Error('Optimized page not found for slot "' + slotName + '". The <optimizer-page> tag should be used to generate the optimized page.');
@@ -39,5 +39,5 @@ module.exports = function render(input, context) {
             renderSlot(slotName, optimizedPage, asyncContext, optimizerContext);
             asyncContext.end();
         });
-    }   
+    }
 };
