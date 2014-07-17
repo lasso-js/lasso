@@ -754,35 +754,36 @@ require('raptor-optimizer').configure({...});
 
 ## Using the Optimizer Taglib with Dust
 
-You should follow the same steps as above, except you must use the [raptor-dust](https://github.com/cubejs/raptor-dust) module to register the helpers for Dust using the steps below:
+You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('raptor-optimizer').registerHelpers(dust)` to register the helpers:
 
-1. `npm install dustjs-linkedin --save`
-2. `npm install raptor-dust --save`
-3. Register the Dust helpers during initialization:
+Install required dependencies:
+
+1. `npm install raptor-optimizer --save`
+2. `npm install dustjs-linkedin --save`
+
+Register the Dust helpers during initialization:
 
 ```javascript
 var dust = require('dustjs-linkedin');
-require('raptor-dust').addHelpers(dust, {
-        "baseDir": "path:./src" // Base directory for all templates
-    })
+require('raptor-optimizer').registerHelpers(dust);
 ```
 
 Finally, in your Dust templates you can use the new optimizer helpers as shown below:
 
 ```html
 
-{@optimizerPage name="my-page" packagePath="./optimizer.json" /}
+{@optimizer-page name="my-page" packagePath="./optimizer.json" /}
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    {@optimizerHead /}
+    {@optimizer-head /}
 </head>
 <body>
     <h1>Test Page</h1>
-    {@optimizerBody /}
+    {@optimizer-body /}
 </body>
 </html>
 ```
@@ -799,7 +800,7 @@ A plugin can be used to change how the optimizer operates. This includes the fol
     * _Need to support a new pre-processor or compiler? No problem!_
 * Register a custom bundle writer
     * _Want to upload your bundles instead of writing them to disk? No problem!_
-
+* Configure the optimizer
 
 A plugin is simply a Node.js module that exports a function with the following signature:
 ```javascript
@@ -815,7 +816,7 @@ module.exports = function(optimizer, config) {
     optimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
     optimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
 
-    // Register a custom Node.js module compiler for a filename extension
+    // Register a custom Node.js/CommonJS module compiler for a custom filename extension
     // var myModule = require('hello.test');
     optimizer.dependencies.registerRequireExtension('test', function(path, context, callback) {
         callback(null, "exports.sayHello = function() { console.log('Hello!'); }");
