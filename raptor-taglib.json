@@ -10,7 +10,7 @@
                 "package-paths": "string",
                 "base-path": "string",
                 "optimizer": "expression",
-                "context": "expression",
+                "optimizer-context": "expression",
                 "dependencies": "expression",
                 "enabled-extensions": "expression",
                 "extensions": "string"
