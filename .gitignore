@@ -11,3 +11,4 @@ coverage
 *.actual.js
 *.actual.html
 .optimizer-cache
+.cache
