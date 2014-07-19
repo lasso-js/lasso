@@ -19,6 +19,7 @@ plugins['raptor-optimizer-require'] = {
 describe('raptor-optimizer-require' , function() {
 
     beforeEach(function(done) {
+
         util.rmdirRecursive(outputDir);
 
         for (var k in require.cache) {
@@ -30,7 +31,8 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'WARN',
+            'raptor-cache': 'DEBUG',
+            'raptor-optimizer': 'DEBUG',
             'raptor-optimizer/perf': 'DEBUG'
         });
 
