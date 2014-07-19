@@ -126,6 +126,15 @@ module.exports = function render(input, context) {
     }
 
     var waitFor = optimizerRenderContext.getWaitFor();
+
+    if (input.waitFor) {
+        if (waitFor) {
+            waitFor.push(input.waitFor);
+        } else {
+            waitFor = [input.waitFor];
+        }
+    }
+
     if (waitFor && waitFor.length) {
         logger.debug('Waiting for ' + waitFor.length + ' promise(s) to complete before optimizing page.');
         raptorPromises.all(waitFor)
