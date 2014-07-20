@@ -31,9 +31,9 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-cache': 'DEBUG',
-            'raptor-optimizer': 'DEBUG',
-            'raptor-optimizer/perf': 'DEBUG'
+            'raptor-cache': 'WARN',
+            'raptor-optimizer': 'WARN',
+            'raptor-optimizer/perf': 'WARN'
         });
 
         done();

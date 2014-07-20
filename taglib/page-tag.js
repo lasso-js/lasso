@@ -58,7 +58,7 @@ module.exports = function render(input, context) {
         optimizerCache.getOptimizedPage(
             cacheKey,
             {
-                builder: function() {
+                builder: function(callback) {
                     var dependencies = input.dependencies;
                     var packagePath = input.packagePath;
                     var packagePaths = input.packagePaths;
@@ -119,7 +119,7 @@ module.exports = function render(input, context) {
                             // an array of paths to optimizer.json files from wich to start optimization
                             packagePaths: packagePaths
                         },
-                        done);
+                        callback);
                 }
             },
             done);
