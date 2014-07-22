@@ -12,7 +12,7 @@ exports.transform = function(code, contentType, context) {
 
     setTimeout(function() {
         deferred.resolve(code + '-JavaScriptTransform2Async');
-    }, 200);
+    }, 100);
 
     return deferred.promise;
 };

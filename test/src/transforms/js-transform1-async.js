@@ -17,7 +17,7 @@ exports.transform = function(inStream, contentType, context) {
                 setTimeout(function() {
                     this.queue(code + '-JavaScriptTransform1Async');
                     this.queue(null);
-                }.bind(this), 200);
+                }.bind(this), 100);
             }));
     }
     else {
