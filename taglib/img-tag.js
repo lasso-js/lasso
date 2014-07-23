@@ -58,6 +58,6 @@ module.exports = function render(input, context) {
     });
 
     if (!done) {
-        asyncContext = context.beginAsync();
+        asyncContext = context.beginAsync({name: 'optimizer-img:' + imgPath});
     }
 };

@@ -27,7 +27,7 @@ module.exports = function render(input, context) {
     if (optimizedPageDataHolder.isResolved()) {
         renderSlot(slotName, optimizedPageDataHolder.data, context, optimizerContext);
     } else {
-        var asyncContext = context.beginAsync();
+        var asyncContext = context.beginAsync({name: 'optimizer-slot:' + slotName});
         
         optimizedPageDataHolder.done(function(err, optimizedPage) {
             if (err) {
