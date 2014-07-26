@@ -79,7 +79,7 @@ describe('raptor-optimizer/taglib' , function() {
                 outputDir: nodePath.join(__dirname, 'build'),
                 urlPrefix: '/static',
                 includeSlotNames: false,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['browser']
         }, __dirname);

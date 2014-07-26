@@ -46,7 +46,7 @@ describe('raptor-optimizer-require' , function() {
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 transforms: [
                 ]
@@ -85,7 +85,7 @@ describe('raptor-optimizer-require' , function() {
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 transforms: [
                 ]
@@ -125,7 +125,7 @@ describe('raptor-optimizer-require' , function() {
                 enabledExtensions: ['jquery', 'browser'],
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 plugins: plugins
             }, __dirname, __filename);
@@ -170,7 +170,7 @@ describe('raptor-optimizer-require' , function() {
                 plugins: plugins,
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 bundles: [
                     {
@@ -224,7 +224,7 @@ describe('raptor-optimizer-require' , function() {
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 plugins: plugins
             }, nodePath.join(__dirname, 'test-project'));
@@ -262,7 +262,7 @@ describe('raptor-optimizer-require' , function() {
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
-                    checksumsEnabled: false
+                    fingerprintsEnabled: false
                 },
                 plugins: plugins
             }, nodePath.join(__dirname, 'test-project'));

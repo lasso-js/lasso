@@ -22,13 +22,13 @@ describe('raptor-optimizer', function() {
         });
         done();
     });
-    it('should allow for optimizing a page with checksums enabled', function(done) {
+    it('should allow for optimizing a page with fingerprints enabled', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: true
+                fingerprintsEnabled: true
             },
             enabledExtensions: ['jquery', 'browser'],
             bundlingEnabled: true,
@@ -65,7 +65,7 @@ describe('raptor-optimizer', function() {
         var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
@@ -123,7 +123,7 @@ describe('raptor-optimizer', function() {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 includeSlotNames: true,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
@@ -163,7 +163,7 @@ describe('raptor-optimizer', function() {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 includeSlotNames: true,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
@@ -200,7 +200,7 @@ describe('raptor-optimizer', function() {
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             bundlingEnabled: true,
@@ -272,7 +272,7 @@ describe('raptor-optimizer', function() {
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             bundlingEnabled: true,
@@ -340,7 +340,7 @@ describe('raptor-optimizer', function() {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 includeSlotNames: true,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser']
         }, __dirname, __filename);
@@ -382,7 +382,7 @@ describe('raptor-optimizer', function() {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 includeSlotNames: true,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             bundlingEnabled: true,
@@ -449,7 +449,7 @@ describe('raptor-optimizer', function() {
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             transforms: [
@@ -483,7 +483,7 @@ describe('raptor-optimizer', function() {
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             inPlaceDeployment: {
@@ -517,7 +517,7 @@ describe('raptor-optimizer', function() {
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
             inPlaceDeployment: {
@@ -553,7 +553,7 @@ describe('raptor-optimizer', function() {
         var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
-                checksumsEnabled: true
+                fingerprintsEnabled: true
             },
             transforms: [
                 'raptor-optimizer-resolve-css-urls'
@@ -587,7 +587,7 @@ describe('raptor-optimizer', function() {
         var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             bundlingEnabled: false,
             transforms: [
@@ -623,7 +623,7 @@ describe('raptor-optimizer', function() {
             enabledExtensions: ['jquery', 'browser'],
             fileWriter: {
                 outputDir: outputDir,
-                checksumsEnabled: false
+                fingerprintsEnabled: false
             },
             bundles: []
         }, __dirname, __filename);
