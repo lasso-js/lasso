@@ -99,7 +99,7 @@ module.exports = function render(input, context) {
                             pageName: pageName,
                             
                             // properties for the optimizer context
-                            optimizerContext: input.optimizerContext || optimizerRenderContext.attributes,
+                            context: input.optimizerContext || optimizerRenderContext.attributes,
                             
                             // what is this for?
                             from: input.module || input.dirname,
