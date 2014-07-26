@@ -31,7 +31,7 @@ module.exports = function render(input, context) {
         
         optimizedPageDataHolder.done(function(err, optimizedPage) {
             if (err) {
-                logger.error('Optimizer "' + slotName + '" slot failed.', err);
+                // logger.error('Optimizer "' + slotName + '" slot failed.', err);
                 asyncContext.error(err);
                 return;
             }
