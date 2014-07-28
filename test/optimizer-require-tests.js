@@ -33,7 +33,7 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-logging').configureLoggers({
             'raptor-cache': 'WARN',
             'raptor-optimizer': 'WARN',
-            'raptor-optimizer/perf': 'WARN'
+            'raptor-optimizer/perf': 'DEBUG'
         });
 
         done();
@@ -275,16 +275,18 @@ describe('raptor-optimizer-require' , function() {
                     'require: jquery'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            })
-            .then(function(optimizedPage) {
+            },
+            function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
 
                 var actual = writerTracker.getCodeForFilename('testPage.js');
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/jquery-global.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/jquery-global.expected.js'), {encoding: 'utf8'}));
                 done();
-            })
-            .fail(done);
+            });
     });
 });
 
