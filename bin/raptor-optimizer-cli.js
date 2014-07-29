@@ -15,11 +15,11 @@ function run(argv) {
             '--output-dir --out -o': {type: 'string', description: 'The output directory for static bundles and optimized page JSON files'},
             '--config -c': {type: 'string', description: 'Path to a JSON optimizer configuration file'},
             '--minify -m': {type: 'boolean', description: 'Enable JavaScript and CSS minification (disabled by default)'},
-            '--checksum': {type: 'boolean', description: 'Include checksums in filenames'},
+            '--fingerprint': {type: 'boolean', description: 'Include fingerprints in filenames'},
             '--help -h': {type: 'boolean', description: 'Show this help screen'},
             '--url-prefix -u': {type: 'string', description: 'URL prefix for resource bundles (e.g. "http://mycdn/")'},
-            '--development --dev -d': {type: 'boolean', description: 'Enable development mode (no minification, bundling or checksums)'},
-            '--production -prod': {type: 'boolean', description: 'Enable production mode (minification, bundling and checksums)'},
+            '--development --dev -d': {type: 'boolean', description: 'Enable development mode (no minification, bundling or fingerprints)'},
+            '--production -prod': {type: 'boolean', description: 'Enable production mode (minification, bundling and fingerprints)'},
             '--base-path -b': {type: 'string', description: 'File system path used to calculate relative paths to generated bundles'},
             '--html -h': {type: 'boolean', description: 'Generate a JSON file that contains the HTML markup required to include the dependencies (organized by slot)'},
             '--html-dir': {type: 'boolean', description: 'Output directory for JSON files (defaults to "build")'},
@@ -103,20 +103,20 @@ function run(argv) {
 
     if (args.development) {
         config.bundlingEnabled = false;
-        fileWriter.checksumsEnabled = false;
+        fileWriter.fingerprintsEnabled = false;
     } else if (args.production) {
         config.bundlingEnabled = true;
         transforms.push('raptor-optimizer-minify-js');
         transforms.push('raptor-optimizer-minify-css');
-        fileWriter.checksumsEnabled = true;
+        fileWriter.fingerprintsEnabled = true;
     } else {
         if (args.minify) {
             transforms.push('raptor-optimizer-minify-js');
             transforms.push('raptor-optimizer-minify-css');
         }
 
-        if (args.checksum) {
-            fileWriter.checksumsEnabled = true;
+        if (args.fingerprint) {
+            fileWriter.fingerprintsEnabled = true;
         }
     }
 

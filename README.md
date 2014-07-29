@@ -48,7 +48,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
     * Configurable resource bundling
     * JavaScript minification (based on [uglifyjs](https://github.com/mishoo/UglifyJS))
     * CSS minification (based on [sqwish](https://github.com/ded/sqwish))
-    * Checksummed resource URLs
+    * Fingerprinted resource URLs
     * Prefix resources with CDN host name
     * Optional base64 image encoding inside CSS files
     * Custom output transforms
@@ -82,7 +82,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
     * Configurable resource bundles
     * Enable/disable transforms
     * Development-mode versus production-mode
-    * Enable/disable checksums
+    * Enable/disable fingerprints
     * etc.
 * Flexible
     * Integrate with build tools
@@ -261,7 +261,7 @@ The updated `index.html` file should be similar to the following:
 </html>
 ```
 
-With the `production` option enabled, all of the resources are concatenated together, minified and checksummed–perfect for high performance web applications running in production.
+With the `production` option enabled, all of the resources are concatenated together, minified and fingerprinted–perfect for high performance web applications running in production.
 
 As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
@@ -297,7 +297,7 @@ raptor-optimizer jquery.js style.less \
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
     --url-prefix http://mycdn/static/ \      # URL prefix
-    --checksum \                             # Include checksums
+    --fingerprint \                             # Include fingerprints
     --html \                                 # Head and body HTML
     --minify \                               # Minify JavaScript and CSS
     --inject-into index.html \               # Inject HTML markup into a static HTML file
@@ -325,7 +325,7 @@ The next section describes the configuration options supported by the RaptorJS O
 {
     "fileWriter": {
         "outputDir": "static",     // Write all bundles into the "static" directory
-        "checksumsEnabled": true  // Include checksum in output files
+        "fingerprintsEnabled": true  // Include fingerprint in output files
     }
 }
 ```
@@ -345,7 +345,7 @@ The next section describes the configuration options supported by the RaptorJS O
     "fileWriter": {
         "outputDir": "static",     // Where to write the bundles
         "urlPrefix": "http://mycdn/static",    // Generate URLs with specified prefix
-        "checksumsEnabled": true, // Include checksum in output files?
+        "fingerprintsEnabled": true, // Include fingerprint in output files?
         "includeSlotNames": false  // Include slot name in output files?
     },
     "minify": true, // If true then the "raptor-optimizer-minify-js" and
