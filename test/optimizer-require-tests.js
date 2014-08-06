@@ -33,7 +33,7 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-logging').configureLoggers({
             'raptor-cache': 'WARN',
             'raptor-optimizer': 'WARN',
-            'raptor-optimizer/perf': 'DEBUG'
+            'raptor-optimizer/perf': 'WARN'
         });
 
         done();
@@ -241,6 +241,7 @@ describe('raptor-optimizer-require' , function() {
             .then(function(optimizedPage) {
 
                 var actual = writerTracker.getCodeForFilename('testPage.js');
+
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/amd-module.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/amd-module.expected.js'), {encoding: 'utf8'}));
