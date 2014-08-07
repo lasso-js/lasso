@@ -42,23 +42,30 @@ module.exports = function render(input, context) {
         
         var enabledExtensions = pageOptimizer.resolveEnabledExtensions(optimizerRenderContext, input);
 
-        var optimizerContext = {
-            pageName: pageName,
-            enabledExtensions: enabledExtensions
-        };
-
-        var optimizerCache = pageOptimizer.getOptimizerCache(optimizerContext);
-        
         if (logger.isDebugEnabled()) {
             logger.debug('Enabled page extensions: ' + enabledExtensions);
         }
         
-        var cacheKey = input.cacheKey || pageName;
-        
-        optimizerCache.getOptimizedPage(
-            cacheKey,
-            {
-                builder: function(callback) {
+        pageOptimizer.optimizePage({
+                // Make sure the page is cached (should be the default)
+                cache: true,
+                
+                // the page name (used for caching)
+                pageName: pageName,
+                
+                // properties for the optimizer context
+                context: input.optimizerContext || optimizerRenderContext.attributes,
+                
+                // what is this for?
+                from: input.module || input.dirname,
+                
+                // what is this for?
+                basePath: input.basePath,
+                
+                // extensions to be enabled at time of rendering
+                enabledExtensions: enabledExtensions,
+
+                dependencies: function(callback) {
                     var dependencies = input.dependencies;
                     var packagePath = input.packagePath;
                     var packagePaths = input.packagePaths;
@@ -67,12 +74,16 @@ module.exports = function render(input, context) {
                         if (input.dirname) {
                             packagePath = nodePath.resolve(input.dirname, packagePath);
                         }
+
+                        dependencies = [packagePath];
                     } else if (dependencies) {
 
                     } else if (packagePaths) {
                         if (typeof packagePaths === 'string') {
                             packagePaths = packagePaths.split(/\s*,\s*/);
                         }
+
+                        dependencies = packagePaths;
                     } else if (input.invokeBody) {
                         dependencies = [];
                         input.invokeBody({
@@ -94,32 +105,7 @@ module.exports = function render(input, context) {
                         dependencies = [];
                     }
 
-                    pageOptimizer.optimizePage({
-                            // the page name (used for caching)
-                            pageName: pageName,
-                            
-                            // properties for the optimizer context
-                            context: input.optimizerContext || optimizerRenderContext.attributes,
-                            
-                            // what is this for?
-                            from: input.module || input.dirname,
-                            
-                            // what is this for?
-                            basePath: input.basePath,
-                            
-                            // extensions to be enabled at time of rendering
-                            enabledExtensions: enabledExtensions,
-                            
-                            // list of dependencies from which to start optimization
-                            dependencies: dependencies,
-                            
-                            // path to an optimizer.json file from wich to start optimization
-                            packagePath: packagePath,
-                            
-                            // an array of paths to optimizer.json files from wich to start optimization
-                            packagePaths: packagePaths
-                        },
-                        callback);
+                    callback(null, dependencies);
                 }
             },
             done);
