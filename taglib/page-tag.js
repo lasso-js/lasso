@@ -3,8 +3,6 @@ var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var nodePath = require('path');
 var fs = require('fs');
-var cwd = process.cwd();
-
 var DataHolder = require('raptor-async/DataHolder');
 
 module.exports = function render(input, context) {
@@ -20,7 +18,9 @@ module.exports = function render(input, context) {
 
     if (!pageName) {
         if (input.dirname) {
-            pageName = nodePath.relative(cwd, input.dirname);
+            // Use the base name of the containing directory as the page name
+            // Example: "myapp/src/pages/welcome/index.rhtml" --> "welcome"
+            pageName = nodePath.basename(input.dirname);
         }
     }
 

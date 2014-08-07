@@ -58,7 +58,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-ad75c8ad.css')).to.equal('nestedB_css\nnestedA_css\nnestedC_css');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should handle de-duplication correctly', function(done) {
         var optimizer = require('../');
@@ -114,7 +114,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('moduleD_js');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for slots', function(done) {
         var optimizer = require('../');
@@ -154,7 +154,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for slots overriding', function(done) {
         var optimizer = require('../');
@@ -192,7 +192,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-body2.css')).to.equal('nestedB_css\nnestedA_css');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for configurable bundles', function(done) {
         var optimizer = require('../');
@@ -264,7 +264,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
         var optimizer = require('../');
@@ -331,7 +331,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for loader metadata', function(done) {
         var optimizer = require('../');
@@ -373,7 +373,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-async-head.css')).to.equal('asyncA_css');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for loader metadata with configurable bundles', function(done) {
         var optimizer = require('../');
@@ -441,7 +441,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n$rloaderMeta={"asyncB/foo":{"css":["/mixedA-head.css"],"js":["/mixedA-body.js"]},"asyncB/bar":{"css":["/mixedB-head.css"],"js":["/mixedB-body.js"]}};');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for output transforms', function(done) {
         var optimizer = require('../');
@@ -475,7 +475,7 @@ describe('raptor-optimizer', function() {
                 expect(writerTracker.getCodeForFilename('testPage.css')).to.equal('TRANSFORMSA_CSS-CSSTRANSFORM1-CSSTransform2');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for in-place deployment', function(done) {
         var optimizer = require('../');
@@ -509,7 +509,7 @@ describe('raptor-optimizer', function() {
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="src/mixedB/mixedB.js"></script>');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for URLs with the file:// protocol when in-place deployment is enabled', function(done) {
         var optimizer = require('../');
@@ -546,7 +546,7 @@ describe('raptor-optimizer', function() {
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="file://' + mixedAJSPath + '"></script>\n<script type="text/javascript" src="file://' + mixedBJSPath + '"></script>');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for image URLs in CSS files to be resolved', function(done) {
         var optimizer = require('../');
@@ -580,7 +580,7 @@ describe('raptor-optimizer', function() {
                 expect(actual).to.equal(expected);
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for image URLs in CSS files to be resolved when bundling is disabled', function(done) {
         var optimizer = require('../');
@@ -615,7 +615,7 @@ describe('raptor-optimizer', function() {
                 expect(actual).to.equal(expected);
             })
             .then(done)
-            .fail(done);
+            .done();
     });
     it('should allow for external resource URLs', function(done) {
         var optimizer = require('../');
@@ -640,6 +640,6 @@ describe('raptor-optimizer', function() {
                 expect(optimizedPage.getHeadHtml()).to.equal('');
             })
             .then(done)
-            .fail(done);
+            .done();
     });
 });

@@ -27,6 +27,9 @@ function run(argv) {
             '--inject-into --inject -i': {type: 'string[]', description: 'Pages to inject the slot HTML into'},
             '--main --entry -e': {type: 'string[]', description: 'The JavaScript module main entry for your app'},
             '--dependencies --dependency *': {type: 'string[]', description: 'Page dependencies'},
+            '--cache-profile': {type: 'string', description: 'Caching profile (either "default" or "production")'},
+            '--cache-dir': {type: 'string', description: 'Base cache directory (defaults to "CWD/.cache/raptor-optimizer")'},
+            '--disk-cache': {type: 'boolean', description: 'Read/write optimized pages from/to a disk cache'},
             '--plugins -plugin -p': {
                 type: '[]', 
                 description: 'Plugins to enable',
@@ -73,6 +76,8 @@ function run(argv) {
 
     var args = parser.parse(argv);
 
+
+
     var config = args.config;
     var configDir;
 
@@ -93,10 +98,38 @@ function run(argv) {
         fileWriter.urlPrefix = args.urlPrefix;
     }
 
-    
-
     if (!fileWriter.outputDir) {
         fileWriter.outputDir = nodePath.join(cwd, 'static');
+    }
+
+    var cacheProfileName = args.cacheProfile;
+    if (cacheProfileName) {
+        config.cacheProfile = cacheProfileName;
+    } else {
+        cacheProfileName = config.cacheProfile;
+        if (!cacheProfileName) {
+            cacheProfileName = '*';
+            config.cacheProfile = cacheProfileName;
+        }
+    }
+
+    var cacheProfiles = config.cacheProfiles = {};
+
+    var cacheProfile = cacheProfiles[cacheProfileName] = {};
+
+    if (args.diskCache) {
+        // Ensure that the optimized pages are using a "disk" store if page caching is enabled
+        cacheProfile.optimizedPages = {
+            store: 'disk'
+        };
+    }
+
+    if (args.cacheDir) {
+        config.cacheDir = args.cacheDir;
+    }
+
+    if (args.cacheProfile) {
+        config.cacheProfile = args.cacheProfile;
     }
 
     var transforms = args.transforms || [];
@@ -106,6 +139,7 @@ function run(argv) {
         fileWriter.fingerprintsEnabled = false;
     } else if (args.production) {
         config.bundlingEnabled = true;
+        config.cacheProfile = config.cacheProfile || 'production';
         transforms.push('raptor-optimizer-minify-js');
         transforms.push('raptor-optimizer-minify-css');
         fileWriter.fingerprintsEnabled = true;
@@ -157,14 +191,14 @@ function run(argv) {
 
     var optimizedPages = {}; 
 
-    function optimizePage(config) {
-        var pageName = config.name || config.pageName;
+    function optimizePage(options) {
+        var pageName = options.name || options.pageName;
         if (args.basePath) {
-            config.basePath = args.basePath;
+            options.basePath = args.basePath;
         }
 
         console.log('Optimizing page "' + pageName + '"...');
-        var promise = pageOptimizer.optimizePage(config)
+        var promise = pageOptimizer.optimizePage(options)
                 .then(function(optimizedPage) {
                     console.log('Successfully optimized page "' + pageName + '"!');
                     optimizedPages[pageName] = optimizedPage;
@@ -178,6 +212,24 @@ function run(argv) {
     }
 
     if (dependencies && dependencies.length) {
+
+        if (!name) {
+            // Try to derive the best bundle name from the set of dependencies
+            if (dependencies.length === 1) {
+                var firstDependency = dependencies[0];
+                if (typeof firstDependency === 'string') {
+                    if (/[\/\\optimizer\.json$]/.test(firstDependency)) {
+                        // ["myapp/src/pages/my-page/optimizer.json"] --> "my-page"
+                        name = nodePath.basename(nodePath.dirname(firstDependency));    
+                    } else if (nodePath.extname(firstDependency)) {
+                        // "myapp/jquery.js" --> "jquery"
+                        name = nodePath.basename(firstDependency).slice(0, 0-nodePath.extname(firstDependency).length);
+                    }
+                    
+                }
+            }
+        }
+
         optimizePage({
                 name: name || 'unnamed',
                 dependencies: dependencies
@@ -223,7 +275,7 @@ function run(argv) {
                             var htmlFile = nodePath.resolve(htmlDir, pageName + '.html.json');
                             raptorFiles.mkdirs(htmlFile);
                             lines.push('  HTML slots file:\n    ' + relPath(htmlFile));
-                            fs.writeFile(htmlFile, optimizedPage.toJSON(4), {encoding: 'utf8'}, function(err) {
+                            fs.writeFile(htmlFile, optimizedPage.htmlSlotsToJSON(4), {encoding: 'utf8'}, function(err) {
                                 if (err) {
                                     console.error('Failed to save HTML slots to file "' + htmlFile + '". Error: ' + (err.stack || err));    
                                 }

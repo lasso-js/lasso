@@ -43,7 +43,8 @@
         "mkdirp": "^0.5.0",
         "async": "^0.9.0",
         "through": "^2.3.4",
-        "app-root-dir": "^1.0.0"
+        "app-root-dir": "^1.0.0",
+        "deamdify": "^0.1.1"
     },
     "devDependencies": {
         "mocha": "~1.15.1",
