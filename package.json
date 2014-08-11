@@ -1,65 +1,66 @@
 {
-    "name": "raptor-optimizer",
-    "description": "Module to support the optimized delivery of web application resources",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/raptorjs3/raptor-optimizer.git"
-    },
-    "scripts": {
-        "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib bin/*.js"
-    },
-    "author": "Patrick Steele-Idem <pnidem@gmail.com>",
-    "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
-    "dependencies": {
-        "raptor-optimizer-require": "^0.1.17-beta",
-        "raptor-promises": "^0.2.0-beta",
-        "raptor-polyfill": "^0.2.0-beta",
-        "raptor-util": "^0.2.0-beta",
-        "raptor-strings": "^0.2.0-beta",
-        "raptor-xml": "^0.2.0-beta",
-        "raptor-logging": "^0.2.0-beta",
-        "raptor-objects": "^0.2.0-beta",
-        "raptor-cache": "^0.2.0-beta",
-        "raptor-files": "^0.2.0-beta",
-        "raptor-modules": "^0.2.3-beta",
-        "raptor-regexp": "^0.2.0-beta",
-        "raptor-detect": "^0.2.0-beta",
-        "raptor-async": "^0.2.0-beta",
-        "property-handlers": "^0.1.0",
-        "mime": "~1.2.7",
-        "app-module-path": "^0.1.0",
-        "event-stream": "^3.1.5",
-        "combined-stream": "^0.0.4",
-        "resumer": "0.0.0",
-        "jsonminify": "~0.2.3",
-        "raptor-optimizer-rhtml": "^0.1.5-beta",
-        "raptor-optimizer-dust": "^0.1.0-beta",
-        "raptor-optimizer-less": "^0.1.5-beta",
-        "raptor-args": "^0.1.5-beta",
-        "raptor-optimizer-minify-js": "^0.1.0-beta",
-        "raptor-optimizer-minify-css": "^0.1.0-beta",
-        "raptor-optimizer-resolve-css-urls": "^0.1.0-beta",
-        "raptor-dust": "^0.3.6-beta",
-        "mkdirp": "^0.5.0",
-        "async": "^0.9.0",
-        "through": "^2.3.4",
-        "app-root-dir": "^1.0.0",
-        "deamdify": "^0.1.1"
-    },
-    "devDependencies": {
-        "mocha": "~1.15.1",
-        "chai": "~1.8.1",
-        "jshint": "~2.3.0",
-        "raptor-templates": "^1.0.0",
-        "dustjs-linkedin": "^2.3.4"
-    },
-    "license": "Apache License v2.0",
-    "bin": {
-        "raptor-optimizer": "./bin/raptor-optimizer"
-    },
-    "main": "lib/raptor-optimizer.js",
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/"
-    },
-    "version": "0.2.67-beta"
+  "name": "raptor-optimizer",
+  "description": "Module to support the optimized delivery of web application resources",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raptorjs3/raptor-optimizer.git"
+  },
+  "scripts": {
+    "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib bin/*.js"
+  },
+  "author": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "dependencies": {
+    "app-module-path": "^0.1.0",
+    "app-root-dir": "^1.0.0",
+    "async": "^0.9.0",
+    "combined-stream": "^0.0.4",
+    "deamdify": "^0.1.1",
+    "event-stream": "^3.1.5",
+    "jsonminify": "~0.2.3",
+    "mime": "~1.2.7",
+    "mkdirp": "^0.5.0",
+    "property-handlers": "^0.1.0",
+    "raptor-args": "^0.1.5-beta",
+    "raptor-async": "^0.2.0-beta",
+    "raptor-cache": "^0.2.0-beta",
+    "raptor-detect": "^0.2.0-beta",
+    "raptor-dust": "^0.3.6-beta",
+    "raptor-files": "^0.2.0-beta",
+    "raptor-loader": "^0.1.1-beta",
+    "raptor-logging": "^0.2.0-beta",
+    "raptor-modules": "^0.2.3-beta",
+    "raptor-objects": "^0.2.0-beta",
+    "raptor-optimizer-dust": "^0.1.0-beta",
+    "raptor-optimizer-less": "^0.1.5-beta",
+    "raptor-optimizer-minify-css": "^0.1.0-beta",
+    "raptor-optimizer-minify-js": "^0.1.0-beta",
+    "raptor-optimizer-require": "^0.1.17-beta",
+    "raptor-optimizer-resolve-css-urls": "^0.1.0-beta",
+    "raptor-optimizer-rhtml": "^0.1.5-beta",
+    "raptor-polyfill": "^0.2.0-beta",
+    "raptor-promises": "^0.2.0-beta",
+    "raptor-regexp": "^0.2.0-beta",
+    "raptor-strings": "^0.2.0-beta",
+    "raptor-util": "^0.2.0-beta",
+    "raptor-xml": "^0.2.0-beta",
+    "resumer": "0.0.0",
+    "through": "^2.3.4"
+  },
+  "devDependencies": {
+    "mocha": "~1.15.1",
+    "chai": "~1.8.1",
+    "jshint": "~2.3.0",
+    "raptor-templates": "^1.0.0",
+    "dustjs-linkedin": "^2.3.4"
+  },
+  "license": "Apache License v2.0",
+  "bin": {
+    "raptor-optimizer": "./bin/raptor-optimizer"
+  },
+  "main": "lib/raptor-optimizer.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
+  },
+  "version": "0.2.67-beta"
 }
