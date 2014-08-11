@@ -32,7 +32,7 @@ describe('raptor-optimizer-require' , function() {
 
         require('raptor-logging').configureLoggers({
             'raptor-cache': 'WARN',
-            'raptor-optimizer': 'WARN',
+            'raptor-optimizer/lib/page-bundles-builder': 'WARN',
             'raptor-optimizer/perf': 'WARN'
         });
 
@@ -286,6 +286,123 @@ describe('raptor-optimizer-require' , function() {
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/jquery-global.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/jquery-global.expected.js'), {encoding: 'utf8'}));
+                done();
+            });
+    });
+
+    it('should allow for same commonjs-def in different async package with bundling enabled', function(done) {
+        var optimizer = require('../');
+
+        var projectDir = nodePath.join(__dirname, 'test-async-project');
+
+        var plugins = {};
+        plugins['raptor-optimizer-require'] = {
+            includeClient: false,
+            transforms: [],
+            rootDir: projectDir
+        };
+
+        var pageOptimizer = optimizer.create({
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false,
+                },
+                plugins: plugins,
+                bundlingEnabled: true,
+
+                bundles: [
+                    {
+                        name: 'loader-metadata',
+                        dependencies: [
+                            {'type': 'loader-metadata'}
+                        ]
+                    },
+                    {
+                        name: 'main',
+                        dependencies: [
+                            'require: ./index.js'
+                        ]
+                    },
+                    {
+                        name: 'async1',
+                        dependencies: [
+                            'require: ./async1'
+                        ]
+                    },
+                    {
+                        name: 'async2',
+                        dependencies: [
+                            'require: ./async2/async2-module.js'
+                        ]
+                    }
+                ]
+            }, projectDir);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: raptor-loader',
+                    './optimizer.json'
+                ],
+                from: projectDir
+            },
+            function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                var actual = writerTracker.getCodeForFilename('loader-metadata.js');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/loader-metadata.actual.js'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/loader-metadata.expected.js'), {encoding: 'utf8'}));
+                done();
+            });
+    });
+
+    it('should allow for same commonjs-def in different async package without bundling enabled', function(done) {
+        var optimizer = require('../');
+
+        var projectDir = nodePath.join(__dirname, 'test-async-project');
+
+        var plugins = {};
+        plugins['raptor-optimizer-require'] = {
+            includeClient: false,
+            transforms: [],
+            rootDir: projectDir
+        };
+
+        var pageOptimizer = optimizer.create({
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false,
+                },
+                plugins: plugins,
+                bundlingEnabled: false
+            }, projectDir);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: raptor-loader',
+                    './optimizer.json'
+                ],
+                from: projectDir
+            },
+            function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                var actual = writerTracker.getCodeForFilename('loader-metadata-.js');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.actual.js'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.expected.js'), {encoding: 'utf8'}));
                 done();
             });
     });

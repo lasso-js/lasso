@@ -1,0 +1,1 @@
+$rloaderMeta={"package1":{"js":["test/build/async1.js"]},"package2":{"js":["test/build/async2.js"]},"package1-a":{"js":["test/build/async1.js"]},"main":{}};
