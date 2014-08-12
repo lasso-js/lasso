@@ -7,6 +7,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [Features](#features)
@@ -22,9 +23,11 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 		- [Optimizing a Page](#optimizing-a-page)
 - [Dependencies](#dependencies)
+	- [Conditional Dependencies](#conditional-dependencies)
+		- [Enabling Extensions](#enabling-extensions)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Configurable Bundles](#configurable-bundles)
-	- [Configurable Bundles Example](#configuarable-bundles-example)
+	- [Configurable Bundles Example](#configurable-bundles-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Available Output Transforms](#available-output-transforms)
@@ -525,8 +528,8 @@ __Using the JavaScript API:__
 
 ```javascript
 pageOptimizer.optimizePage({
-    "dependencies": [
-        { "path": "hello-mobile.js", "if-extension": "mobile" }
+    dependencies: [
+        { path: 'hello-mobile.js', 'if-extension': 'mobile' }
     ],
     extensions: ['mobile', 'foo', 'bar']
 })
