@@ -128,6 +128,12 @@ jquery(function() {
 });
 ```
 
+Install the `less` module using [npm](http://www.npmjs.org/) since we are going to add a Less StyleSheet.
+
+```bash
+npm install less --global
+```
+
 Add a Less StyleSheet:
 
 _style.less:_
@@ -424,13 +430,13 @@ optimizer.optimizePage({
             console.log('Failed to optimize page: ', err);
             return;
         }
-        
+
         var headHtml = optimizedPage.getHeadHtml();
         /*
         String with a value similar to the following:
         <link rel="stylesheet" type="text/css" href="/static/my-page-85e3288e.css">
         */
-       
+
         var bodyHtml = optimizedPage.getBodyHtml();
         /*
         String with a value similar to the following:
@@ -869,7 +875,7 @@ module.exports = function myPlugin(optimizer, config) {
 
                     myCompiler.compile(src, callback);
                 });
-                
+
                 // NOTE: A stream can also be returned
             },
 
@@ -946,7 +952,7 @@ optimizer.dependencies.registerPackageType('dir', {
             throw new Error('Directory expected: ' + this.path);
         }
     },
-    
+
     getDependencies: function(context, callback) {
         fs.readdir(this.path, callback);
     },
