@@ -13,7 +13,7 @@
                 "optimizer-context": "expression",
                 "dependencies": "expression",
                 "enabled-extensions": "expression",
-                "extensions": "string",
+                "extensions": "expression",
                 "wait-for": "expression"
             },
             "var": "_dependenciesParent",
