@@ -1,7 +1,7 @@
 RaptorJS Optimizer
 ==================
 
-The RaptorJS Optimizer is an extensible server-side resource bundler tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require and asynchronous loading.
+The RaptorJS Optimizer is an extensible server-side resource bundler tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require, conditional dependencies and asynchronous/lazy loading.
 
 Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
 
@@ -490,6 +490,54 @@ If the path does not have a file extension then it is assumed to be a path to an
     "./some-module"
     "my-module",
 ]
+```
+
+## Conditional Dependencies
+
+The RaptorJS Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain criteria (e.g. "mobile device" versus "desktop"). For caching reasons, the criteria for conditional dependencies should be based on a set of enabled "extensions". An extension is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
+
+```json
+{
+    "dependencies": [
+        { "path": "hello-mobile.js", "if-extension": "mobile" }
+    ]
+}
+```
+
+If needed, a JavaScript expression can be used to describe a more complex condition as shown in the following sample code:
+
+```json
+{
+    "dependencies": [
+        {
+            "path": "hello-mobile.js",
+            "if": "extensions.contains('mobile') || extensions.contains('ipad')"
+        }
+    ]
+}
+```
+
+### Enabling Extensions
+
+The code below shows how to enable extensions when optimizing a page:
+
+__Using the JavaScript API:__
+
+```javascript
+pageOptimizer.optimizePage({
+    "dependencies": [
+        { "path": "hello-mobile.js", "if-extension": "mobile" }
+    ],
+    extensions: ['mobile', 'foo', 'bar']
+})
+```
+
+__Using the Raptor Templates taglib:__
+
+```html
+<optimize-page ... extensions="['mobile', 'foo', 'bar']">
+    ...
+</optimize-page>
 ```
 
 # Node.js-style Module Support
