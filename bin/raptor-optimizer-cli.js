@@ -3,7 +3,8 @@ var fs = require('fs');
 var nodePath = require('path');
 var raptorPromises = require('raptor-promises');
 var cwd = process.cwd();
-var raptorFiles = require('raptor-files');
+var appModulePath = require('app-module-path');
+var mkdirp = require('mkdirp');
 
 function relPath(path) {
     return nodePath.relative(cwd, path);
@@ -45,6 +46,10 @@ function run(argv) {
                     '--module -m *': 'string',
                     '-*': null
                 }
+            },
+            '--paths --path': {
+                type: 'string[]', 
+                description: 'Additional directories to add to the application-level module search path'
             }
         })
         .example('Optimize a single Node.js module for the browser', '$0 --main run.js --name my-page')
@@ -57,7 +62,7 @@ function run(argv) {
                 process.exit(0);
             }
 
-            if (!result.dependencies && !result.main) {
+            if (!result.dependencies && !result.main && !result.config) {
                 this.printUsage();
                 process.exit(1);
             }
@@ -76,14 +81,30 @@ function run(argv) {
 
     var args = parser.parse(argv);
 
-
+    // Add the root directory to the search path for modules to allow paths to be specified
+    // relative to the application root.
+    if (args.paths) {
+        args.paths.forEach(function(path) {
+            path.split(/[:,;]/).forEach(function(path) {
+                appModulePath.addPath(nodePath.resolve(cwd, path));
+            });
+        });
+    }
 
     var config = args.config;
     var configDir;
 
     if (typeof config === 'string') {
+        config = nodePath.resolve(process.cwd(), config);
         configDir = nodePath.dirname(config);
         config = JSON.parse(fs.readFileSync(config, {encoding: 'utf8'}));
+
+        if (config['raptor-optimizer']) {
+            // This is kind of a hack, but to allow the configuration for the raptor-optimizer module
+            // to be alongside other configuration, we look for a configuration nested under a "raptor-optimizer"
+            // property
+            config = config['raptor-optimizer'];
+        }
     } else if (!config) {
         config = {};
     }
@@ -273,7 +294,8 @@ function run(argv) {
 
                         if (args.html !== false) {
                             var htmlFile = nodePath.resolve(htmlDir, pageName + '.html.json');
-                            raptorFiles.mkdirs(htmlFile);
+                            mkdirp.sync(nodePath.dirname(htmlFile));
+
                             lines.push('  HTML slots file:\n    ' + relPath(htmlFile));
                             fs.writeFile(htmlFile, optimizedPage.htmlSlotsToJSON(4), {encoding: 'utf8'}, function(err) {
                                 if (err) {
