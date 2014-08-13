@@ -452,11 +452,15 @@ describe('raptor-optimizer', function() {
                 fingerprintsEnabled: false
             },
             enabledExtensions: ['jquery', 'browser'],
-            transforms: [
-                './src/transforms/css-transform1.js',
-                './src/transforms/css-transform2.js',
-                './src/transforms/js-transform1-async.js',
-                './src/transforms/js-transform2-async.js'
+            plugins: [
+                {
+                    plugin: function(pageOptimizer, config) {
+                        pageOptimizer.config.addTransform(require('./src/transforms/css-transform1.js'));
+                        pageOptimizer.config.addTransform(require('./src/transforms/css-transform2.js'));
+                        pageOptimizer.config.addTransform(require('./src/transforms/js-transform1-async.js'));
+                        pageOptimizer.config.addTransform(require('./src/transforms/js-transform2-async.js'));
+                    }
+                }
             ]
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -555,9 +559,7 @@ describe('raptor-optimizer', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
             },
-            transforms: [
-                'raptor-optimizer-resolve-css-urls'
-            ]
+            resolveCssUrls: true
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({
@@ -590,9 +592,7 @@ describe('raptor-optimizer', function() {
                 fingerprintsEnabled: false
             },
             bundlingEnabled: false,
-            transforms: [
-                'raptor-optimizer-resolve-css-urls'
-            ]
+            resolveCssUrls: true
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({

@@ -131,10 +131,10 @@ jquery(function() {
 });
 ```
 
-Install the `less` module using [npm](http://www.npmjs.org/) since we are going to add a Less StyleSheet.
+Install the [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less) plugin since we are going to add a Less StyleSheet:
 
 ```bash
-npm install less --global
+npm install raptor-optimizer-less
 ```
 
 Add a Less StyleSheet:
@@ -182,8 +182,9 @@ _index.html:_
 ```
 
 Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
+
 ```bash
-raptor-optimizer style.less --main main.js --name index --inject-into index.html --development
+raptor-optimizer style.less --main main.js --name index --inject-into index.html --plugins raptor-optimizer-less --development
 ```
 
 If everything worked correctly then you should see output that includes the following:
@@ -344,12 +345,13 @@ The next section describes the configuration options supported by the RaptorJS O
 ```javascript
 {
     // Plugins with custom dependency compilers, writers, etc.:
-    "plugins": {
-        // Each key should be a module name/path and the value
-        // is the plugin config:
-        "raptor-optimizer-my-plugin": {},
-        "./src/optimizer/my-plugin": {}
-    }, // See Available Plugins below
+    "plugins": [ // Optimizer plugins (see Available Plugins below)
+        {
+            "module": "raptor-optimizer-my-plugin",
+            "config": { ... }
+        },
+        ...
+    ], 
     // Configure the default bundle file writer:
     "fileWriter": {
         "outputDir": "static",     // Where to write the bundles
@@ -358,13 +360,10 @@ The next section describes the configuration options supported by the RaptorJS O
         "includeSlotNames": false  // Include slot name in output files?
     },
     "minify": true, // If true then the "raptor-optimizer-minify-js" and
-                    // "raptor-optimizer-minify-css" transforms will be
+                    // "raptor-optimizer-minify-css" plugins will be
                     // enabled (defaults to false)
-    // Output transforms:
-    "transforms": [
-        "raptor-optimizer-my-transform",
-        "./src/optimizer/my-transform"
-    ], // See Available Output Transforms below
+    "resolveCssUrls": true, // If true then the "raptor-optimizer-resolve-css-urls" plugin
+                            // will be enabled (defaults to true)
     "bundlingEnabled": true, // If true then resources will be bundled (defaults to true)
     // Pre-configured bundles that apply to all pages:
     "bundles": [
@@ -707,38 +706,24 @@ require('raptor-loader').async(
 Below is a list of available plugins supported by the RaptorJS Optimizer:
 
 * Core plugins
-    * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
     * [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-    * [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
+    * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+    * [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+    * [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+    
 * Third-party plugins
-    * (coming soon)
+    * [raptor-optimizer-dust](https://github.com/linkedin/dustjs): Compile [Dust](https://github.com/raptorjs3/raptor-templates) template files to JavaScript
+    * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
+    * [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
+    * [raptor-optimizer-sass](https://github.com/raptorjs3/raptor-optimizer-sass): Compile [Sass](http://lesscss.org/) files to CSS
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
 ```bash
-npm install raptor-optimizer-my-plugin --save
+npm install raptor-optimizer-less --save
 ```
 
 If you create your own `raptor-optimizer` plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-plugin` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
-
-# Available Output Transforms
-
-Below is a list of available output transforms supported by the RaptorJS Optimizer:
-
-* Core transforms
-    * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-    * [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-    * [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
-* Third-party transforms
-    * (coming soon)
-
-To use a third-party transform, you must first install it using `npm install`. For example:
-
-```bash
-npm install my-transform --save
-```
-
-If you create your own `raptor-optimizer` transform please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-transform` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
 
 # Optimizer Taglib
 
@@ -853,13 +838,23 @@ Only read below if you are building plugins or transforms to further enhance the
 
 A plugin can be used to change how the optimizer operates. This includes the following:
 
-* Register a custom dependency type
-    * _Need to support a new pre-processor or compiler? No problem!_
+* Register a custom dependency type to enable 
+    * Examples:
+        * Register a dependency handler for "less" files to compiles Less to CSS
+        * Register a dependency handler for "rhtml" files to compiles Raptor Template files to JS
 * Register a custom bundle writer
-    * _Want to upload your bundles instead of writing them to disk? No problem!_
+    * Examples:
+        * Upload bundles to a resource server instead of writing them to disk
+* Register output transforms
+    * Examples:
+        * Add an output transform to minify JavaScript code
+        * Add an output transform to minify CSS code
 * Configure the optimizer
+    * Examples:
+        * Allow a plugin to automatically configure the optimizer for production usage
 
 A plugin is simply a Node.js module that exports a function with the following signature:
+
 ```javascript
 /**
  * A plugin for the RaptorJS Optimizer
@@ -872,6 +867,9 @@ module.exports = function(optimizer, config) {
     optimizer.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
     optimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
     optimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
+
+    // Add an output transform
+    optimizer.config.addTransform(require('./my-transform'));
 
     // Register a custom Node.js/CommonJS module compiler for a custom filename extension
     // var myModule = require('hello.test');

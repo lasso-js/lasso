@@ -47,9 +47,7 @@ describe('raptor-optimizer-require' , function() {
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
-                },
-                transforms: [
-                ]
+                }
             }, __dirname, __filename);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -86,9 +84,7 @@ describe('raptor-optimizer-require' , function() {
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
-                },
-                transforms: [
-                ]
+                }
             }, __dirname, __filename);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
