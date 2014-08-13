@@ -39,14 +39,6 @@ function run(argv) {
                     '-*': null
                 }
             },
-            '--transforms -transform -t': {
-                type: '[]', 
-                description: 'Transforms to enable',
-                options: {
-                    '--module -m *': 'string',
-                    '-*': null
-                }
-            },
             '--paths --path': {
                 type: 'string[]', 
                 description: 'Additional directories to add to the application-level module search path'
@@ -153,7 +145,7 @@ function run(argv) {
         config.cacheProfile = args.cacheProfile;
     }
 
-    var transforms = args.transforms || [];
+    var plugins = args.plugins || [];
 
     if (args.development) {
         config.bundlingEnabled = false;
@@ -161,13 +153,13 @@ function run(argv) {
     } else if (args.production) {
         config.bundlingEnabled = true;
         config.cacheProfile = config.cacheProfile || 'production';
-        transforms.push('raptor-optimizer-minify-js');
-        transforms.push('raptor-optimizer-minify-css');
+        plugins.push('raptor-optimizer-minify-js');
+        plugins.push('raptor-optimizer-minify-css');
         fileWriter.fingerprintsEnabled = true;
     } else {
         if (args.minify) {
-            transforms.push('raptor-optimizer-minify-js');
-            transforms.push('raptor-optimizer-minify-css');
+            plugins.push('raptor-optimizer-minify-js');
+            plugins.push('raptor-optimizer-minify-css');
         }
 
         if (args.fingerprint) {
@@ -195,8 +187,8 @@ function run(argv) {
 
     extensions = extensions && extensions.length ? Object.keys(extensions) : null;
 
-    if (transforms.length) {
-        config.transforms = config.transforms ? config.transforms.concat(transforms) : transforms;    
+    if (plugins.length) {
+        config.plugins = plugins;
     }
 
     var name = args.name;
