@@ -455,10 +455,10 @@ describe('raptor-optimizer', function() {
             plugins: [
                 {
                     plugin: function(pageOptimizer, config) {
-                        pageOptimizer.config.addTransform(require('./src/transforms/css-transform1.js'));
-                        pageOptimizer.config.addTransform(require('./src/transforms/css-transform2.js'));
-                        pageOptimizer.config.addTransform(require('./src/transforms/js-transform1-async.js'));
-                        pageOptimizer.config.addTransform(require('./src/transforms/js-transform2-async.js'));
+                        pageOptimizer.addTransform(require('./src/transforms/css-transform1.js'));
+                        pageOptimizer.addTransform(require('./src/transforms/css-transform2.js'));
+                        pageOptimizer.addTransform(require('./src/transforms/js-transform1-async.js'));
+                        pageOptimizer.addTransform(require('./src/transforms/js-transform2-async.js'));
                     }
                 }
             ]
