@@ -235,7 +235,7 @@ If you open up `index.html` in your web browser you should see a page styled wit
 Now try again with `production` mode:
 
 ```bash
-raptor-optimizer style.less --main main.js --name index --inject-into index.html --production
+raptor-optimizer style.less --main main.js --name index --inject-into index.html --plugins raptor-optimizer-less --production
 ```
 
 ```
