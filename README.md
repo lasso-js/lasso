@@ -869,7 +869,7 @@ module.exports = function(optimizer, config) {
     optimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
 
     // Add an output transform
-    optimizer.config.addTransform(require('./my-transform'));
+    optimizer.addTransform(require('./my-transform'));
 
     // Register a custom Node.js/CommonJS module compiler for a custom filename extension
     // var myModule = require('hello.test');
