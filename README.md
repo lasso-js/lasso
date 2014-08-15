@@ -346,8 +346,12 @@ The next section describes the configuration options supported by the RaptorJS O
 {
     // Plugins with custom dependency compilers, writers, etc.:
     "plugins": [ // Optimizer plugins (see Available Plugins below)
-        {
-            "module": "raptor-optimizer-my-plugin",
+        // Plugins with default config:
+        "raptor-optimizer-less", 
+        "raptor-optimizer-rhtml",
+        // Plugin with custom configuration:
+        {                        
+            "plugin": "raptor-optimizer-my-plugin",
             "config": { ... }
         },
         ...
