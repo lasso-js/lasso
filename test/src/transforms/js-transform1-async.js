@@ -1,4 +1,4 @@
-var eventStream = require('event-stream');
+var through = require('through');
 
 exports.stream = true;
 
@@ -10,7 +10,7 @@ exports.transform = function(inStream, contentType, context) {
     if (contentType === 'js') {
         var code = '';
 
-        return inStream.pipe(eventStream.through(function write(data) {
+        return inStream.pipe(through(function write(data) {
                 code += data;
             },
             function end () {

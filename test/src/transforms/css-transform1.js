@@ -1,10 +1,10 @@
-var eventStream = require('event-stream');
+var through = require('through');
 
 exports.stream = true;
 
 exports.transform = function(inStream, contentType, context) {
     if (contentType === 'css') {
-        return inStream.pipe(eventStream.through(null,
+        return inStream.pipe(through(null,
             function end () { //optional
                 this.queue('-CSSTransform1');
                 this.queue(null);

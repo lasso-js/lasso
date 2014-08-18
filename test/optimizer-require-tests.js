@@ -31,9 +31,10 @@ describe('raptor-optimizer-require' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-cache': 'WARN',
-            'raptor-optimizer/lib/page-bundles-builder': 'WARN',
-            'raptor-optimizer/perf': 'WARN'
+            // 'raptor-cache': 'WARN',
+            // 'raptor-optimizer/lib/page-bundles-builder': 'WARN',
+            // 'raptor-optimizer/perf': 'WARN'
+            // 'raptor-optimizer': 'DEBUG'
         });
 
         done();
