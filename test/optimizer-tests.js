@@ -642,4 +642,34 @@ describe('raptor-optimizer', function() {
             .then(done)
             .done();
     });
+
+    it('should allow for external resource URLs to be inlined', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            enabledExtensions: [],
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: true
+            },
+            bundlingEnabled: true
+        }, __dirname, __filename);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    { 
+                        type: 'js',
+                        url: 'http://code.jquery.com/jquery-1.11.0.min.js',
+                        external: false
+                    }
+                ],
+                from: module
+            })
+            .then(function(optimizedPage) {
+                // console.log('OPTIMIZED PAGE: ', optimizedPage);
+                expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="test/build/testPage-b66ed708.js"></script>');
+                expect(optimizedPage.getHeadHtml()).to.equal('');
+            })
+            .then(done)
+            .done();
+    });
 });
