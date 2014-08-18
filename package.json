@@ -6,7 +6,7 @@
     "url": "https://github.com/raptorjs3/raptor-optimizer.git"
   },
   "scripts": {
-    "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib bin/*.js"
+    "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
@@ -19,7 +19,6 @@
     "mime": "~1.2.7",
     "mkdirp": "^0.5.0",
     "property-handlers": "^0.1.0",
-    "raptor-args": "^0.1.5-beta",
     "raptor-async": "^0.2.0-beta",
     "raptor-cache": "^0.2.0-beta",
     "raptor-detect": "^0.2.0-beta",
@@ -51,9 +50,6 @@
     "raptor-templates": "^1.1.12-beta"
   },
   "license": "Apache License v2.0",
-  "bin": {
-    "raptor-optimizer": "./bin/raptor-optimizer"
-  },
   "main": "lib/raptor-optimizer.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

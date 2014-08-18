@@ -97,7 +97,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 Install the command line interface for the RaptorJS Optimizer:
 
 ```bash
-npm install raptor-optimizer --global
+npm install raptor-optimizer-cli --global
 ```
 
 In a new directory, create a simple application as described below:

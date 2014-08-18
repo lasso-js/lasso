@@ -1,2 +1,0 @@
-#!/usr/bin/env node
-require('./raptor-optimizer-cli.js')(process.argv.slice(2));
