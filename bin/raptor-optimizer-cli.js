@@ -244,7 +244,7 @@ function run(argv) {
         }
 
         optimizePage({
-                name: name || 'unnamed',
+                name: name || 'bundle',
                 dependencies: dependencies
             });
     } else if (args.name) {
