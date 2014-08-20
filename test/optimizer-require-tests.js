@@ -10,12 +10,6 @@ var outputDir = nodePath.join(__dirname, 'build');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-var plugins = {};
-plugins['raptor-optimizer-require'] = {
-    includeClient: false,
-    rootDir: nodePath.join(__dirname, 'test-project')
-};
-
 describe('raptor-optimizer-require' , function() {
 
     beforeEach(function(done) {
@@ -124,7 +118,10 @@ describe('raptor-optimizer-require' , function() {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
                 },
-                plugins: plugins
+                require: {
+                    includeClient: false,
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                }
             }, __dirname, __filename);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -156,15 +153,11 @@ describe('raptor-optimizer-require' , function() {
     it('should bundle require dependencies correctly', function(done) {
         var optimizer = require('../');
 
-        var plugins = {};
-        plugins['raptor-optimizer-require'] = {
-            includeClient: true,
-            rootDir: nodePath.join(__dirname, 'test-project')
-        };
-
         var pageOptimizer = optimizer.create({
                 enabledExtensions: ['jquery', 'browser'],
-                plugins: plugins,
+                require: {
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                },
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -209,21 +202,18 @@ describe('raptor-optimizer-require' , function() {
     it('should allow for browserify-style transforms', function(done) {
         var optimizer = require('../');
 
-        var plugins = {};
-        plugins['raptor-optimizer-require'] = {
-            includeClient: false,
-            transforms: [
-                'deamdify'
-            ],
-            rootDir: nodePath.join(__dirname, 'test-project')
-        };
-
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
                 },
-                plugins: plugins
+                require: {
+                    includeClient: false,
+                    transforms: [
+                        'deamdify'
+                    ],
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                }
             }, nodePath.join(__dirname, 'test-project'));
         
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -250,19 +240,16 @@ describe('raptor-optimizer-require' , function() {
     it('should allow for modules to be mapped to globals', function(done) {
         var optimizer = require('../');
 
-        var plugins = {};
-        plugins['raptor-optimizer-require'] = {
-            includeClient: false,
-            transforms: [],
-            rootDir: nodePath.join(__dirname, 'test-project')
-        };
-
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
                 },
-                plugins: plugins
+                require: {
+                    includeClient: false,
+                    transforms: [],
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                }
             }, nodePath.join(__dirname, 'test-project'));
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -292,19 +279,16 @@ describe('raptor-optimizer-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var plugins = {};
-        plugins['raptor-optimizer-require'] = {
-            includeClient: false,
-            transforms: [],
-            rootDir: projectDir
-        };
-
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
                 },
-                plugins: plugins,
+                require: {
+                    includeClient: false,
+                    transforms: [],
+                    rootDir: projectDir
+                },
                 bundlingEnabled: true,
 
                 bundles: [
@@ -364,19 +348,16 @@ describe('raptor-optimizer-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var plugins = {};
-        plugins['raptor-optimizer-require'] = {
-            includeClient: false,
-            transforms: [],
-            rootDir: projectDir
-        };
-
         var pageOptimizer = optimizer.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
                 },
-                plugins: plugins,
+                require: {
+                    includeClient: false,
+                    transforms: [],
+                    rootDir: projectDir
+                },
                 bundlingEnabled: false
             }, projectDir);
 
@@ -400,6 +381,47 @@ describe('raptor-optimizer-require' , function() {
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.expected.js'), {encoding: 'utf8'}));
+                done();
+            });
+    });
+
+    it('should allow for requiring json files', function(done) {
+        var optimizer = require('../');
+
+        var projectDir = nodePath.join(__dirname, 'test-project');
+
+        var pageOptimizer = optimizer.create({
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false,
+                },
+                require: {
+                    includeClient: false,
+                    transforms: [],
+                    rootDir: projectDir
+                },
+                bundlingEnabled: true
+            }, projectDir);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                'require: ./test.json'
+                ],
+                from: projectDir
+            },
+            function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                var actual = writerTracker.getCodeForFilename('testPage.js');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/require-json.actual.js'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/require-json.expected.js'), {encoding: 'utf8'}));
                 done();
             });
     });
