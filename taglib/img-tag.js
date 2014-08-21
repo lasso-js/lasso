@@ -1,12 +1,14 @@
 var optimizer = require('../');
 var nodePath = require('path');
 var attrs = require('raptor-util/attrs');
+var util = require('./util');
 
 module.exports = function render(input, context) {
     var pageOptimizer = input.optimizer;
+    var optimizerRenderContext = util.getOptimizerRenderContext(context);
 
     if (!pageOptimizer) {
-        pageOptimizer = optimizer.defaultPageOptimizer;
+        pageOptimizer = optimizerRenderContext.data.pageOptimizer || optimizer.defaultPageOptimizer;
     }
     
     if (!pageOptimizer) {
@@ -16,10 +18,10 @@ module.exports = function render(input, context) {
     var src = input.src;
     var imgPath = nodePath.resolve(input.dirname, src);
 
-    var optimizerContext = context.attributes.optimizerContext;
+    var optimizerContext = optimizerRenderContext.data.optimizerContext;
 
     if (!optimizerContext) {
-        optimizerContext = context.attributes.optimizerContext = pageOptimizer.createOptimizerContext();
+        optimizerContext = optimizerRenderContext.data.optimizerContext = pageOptimizer.createOptimizerContext();
         optimizerContext.renderContext = context;
     }
 

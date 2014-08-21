@@ -1,5 +1,4 @@
-var raptorOptimizer = require('../');
-var logger = require('raptor-logging').logger(module);
+var util = require('./util');
 
 function renderSlot(slotName, optimizedPage, context, optimizerContext) {
     var slotHtml = optimizedPage.getSlotHtml(slotName);
@@ -14,18 +13,19 @@ function renderSlot(slotName, optimizedPage, context, optimizerContext) {
 module.exports = function render(input, context) {
     var slotName = input.name;
     
-    var optimizedPageDataHolder = context.attributes.optimizedPage;
-    var optimizerContext = raptorOptimizer.getOptimizerRenderContext(context);
+    
+    var optimizerRenderContext = util.getOptimizerRenderContext(context);
+    var optimizedPageDataHolder = optimizerRenderContext.data.optimizedPage;
 
     if (!optimizedPageDataHolder) {
         throw new Error('Optimized page not found for slot "' + slotName + '". The <optimizer-page> tag should be used to generate the optimized page.');
     }
 
-    optimizerContext.emitBeforeSlot(slotName, context);
+    optimizerRenderContext.emitBeforeSlot(slotName, context);
 
 
     if (optimizedPageDataHolder.isResolved()) {
-        renderSlot(slotName, optimizedPageDataHolder.data, context, optimizerContext);
+        renderSlot(slotName, optimizedPageDataHolder.data, context, optimizerRenderContext);
     } else {
         var asyncContext = context.beginAsync({name: 'optimizer-slot:' + slotName});
         
@@ -36,7 +36,7 @@ module.exports = function render(input, context) {
                 return;
             }
 
-            renderSlot(slotName, optimizedPage, asyncContext, optimizerContext);
+            renderSlot(slotName, optimizedPage, asyncContext, optimizerRenderContext);
             asyncContext.end();
         });
     }

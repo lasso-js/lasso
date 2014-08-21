@@ -6,7 +6,7 @@
         "url": "https://github.com/raptorjs3/raptor-optimizer.git"
     },
     "scripts": {
-        "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/"
+        "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
     },
     "author": "Patrick Steele-Idem <pnidem@gmail.com>",
     "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",

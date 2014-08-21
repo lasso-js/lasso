@@ -1,9 +1,11 @@
 var raptorOptimizer = require('../');
+var util = require('./util');
 var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var nodePath = require('path');
 var fs = require('fs');
 var DataHolder = require('raptor-async/DataHolder');
+var extend = require('raptor-util/extend');
 
 module.exports = function render(input, context) {
     var pageOptimizer = input.optimizer;
@@ -12,8 +14,8 @@ module.exports = function render(input, context) {
         pageOptimizer = raptorOptimizer.defaultPageOptimizer;
     }
 
-    var optimizerRenderContext = raptorOptimizer.getOptimizerRenderContext(context);
-
+    var optimizerRenderContext = util.getOptimizerRenderContext(context);
+    
     var pageName = input.name || input.pageName;
 
     if (!pageName) {
@@ -24,10 +26,33 @@ module.exports = function render(input, context) {
         }
     }
 
+    // We need to provide the optimizer with some data that it might need
+    // to optimize the page correctly. We provide "renderContext", specifically,
+    // because the "renderContext" also holds a response to the output stream
+    // which may be the HTTP response object. From the HTTP response object
+    // we can get to the HTTP request. From the HTTP request we can get to the user
+    // locale and the protocol (e.g. "http" versus "https") and all of this information
+    // may be needed to optimize the page correctly. Ultimately, during the optimization
+    // phase, this data can be access using the "optimizerContext.data" property
+    var optimizerContextData = {
+        renderContext: context
+    };
+
+    // The user of the tag may have also provided some additional data to add
+    // to the optimizer context
+    var inputData = input.data;
+    if (inputData) {
+        extend(optimizerContextData, inputData);
+    }
+
+    // Store the pageOptimizer into the render context in case it is needed
+    // later (e.g. to optimize a image resource referenced by a <optimizer-img> tag).
+    optimizerRenderContext.data.pageOptimizer = pageOptimizer;
+
     var optimizedPageDataHolder;
     
-    // store optimized page data holder in the context attributes (used by slot tags)
-    context.attributes.optimizedPage = optimizedPageDataHolder = new DataHolder();
+    // store optimized page data holder in the context data (used by slot tags)
+    optimizerRenderContext.data.optimizedPage = optimizedPageDataHolder = new DataHolder();
 
     function done(err, optimizedPage) {
         if (err) {
@@ -35,7 +60,6 @@ module.exports = function render(input, context) {
         } else {
             optimizedPageDataHolder.resolve(optimizedPage);
         }
-        
     }
 
     function doOptimizePage() {
@@ -54,9 +78,9 @@ module.exports = function render(input, context) {
                 pageName: pageName,
                 
                 // properties for the optimizer context
-                context: input.optimizerContext || optimizerRenderContext.attributes,
+                data: optimizerContextData,
                 
-                // what is this for?
+                // Provide base path for resolving relative top-level dependencies
                 from: input.module || input.dirname,
                 
                 // what is this for?

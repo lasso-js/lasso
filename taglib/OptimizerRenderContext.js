@@ -4,7 +4,7 @@ var OptimizerRenderContext = function() {
     OptimizerRenderContext.$super.call(this);
     this._enabledExtensions = null;
     this._waitFor = [];
-    this.attributes = {};
+    this.data = {};
 };
 
 OptimizerRenderContext.prototype = {
