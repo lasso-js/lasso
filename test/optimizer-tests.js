@@ -89,18 +89,11 @@ describe('raptor-optimizer', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    {
-                        'package': 'moduleA'
-                    },
-                    {
-                        'package': 'moduleB'
-                    },
-                    {
-                        'package': 'moduleC'
-                    },
-                    {
-                        'package': 'moduleD'
-                    }],
+                    'moduleA',
+                    'moduleB',
+                    'moduleC',
+                    'moduleD'
+                    ],
                 from: module
             })
             .then(function(optimizedPage) {
