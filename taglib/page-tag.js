@@ -109,7 +109,7 @@ module.exports = function render(input, context) {
 
                     } else if (packagePaths) {
                         if (typeof packagePaths === 'string') {
-                            dependencies = packagePaths.split(/\s*,\s*/);
+                            packagePaths = packagePaths.split(/\s*,\s*/);
                         }
 
                         dependencies = packagePaths.map(function(path) {
