@@ -99,15 +99,25 @@ module.exports = function render(input, context) {
                             packagePath = nodePath.resolve(input.dirname, packagePath);
                         }
 
-                        dependencies = [packagePath];
+                        dependencies = [
+                            {
+                                type: 'package',
+                                'path': packagePath
+                            }
+                        ];
                     } else if (dependencies) {
 
                     } else if (packagePaths) {
                         if (typeof packagePaths === 'string') {
-                            packagePaths = packagePaths.split(/\s*,\s*/);
+                            dependencies = packagePaths.split(/\s*,\s*/);
                         }
 
-                        dependencies = packagePaths;
+                        dependencies = packagePaths.map(function(path) {
+                                return {
+                                    type: 'package',
+                                    path: path
+                                };   
+                            });
                     } else if (input.invokeBody) {
                         dependencies = [];
                         input.invokeBody({
@@ -119,8 +129,13 @@ module.exports = function render(input, context) {
                         // Look for an optimizer.json in the same directory
                         if (input.dirname) {
                             packagePath = nodePath.join(input.dirname, 'optimizer.json');
-                            if (!fs.existsSync(packagePath)) {
-                                packagePath = null;
+                            if (fs.existsSync(packagePath)) {
+                                dependencies = [
+                                    {
+                                        type: 'package',
+                                        path: packagePath
+                                    }
+                                ];
                             }
                         }
                     }
