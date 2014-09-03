@@ -65,7 +65,7 @@ describe('raptor-optimizer-require' , function() {
                 // var actual = writerTracker.getCodeForFilename('test.rhtml.js');
                 // console.log(actual);
                 // expect(actual).to.equal(expected);
-                
+
             })
             .then(done)
             .fail(done);
@@ -103,7 +103,7 @@ describe('raptor-optimizer-require' , function() {
                 // var actual = writerTracker.getCodeForFilename('test.rhtml.js');
                 // console.log(actual);
                 // expect(actual).to.equal(expected);
-                
+
             })
             .then(done)
             .fail(done);
@@ -215,7 +215,7 @@ describe('raptor-optimizer-require' , function() {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 }
             }, nodePath.join(__dirname, 'test-project'));
-        
+
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
 
         pageOptimizer.optimizePage({
@@ -253,7 +253,7 @@ describe('raptor-optimizer-require' , function() {
             }, nodePath.join(__dirname, 'test-project'));
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        
+
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
@@ -320,7 +320,7 @@ describe('raptor-optimizer-require' , function() {
             }, projectDir);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        
+
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
@@ -362,7 +362,7 @@ describe('raptor-optimizer-require' , function() {
             }, projectDir);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        
+
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
@@ -404,7 +404,7 @@ describe('raptor-optimizer-require' , function() {
             }, projectDir);
 
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        
+
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
@@ -425,5 +425,45 @@ describe('raptor-optimizer-require' , function() {
                 done();
             });
     });
-});
 
+    it('should allow for running required modules', function(done) {
+        var optimizer = require('../');
+
+        var projectDir = nodePath.join(__dirname, 'test-project');
+
+        var pageOptimizer = optimizer.create({
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false,
+                },
+                require: {
+                    includeClient: false,
+                    transforms: [],
+                    rootDir: projectDir
+                },
+                bundlingEnabled: true
+            }, projectDir);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require-run'
+                ],
+                from: projectDir
+            },
+            function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                var actual = writerTracker.getCodeForFilename('testPage.js');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/require-run.actual.js'), actual, {encoding: 'utf8'});
+                expect(actual).to.equal(
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/require-run.expected.js'), {encoding: 'utf8'}));
+                done();
+            });
+    });
+});
