@@ -649,7 +649,7 @@ describe('raptor-optimizer', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    { 
+                    {
                         type: 'js',
                         url: 'http://code.jquery.com/jquery-1.11.0.min.js',
                         external: false
@@ -661,6 +661,45 @@ describe('raptor-optimizer', function() {
                 // console.log('OPTIMIZED PAGE: ', optimizedPage);
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="test/build/testPage-b66ed708.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
+            })
+            .then(done)
+            .done();
+    });
+    it('should optimize a page that has an installed module that uses async loading', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                        'require: ./main'
+                    ],
+                from: path.join(__dirname, 'test-async-project2')
+            })
+            .then(function(optimizedPage) {
+                // console.log(writerTracker.getOutputFilenames());
+                // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
+                expect(writerTracker.getOutputFilenames()).to.deep.equal( [
+                        'testPage-async.js',
+                        'testPage.js'
+                    ] );
+
+                var asyncCode = writerTracker.getCodeForFilename('testPage-async.js');
+                var syncCode = writerTracker.getCodeForFilename('testPage.js');
+
+                expect(syncCode).to.contain('testPage-async.js');
+                expect(syncCode).to.contain('$rloaderMeta');
+                expect(syncCode).to.contain('FOO');
+                expect(syncCode).to.contain('MAIN');
+                expect(syncCode).to.not.contain('BAR');
+                expect(asyncCode).to.contain('BAR');
             })
             .then(done)
             .done();
