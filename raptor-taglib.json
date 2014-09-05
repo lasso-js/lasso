@@ -45,18 +45,6 @@
         "optimizer-body": {
             "renderer": "./taglib/body-tag"
         },
-        "optimizer-enable-extension": {
-            "renderer": "./taglib/enable-extension-tag",
-            "attributes": {
-                "name": "string"
-            }
-        },
-        "optimizer-disable-extension": {
-            "renderer": "./taglib/disable-extension-tag",
-            "attributes": {
-                "name": "string"
-            }
-        },
         "optimizer-img": {
             "renderer": "./taglib/img-tag",
             "attributes": {
