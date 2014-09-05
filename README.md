@@ -1,16 +1,16 @@
 RaptorJS Optimizer
 ==================
 
-The RaptorJS Optimizer is an extensible server-side resource bundler tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require, conditional dependencies and asynchronous/lazy loading.
-
-Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model.
+The RaptorJS Optimizer is an extensible front-end resource bundler and optimization tool that can be be used to build optimized web pages by bundling, compiling, transforming and minifying web page dependencies. In addition, the RaptorJS Optimizer supports configurable bundles, Node.js-style require, conditional dependencies and asynchronous/lazy loading. The RaptorJS Optimizer supports all types of front-end resources (Less, CoffeeScript, Raptor Templates, etc.) via an extensible plugin model. The RaptorJS Optimizer scales well from small projects to big projects and has been battle-tested at eBay for over a year.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+# Table of Contents
 
+- [Design Philosophy](#design-philosophy)
 - [Features](#features)
+- [Another Client-side Bundler?](#another-client-side-bundler)
 - [Example](#example)
 - [Installation](#installation)
 - [Usage](#usage)
@@ -20,8 +20,8 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 		- [Complete Configuration](#complete-configuration)
 	- [JavaScript API](#javascript-api)
 		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
-		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 		- [Optimizing a Page](#optimizing-a-page)
+		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 - [Dependencies](#dependencies)
 	- [Conditional Dependencies](#conditional-dependencies)
 		- [Enabling Extensions](#enabling-extensions)
@@ -30,7 +30,6 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 	- [Configurable Bundles Example](#configurable-bundles-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
-- [Available Output Transforms](#available-output-transforms)
 - [Optimizer Taglib](#optimizer-taglib)
 	- [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
 	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
@@ -41,17 +40,32 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 		- [Custom CSS Dependency Type](#custom-css-dependency-type)
 		- [Custom Package Type](#custom-package-type)
 	- [Custom Output Transforms](#custom-output-transforms)
+- [Discuss](#discuss)
+- [Contributors](#contributors)
+- [Contribute](#contribute)
+- [License](#license)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+# Design Philosophy
+
+* Dependencies should be **declarative** _or_ discovered via **static code analysis**
+* Common **module loading** patterns should be supported
+* Must be **extensible** to support all types of resources
+* **Maximize productivity** in development
+* **Maximize performance** in production
+* Must be **easy to adopt** and not change how you write your code
+* Can be used at **runtime or build time**
+* Must be **configurable**
 
 # Features
 
 * Optimize Client-side Dependencies
     * Supports all types of dependencies (JavaScript, CSS, images, Less, CoffeeScript, etc.)
     * Configurable resource bundling
-    * JavaScript minification (based on [uglifyjs](https://github.com/mishoo/UglifyJS))
-    * CSS minification (based on [sqwish](https://github.com/ded/sqwish))
-    * Fingerprinted resource URLs
+    * JavaScript minification
+    * CSS minification
+    * [Fingerprinted](http://en.wikipedia.org/wiki/Fingerprint_(computing)) resource URLs
     * Prefix resources with CDN host name
     * Optional base64 image encoding inside CSS files
     * Custom output transforms
@@ -68,7 +82,7 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
 * Developer Friendly
     * Disable bundling and minification in development
     * Line numbers are maintained for Node.js modules source
-    * Extremely fast!
+    * Extremely fast _incremental builds_!
         * Only modified bundles are rewritten to disk
         * Disk caches are utilized to avoid repeating the same work
 * Dependency Compilation
@@ -91,6 +105,26 @@ Lastly, the RaptorJS Optimizer supports all types of front-end resources (Less, 
     * Integrate with build tools
     * Use with Express or any other web development framework
     * JavaScript API and CLI
+* _Future_
+    * Automatic image sprites
+    * Automatic image compression
+
+# Another Client-side Bundler?
+
+While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only transport Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript file which means that it would not be very suitable for a project that was only CSS. Compared to Browserify, the RaptorJS Optimizer was designed to support all optimizations for delivering web pages that load extremely fast. While the RaptorJS Optimizer was designed to support transporting to the Node.js modules to the browser, it was also designed to support optimizing CSS, non-Node.js JavaScript code and even images. In fact, the RaptorJS Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
+
+[Webpack](http://webpack.github.io/), another client-side bundler, has adopted a non-standard syntax that extends the Node.js internals. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server and you will be tied to Webpack. In comparison, the RaptorJS Optimizer uses only the standard Node.js API so that your code is truly isomorphic and will work on both the server and the client.
+
+Here's just a sampling of the non-standard features that Webpack introduces:
+
+```javascript
+require("!style!css!./style.css"); // Non-standard require syntax
+require("./style.css"); // Node.js does not know how to handle *.css modules
+require.ensure(dependencies, callback) // require.ensure is not a Node.js method
+require.include(request) // require.include is not a Node.js method
+```
+
+A unique feature of the RaptorJS Optimizer is that in addition to generating optimized JS and CSS bundles, it also generates the HTML markup to include those bundles. By giving the RaptorJS Optimizer control over the `<script>` and `<link>` tags, this tool can change how resources are bundled or add/remove fingerprints to bundles without requiring any change to application code.
 
 # Example
 
@@ -100,17 +134,24 @@ Install the command line interface for the RaptorJS Optimizer:
 npm install raptor-optimizer-cli --global
 ```
 
-In a new directory, create a simple application as described below:
+In an empty directory, initialize a new Node.js project using the following command:
 
-Install the `jquery` module using [npm](https://www.npmjs.org/) since we are going to be using that module in our client code:
+```bash
+mkdir my-app
+cd my-app
+npm init
+```
+
+Install required modules into the new project:
 
 ```bash
 npm install jquery
+npm install raptor-optimizer-less
 ```
 
-Create a test JavaScript module:
+Create the following files:
 
-_add.js:_
+__add.js:__
 
 ```javascript
 module.exports = function(a, b) {
@@ -118,9 +159,7 @@ module.exports = function(a, b) {
 };
 ```
 
-Create the entry point for our client-side application:
-
-_main.js:_
+__main.js:__
 
 ```javascript
 var add = require('./add');
@@ -131,42 +170,17 @@ jquery(function() {
 });
 ```
 
-Install the [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less) plugin since we are going to add a Less StyleSheet:
-
-```bash
-npm install raptor-optimizer-less
-```
-
-Add a Less StyleSheet:
-
-_style.less:_
+__style.less:__
 
 ```css
-.gradient (@startColor: #eee, @endColor: white) {
-    background-color: @startColor;
-    background: -webkit-gradient(linear, left top, left bottom, from(@startColor), to(@endColor));
-    background: -webkit-linear-gradient(top, @startColor, @endColor);
-    background: -moz-linear-gradient(top, @startColor, @endColor);
-    background: -ms-linear-gradient(top, @startColor, @endColor);
-    background: -o-linear-gradient(top, @startColor, @endColor);
-}
+@headerColor: #5B83AD;
 
-.rounded(@radius: 2px) {
-  -webkit-border-radius: @radius;
-  -moz-border-radius: @radius;
-  border-radius: @radius;
-}
-
-h1 {
-    .gradient(#f0f9ff, #a1dbff);
-    .rounded(4px);
-    padding: 8px;
+#header {
+  color: @headerColor;
 }
 ```
 
-Now create an HTML page to host our application:
-
-_index.html:_
+__my-page.html:__
 
 ```html
 <!doctype html>
@@ -176,7 +190,7 @@ _index.html:_
     <title>RaptorJS Optimizer Demo</title>
 </head>
 <body>
-    <h1>RaptorJS Optimizer Demo</h1>
+    <h1 id="header">RaptorJS Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -184,13 +198,13 @@ _index.html:_
 Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
 
 ```bash
-raptor-optimizer style.less --main main.js --name index --inject-into index.html --plugins raptor-optimizer-less --development
+raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --development
 ```
 
 If everything worked correctly then you should see output that includes the following:
 
 ```
-Output for page "index":
+Output for page "my-page":
   Resource bundle files:
     static/add.js
     static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js
@@ -199,12 +213,12 @@ Output for page "index":
     static/main.js
     static/style.less.css
   HTML slots file:
-    build/index.html.json
+    build/my-page.html.json
   Updated HTML file:
-    index.html
+    my-page.html
 ```
 
-The updated `index.html` file should be similar to the following:
+The updated `my-page.html` file should be similar to the following:
 
 ```html
 <!doctype html>
@@ -217,39 +231,40 @@ The updated `index.html` file should be similar to the following:
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1>RaptorJS Optimizer Demo</h1>
+    <h1 id="header">RaptorJS Optimizer Demo</h1>
     <!-- <optimizer-body> -->
-    <script type="text/javascript" src="static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js"></script>
+    <script type="text/javascript" src="static/raptor-modules-1.0.1-beta/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
-    <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
+    <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="static/main.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
     <!-- </optimizer-body> -->
 </body>
 </html>
+
 ```
 
-If you open up `index.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
+If you open up `my-page.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
 
 Now try again with `production` mode:
 
 ```bash
-raptor-optimizer style.less --main main.js --name index --inject-into index.html --plugins raptor-optimizer-less --production
+raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --production
 ```
 
 ```
-Output for page "index":
+Output for page "my-page":
   Resource bundle files:
-    static/index-aa303229.js
-    static/index-122dcfc9.css
+    static/my-page-2e3e9936.js
+    static/my-page-169ab5d9.css
   HTML slots file:
-    build/index.html.json
+    build/my-page.html.json
   Updated HTML file:
-    index.html
+    my-page.html
 ```
 
-The updated `index.html` file should be similar to the following:
+The updated `my-page.html` file should be similar to the following:
 
 ```html
 <!doctype html>
@@ -258,13 +273,13 @@ The updated `index.html` file should be similar to the following:
     <meta charset="UTF-8">
     <title>RaptorJS Optimizer Demo</title>
     <!-- <optimizer-head> -->
-    <link rel="stylesheet" type="text/css" href="static/index-122dcfc9.css">
+    <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1>RaptorJS Optimizer Demo</h1>
+    <h1 id="header">RaptorJS Optimizer Demo</h1>
     <!-- <optimizer-body> -->
-    <script type="text/javascript" src="static/index-aa303229.js"></script>
+    <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
     <!-- </optimizer-body> -->
 </body>
@@ -273,11 +288,165 @@ The updated `index.html` file should be similar to the following:
 
 With the `production` option enabled, all of the resources are concatenated together, minified and fingerprinted–perfect for high performance web applications running in production.
 
+The number of command line arguments can get unwieldy so it is better to split out configuration into a separate JSON file. Let's now create a configuration file and configure a few bundles to make things more interesting:
+
+__raptor-optimizer-config.json:__
+
+```json
+{
+
+    "plugins": [
+        "raptor-optimizer-less"
+    ],
+    "fileWriter": {
+        "outputDir": "static",
+        "fingerprintsEnabled": true
+    },
+    "minify": true,
+    "resolveCssUrls": true,
+    "bundlingEnabled": true,
+    "bundles": [
+        {
+            "name": "jquery",
+            "dependencies": [
+                "require: jquery"
+            ]
+        },
+        {
+            "name": "math",
+            "dependencies": [
+                "require: ./add"
+            ]
+        }
+    ]
+}
+```
+
+In addition, let's put our page dependencies in their own JSON file:
+
+__my-page.optimizer.json:__
+
+```json
+{
+
+    "dependencies": [
+        "style.less",
+        "require-run: ./main"
+    ]
+}
+```
+
+Now run the page optimizer using the newly created JSON config file and JSON dependencies file:
+
+```bash
+raptor-optimizer ./my-page.optimizer.json --inject-into my-page.html --config raptor-optimizer-config.json
+```
+
+Because of the newly configured bundles, we'll see additional JavaScript bundles written to disk as shown below:
+
+```
+Output for page "my-page":
+  Resource bundle files:
+    static/math-169c956d.js
+    static/jquery-24db89d9.js
+    static/my-page-beed0921.js
+    static/my-page-169ab5d9.css
+  HTML slots file:
+    build/my-page.html.json
+  Updated HTML file:
+    my-page.html
+```
+
+Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the RaptorJS Optimizer as shown in the following sample code:
+
+```javascript
+var foo = require('foo');
+var raptorLoader = require('raptor-loader');
+exports.doSomething = function(callback) {
+    raptorLoader.async(function(err) {
+        if (err) {
+            // Handle the case where one or more of the
+            // dependencies failed to load.
+        }
+
+        // Any modules that are required within the scope
+        // of this function will be loaded asynchronously
+        var bar = require('bar');
+        var baz = require('baz');
+
+        // Do something with bar and baz...
+
+        callback();
+    });
+}
+```
+
+For added flexibility there is a JavaScript API that can be used to optimize pages as shown in the following sample code:
+
+```javascript
+var raptorOptimizer = require('raptor-optimizer');
+raptorOptimizer.configure('raptor-optimizer-config.json');
+raptorOptimizer.optimizePage({
+        name: 'my-page'
+        dependencies: [
+            "style.less",
+            "require-run: ./main"
+        ]
+    },
+    function(err, optimizedPage) {
+        if (err) {
+            // Handle the error
+        }
+
+        var headHtml = optimizedPage.getHeadHtml();
+        // headHtml will contain something similar to the following:
+        // <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
+
+        var bodyHtml = optimizedPage.getBodyHtml();
+        // bodyHtml will contain something similar to the following:
+        //  <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
+    });
+```
+
+For the ultimate in usability, a taglib is provided for Raptor Templates (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles. Sample Raptor Template is shown below:
+
+
+__my-page.rhtml:__
+
+
+```html
+<optimizer-page name="my-page" package-path="./optimizer.json"/>
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RaptorJS Optimizer Demo</title>
+    <optimizer-head/>
+</head>
+<body>
+    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <optimizer-body/>
+</body>
+</html>
+```
+
+Using Raptor Templates and the Optimizer taglib, you can simply render the page using code similar to the following:
+
+```javascript
+var template = require('raptor-templates').load('my-page.rhtml');
+template.render({}, function(err, html) {
+    // html will include all of the required <link> and <script> tags
+});
+```
+
+
 As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
-The example above is only one way to use the RaptorJS Optimizer. An easy to use JavaScript API is also supported and client-side dependencies can also be declared using simple JSON files. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
+Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
 
 # Installation
+
 The following command should be used to install the `raptor-optimizer` module into your project:
 ```bash
 npm install raptor-optimizer --save
@@ -285,7 +454,7 @@ npm install raptor-optimizer --save
 
 If you would like to use the available command line interface, then you should install the module globally using the following command:
 ```bash
-npm install raptor-optimizer --global
+npm install raptor-optimizer-cli --global
 ```
 
 # Usage
@@ -310,9 +479,10 @@ raptor-optimizer jquery.js style.less \
     --fingerprint \                             # Include fingerprints
     --html \                                 # Head and body HTML
     --minify \                               # Minify JavaScript and CSS
-    --inject-into index.html \               # Inject HTML markup into a static HTML file
+    --inject-into my-page.html \               # Inject HTML markup into a static HTML file
     --plugin my-plugin \                     # Enable a custom plugin
     --transform my-transform                 # Enable a custom output transform
+    --watch                                  # Watch for file changes and re-optimize automatically
 ```
 
 For additional help from the command line, you can run the following command:
@@ -347,15 +517,15 @@ The next section describes the configuration options supported by the RaptorJS O
     // Plugins with custom dependency compilers, writers, etc.:
     "plugins": [ // Optimizer plugins (see Available Plugins below)
         // Plugins with default config:
-        "raptor-optimizer-less", 
+        "raptor-optimizer-less",
         "raptor-optimizer-rhtml",
         // Plugin with custom configuration:
-        {                        
+        {
             "plugin": "raptor-optimizer-my-plugin",
             "config": { ... }
         },
         ...
-    ], 
+    ],
     // Configure the default bundle file writer:
     "fileWriter": {
         "outputDir": "static",     // Where to write the bundles
@@ -384,21 +554,7 @@ The next section describes the configuration options supported by the RaptorJS O
                 "bar.js"
             ]
         }
-    ],
-    // Optional set of pre-configured page bundles
-    "pages": {
-        "index": {
-            "dependencies": [
-                "require-run: ./src/pages/index/browser-main.js",
-                "style.less"
-            ]
-        },
-        "login": {
-            "dependencies": [
-                "./src/pages/login/optimizer.json"
-            ]
-        }
-    }
+    ]
 }
 ```
 
@@ -412,14 +568,11 @@ optimizer.configure(config);
 
 If the value of the `config` argument is a `String` then it is treated as a path to a JSON configuration file.
 
-### Creating a New Page Optimizer
-```javascript
-var pageOptimizer = optimizer.create(config);
-pageOptimizer.optimizePage(...);
-```
 
 ### Optimizing a Page
-To optimize a simple set of JavaScript and CSS dependencies:
+
+The following code illustrates how to optimize a simple set of JavaScript and CSS dependencies using the default configured optimizer:
+
 ```javascript
 var optimizer = require('raptor-optimizer');
 optimizer.optimizePage({
@@ -453,6 +606,13 @@ optimizer.optimizePage({
 
         // Inject the generated HTML into the <head> and <body> sections of a page...
     });
+```
+
+### Creating a New Page Optimizer
+
+```javascript
+var pageOptimizer = optimizer.create(config);
+pageOptimizer.optimizePage(...);
 ```
 
 # Dependencies
@@ -714,7 +874,7 @@ Below is a list of available plugins supported by the RaptorJS Optimizer:
     * [raptor-optimizer-minify-css](https://github.com/raptorjs3/raptor-optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
     * [raptor-optimizer-minify-js](https://github.com/raptorjs3/raptor-optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
     * [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
-    
+
 * Third-party plugins
     * [raptor-optimizer-dust](https://github.com/linkedin/dustjs): Compile [Dust](https://github.com/raptorjs3/raptor-templates) template files to JavaScript
     * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
@@ -842,17 +1002,19 @@ Only read below if you are building plugins or transforms to further enhance the
 
 A plugin can be used to change how the optimizer operates. This includes the following:
 
-* Register a custom dependency type to enable 
+* Register a custom dependency to support dependencies that compile to JS or CSS
     * Examples:
         * Register a dependency handler for "less" files to compiles Less to CSS
         * Register a dependency handler for "rhtml" files to compiles Raptor Template files to JS
 * Register a custom bundle writer
     * Examples:
-        * Upload bundles to a resource server instead of writing them to disk
+        * Upload bundles to a resource server that backs a CDN instead of writing them to disk
 * Register output transforms
     * Examples:
         * Add an output transform to minify JavaScript code
         * Add an output transform to minify CSS code
+        * Add an output transform to remove `console.log` from JS code
+        * Add an output transform to resolve image URLs in CSS files
 * Configure the optimizer
     * Examples:
         * Allow a plugin to automatically configure the optimizer for production usage
@@ -865,19 +1027,18 @@ A plugin is simply a Node.js module that exports a function with the following s
  * @param  {raptor-optimizer/lib/PageOptimizer} optimizer An instance of a PageOptimizer that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
-module.exports = function(optimizer, config) {
-
+module.exports = function(pageOptimizer, config) {
     // Register dependency types:
-    optimizer.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
-    optimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
-    optimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
+    pageOptimizer.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
+    pageOptimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
+    pageOptimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
 
     // Add an output transform
-    optimizer.addTransform(require('./my-transform'));
+    pageOptimizer.addTransform(require('./my-transform'));
 
     // Register a custom Node.js/CommonJS module compiler for a custom filename extension
-    // var myModule = require('hello.test');
-    optimizer.dependencies.registerRequireExtension('test', function(path, context, callback) {
+    // var myModule = require('./hello.test');
+    pageOptimizer.dependencies.registerRequireExtension('test', function(path, context, callback) {
         callback(null, "exports.sayHello = function() { console.log('Hello!'); }");
     });
 };
@@ -1020,26 +1181,28 @@ optimizer.dependencies.registerPackageType('dir', {
 
 ## Custom Output Transforms
 
-Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle. Another example is that an output transform may be used to remove `console.log` statements from output JavaScript code.
+Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle. Another example is that an output transform may be used to remove `console.log` statements from output JavaScript code. Transforms should be registered by a plugin using the `pageOptimizer.addTransform(transform)` method.
 
 As an example, the following unhelpful transform will convert all JavaScript source code to upper case:
 
 ```javascript
-module.exports = {
+module.exports = function (pageOptimizer, pluginConfig) {
+    pageOptimizer.addTransform({
 
-    // Only apply to JavaScript code
-    contentType: 'js', //  'css' is the other option
+        // Only apply to JavaScript code
+        contentType: 'js', //  'css' is the other option
 
-    // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
-    name: module.id,
+        // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
+        name: module.id,
 
-    // If stream is set to false then a String will be provided. Otherwise, a readable stream will be provided
-    stream: false,
+        // If stream is set to false then a String will be provided. Otherwise, a readable stream will be provided
+        stream: false,
 
-    // Do the magic:
-    transform: function(code, contentType, dependency, bundle) {
-        return code.toUpperCase();
-    }
+        // Do the magic:
+        transform: function(code, contentType, dependency, bundle) {
+            return code.toUpperCase();
+        }
+    });
 };
 ```
 
@@ -1048,22 +1211,41 @@ Below is the streaming version of the same transform:
 ```javascript
 var through = require('through');
 
-module.exports = {
+module.exports = function (pageOptimizer, pluginConfig) {
+    pageOptimizer.addTransform({
 
-    // Only apply to JavaScript code
-    contentType: 'js', //  'css' is the other option
+        // Only apply to JavaScript code
+        contentType: 'js', //  'css' is the other option
 
-    // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
-    name: module.id,
+        // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
+        name: module.id,
 
-    stream: true, // We want the code to be streamed to us
+        stream: true, // We want the code to be streamed to us
 
-    // Do the magic:
-    transform: function(inStream, contentType, dependency, bundle) {
-        return inStream.pipe(through(
-            function write(data) {
-                this.queue(data.toUpperCase());
-            }));
-    }
+        // Do the magic:
+        transform: function(inStream, contentType, dependency, bundle) {
+            return inStream.pipe(through(
+                function write(data) {
+                    this.queue(data.toUpperCase());
+                }));
+        }
+    });
 };
 ```
+
+# Discuss
+
+Please post questions or comments on the [RaptorJS Google Groups Discussion Forum](http://groups.google.com/group/raptorjs).
+
+# Contributors
+
+* [Patrick Steele-Idem](https://github.com/patrick-steele-idem) (Twitter: [@psteeleidem](http://twitter.com/psteeleidem))
+* [Phillip Gates-Idem](https://github.com/philidem/) (Twitter: [@philidem](https://twitter.com/philidem))
+
+# Contribute
+
+Pull Requests welcome. Please submit Github issues for any feature enhancements, bugs or documentation problems.
+
+# License
+
+Apache License v2.0
