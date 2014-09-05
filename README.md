@@ -476,10 +476,10 @@ raptor-optimizer jquery.js style.less \
     --name my-page \                         # Give the page bundle files a name
     --out static                             # Output directory
     --url-prefix http://mycdn/static/ \      # URL prefix
-    --fingerprint \                             # Include fingerprints
+    --fingerprint \                          # Include fingerprints
     --html \                                 # Head and body HTML
     --minify \                               # Minify JavaScript and CSS
-    --inject-into my-page.html \               # Inject HTML markup into a static HTML file
+    --inject-into my-page.html \             # Inject HTML markup into a static HTML file
     --plugin my-plugin \                     # Enable a custom plugin
     --transform my-transform                 # Enable a custom output transform
     --watch                                  # Watch for file changes and re-optimize automatically
