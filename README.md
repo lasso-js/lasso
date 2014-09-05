@@ -291,8 +291,7 @@ With the `--production` option enabled, all of the resources are concatenated to
 
 <hr>
 
-[__Sample App:__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) To try out and experiment with this code, please see the following project:
-[raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli)
+[__Sample App:__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) To try out and experiment with this code, please see the following project:<br>[raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli)
 
 <hr>
 
@@ -366,8 +365,7 @@ Output for page "my-page":
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) To try out and experiment with the optimizer CLI, please see the following project:
-[raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config)
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) To try out and experiment with the optimizer CLI, please see the following project:<br>[raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config)
 
 <hr>
 
@@ -397,8 +395,7 @@ exports.doSomething = function(callback) {
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) To try out and experiment with asynchronous dependency loading, please see the following project:
-[raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async)
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) To try out and experiment with asynchronous dependency loading, please see the following project:<br>[raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async)
 
 <hr>
 
@@ -431,8 +428,7 @@ raptorOptimizer.optimizePage({
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the optimizer JavaScript API, please see the following project:
-[raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api)
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the optimizer JavaScript API, please see the following project:<br>[raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api)
 
 <hr>
 
@@ -440,10 +436,10 @@ For the ultimate in usability, a taglib is provided for Raptor Templates (and Du
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the following project:
-[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
 
-<hr
+<hr>
+
 __my-page.rhtml:__
 
 
