@@ -291,7 +291,8 @@ With the `--production` option enabled, all of the resources are concatenated to
 
 <hr>
 
-__Sample App:__ To try out and experiment with this code, please see the documentation and source code for [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli).
+__Sample App:__ To try out and experiment with this code, please see the following project:
+[raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli)
 
 <hr>
 
@@ -365,7 +366,8 @@ Output for page "my-page":
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) To try out and experiment with this code, please see the documentation and source code for [raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config).
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) To try out and experiment with the optimizer CLI, please see the following project:
+[raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config)
 
 <hr>
 
@@ -395,7 +397,8 @@ exports.doSomething = function(callback) {
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) To try out and experiment with asynchronous dependency loading, please see the documentation and source code for [raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async).
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) To try out and experiment with asynchronous dependency loading, please see the following project:
+[raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async)
 
 <hr>
 
@@ -428,7 +431,8 @@ raptorOptimizer.optimizePage({
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with JavaScript API, please see the documentation and source code for [raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api).
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the optimizer JavaScript API, please see the following project:
+[raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api)
 
 <hr>
 
@@ -436,7 +440,8 @@ For the ultimate in usability, a taglib is provided for Raptor Templates (and Du
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the documentation and source code for [raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib).
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the following project:
+[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
 
 <hr
 __my-page.rhtml:__
@@ -758,7 +763,7 @@ The `raptor-optimizer-require` plugin will automatically wrap all Node.js module
 
 The `raptor-optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
-For more details on how the Node.js modules are supported on the browser, please see the documentation for [raptor-samples/raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin.
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin.
 
 # Configurable Bundles
 
