@@ -291,7 +291,7 @@ With the `--production` option enabled, all of the resources are concatenated to
 
 <hr>
 
-__Sample App:__ To try out and experiment with this code, please see the following project:
+[__Sample App:__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) To try out and experiment with this code, please see the following project:
 [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli)
 
 <hr>
