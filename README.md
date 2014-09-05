@@ -434,12 +434,6 @@ raptorOptimizer.optimizePage({
 
 For the ultimate in usability, a taglib is provided for Raptor Templates (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles. Sample Raptor Template is shown below:
 
-<hr>
-
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
-
-<hr>
-
 __my-page.rhtml:__
 
 
@@ -469,6 +463,11 @@ template.render({}, function(err, html) {
 });
 ```
 
+<hr>
+
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with optimizer taglib, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
+
+<hr>
 
 As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
