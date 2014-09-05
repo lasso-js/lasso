@@ -452,7 +452,7 @@ The following command should be used to install the `raptor-optimizer` module in
 npm install raptor-optimizer --save
 ```
 
-If you would like to use the available command line interface, then you should install the module globally using the following command:
+If you would like to use the available command line interface, then you should install the [raptor-optimizer-cli](https://github.com/raptorjs3/raptor-optimizer-cli) module globally using the following command:
 ```bash
 npm install raptor-optimizer-cli --global
 ```
