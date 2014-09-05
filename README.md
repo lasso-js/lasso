@@ -83,7 +83,7 @@ The RaptorJS Optimizer is an extensible front-end resource bundler and optimizat
     * Disable bundling and minification in development
     * Line numbers are maintained for Node.js modules source
     * Extremely fast _incremental builds_!
-        * Only modified bundles are rewritten to disk
+        * Only modified bundles are written to disk
         * Disk caches are utilized to avoid repeating the same work
 * Dependency Compilation
     * Less
@@ -104,16 +104,16 @@ The RaptorJS Optimizer is an extensible front-end resource bundler and optimizat
 * Flexible
     * Integrate with build tools
     * Use with Express or any other web development framework
-    * JavaScript API and CLI
+    * JavaScript API, CLI and taglib
 * _Future_
     * Automatic image sprites
     * Automatic image compression
 
 # Another Client-side Bundler?
 
-While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only transport Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript file which means that it would not be very suitable for a project that was only CSS. Compared to Browserify, the RaptorJS Optimizer was designed to support all optimizations for delivering web pages that load extremely fast. While the RaptorJS Optimizer was designed to support transporting to the Node.js modules to the browser, it was also designed to support optimizing CSS, non-Node.js JavaScript code and even images. In fact, the RaptorJS Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
+While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only transport Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript file which means that it would not be very suitable for a project that was only CSS. Compared to Browserify, the RaptorJS Optimizer was designed to support all optimizations for delivering web pages that load extremely fast. In addition to supporting the transport of Node.js modules to the browser, it also supports optimizing CSS, non-Node.js JavaScript code and even images. In fact, the RaptorJS Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
 
-[Webpack](http://webpack.github.io/), another client-side bundler, has adopted a non-standard syntax that extends the Node.js internals. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server and you will be tied to Webpack. In comparison, the RaptorJS Optimizer uses only the standard Node.js API so that your code is truly isomorphic and will work on both the server and the client.
+[Webpack](http://webpack.github.io/), another client-side bundler, has adopted a non-standard syntax that extends the Node.js internals. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server, and you will be tied to Webpack. In comparison, the RaptorJS Optimizer uses only the standard Node.js API so that your code is truly isomorphic and will work on both the server and the client.
 
 Here's just a sampling of the non-standard features that Webpack introduces:
 
@@ -891,7 +891,7 @@ If you create your own `raptor-optimizer` plugin please send a Pull Request and 
 
 # Optimizer Taglib
 
-If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them in your page.
+If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them into your page.
 
 ## Using the Optimizer Taglib with Raptor Templates
 
