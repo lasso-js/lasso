@@ -510,7 +510,6 @@ raptor-optimizer jquery.js style.less \
     --minify \                               # Minify JavaScript and CSS
     --inject-into my-page.html \             # Inject HTML markup into a static HTML file
     --plugin my-plugin \                     # Enable a custom plugin
-    --transform my-transform                 # Enable a custom output transform
     --watch                                  # Watch for file changes and re-optimize automatically
 ```
 
