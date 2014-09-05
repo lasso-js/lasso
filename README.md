@@ -40,6 +40,7 @@ The RaptorJS Optimizer is an extensible front-end resource bundler and optimizat
 		- [Custom CSS Dependency Type](#custom-css-dependency-type)
 		- [Custom Package Type](#custom-package-type)
 	- [Custom Output Transforms](#custom-output-transforms)
+- [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Contributors](#contributors)
 - [Contribute](#contribute)
