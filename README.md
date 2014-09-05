@@ -201,16 +201,16 @@ Finally, run the following command to generate the optimized resource bundles fo
 raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --development
 ```
 
-If everything worked correctly then you should see output that includes the following:
+If everything worked correctly then you should see output that includes output similar to the following:
 
-```
+```text
 Output for page "my-page":
   Resource bundle files:
     static/add.js
-    static/raptor-modules-0.2.12-beta/client/lib/raptor-modules-client.js
-    static/node_modules/jquery/dist/jquery.js
     static/raptor-modules-meta.js
     static/main.js
+    static/node_modules/jquery/dist/jquery.js
+    static/raptor-modules-1.0.1-beta/client/lib/raptor-modules-client.js
     static/style.less.css
   HTML slots file:
     build/my-page.html.json
@@ -246,6 +246,7 @@ The updated `my-page.html` file should be similar to the following:
 ```
 
 If you open up `my-page.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
+
 
 Now try again with `production` mode:
 
@@ -288,6 +289,8 @@ The updated `my-page.html` file should be similar to the following:
 
 With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
+:arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) sample app.
+
 The number of command line arguments can get unwieldy so it is better to split out configuration into a separate JSON file. Let's now create a configuration file and configure a few bundles to make things more interesting:
 
 __raptor-optimizer-config.json:__
@@ -328,7 +331,6 @@ __my-page.optimizer.json:__
 
 ```json
 {
-
     "dependencies": [
         "style.less",
         "require-run: ./main"
@@ -357,6 +359,8 @@ Output for page "my-page":
     my-page.html
 ```
 
+:arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) sample app.
+
 Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the RaptorJS Optimizer as shown in the following sample code:
 
 ```javascript
@@ -380,6 +384,8 @@ exports.doSomething = function(callback) {
     });
 }
 ```
+
+:arrow_forward: To try out and experiment with asynchronous dependency loading, please see the documentation and source code for the [optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) sample app.
 
 For added flexibility there is a JavaScript API that can be used to optimize pages as shown in the following sample code:
 
@@ -408,14 +414,17 @@ raptorOptimizer.optimizePage({
     });
 ```
 
+:arrow_forward: To try out and experiment with JavaScript API, please see the documentation and source code for the [optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) sample app.
+
 For the ultimate in usability, a taglib is provided for Raptor Templates (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles. Sample Raptor Template is shown below:
 
+:arrow_forward: To try out and experiment with optimizer taglib, please see the documentation and source code for the [optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) sample app.
 
 __my-page.rhtml:__
 
 
 ```html
-<optimizer-page name="my-page" package-path="./optimizer.json"/>
+<optimizer-page name="my-page" package-path="./my-page.optimizer.json"/>
 
 <!doctype html>
 <html lang="en">
@@ -1232,6 +1241,14 @@ module.exports = function (pageOptimizer, pluginConfig) {
     });
 };
 ```
+
+# Sample Projects
+
+* [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface for the RaptorJS Optimizer
+* [raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config): Sample usage of the command-line interface for the RaptorJS Optimizer that relies a separate JSON configuration file
+* [raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading
+* [raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
+* [raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Raptor Templates.
 
 # Discuss
 
