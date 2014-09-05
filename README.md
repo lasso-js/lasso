@@ -286,7 +286,7 @@ The updated `my-page.html` file should be similar to the following:
 </html>
 ```
 
-With the `production` option enabled, all of the resources are concatenated together, minified and fingerprinted–perfect for high performance web applications running in production.
+With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
 The number of command line arguments can get unwieldy so it is better to split out configuration into a separate JSON file. Let's now create a configuration file and configure a few bundles to make things more interesting:
 
