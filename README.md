@@ -960,7 +960,7 @@ require('raptor-optimizer').configure({...});
 
 ## Using the Optimizer Taglib with Dust
 
-You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('raptor-optimizer').registerHelpers(dust)` to register the helpers:
+You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('raptor-optimizer/dust').registerHelpers(dust)` to register the helpers:
 
 Install required dependencies:
 
