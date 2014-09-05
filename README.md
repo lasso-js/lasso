@@ -289,7 +289,11 @@ The updated `my-page.html` file should be similar to the following:
 
 With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
-:arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) sample app.
+<hr>
+
+__Sample App:__  :arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli sample app](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli).
+
+<hr>
 
 The number of command line arguments can get unwieldy so it is better to split out configuration into a separate JSON file. Let's now create a configuration file and configure a few bundles to make things more interesting:
 
@@ -359,7 +363,11 @@ Output for page "my-page":
     my-page.html
 ```
 
-:arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) sample app.
+<hr>
+
+__Sample App:__  :arrow_forward: To try out and experiment with this code, please see the documentation and source code for the [optimizer-cli-config sample app](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config).
+
+<hr>
 
 Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the RaptorJS Optimizer as shown in the following sample code:
 
@@ -385,7 +393,11 @@ exports.doSomething = function(callback) {
 }
 ```
 
-:arrow_forward: To try out and experiment with asynchronous dependency loading, please see the documentation and source code for the [optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async) sample app.
+<hr>
+
+__Sample App:__  :arrow_forward: To try out and experiment with asynchronous dependency loading, please see the documentation and source code for the [optimizer-async sample app](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async).
+
+<hr>
 
 For added flexibility there is a JavaScript API that can be used to optimize pages as shown in the following sample code:
 
@@ -414,11 +426,19 @@ raptorOptimizer.optimizePage({
     });
 ```
 
-:arrow_forward: To try out and experiment with JavaScript API, please see the documentation and source code for the [optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) sample app.
+<hr>
+
+__Sample App:__  :arrow_forward: To try out and experiment with JavaScript API, please see the documentation and source code for the [optimizer-js-api sample app](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api).
+
+<hr>
 
 For the ultimate in usability, a taglib is provided for Raptor Templates (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles. Sample Raptor Template is shown below:
 
-:arrow_forward: To try out and experiment with optimizer taglib, please see the documentation and source code for the [optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) sample app.
+<hr>
+
+__Sample App:__  :arrow_forward: To try out and experiment with optimizer taglib, please see the documentation and source code for the [optimizer-taglib sample app](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib).
+
+<hr>
 
 __my-page.rhtml:__
 
