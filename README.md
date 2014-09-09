@@ -617,7 +617,11 @@ Template output: Hello Frank!
 ```
 
 ```bash
-raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --development
+raptor-optimizer style.less \
+    --main main.js \
+    --inject-into my-page.html \
+    --plugins raptor-optimizer-less \
+    --development
 ```
 
 In order to automatically detect and compile required `*.rhtml` templates we will need to install the [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-rhtml) plugin using the following command:
