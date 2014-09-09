@@ -1054,7 +1054,8 @@ Below is a list of available plugins supported by the RaptorJS Optimizer:
     * [raptor-optimizer-resolve-css-urls](https://github.com/raptorjs3/raptor-optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
 
 * Third-party plugins
-    * [raptor-optimizer-dust](https://github.com/linkedin/dustjs): Compile [Dust](https://github.com/raptorjs3/raptor-templates) template files to JavaScript
+    * [raptor-optimizer-dust](https://github.com/raptorjs3/raptor-optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
+	* [raptor-optimizer-handlebars](https://github.com/raptorjs3/raptor-optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
     * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
     * [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
     * [raptor-optimizer-sass](https://github.com/raptorjs3/raptor-optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
