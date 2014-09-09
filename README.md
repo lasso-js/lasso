@@ -15,40 +15,40 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Features](#features)
 - [Another Client-side Bundler?](#another-client-side-bundler)
 - [Tutorials](#tutorials)
-	- [Tutorial: Command Line Interface](#tutorial-command-line-interface)
-	- [Tutorial: Command Line Interface Configuration](#tutorial-command-line-interface-configuration)
-	- [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
-	- [Tutorial: JavaScript API](#tutorial-javascript-api)
-	- [Tutorial: Template Taglib](#tutorial-template-taglib)
-	- [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
+    - [Tutorial: Command Line Interface](#tutorial-command-line-interface)
+    - [Tutorial: Command Line Interface Configuration](#tutorial-command-line-interface-configuration)
+    - [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
+    - [Tutorial: JavaScript API](#tutorial-javascript-api)
+    - [Tutorial: Template Taglib](#tutorial-template-taglib)
+    - [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
 - [Installation](#installation)
 - [Usage](#usage)
-	- [Command Line Interface](#command-line-interface)
-	- [Configuration](#configuration)
-		- [Default Configuration](#default-configuration)
-		- [Complete Configuration](#complete-configuration)
-	- [JavaScript API](#javascript-api)
-		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
-		- [Optimizing a Page](#optimizing-a-page)
-		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
+    - [Command Line Interface](#command-line-interface)
+    - [Configuration](#configuration)
+        - [Default Configuration](#default-configuration)
+        - [Complete Configuration](#complete-configuration)
+    - [JavaScript API](#javascript-api)
+        - [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
+        - [Optimizing a Page](#optimizing-a-page)
+        - [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 - [Dependencies](#dependencies)
-	- [Conditional Dependencies](#conditional-dependencies)
-		- [Enabling Extensions](#enabling-extensions)
+    - [Conditional Dependencies](#conditional-dependencies)
+        - [Enabling Extensions](#enabling-extensions)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Configurable Bundles](#configurable-bundles)
-	- [Configurable Bundles Example](#configurable-bundles-example)
+    - [Configurable Bundles Example](#configurable-bundles-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Optimizer Taglib](#optimizer-taglib)
-	- [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
-	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
+    - [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
+    - [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
 - [Extending the RaptorJS Optimizer](#extending-the-raptorjs-optimizer)
-	- [Custom Plugins](#custom-plugins)
-	- [Custom Dependency Types](#custom-dependency-types)
-		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
-		- [Custom CSS Dependency Type](#custom-css-dependency-type)
-		- [Custom Package Type](#custom-package-type)
-	- [Custom Output Transforms](#custom-output-transforms)
+    - [Custom Plugins](#custom-plugins)
+    - [Custom Dependency Types](#custom-dependency-types)
+        - [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
+        - [Custom CSS Dependency Type](#custom-css-dependency-type)
+        - [Custom Package Type](#custom-package-type)
+    - [Custom Output Transforms](#custom-output-transforms)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Contributors](#contributors)
@@ -97,11 +97,11 @@ __my-page.html:__
 <!doctype html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<title>RaptorJS Optimizer Demo</title>
+    <meta charset="UTF-8">
+    <title>RaptorJS Optimizer Demo</title>
 </head>
 <body>
-	<h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">RaptorJS Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -291,7 +291,11 @@ __my-page.html:__
 Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
 
 ```bash
-raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --development
+raptor-optimizer style.less \
+    --main main.js \
+    --inject-into my-page.html \
+    --plugins raptor-optimizer-less \
+    --development
 ```
 
 If everything worked correctly then you should see output that includes output similar to the following:
@@ -343,7 +347,11 @@ If you open up `my-page.html` in your web browser you should see a page styled w
 Now try again with `production` mode:
 
 ```bash
-raptor-optimizer style.less --main main.js --inject-into my-page.html --plugins raptor-optimizer-less --production
+raptor-optimizer style.less \
+    --main main.js \
+    --inject-into my-page.html \
+    --plugins raptor-optimizer-less \
+    --production
 ```
 
 ```
@@ -589,7 +597,7 @@ __main.js:__
 
 ```javascript
 var template = require('raptor-templates')
-	.load(require.resolve('./template.rhtml'));
+    .load(require.resolve('./template.rhtml'));
 
 template.render(
     {
@@ -1045,7 +1053,7 @@ require('raptor-loader').async(
 
 # Available Plugins
 
-Below is a list of available plugins supported by the RaptorJS Optimizer:
+Below is a list of plugins that are currently available:
 
 * Core plugins
     * [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
@@ -1055,7 +1063,7 @@ Below is a list of available plugins supported by the RaptorJS Optimizer:
 
 * Third-party plugins
     * [raptor-optimizer-dust](https://github.com/raptorjs3/raptor-optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
-	* [raptor-optimizer-handlebars](https://github.com/raptorjs3/raptor-optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
+    * [raptor-optimizer-handlebars](https://github.com/raptorjs3/raptor-optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
     * [raptor-optimizer-less](https://github.com/raptorjs3/raptor-optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
     * [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-require): Compile [Raptor Template](https://github.com/raptorjs3/raptor-templates) files to JavaScript
     * [raptor-optimizer-sass](https://github.com/raptorjs3/raptor-optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
@@ -1067,7 +1075,7 @@ To use a third-party plugin, you must first install it using `npm install`. For 
 npm install raptor-optimizer-less --save
 ```
 
-If you create your own `raptor-optimizer` plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-plugin` and `raptor-optimizer` in your `package.json` so that others can browse for it in [npm](https://www.npmjs.org/)
+If you create your own plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `raptor-optimizer-plugin` and `raptor-optimizer` in your `package.json` so that others can browse for it using [npm](https://www.npmjs.org/)
 
 # Optimizer Taglib
 
