@@ -15,40 +15,40 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Features](#features)
 - [Another Client-side Bundler?](#another-client-side-bundler)
 - [Tutorials](#tutorials)
-    - [Tutorial: Command Line Interface](#tutorial-command-line-interface)
-    - [Tutorial: Command Line Interface Configuration](#tutorial-command-line-interface-configuration)
-    - [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
-    - [Tutorial: JavaScript API](#tutorial-javascript-api)
-    - [Tutorial: Template Taglib](#tutorial-template-taglib)
-    - [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
+	- [Tutorial: Command Line Interface](#tutorial-command-line-interface)
+	- [Tutorial: Command Line Interface Configuration](#tutorial-command-line-interface-configuration)
+	- [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
+	- [Tutorial: JavaScript API](#tutorial-javascript-api)
+	- [Tutorial: Template Taglib](#tutorial-template-taglib)
+	- [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
 - [Installation](#installation)
 - [Usage](#usage)
-    - [Command Line Interface](#command-line-interface)
-    - [Configuration](#configuration)
-        - [Default Configuration](#default-configuration)
-        - [Complete Configuration](#complete-configuration)
-    - [JavaScript API](#javascript-api)
-        - [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
-        - [Optimizing a Page](#optimizing-a-page)
-        - [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
+	- [Command Line Interface](#command-line-interface)
+	- [Configuration](#configuration)
+		- [Default Configuration](#default-configuration)
+		- [Complete Configuration](#complete-configuration)
+	- [JavaScript API](#javascript-api)
+		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
+		- [Optimizing a Page](#optimizing-a-page)
+		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 - [Dependencies](#dependencies)
-    - [Conditional Dependencies](#conditional-dependencies)
-        - [Enabling Extensions](#enabling-extensions)
+	- [Conditional Dependencies](#conditional-dependencies)
+		- [Enabling Extensions](#enabling-extensions)
 - [Node.js-style Module Support](#nodejs-style-module-support)
-- [Configurable Bundles](#configurable-bundles)
-    - [Configurable Bundles Example](#configurable-bundles-example)
+- [Bundling](#bundling)
+	- [Bundling Example](#bundling-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Optimizer Taglib](#optimizer-taglib)
-    - [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
-    - [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
+	- [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
+	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
 - [Extending the RaptorJS Optimizer](#extending-the-raptorjs-optimizer)
-    - [Custom Plugins](#custom-plugins)
-    - [Custom Dependency Types](#custom-dependency-types)
-        - [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
-        - [Custom CSS Dependency Type](#custom-css-dependency-type)
-        - [Custom Package Type](#custom-package-type)
-    - [Custom Output Transforms](#custom-output-transforms)
+	- [Custom Plugins](#custom-plugins)
+	- [Custom Dependency Types](#custom-dependency-types)
+		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
+		- [Custom CSS Dependency Type](#custom-css-dependency-type)
+		- [Custom Package Type](#custom-package-type)
+	- [Custom Output Transforms](#custom-output-transforms)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Contributors](#contributors)
@@ -116,8 +116,8 @@ Output:
 ```
 Output for page "my-page":
   Resource bundle files:
-    static/my-page.js
-    static/my-page.css
+    static/my-page-9ac9985e.js
+    static/my-page-1ae3e9bf.css
   HTML slots file:
     build/my-page.html.json
   Updated HTML file:
@@ -615,14 +615,6 @@ Running `node main.js` on the server will produce the following output in the co
 Template output: Hello Frank!
 ```
 
-```bash
-raptor-optimizer style.less \
-    --main main.js \
-    --inject-into my-page.html \
-    --plugins raptor-optimizer-less \
-    --development
-```
-
 In order to automatically detect and compile required `*.rhtml` templates we will need to install the [raptor-optimizer-rhtml](https://github.com/raptorjs3/raptor-optimizer-rhtml) plugin using the following command:
 
 ```bash
@@ -631,7 +623,12 @@ npm install raptor-optimizer-rhtml
 
 We can then optimize the page using the following command:
 
-Running `raptor-optimizer --main main.js --inject-into my-page.html --plugins raptor-optimizer-rhtml --development`
+```bash
+raptor-optimizer style.less \
+    --main main.js \
+    --inject-into my-page.html \
+    --plugins raptor-optimizer-rhtml
+```
 
 After opening `my-page.html` in your web browser you should then see the same output written to the browser's JavaScript console.
 
@@ -835,7 +832,7 @@ You can also create a dependency that references dependencies in a separate `opt
     "./some-module/optimizer.json",
 
     // Look for "my-module/optimizer.json" in "node_modules":
-    "my-module/optimizer.json",
+    "my-module/optimizer.json"
 ]
 ```
 
@@ -843,7 +840,7 @@ If the path does not have a file extension then it is assumed to be a path to an
 ```js
 [
     "./some-module"
-    "my-module",
+    "my-module"
 ]
 ```
 
@@ -921,13 +918,13 @@ The `raptor-optimizer-require` plugin also supports [browserify shims](https://g
 
 For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin.
 
-# Configurable Bundles
+# Bundling
 
 By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle.
 
-## Configurable Bundles Example
+## Bundling Example
 
 
 Given the following configured bundles:
@@ -955,6 +952,7 @@ Given the following configured bundles:
 
 
 Optimizing a page that does not include any dependencies in application-level bundles:
+
 ```bash
 raptor-optimizer app.js style.css --name my-page -c optimizer-config.json
 ```
@@ -996,6 +994,8 @@ For reference, the following is the content of `build/my-page.html.json` after r
     "head": "<link rel=\"stylesheet\" type=\"text/css\" href=\"static/my-page.css\">"
 }
 ```
+
+For more information on working with bundles. Please see the [bundling docs](docs/bundling.md).
 
 # Asynchronous Module Loading
 
@@ -1162,7 +1162,7 @@ Register the Dust helpers during initialization:
 
 ```javascript
 var dust = require('dustjs-linkedin');
-require('raptor-optimizer').registerHelpers(dust);
+require('raptor-optimizer/dust').registerHelpers(dust);
 ```
 
 Finally, in your Dust templates you can use the new optimizer helpers as shown below:
@@ -1335,12 +1335,12 @@ The `handler` argument for a CSS dependency has the exact same interface as a ha
 
 ### Custom Package Type
 
-A dependency that resolves to additional dependencies can be helpful for resolving dynamic dependencies or for resulting dependencies based on some input.
-
-The sample package dependency handler below just includes every file in a given directory:
+A custom package dependency can be used to dynamically resolve additional dependencies at optimization time. The sample package dependency handler below illustrates how a package dependency can be used to automatically include every file in a directory as a dependency:
 
 ```javascript
 var fs = require('fs');
+var path = require('path');
+
 optimizer.dependencies.registerPackageType('dir', {
     properties: {
         'path': 'string'
@@ -1351,7 +1351,7 @@ optimizer.dependencies.registerPackageType('dir', {
             throw new Error('"path" is required');
         }
 
-        this.path = this.resolvePath(this.path);
+        this.path = this.resolvePath(this.path); // Convert the relative path to an absolute path
 
         if (fs.statSync(this.path).isDirectory() === false) {
             throw new Error('Directory expected: ' + this.path);
@@ -1359,13 +1359,26 @@ optimizer.dependencies.registerPackageType('dir', {
     },
 
     getDependencies: function(context, callback) {
-        fs.readdir(this.path, callback);
+        var dir = this.path;
+
+        fs.readdir(dir, function(err, filenames) {
+            if (err) {
+                return callback(err);
+            }
+
+            // Convert the filenames to full paths
+            var dependencies = filenames.map(function(filename) {
+                return path.join(dir, filename);
+            });
+
+            callback(null, dependencies);
+        });
     },
 
     getDir: function() {
         // If the dependencies are associated with a directory then return that directory.
         // Otherwise, return null
-        return nodePath.dirname(this.path);
+        return this.path;
     }
 });
 ```
