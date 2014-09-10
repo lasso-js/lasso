@@ -63,7 +63,6 @@ Install some modules from npm:
 
 ```
 npm install raptor-optimizer-cli --global
-npm install raptor-optimizer-less
 npm install uniq
 ```
 
