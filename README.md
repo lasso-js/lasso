@@ -66,7 +66,7 @@ npm install raptor-optimizer-cli --global
 npm install uniq
 ```
 
-Create a Node.js JavaScript module file:
+Create the main Node.js JavaScript module file:
 
 __main.js:__
 
@@ -78,7 +78,7 @@ var arr = [1, 1, 2, 2, 3, 5];
 console.log('Unique elements in array: ', uniq(arr).join(', '));
 ```
 
-Create a StyleSheet for our page:
+Create a StyleSheet for the page:
 
 __style.css__
 
@@ -88,7 +88,7 @@ body {
 }
 ```
 
-Create an HTML page to host our application:
+Create an HTML page to host the application:
 
 __my-page.html:__
 
