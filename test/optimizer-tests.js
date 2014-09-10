@@ -704,4 +704,32 @@ describe('raptor-optimizer/index', function() {
             .then(done)
             .done();
     });
+
+    it('should allow for resource dependencies to be an absolute path', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            enabledExtensions: ['jquery', 'browser'],
+            bundlingEnabled: true,
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'src/main.js')
+                ],
+                from: module
+            })
+            .then(function(optimizedPage) {
+                // console.log(writerTracker.getOutputFilenames());
+                // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal("console.log('MAIN');\n");
+            })
+            .then(done)
+            .done();
+    });
 });
