@@ -63,7 +63,7 @@ Install some modules from npm:
 
 ```
 npm install raptor-optimizer-cli --global
-npm install uniq
+npm install change-case
 ```
 
 Create the main Node.js JavaScript module file:
@@ -71,11 +71,8 @@ Create the main Node.js JavaScript module file:
 __main.js:__
 
 ```javascript
-var uniq = require('uniq');
-
-var arr = [1, 1, 2, 2, 3, 5];
-
-console.log('Unique elements in array: ', uniq(arr).join(', '));
+var changeCase = require('change-case');
+console.log(changeCase.titleCase('hello world')); // Output: 'Hello World'
 ```
 
 Create a StyleSheet for the page:
@@ -124,7 +121,7 @@ Output for page "my-page":
     my-page.html
 ```
 
-Open up `my-page.html` in your web browser to see the output of our program running in the browser, as well as a page styled by `style.css`.
+Open up `my-page.html` in your web browser and in the JavaScript console you will see the output of our program running in the browser, as well as a page styled by `style.css`.
 
 As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
