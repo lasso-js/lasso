@@ -656,14 +656,14 @@ describe('raptor-optimizer/index', function() {
                     }
                 ],
                 from: module
-            })
-            .then(function(optimizedPage) {
-                // console.log('OPTIMIZED PAGE: ', optimizedPage);
+            }, function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="test/build/testPage-b66ed708.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
-            })
-            .then(done)
-            .done();
+                done();
+            });
     });
     it('should optimize a page that has an installed module that uses async loading', function(done) {
         var optimizer = require('../');
