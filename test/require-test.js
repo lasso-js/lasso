@@ -28,7 +28,9 @@ describe('raptor-optimizer-require' , function() {
             // 'raptor-cache': 'WARN',
             // 'raptor-optimizer/lib/page-bundles-builder': 'WARN',
             // 'raptor-optimizer/perf': 'WARN'
-            'raptor-optimizer': 'WARN'
+            'raptor-cache': 'WARN',
+            'raptor-optimizer': 'WARN',
+            'raptor-optimizer-debug': 'WARN'
         });
 
         done();
