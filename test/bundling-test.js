@@ -189,4 +189,39 @@ describe('raptor-optimizer/bundling', function() {
                 done();
             });
     });
+
+    it('should bundle correctly with no bundles', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: false
+            },
+            enabledExtensions: ['jquery', 'browser'],
+            bundles: [
+            ]
+        }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                        'require: ./main'
+                    ],
+                from: nodePath.join(__dirname, 'test-bundling-project')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                var fooCode = writerTracker.getCodeForFilename('testPage.js');
+                expect(fooCode).to.contain('[MAIN]');
+                expect(fooCode).to.contain('[FOO]');
+                expect(fooCode).to.contain('[FOO_INDEX]');
+                expect(fooCode).to.contain('[BAR]');
+                expect(fooCode).to.contain('[BAZ]');
+                done();
+            });
+    });
 });
