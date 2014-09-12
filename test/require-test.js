@@ -28,7 +28,7 @@ describe('raptor-optimizer-require' , function() {
             // 'raptor-cache': 'WARN',
             // 'raptor-optimizer/lib/page-bundles-builder': 'WARN',
             // 'raptor-optimizer/perf': 'WARN'
-            // 'raptor-optimizer': 'DEBUG'
+            'raptor-optimizer': 'WARN'
         });
 
         done();
@@ -465,5 +465,38 @@ describe('raptor-optimizer-require' , function() {
                     fs.readFileSync(nodePath.join(__dirname, 'resources/require-run.expected.js'), {encoding: 'utf8'}));
                 done();
             });
+    });
+
+
+    it('should handle a simple require', function(done) {
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                require: {
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                },
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+            }, nodePath.join(__dirname, 'test-project'));
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: ./simple'
+                ],
+                from: nodePath.join(__dirname, 'test-project')
+            })
+            .then(function(optimizedPage) {
+                expect(writerTracker.getOutputPaths()).to.deep.equal([
+                        nodePath.join(__dirname, 'build/testPage.js')
+                    ]);
+
+                done();
+            })
+            .fail(done);
     });
 });
