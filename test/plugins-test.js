@@ -22,6 +22,7 @@ describe('raptor-optimizer/plugins', function() {
         });
         done();
     });
+
     it('should only read a dependency once during optimization', function(done) {
         var optimizer = require('../');
 
