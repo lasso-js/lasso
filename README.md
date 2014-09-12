@@ -1,7 +1,7 @@
-RaptorJS Optimizer
+Raptor Optimizer
 ==================
 
-The RaptorJS Optimizer allows you to easily share JavaScript code between the client and server while also providing first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
+The Raptor Optimizer allows you to easily share JavaScript code between the client and server while also providing first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Raptor Templates. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
@@ -43,7 +43,7 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Optimizer Taglib](#optimizer-taglib)
 	- [Using the Optimizer Taglib with Raptor Templates](#using-the-optimizer-taglib-with-raptor-templates)
 	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
-- [Extending the RaptorJS Optimizer](#extending-the-raptorjs-optimizer)
+- [Extending the Raptor Optimizer](#extending-the-raptorjs-optimizer)
 	- [Custom Plugins](#custom-plugins)
 	- [Custom Dependency Types](#custom-dependency-types)
 		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
@@ -95,10 +95,10 @@ __my-page.html:__
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaptorJS Optimizer Demo</title>
+    <title>Raptor Optimizer Demo</title>
 </head>
 <body>
-    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">Raptor Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -124,9 +124,9 @@ Output for page "my-page":
 
 Open up `my-page.html` in your web browser and in the JavaScript console you will see the output of our program running in the browser, as well as a page styled by `style.css`.
 
-As you can see, with the RaptorJS Optimizer you no longer have to struggle with managing complex build scripts. Simply let the RaptorJS Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
+As you can see, with the Raptor Optimizer you no longer have to struggle with managing complex build scripts. Simply let the Raptor Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
-There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize the RaptorJS Optimizer in your application.
+There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize the Raptor Optimizer in your application.
 
 # Design Philosophy
 
@@ -193,9 +193,9 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 
 # Another Client-side Bundler?
 
-While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only support the transport of Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript module file which means that it would not be very suitable for a project that includes "plain" JavaScript code or only CSS. Compared to Browserify, the RaptorJS Optimizer was designed be a more general solution. In addition to supporting the transport of Node.js modules to the browser, it also supports optimizing CSS, non-Node.js JavaScript code and even images. In fact, the RaptorJS Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
+While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only support the transport of Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript module file which means that it would not be very suitable for a project that includes "plain" JavaScript code or only CSS. Compared to Browserify, the Raptor Optimizer was designed be a more general solution. In addition to supporting the transport of Node.js modules to the browser, it also supports optimizing CSS, non-Node.js JavaScript code and even images. In fact, the Raptor Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
 
-[Webpack](http://webpack.github.io/), another client-side bundler, overloads the core Node.js module loader API with non-standard and proprietary methods and features. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server, and you will be tied to Webpack. In comparison, the RaptorJS Optimizer relies only on the standard Node.js API so that your JavaScript code will be truly [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) and work on both the server and the client.
+[Webpack](http://webpack.github.io/), another client-side bundler, overloads the core Node.js module loader API with non-standard and proprietary methods and features. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server, and you will be tied to Webpack. In comparison, the Raptor Optimizer relies only on the standard Node.js API so that your JavaScript code will be truly [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) and work on both the server and the client.
 
 Here's just a sampling of the non-standard features that Webpack introduces:
 
@@ -206,7 +206,7 @@ require.ensure(dependencies, callback) // require.ensure is not a Node.js method
 require.include(request) // require.include is not a Node.js method
 ```
 
-A unique feature of the RaptorJS Optimizer is that in addition to generating optimized JS and CSS bundles, it also generates the HTML markup to include those bundles. By giving the RaptorJS Optimizer control over the `<script>` and `<link>` tags, this tool can change how resources are bundled or add/remove fingerprints to bundles, etc., without requiring any change to application code.
+A unique feature of the Raptor Optimizer is that in addition to generating optimized JS and CSS bundles, it also generates the HTML markup to include those bundles. By giving the Raptor Optimizer control over the `<script>` and `<link>` tags, this tool can change how resources are bundled or add/remove fingerprints to bundles, etc., without requiring any change to application code.
 
 # Tutorials
 
@@ -218,7 +218,7 @@ A unique feature of the RaptorJS Optimizer is that in addition to generating opt
 
 <hr>
 
-Install the command line interface for the RaptorJS Optimizer:
+Install the command line interface for the Raptor Optimizer:
 
 ```bash
 npm install raptor-optimizer-cli --global
@@ -277,10 +277,10 @@ __my-page.html:__
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaptorJS Optimizer Demo</title>
+    <title>Raptor Optimizer Demo</title>
 </head>
 <body>
-    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">Raptor Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -319,13 +319,13 @@ The updated `my-page.html` file should be similar to the following:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaptorJS Optimizer Demo</title>
+    <title>Raptor Optimizer Demo</title>
     <!-- <optimizer-head> -->
     <link rel="stylesheet" type="text/css" href="static/style.less.css">
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">Raptor Optimizer Demo</h1>
     <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/raptor-modules-1.0.1-beta/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
@@ -369,13 +369,13 @@ The updated `my-page.html` file should be similar to the following:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaptorJS Optimizer Demo</title>
+    <title>Raptor Optimizer Demo</title>
     <!-- <optimizer-head> -->
     <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">Raptor Optimizer Demo</h1>
     <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
@@ -471,7 +471,7 @@ Output for page "my-page":
 <hr>
 
 
-Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the RaptorJS Optimizer as shown in the following sample code:
+Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the Raptor Optimizer as shown in the following sample code:
 
 ```javascript
 var foo = require('foo');
@@ -552,13 +552,13 @@ __my-page.rhtml:__
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaptorJS Optimizer Demo</title>
+    <title>Raptor Optimizer Demo</title>
 
     <!-- <link> tags will be injected below: -->
     <optimizer-head/>
 </head>
 <body>
-    <h1 id="header">RaptorJS Optimizer Demo</h1>
+    <h1 id="header">Raptor Optimizer Demo</h1>
 
     <!-- <script> tags will be injected below: -->
     <optimizer-body/>
@@ -643,11 +643,11 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-The RaptorJS Optimizer has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use the RaptorJS Optimizer at runtime is to use the taglib and simply render the page template to the response output stream.
+The Raptor Optimizer has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use the Raptor Optimizer at runtime is to use the taglib and simply render the page template to the response output stream.
 
-The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by the RaptorJS Optimizer is a simple cache lookup.
+The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by the Raptor Optimizer is a simple cache lookup.
 
-By default, the RaptorJS Optimizer writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
+By default, the Raptor Optimizer writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
 
 __server.js__
 
@@ -854,7 +854,7 @@ pageOptimizer.optimizePage(...);
 
 # Dependencies
 
-To optimize a page the RaptorJS Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file.
+To optimize a page the Raptor Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in code or in an `optimizer.json` file.
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -897,7 +897,7 @@ If the path does not have a file extension then it is assumed to be a path to an
 
 ## Conditional Dependencies
 
-The RaptorJS Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain criteria (e.g. "mobile device" versus "desktop"). For caching reasons, the criteria for conditional dependencies should be based on a set of enabled "extensions". An extension is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
+The Raptor Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain criteria (e.g. "mobile device" versus "desktop"). For caching reasons, the criteria for conditional dependencies should be based on a set of enabled "extensions". An extension is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
 
 ```json
 {
@@ -945,7 +945,7 @@ __Using the Raptor Templates taglib:__
 
 # Node.js-style Module Support
 
-The RaptorJS Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
+The Raptor Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
 This functionality is offered by the core [raptor-optimizer-require](https://github.com/raptorjs3/raptor-optimizer-require) plugin which introduces a new `require` dependency type. For example:
 ```json
@@ -971,7 +971,7 @@ For more details on how the Node.js modules are supported on the browser, please
 
 # Bundling
 
-By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The RaptorJS Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the RaptorJS Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
+By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The Raptor Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the Raptor Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle.
 
@@ -1050,7 +1050,7 @@ For more information on working with bundles. Please see the [bundling docs](doc
 
 # Asynchronous Module Loading
 
-The RaptorJS Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs3/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
+The Raptor Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs3/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
 
 ```javascript
 require('raptor-loader').async(function() {
@@ -1133,7 +1133,7 @@ If you create your own plugin please send a Pull Request and it will show up abo
 
 # Optimizer Taglib
 
-If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the RaptorJS Optimizer to easily optimize page dependencies and embed them into your page.
+If you are using [Raptor Templates](https://github.com/raptorjs3/raptor-templates) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the Raptor Optimizer to easily optimize page dependencies and embed them into your page.
 
 ## Using the Optimizer Taglib with Raptor Templates
 
@@ -1236,7 +1236,7 @@ Finally, in your Dust templates you can use the new optimizer helpers as shown b
 </html>
 ```
 
-# Extending the RaptorJS Optimizer
+# Extending the Raptor Optimizer
 
 Only read below if you are building plugins or transforms to further enhance the `raptor-optimizer` module.
 
@@ -1265,7 +1265,7 @@ A plugin is simply a Node.js module that exports a function with the following s
 
 ```javascript
 /**
- * A plugin for the RaptorJS Optimizer
+ * A plugin for the Raptor Optimizer
  * @param  {raptor-optimizer/lib/PageOptimizer} optimizer An instance of a PageOptimizer that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
@@ -1496,7 +1496,7 @@ module.exports = function (pageOptimizer, pluginConfig) {
 * [raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
 * [raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Raptor Templates.
 * [raptor-samples/optimizer-templates](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-templates): Sample app that demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the RaptorJS Optimizer at runtime as part of an Express server app.
+* [raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the Raptor Optimizer at runtime as part of an Express server app.
 
 # Discuss
 
