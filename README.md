@@ -16,11 +16,12 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Another Client-side Bundler?](#another-client-side-bundler)
 - [Tutorials](#tutorials)
 	- [Tutorial: Command Line Interface](#tutorial-command-line-interface)
-	- [Tutorial: Command Line Interface Configuration](#tutorial-command-line-interface-configuration)
+	- [Tutorial: JSON Configuration File](#tutorial-json-configuration-file)
 	- [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
 	- [Tutorial: JavaScript API](#tutorial-javascript-api)
-	- [Tutorial: Template Taglib](#tutorial-template-taglib)
+	- [Tutorial: Optimizer Taglib](#tutorial-optimizer-taglib)
 	- [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
+	- [Tutorial: Runtime Optimization with Express](#tutorial-runtime-optimization-with-express)
 - [Installation](#installation)
 - [Usage](#usage)
 	- [Command Line Interface](#command-line-interface)
@@ -265,7 +266,7 @@ __style.less:__
 @headerColor: #5B83AD;
 
 #header {
-  color: @headerColor;
+    color: @headerColor;
 }
 ```
 
@@ -385,11 +386,11 @@ The updated `my-page.html` file should be similar to the following:
 
 With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
-## Tutorial: Command Line Interface Configuration
+## Tutorial: JSON Configuration File
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config)
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config)
 
 <hr>
 
@@ -530,7 +531,7 @@ raptorOptimizer.optimizePage({
 ```
 
 
-## Tutorial: Template Taglib
+## Tutorial: Optimizer Taglib
 
 <hr>
 
@@ -544,6 +545,7 @@ __my-page.rhtml:__
 
 
 ```html
+<!-- Declare the top-level dependencies for the page: -->
 <optimizer-page name="my-page" package-path="./my-page.optimizer.json"/>
 
 <!doctype html>
@@ -551,10 +553,14 @@ __my-page.rhtml:__
 <head>
     <meta charset="UTF-8">
     <title>RaptorJS Optimizer Demo</title>
+
+    <!-- <link> tags will be injected below: -->
     <optimizer-head/>
 </head>
 <body>
     <h1 id="header">RaptorJS Optimizer Demo</h1>
+
+    <!-- <script> tags will be injected below: -->
     <optimizer-body/>
 </body>
 </html>
@@ -629,6 +635,54 @@ raptor-optimizer style.less \
 
 After opening `my-page.html` in your web browser you should then see the same output written to the browser's JavaScript console.
 
+## Tutorial: Runtime Optimization with Express
+
+<hr>
+
+[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express)
+
+<hr>
+
+The RaptorJS Optimizer has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use the RaptorJS Optimizer at runtime is to use the taglib and simply render the page template to the response output stream.
+
+The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by the RaptorJS Optimizer is a simple cache lookup.
+
+By default, the RaptorJS Optimizer writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
+
+__server.js__
+
+```javascript
+var express = require('express');
+var compression = require('compression');
+var serveStatic = require('serve-static');
+
+// Load the page template:
+var template = require('raptor-templates')
+    .load(require.resolve('./template.rhtml')
+
+var app = express();
+
+// Enable gzip compression for all HTTP responses:
+app.use(compression());
+
+// Any URL that begins with "/static" will be served up
+// out of the "static/" directory:
+app.use('/static', serveStatic(__dirname + '/static'));
+
+app.get('/', function(req, res) {
+    // Render the page template as normal:
+    template.render({
+            name: 'Frank'
+        },
+        res);
+});
+...
+
+app.listen(8080);
+```
+
+
+
 # Installation
 
 The following command should be used to install the `raptor-optimizer` module into your project:
@@ -679,7 +733,7 @@ Alternatively, you can create a JSON configuration file and use that instead:
 raptor-optimizer --config optimizer-config.json
 ```
 
-The next section describes the configuration options supported by the RaptorJS Optimizer.
+For more documentation on the Command Line Interface please see the [raptor-optimizer-cli docs](https://github.com/raptorjs3/raptor-optimizer-cli).
 
 ## Configuration
 
@@ -1436,12 +1490,13 @@ module.exports = function (pageOptimizer, pluginConfig) {
 
 # Sample Projects
 
-* [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface for the RaptorJS Optimizer
-* [raptor-samples/optimizer-cli-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli-config): Sample usage of the command-line interface for the RaptorJS Optimizer that relies on a separate JSON configuration file
-* [raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading
+* [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface.
+* [raptor-samples/optimizer-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config): Sample app that demonstrates the use of a JSON config file.
+* [raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading.
 * [raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
 * [raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Raptor Templates.
 * [raptor-samples/optimizer-templates](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-templates): Sample app that demonstrates the use of rendering the same templates on both the server and the client.
+* [raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the RaptorJS Optimizer at runtime as part of an Express server app.
 
 # Discuss
 
