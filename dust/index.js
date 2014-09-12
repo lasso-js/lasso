@@ -6,19 +6,21 @@ exports.registerHelpers = function(dust) {
     raptorDust.registerHelpers({
         'optimizer-page': {
             buildInput: function(chunk, context, bodies, params, renderContext) {
+                var dirname = nodePath.dirname(context.templateName);
+
                 var packagePath = params.packagePath;
                 if (!packagePath) {
                     if (!params.dependencies) {
-                        params.packagePath = nodePath.join(nodePath.dirname(context.templateName), 'optimizer.json');    
+                        params.packagePath = nodePath.join(dirname, 'optimizer.json');
                     }
                 } else if (packagePath.startsWith('.')) {
-                    params.packagePath = nodePath.join(nodePath.dirname(context.templateName), packagePath);
+                    params.packagePath = nodePath.join(dirname, packagePath);
                 }
 
                 if (!params.name && !params.pageName) {
-                    params.pageName = context.templateName || 'default';
+                    params.pageName = nodePath.basename(dirname);
                 }
-                
+
                 return params;
 
             },
