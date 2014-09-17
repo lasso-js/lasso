@@ -212,7 +212,7 @@ describe('raptor-optimizer-require' , function() {
                 require: {
                     includeClient: false,
                     transforms: [
-                        'deamdify'
+                        require('deamdify')
                     ],
                     rootDir: nodePath.join(__dirname, 'test-project')
                 }

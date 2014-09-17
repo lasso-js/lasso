@@ -32,10 +32,10 @@ describe('raptor-optimizer/bundling', function() {
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
                 {
-                    name: "foo",
+                    name: 'foo',
                     dependencies: [
                         // Specified for a single dependency:
-                        { path: "require: foo", recurseInto: "all" }
+                        { path: 'require: foo', recurseInto: 'all' }
                     ]
                 }
             ]
@@ -74,10 +74,10 @@ describe('raptor-optimizer/bundling', function() {
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
                 {
-                    name: "foo",
+                    name: 'foo',
                     dependencies: [
                         // Specified for a single dependency:
-                        { path: "require: foo", recurseInto: "dir" }
+                        { path: 'require: foo', recurseInto: 'dir' }
                     ]
                 }
             ]
@@ -116,10 +116,10 @@ describe('raptor-optimizer/bundling', function() {
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
                 {
-                    name: "foo",
+                    name: 'foo',
                     dependencies: [
                         // Specified for a single dependency:
-                        { path: "require: foo", recurseInto: "dirtree" }
+                        { path: 'require: foo', recurseInto: 'dirtree' }
                     ]
                 }
             ]
@@ -158,10 +158,10 @@ describe('raptor-optimizer/bundling', function() {
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
                 {
-                    name: "foo",
+                    name: 'foo',
                     dependencies: [
                         // Specified for a single dependency:
-                        { path: "require: foo", recurseInto: "module" }
+                        { path: 'require: foo', recurseInto: 'module' }
                     ]
                 }
             ]
@@ -224,4 +224,83 @@ describe('raptor-optimizer/bundling', function() {
                 done();
             });
     });
+
+    it('should support default bundling strategy', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: false
+            },
+            enabledExtensions: ['jquery', 'browser'],
+            bundles: [
+                {
+                    name: 'everything',
+                    dependencies: [
+                        'a.js',
+                        'b.js',
+                        'c.js'
+                    ]
+                }
+            ]
+        }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'default',
+                dependencies: [
+                    'a.js'
+                ],
+                from: nodePath.join(__dirname, 'test-bundling-strategies-project')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                var fooCode = writerTracker.getCodeForFilename('everything.js');
+                expect(fooCode).to.equal('a\n\nb\n\nc\n');
+                done();
+            });
+    });
+
+    // it('should support lean bundling strategy', function(done) {
+    //     var optimizer = require('../');
+    //     var pageOptimizer = optimizer.create({
+    //         fileWriter: {
+    //             outputDir: outputDir,
+    //             fingerprintsEnabled: false
+    //         },
+    //         enabledExtensions: ['jquery', 'browser'],
+    //         bundlingStrategy: 'lean',
+    //         bundles: [
+    //             {
+    //                 name: 'everything',
+    //                 dependencies: [
+    //                     'a.js',
+    //                     'b.js',
+    //                     'c.js'
+    //                 ]
+    //             }
+    //         ]
+    //     }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
+
+    //     var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+    //     pageOptimizer.optimizePage({
+    //             pageName: 'default',
+    //             dependencies: [
+    //                 'a.js'
+    //             ],
+    //             from: nodePath.join(__dirname, 'test-bundling-strategies-project')
+    //         },
+    //         function(err, optimizedPage) {
+    //             if (err) {
+    //                 return done(err);
+    //             }
+
+    //             var fooCode = writerTracker.getCodeForFilename('everything.js');
+    //             expect(fooCode).to.equal('a\n\nb\n\nc\n');
+    //             done();
+    //         });
+    // });
 });
