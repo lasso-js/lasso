@@ -264,43 +264,46 @@ describe('raptor-optimizer/bundling', function() {
             });
     });
 
-    // it('should support lean bundling strategy', function(done) {
-    //     var optimizer = require('../');
-    //     var pageOptimizer = optimizer.create({
-    //         fileWriter: {
-    //             outputDir: outputDir,
-    //             fingerprintsEnabled: false
-    //         },
-    //         enabledExtensions: ['jquery', 'browser'],
-    //         bundlingStrategy: 'lean',
-    //         bundles: [
-    //             {
-    //                 name: 'everything',
-    //                 dependencies: [
-    //                     'a.js',
-    //                     'b.js',
-    //                     'c.js'
-    //                 ]
-    //             }
-    //         ]
-    //     }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
+    it.only('should support lean bundling strategy', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: false
+            },
+            enabledExtensions: ['jquery', 'browser'],
+            bundlingStrategy: 'lean',
+            bundles: [
+                {
+                    name: 'everything',
+                    dependencies: [
+                        'a.js',
+                        'b.js',
+                        'c.js'
+                    ]
+                }
+            ]
+        }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
 
-    //     var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-    //     pageOptimizer.optimizePage({
-    //             pageName: 'default',
-    //             dependencies: [
-    //                 'a.js'
-    //             ],
-    //             from: nodePath.join(__dirname, 'test-bundling-strategies-project')
-    //         },
-    //         function(err, optimizedPage) {
-    //             if (err) {
-    //                 return done(err);
-    //             }
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'default',
+                dependencies: [
+                    'a.js',
+                    'a.js'
+                ],
+                from: nodePath.join(__dirname, 'test-bundling-strategies-project')
+            },
+            function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
 
-    //             var fooCode = writerTracker.getCodeForFilename('everything.js');
-    //             expect(fooCode).to.equal('a\n\nb\n\nc\n');
-    //             done();
-    //         });
-    // });
+                var fooCode = writerTracker.getCodeForFilename('everything.js');
+
+                // only the contents of a.js will be included in the resultant page bundle
+                expect(fooCode).to.equal('a\n');
+                done();
+            });
+    });
 });
