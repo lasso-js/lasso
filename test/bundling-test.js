@@ -264,7 +264,7 @@ describe('raptor-optimizer/bundling', function() {
             });
     });
 
-    it.only('should support lean bundling strategy', function(done) {
+    it('should support lean bundling strategy', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             fileWriter: {
