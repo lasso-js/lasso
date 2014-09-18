@@ -42,42 +42,41 @@ describe('raptor-optimizer' , function() {
             dirname: __dirname
         });
 
-        var context = new OptimizerContext();
+        var optimizerContext = new OptimizerContext();
 
         var dependencies = [];
         var contexts = [];
 
         dependencyWalker.walk({
-                    optimizerManifest: optimizerManifest,
-                    enabledExtensions: ['jquery', 'browser'],
-                    context: context,
-                    on: {
-                        dependency: function(dependency, context) {
+                optimizerManifest: optimizerManifest,
+                enabledExtensions: ['jquery', 'browser'],
+                optimizerContext: optimizerContext,
+                on: {
+                    dependency: function(dependency, optimizerContext) {
 
-                            dependencies.push(dependency.toString());
-                            contexts.push(context);
+                        dependencies.push(dependency.toString());
+                        contexts.push(optimizerContext);
 
-                            
 
-                            // At this point we have added the dependency to a bundle and we know the bundle is not asynchronous
-                            
-                        }
+
+                        // At this point we have added the dependency to a bundle and we know the bundle is not asynchronous
+
                     }
-                })
-                .then(function() {
-                    // console.log('Walked dependency tree in ' + (Date.now() - startTime) + 'ms');
+                }
+            })
+            .then(function() {
+                // console.log('Walked dependency tree in ' + (Date.now() - startTime) + 'ms');
 
-                    // console.log(JSON.stringify(dependencies, null, 4));
+                // console.log(JSON.stringify(dependencies, null, 4));
 
-                    expect(dependencies).to.deep.equal([
-                        '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
-                        '[package: path="' + nodePath.join(__dirname, 'src/moduleA/optimizer.json') + '"]',
-                        '[js: path="' + nodePath.join(__dirname, 'src/moduleA/moduleA.js') + '"]'
-                    ]);
-                    
-                    done();
-                })
-                .fail(done);
+                expect(dependencies).to.deep.equal([
+                    '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
+                    '[package: path="' + nodePath.join(__dirname, 'src/moduleA/optimizer.json') + '"]',
+                    '[js: path="' + nodePath.join(__dirname, 'src/moduleA/moduleA.js') + '"]'
+                ]);
+
+                done();
+            })
+            .fail(done);
     });
 });
-
