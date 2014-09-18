@@ -56,8 +56,8 @@ describe('raptor-optimizer/index', function() {
                     'testPage-ad75c8ad.css'] );
                 expect(writerTracker.getCodeForFilename('testPage-7fe8fdc6.js')).to.equal('nestedB_js\nnestedA_js\nnestedC_js');
                 expect(writerTracker.getCodeForFilename('testPage-ad75c8ad.css')).to.equal('nestedB_css\nnestedA_css\nnestedC_css');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should handle de-duplication correctly', function(done) {
@@ -105,8 +105,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundle1.js')).to.equal('moduleA_js\nmoduleB_js');
                 expect(writerTracker.getCodeForFilename('bundle2.js')).to.equal('moduleC_js');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('moduleD_js');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for slots', function(done) {
@@ -145,8 +145,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-head.js')).to.equal('slotA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body.css')).to.equal('slotA_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for slots overriding', function(done) {
@@ -183,8 +183,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-custom-body.js')).to.equal('mixedA_js\nslotB_js');
                 expect(writerTracker.getCodeForFilename('testPage-head2.js')).to.equal('nestedB_js\nnestedA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body2.css')).to.equal('nestedB_css\nnestedA_css');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for configurable bundles', function(done) {
@@ -255,8 +255,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundleB.css')).to.equal('nestedB_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
@@ -322,8 +322,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundleA.css')).to.equal('nestedB_css\nnestedA_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for loader metadata', function(done) {
@@ -364,8 +364,8 @@ describe('raptor-optimizer/index', function() {
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
                 expect(writerTracker.getCodeForFilename('testPage-async-body.js')).to.equal('asyncA_js');
                 expect(writerTracker.getCodeForFilename('testPage-async-head.css')).to.equal('asyncA_css');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for loader metadata with configurable bundles', function(done) {
@@ -432,8 +432,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('mixedB-body.js')).to.equal('mixedB_js');
                 expect(writerTracker.getCodeForFilename('mixedB-head.css')).to.equal('mixedB_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n$rloaderMeta={"asyncB/foo":{"css":["/mixedA-head.css"],"js":["/mixedA-body.js"]},"asyncB/bar":{"css":["/mixedB-head.css"],"js":["/mixedB-body.js"]}};');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for output transforms', function(done) {
@@ -470,8 +470,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage.css', 'testPage.js'] );
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('transformsA_js-JavaScriptTransform1Async-JavaScriptTransform2Async');
                 expect(writerTracker.getCodeForFilename('testPage.css')).to.equal('TRANSFORMSA_CSS-CSSTRANSFORM1-CSSTransform2');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for in-place deployment', function(done) {
@@ -504,8 +504,8 @@ describe('raptor-optimizer/index', function() {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
                 expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="src/mixedB/mixedB.css">');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="src/mixedB/mixedB.js"></script>');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for URLs with the file:// protocol when in-place deployment is enabled', function(done) {
@@ -541,8 +541,8 @@ describe('raptor-optimizer/index', function() {
                 var mixedBJSPath = path.join(__dirname, 'src/mixedB/mixedB.js');
                 expect(optimizedPage.getSlotHtml('head')).to.equal('<link rel="stylesheet" type="text/css" href="file://' + mixedACSSPath + '">\n<link rel="stylesheet" type="text/css" href="file://' + mixedBCSSPath + '">');
                 expect(optimizedPage.getSlotHtml('body')).to.equal('<script type="text/javascript" src="file://' + mixedAJSPath + '"></script>\n<script type="text/javascript" src="file://' + mixedBJSPath + '"></script>');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for image URLs in CSS files to be resolved', function(done) {
@@ -573,8 +573,8 @@ describe('raptor-optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('testPage-4b7673cd.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for image URLs in CSS files to be resolved when bundling is disabled', function(done) {
@@ -606,8 +606,8 @@ describe('raptor-optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('css-url-transform.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
     it('should allow for external resource URLs', function(done) {
@@ -631,12 +631,13 @@ describe('raptor-optimizer/index', function() {
                 // console.log('OPTIMIZED PAGE: ', optimizedPage);
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
 
     it('should allow for external resource URLs to be inlined', function(done) {
+        this.timeout(5000);
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             enabledExtensions: [],
@@ -662,7 +663,7 @@ describe('raptor-optimizer/index', function() {
                 }
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="test/build/testPage-b66ed708.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
-                done();
+                optimizer.flushAllCaches(done);
             });
     });
     it('should optimize a page that has an installed module that uses async loading', function(done) {
@@ -700,8 +701,8 @@ describe('raptor-optimizer/index', function() {
                 expect(syncCode).to.contain('MAIN');
                 expect(syncCode).to.not.contain('BAR');
                 expect(asyncCode).to.contain('BAR');
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
 
@@ -728,8 +729,8 @@ describe('raptor-optimizer/index', function() {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal("console.log('MAIN');\n");
+                optimizer.flushAllCaches(done);
             })
-            .then(done)
             .done();
     });
 });
