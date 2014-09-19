@@ -12,7 +12,7 @@ function testRender(path, data, done, options) {
     var actualPath = nodePath.join(__dirname, path + '.actual.html');
     options = options || {};
     // var compiledPath = nodePath.join(__dirname, path + '.actual.js');
-    // var compiler = require('raptor-templates/compiler').createCompiler(inputPath);
+    // var compiler = require('marko/compiler').createCompiler(inputPath);
     // var src = fs.readFileSync(inputPath, {encoding: 'utf8'});
     
     // var compiledSrc = compiler.compile(src);
@@ -50,12 +50,12 @@ function testRender(path, data, done, options) {
 }
 
 require('raptor-logging').configureLoggers({
-        'raptor-optimizer': 'WARN'
+        'optimizer': 'WARN'
     });
 
 
 
-describe('raptor-optimizer/dust' , function() {
+describe('optimizer/dust' , function() {
 
     beforeEach(function(done) {
         var dust = require('dustjs-linkedin');
@@ -86,7 +86,7 @@ describe('raptor-optimizer/dust' , function() {
     });
 
     // it('should compile a simple page template', function() {
-    //     testCompiler('test-project/src/pages/page1.rhtml');
+    //     testCompiler('test-project/src/pages/page1.marko');
     // });
 
     it('should render a simple page template for Dust', function(done) {

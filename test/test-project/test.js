@@ -1,1 +1,1 @@
-var templatePath = require.resolve('./test.rhtml');
+var templatePath = require.resolve('./test.marko');

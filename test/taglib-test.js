@@ -14,17 +14,17 @@ function testRender(path, data, done, options) {
     var actualPath = nodePath.join(__dirname, path + '.actual.html');
     options = options || {};
     // var compiledPath = nodePath.join(__dirname, path + '.actual.js');
-    // var compiler = require('raptor-templates/compiler').createCompiler(inputPath);
+    // var compiler = require('marko/compiler').createCompiler(inputPath);
     // var src = fs.readFileSync(inputPath, {encoding: 'utf8'});
-    
+
     // var compiledSrc = compiler.compile(src);
     // fs.writeFileSync(compiledPath, compiledSrc, {encoding: 'utf8'});
 
-    var raptorTemplates = require('raptor-templates');
-    var Context = raptorTemplates.Context;
-    var context = options.context || new Context(new StringBuilder());
+    var marko = require('marko');
+    var AsyncWriter = marko.AsyncWriter;
+    var context = options.context || new AsyncWriter(new StringBuilder());
 
-    raptorTemplates.render(inputPath, data, context)
+    marko.render(inputPath, data, context)
         .on('end', function() {
             try {
                 var output = context.getOutput();
@@ -54,23 +54,23 @@ function testRender(path, data, done, options) {
         });
 
     context.end();
-        
+
 }
 
 require('raptor-logging').configureLoggers({
-        'raptor-optimizer': 'WARN'
+        'optimizer': 'WARN'
     });
 
 
-describe('raptor-optimizer/taglib' , function() {
+describe('optimizer/taglib' , function() {
 
     beforeEach(function(done) {
-        
+
         done();
     });
 
     // it('should compile a simple page template', function() {
-    //     testCompiler('test-project/src/pages/page1.rhtml');
+    //     testCompiler('test-project/src/pages/page1.marko');
     // });
 
     it('should render a simple page template', function(done) {
@@ -85,8 +85,7 @@ describe('raptor-optimizer/taglib' , function() {
         }, __dirname);
 
 
-        testRender('test-project/src/pages/page1/template.rhtml', {}, done);
+        testRender('test-project/src/pages/page1/template.marko', {}, done);
     });
 
 });
-

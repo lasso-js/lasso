@@ -1,9 +1,9 @@
 {
-    "name": "raptor-optimizer",
+    "name": "optimizer",
     "description": "Module to support the optimized delivery of web application resources",
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs3/raptor-optimizer.git"
+        "url": "https://github.com/raptorjs3/optimizer.git"
     },
     "scripts": {
         "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
@@ -14,7 +14,6 @@
         "app-module-path": "^0.1.0",
         "app-root-dir": "^1.0.0",
         "async": "^0.9.0",
-        "deamdify": "^0.1.1",
         "jsonminify": "~0.2.3",
         "mime": "~1.2.7",
         "mkdirp": "^0.5.0",
@@ -28,10 +27,10 @@
         "raptor-logging": "^1.0.0-beta",
         "raptor-modules": "^1.0.0-beta",
         "raptor-objects": "^1.0.0-beta",
-        "raptor-optimizer-minify-css": "^1.0.0-beta",
-        "raptor-optimizer-minify-js": "^1.0.0-beta",
-        "raptor-optimizer-require": "^1.0.0-beta",
-        "raptor-optimizer-resolve-css-urls": "^1.0.0-beta",
+        "optimizer-minify-css": "^1.0.0-beta",
+        "optimizer-minify-js": "^1.0.0-beta",
+        "optimizer-require": "^1.0.0-beta",
+        "optimizer-resolve-css-urls": "^1.0.0-beta",
         "raptor-polyfill": "^1.0.0-beta",
         "raptor-promises": "^1.0.0-beta",
         "raptor-regexp": "^1.0.0-beta",
@@ -45,14 +44,15 @@
         "dustjs-linkedin": "^2.4.0",
         "jshint": "~2.3.0",
         "mocha": "~1.15.1",
-        "raptor-optimizer-dust": "^1.0.0-beta",
-        "raptor-optimizer-rhtml": "^1.0.0-beta",
-        "raptor-templates": "^1.1.24-beta"
+        "optimizer-dust": "^1.0.0-beta",
+        "optimizer-marko": "^1.0.0-beta",
+        "marko": "^1.1.24-beta",
+        "deamdify": "^0.1.1"
     },
     "license": "Apache License v2.0",
-    "main": "lib/raptor-optimizer.js",
+    "main": "lib/optimizer.js",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
-    "version": "1.0.12-beta"
+    "version": "1.1.0"
 }

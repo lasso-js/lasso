@@ -12,7 +12,7 @@ module.exports = function render(input, context) {
     }
     
     if (!pageOptimizer) {
-        throw new Error('Page optimizer not configured for application. Use require("raptor-optimizer").configureDefault(config) to configure the default page optimizer or provide an optimizer as input using the "optimizer" attribute.');
+        throw new Error('Page optimizer not configured for application. Use require("optimizer").configureDefault(config) to configure the default page optimizer or provide an optimizer as input using the "optimizer" attribute.');
     }
 
     var src = input.src;

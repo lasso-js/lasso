@@ -7,7 +7,7 @@ var nodePath = require('path');
 var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
-describe('raptor-optimizer/bundling', function() {
+describe('optimizer/bundling', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -17,7 +17,7 @@ describe('raptor-optimizer/bundling', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'WARN',
+            'optimizer': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();

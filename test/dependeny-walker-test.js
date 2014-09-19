@@ -7,7 +7,7 @@ var nodePath = require('path');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-describe('raptor-optimizer' , function() {
+describe('optimizer' , function() {
 
     beforeEach(function(done) {
         for (var k in require.cache) {
@@ -19,7 +19,7 @@ describe('raptor-optimizer' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'WARN'
+            'optimizer': 'WARN'
         });
 
         done();

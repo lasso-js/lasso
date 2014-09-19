@@ -34,7 +34,7 @@ While assigning dependencies to bundles during a page optimization, if the optim
 The optimizer also allows for page-level to be configured when optimizing a particular page. Application-level bundles always take precedence over page-level bundles. Page-level bundles can be configured when optimizing a page as shown in the following example JavaScript code:
 
 ```javascript
-require('raptor-optimizer').optimizePage({
+require('optimizer').optimizePage({
         name: "my-page",
         dependencies: [
             ...
@@ -50,7 +50,7 @@ require('raptor-optimizer').optimizePage({
     });
 ```
 
-If you are using the taglib, page-level bundles can be passed in as part of the attributes. For example, with Raptor Templates:
+If you are using the taglib, page-level bundles can be passed in as part of the attributes. For example, with Marko:
 
 ```html
 <optimizer-page package-path="./optimizer.json" bundles="./optimizer-bundles.json"/>
@@ -68,7 +68,7 @@ When assigning a dependency to a bundle it is possible that a particular package
 The "recurse into" option can be specified using the `recurseInto` property at the bundle level or at the dependency level as shown in the following sample code:
 
 ```javascript
-require('raptor-optimizer').optimizePage({
+require('optimizer').optimizePage({
         name: "my-page",
         dependencies: [
             ...

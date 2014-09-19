@@ -8,13 +8,13 @@ var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 var fs = require('fs');
 
-describe('raptor-optimizer/util', function() {
+describe('optimizer/util', function() {
 
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'raptor-optimizer': 'WARN',
+            'optimizer': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();

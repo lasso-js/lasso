@@ -1,5 +1,5 @@
 var OptimizerRenderContext = require('./OptimizerRenderContext');
-var CONTEXT_KEY = 'raptor-optimizer/OptimizerRenderContext';
+var CONTEXT_KEY = 'optimizer/OptimizerRenderContext';
 
 function getOptimizerRenderContext(renderContext) {
     var data = renderContext.attributes;

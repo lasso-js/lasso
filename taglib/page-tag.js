@@ -1,4 +1,4 @@
-var raptorOptimizer = require('../');
+var optimizer = require('../');
 var util = require('./util');
 var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
@@ -11,7 +11,7 @@ module.exports = function render(input, context) {
     var pageOptimizer = input.optimizer;
 
     if (!pageOptimizer) {
-        pageOptimizer = raptorOptimizer.defaultPageOptimizer;
+        pageOptimizer = optimizer.defaultPageOptimizer;
     }
 
     var optimizerRenderContext = util.getOptimizerRenderContext(context);
@@ -21,7 +21,7 @@ module.exports = function render(input, context) {
     if (!pageName) {
         if (input.dirname) {
             // Use the base name of the containing directory as the page name
-            // Example: "myapp/src/pages/welcome/index.rhtml" --> "welcome"
+            // Example: "myapp/src/pages/welcome/index.marko" --> "welcome"
             pageName = nodePath.basename(input.dirname);
         }
     }
