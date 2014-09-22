@@ -11,7 +11,7 @@
     "author": "Patrick Steele-Idem <pnidem@gmail.com>",
     "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
     "dependencies": {
-        "app-module-path": "^0.1.0",
+        "app-module-path": "^1.0.0",
         "app-root-dir": "^1.0.0",
         "async": "^0.9.0",
         "jsonminify": "~0.2.3",
