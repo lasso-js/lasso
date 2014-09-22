@@ -17,7 +17,7 @@
         "jsonminify": "~0.2.3",
         "mime": "~1.2.7",
         "mkdirp": "^0.5.0",
-        "property-handlers": "^0.1.0",
+        "property-handlers": "^1.0.0",
         "raptor-async": "^1.0.0",
         "raptor-cache": "^1.0.0",
         "raptor-detect": "^1.0.0",
