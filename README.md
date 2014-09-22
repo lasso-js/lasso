@@ -304,7 +304,7 @@ Output for page "my-page":
     static/raptor-modules-meta.js
     static/main.js
     static/node_modules/jquery/dist/jquery.js
-    static/raptor-modules-1.0.1-beta/client/lib/raptor-modules-client.js
+    static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js
     static/style.less.css
   HTML slots file:
     build/my-page.html.json
@@ -327,7 +327,7 @@ The updated `my-page.html` file should be similar to the following:
 <body>
     <h1 id="header">Optimizer Demo</h1>
     <!-- <optimizer-body> -->
-    <script type="text/javascript" src="static/raptor-modules-1.0.1-beta/client/lib/raptor-modules-client.js"></script>
+    <script type="text/javascript" src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
     <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
     <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
