@@ -1,7 +1,7 @@
 RaptorJS Optimizer
 ==================
 
-The RaptorJS Optimizer allows you to easily share JavaScript code between the client and server while also providing first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
+The RaptorJS Optimizer is a JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Marko. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
@@ -14,6 +14,7 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Design Philosophy](#design-philosophy)
 - [Features](#features)
 - [Another Client-side Bundler?](#another-client-side-bundler)
+- [Installation](#installation)
 - [Tutorials](#tutorials)
 	- [Tutorial: Command Line Interface](#tutorial-command-line-interface)
 	- [Tutorial: JSON Configuration File](#tutorial-json-configuration-file)
@@ -22,7 +23,6 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 	- [Tutorial: Optimizer Taglib](#tutorial-optimizer-taglib)
 	- [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
 	- [Tutorial: Runtime Optimization with Express](#tutorial-runtime-optimization-with-express)
-- [Installation](#installation)
 - [Usage](#usage)
 	- [Command Line Interface](#command-line-interface)
 	- [Configuration](#configuration)
@@ -43,7 +43,7 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Optimizer Taglib](#optimizer-taglib)
 	- [Using the Optimizer Taglib with Marko](#using-the-optimizer-taglib-with-marko)
 	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
-- [Extending the Optimizer](#extending-the-raptorjs-optimizer)
+- [Extending the Optimizer](#extending-the-optimizer)
 	- [Custom Plugins](#custom-plugins)
 	- [Custom Dependency Types](#custom-dependency-types)
 		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
@@ -52,6 +52,7 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 	- [Custom Output Transforms](#custom-output-transforms)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
+- [Maintainers](#maintainers)
 - [Contributors](#contributors)
 - [Contribute](#contribute)
 - [License](#license)
@@ -208,6 +209,20 @@ require.include(request) // require.include is not a Node.js method
 
 A unique feature of the Optimizer is that in addition to generating optimized JS and CSS bundles, it also generates the HTML markup to include those bundles. By giving the Optimizer control over the `<script>` and `<link>` tags, this tool can change how resources are bundled or add/remove fingerprints to bundles, etc., without requiring any change to application code.
 
+# Installation
+
+The following command should be used to install the `optimizer` module into your project:
+
+```bash
+npm install optimizer --save
+```
+
+If you would like to use the available command line interface, then you should install the [optimizer-cli](https://github.com/raptorjs3/optimizer-cli) module globally using the following command:
+
+```bash
+npm install optimizer-cli --global
+```
+
 # Tutorials
 
 ## Tutorial: Command Line Interface
@@ -295,7 +310,7 @@ optimizer style.less \
     --development
 ```
 
-If everything worked correctly then you should see output that includes output similar to the following:
+If everything worked correctly then you should see output similar to the following:
 
 ```text
 Output for page "my-page":
@@ -679,20 +694,6 @@ app.get('/', function(req, res) {
 ...
 
 app.listen(8080);
-```
-
-
-
-# Installation
-
-The following command should be used to install the `optimizer` module into your project:
-```bash
-npm install optimizer --save
-```
-
-If you would like to use the available command line interface, then you should install the [optimizer-cli](https://github.com/raptorjs3/optimizer-cli) module globally using the following command:
-```bash
-npm install optimizer-cli --global
 ```
 
 # Usage
@@ -1312,13 +1313,14 @@ module.exports = function myPlugin(optimizer, config) {
             },
 
             // Validation checks and initialization based on properties:
-            init: function() {
+            init: function(context, callback) {
                 if (!this.path) {
-                    throw new Error('"path" is required');
+                    return callback(new Error('"path" is required'));
                 }
 
                 // NOTE: resolvePath can be used to resolve a provided relative path to a full path
                 this.path = this.resolvePath(this.path);
+				callback();
             },
 
             // Read the resource:
@@ -1398,16 +1400,26 @@ optimizer.dependencies.registerPackageType('dir', {
         'path': 'string'
     },
 
-    init: function() {
-        if (!this.path) {
-            throw new Error('"path" is required');
+    init: function(context, callback) {
+		var path = this.path;
+
+        if (!path) {
+            callback(new Error('"path" is required'));
         }
 
-        this.path = this.resolvePath(this.path); // Convert the relative path to an absolute path
+        this.path = path = this.resolvePath(path); // Convert the relative path to an absolute path
 
-        if (fs.statSync(this.path).isDirectory() === false) {
-            throw new Error('Directory expected: ' + this.path);
-        }
+		fs.stat(path, function(err, stat) {
+			if (err) {
+				return callback(err);
+			}
+
+			if (!stat.isDirectory()) {
+				return callback(new Error('Directory expected: ' + path));
+			}
+
+			callback();
+		});
     },
 
     getDependencies: function(context, callback) {
@@ -1503,10 +1515,15 @@ module.exports = function (pageOptimizer, pluginConfig) {
 
 Please post questions or comments on the [RaptorJS Google Groups Discussion Forum](http://groups.google.com/group/raptorjs).
 
-# Contributors
+# Maintainers
 
 * [Patrick Steele-Idem](https://github.com/patrick-steele-idem) (Twitter: [@psteeleidem](http://twitter.com/psteeleidem))
 * [Phillip Gates-Idem](https://github.com/philidem/) (Twitter: [@philidem](https://twitter.com/philidem))
+
+# Contributors
+
+* Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
+	- [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx)
 
 # Contribute
 
