@@ -36,7 +36,6 @@
         "raptor-regexp": "^1.0.0",
         "raptor-strings": "^1.0.0",
         "raptor-util": "^1.0.0",
-        "raptor-xml": "^1.0.1",
         "through": "^2.3.4"
     },
     "devDependencies": {
