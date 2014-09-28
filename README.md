@@ -1,7 +1,7 @@
 RaptorJS Optimizer
 ==================
 
-The RaptorJS Optimizer is a JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
+The RaptorJS Optimizer is a Node.js-style module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Marko. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
