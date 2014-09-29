@@ -1523,6 +1523,7 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
+	- [gulp-optimizer](https://github.com/raptorjs3/gulp-optimizer)
 	- [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx)
 
 # Contribute
