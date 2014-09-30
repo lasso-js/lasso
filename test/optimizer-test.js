@@ -733,4 +733,44 @@ describe('optimizer/index', function() {
             })
             .done();
     });
+
+    it('should allow for glob patterns', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            plugins: [
+                {
+                    plugin: 'optimizer-require',
+                    config: {
+                        includeClient: false
+                    }
+                }
+            ]
+        }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    './optimizer.json'
+                ],
+                from: path.join(__dirname, 'test-project-globs')
+            }, function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(writerTracker.getCodeForFilename('testPage.css')).to.equal(".style1 {}\n.style2 {}");
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.contain("FOO");
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.contain("BAR");
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.contain("$rmod.def");
+
+                done();
+            });
+    });
 });

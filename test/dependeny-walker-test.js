@@ -56,11 +56,7 @@ describe('optimizer' , function() {
 
                         dependencies.push(dependency.toString());
                         contexts.push(optimizerContext);
-
-
-
                         // At this point we have added the dependency to a bundle and we know the bundle is not asynchronous
-
                     }
                 }
             })
