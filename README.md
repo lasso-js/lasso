@@ -110,7 +110,7 @@ __my-page.html:__
 Run the following command:
 
 ```bash
-optimizer style.css --main main.js --inject-into my-page.html --watch
+optimizer style.css --main main.js --inject-into my-page.html
 ```
 
 Output:
