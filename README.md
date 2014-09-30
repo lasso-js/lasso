@@ -5,7 +5,7 @@ The RaptorJS Optimizer is a Node.js-style module bundler that also provides firs
 
 This tool offers many different optimizations such as a bundling, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Marko. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
-![eBay](images/ebay.png?raw=true) _Open Source_
+![eBay Open Source](https://raw.githubusercontent.com/raptorjs3/optimizer/master/images/ebay.png)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -197,20 +197,12 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 
 # Another Client-side Bundler?
 
-While [Browserify](http://browserify.org/) is a popular client-side bundler, you will find that it has certain limitations. Browserify is very JavaScript-centric and was originally designed to only support the transport of Node.js modules to the browser. The starting point for Browserify is always a Node.js JavaScript module file which means that it would not be very suitable for a project that includes "plain" JavaScript code or only CSS. Compared to Browserify, the Optimizer was designed be a more general solution. In addition to supporting the transport of Node.js modules to the browser, it also supports optimizing CSS, non-Node.js JavaScript code and even images. In fact, the Optimizer provides almost all of the features of Browserify (including support for Browserify shims and transforms) and extends it to support much more (configurable bundles, asynchronous loading, incremental builds, etc.).
 
-[Webpack](http://webpack.github.io/), another client-side bundler, overloads the core Node.js module loader API with non-standard and proprietary methods and features. As a result, if you were to write code that conforms to what Webpack expects then that code will likely _only_ run on the client and not on a Node.js server, and you will be tied to Webpack. In comparison, the Optimizer relies only on the standard Node.js API so that your JavaScript code will be truly [isomorphic](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/) and work on both the server and the client.
+[Browserify](http://browserify.org/) is an excellent JavaScript module bundler. We are huge supporters of writing Node.js-style modules (i.e. CommonJS), and we also believe [npm](https://www.npmjs.org/) is an excellent package manager. If you are not using a JavaScript module bundler then you are absolutely missing out. Modularity is equally important for client-side code as it is for server-side code, and a JavaScript module bundler should be part of every front-end developer's toolbox.
 
-Here's just a sampling of the non-standard features that Webpack introduces:
+So why did we create the RaptorJS Optimizer if Browserify is such a great tool? We created the RaptorJS Optimizer because we wanted a top-notch JavaScript module bundler that _also_ provides first-level support for transporting CSS, "plain" JavaScript, images, fonts and other front-end assets to the browser in the most optimal way. In addition, we want to enable developers to easily create web applications that follow [widely accepted rules for creating faster-loading websites](http://stevesouders.com/examples/rules.php) (such as putting StyleSheets at the top, and JavaScript at the bottom). We also want to allow for developers to easily load additional JavaScript and StyleSheets after the initial page load.
 
-```javascript
-require("!style!css!./style.css"); // Non-standard require syntax
-require("./style.css"); // Node.js does not know how to handle *.css modules
-require.ensure(dependencies, callback) // require.ensure is not a Node.js method
-require.include(request) // require.include is not a Node.js method
-```
-
-A unique feature of the Optimizer is that in addition to generating optimized JS and CSS bundles, it also generates the HTML markup to include those bundles. By giving the Optimizer control over the `<script>` and `<link>` tags, this tool can change how resources are bundled or add/remove fingerprints to bundles, etc., without requiring any change to application code.
+While high performance is very important for production systems, we want to also provide a more developer-friendly experience by offering fast, incremental builds, simplifying development and by producing debuggable output code. And, of course, we do not want developers to have to learn how to code their applications in a new way so the RaptorJS Optimizer was built to not change how you already code. You'll even find support for Browserify shims and transforms. Therefore, if you try out the RaptorJS Optimizer and it is not the tool for you, then feel free to switch back to something else (it'll of course be ready if your application's requirements change in the future). eBay and other large companies rely on the RaptorJS Optimizer for delivering high performance websites and are committed to its success. If you try it out and find gaps, please let us know!
 
 # Installation
 
