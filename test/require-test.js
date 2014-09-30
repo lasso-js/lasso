@@ -558,4 +558,48 @@ describe('optimizer-require' , function() {
                 optimizer.flushAllCaches(done);
             });
     });
+
+    it('should allow CSS files to be required', function(done) {
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                require: {
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                },
+                plugins: [
+                    {
+                        plugin: 'optimizer-require',
+                        config: {
+                            includeClient: false
+                        }
+                    }
+                ],
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+            }, nodePath.join(__dirname, 'test-project'));
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: ./simple.css'
+                ],
+                from: nodePath.join(__dirname, 'test-project')
+            }, function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                expect(writerTracker.getOutputPaths()).to.deep.equal([
+                        nodePath.join(__dirname, 'build/testPage.css')
+                    ]);
+
+                var actual = writerTracker.getCodeForFilename('testPage.css');
+                expect(actual).to.equal('.simple { color: red; }');
+                optimizer.flushAllCaches(done);
+            });
+    });
 });
