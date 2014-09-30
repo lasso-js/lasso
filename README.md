@@ -813,7 +813,8 @@ For more documentation on the Command Line Interface please see the [optimizer-c
         {
             "name": "bundle2",
             "dependencies": [
-                "bar.js"
+                "style/*.css",
+                "require: **/*.js"
             ]
         }
     ]
