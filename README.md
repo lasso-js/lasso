@@ -19,40 +19,40 @@ This tool offers many different optimizations such as a bundling, lazy loading, 
 - [Another Client-side Bundler?](#another-client-side-bundler)
 - [Installation](#installation)
 - [Tutorials](#tutorials)
-	- [Tutorial: Command Line Interface](#tutorial-command-line-interface)
-	- [Tutorial: JSON Configuration File](#tutorial-json-configuration-file)
-	- [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
-	- [Tutorial: JavaScript API](#tutorial-javascript-api)
-	- [Tutorial: Optimizer Taglib](#tutorial-optimizer-taglib)
-	- [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
-	- [Tutorial: Runtime Optimization with Express](#tutorial-runtime-optimization-with-express)
+    - [Tutorial: Command Line Interface](#tutorial-command-line-interface)
+    - [Tutorial: JSON Configuration File](#tutorial-json-configuration-file)
+    - [Tutorial: Asynchronous/Lazy Loading](#tutorial-asynchronouslazy-loading)
+    - [Tutorial: JavaScript API](#tutorial-javascript-api)
+    - [Tutorial: Optimizer Taglib](#tutorial-optimizer-taglib)
+    - [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
+    - [Tutorial: Runtime Optimization with Express](#tutorial-runtime-optimization-with-express)
 - [Usage](#usage)
-	- [Command Line Interface](#command-line-interface)
-	- [Configuration](#configuration)
-		- [Default Configuration](#default-configuration)
-		- [Complete Configuration](#complete-configuration)
-	- [JavaScript API](#javascript-api)
-		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
-		- [Optimizing a Page](#optimizing-a-page)
-		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
+    - [Command Line Interface](#command-line-interface)
+    - [Configuration](#configuration)
+        - [Default Configuration](#default-configuration)
+        - [Complete Configuration](#complete-configuration)
+    - [JavaScript API](#javascript-api)
+        - [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
+        - [Optimizing a Page](#optimizing-a-page)
+        - [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
 - [Dependencies](#dependencies)
-	- [Conditional Dependencies](#conditional-dependencies)
-		- [Enabling Extensions](#enabling-extensions)
+    - [Conditional Dependencies](#conditional-dependencies)
+        - [Enabling Extensions](#enabling-extensions)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Bundling](#bundling)
-	- [Bundling Example](#bundling-example)
+    - [Bundling Example](#bundling-example)
 - [Asynchronous Module Loading](#asynchronous-module-loading)
 - [Available Plugins](#available-plugins)
 - [Optimizer Taglib](#optimizer-taglib)
-	- [Using the Optimizer Taglib with Marko](#using-the-optimizer-taglib-with-marko)
-	- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
+    - [Using the Optimizer Taglib with Marko](#using-the-optimizer-taglib-with-marko)
+    - [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
 - [Extending the Optimizer](#extending-the-optimizer)
-	- [Custom Plugins](#custom-plugins)
-	- [Custom Dependency Types](#custom-dependency-types)
-		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
-		- [Custom CSS Dependency Type](#custom-css-dependency-type)
-		- [Custom Package Type](#custom-package-type)
-	- [Custom Output Transforms](#custom-output-transforms)
+    - [Custom Plugins](#custom-plugins)
+    - [Custom Dependency Types](#custom-dependency-types)
+        - [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
+        - [Custom CSS Dependency Type](#custom-css-dependency-type)
+        - [Custom Package Type](#custom-package-type)
+    - [Custom Output Transforms](#custom-output-transforms)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Maintainers](#maintainers)
@@ -736,9 +736,13 @@ For more documentation on the Command Line Interface please see the [optimizer-c
 ### Default Configuration
 ```javascript
 {
+    // Configure the bundle file writer:
     "fileWriter": {
-        "outputDir": "static",     // Write all bundles into the "static" directory
-        "fingerprintsEnabled": true  // Include fingerprint in output files
+        // Write all bundles into the "static" directory
+        "outputDir": "static",
+
+        // Include fingerprint in output files
+        "fingerprintsEnabled": true  
     }
 }
 ```
@@ -747,11 +751,10 @@ For more documentation on the Command Line Interface please see the [optimizer-c
 
 ```javascript
 {
-    // Plugins with custom dependency compilers, writers, etc.:
-    "plugins": [ // Optimizer plugins (see Available Plugins below)
-        // Plugins with default config:
+    // Configure Optimizer plugins
+    "plugins": [
+        // Plugin with a default config:
         "optimizer-less",
-        "optimizer-marko",
         // Plugin with custom configuration:
         {
             "plugin": "optimizer-my-plugin",
@@ -759,23 +762,49 @@ For more documentation on the Command Line Interface please see the [optimizer-c
         },
         ...
     ],
-    // Configure the default bundle file writer:
+    // Bundle file writer configuration
     "fileWriter": {
-        "outputDir": "static",     // Where to write the bundles
-        "urlPrefix": "http://mycdn/static",    // Generate URLs with specified prefix
-        "fingerprintsEnabled": true, // Include fingerprint in output files?
-        "includeSlotNames": false  // Include slot name in output files?
+        // The base output directory for generated bundles
+        "outputDir": "static",
+
+        // Optional URL prefix to prepend to relative bundle paths
+        "urlPrefix": "http://mycdn/static",
+
+        // If fingerprints are enabled then a shasum will be included in the URL.
+        // This feature is used for cache busting.
+        "fingerprintsEnabled": true,
+
+        // If fingerprints are not enabled then the same output file would be
+        // used for bundles that go into the head and bundles that go in the
+        // body. Enabling this option will ensure that bundles have unique names
+        // even if fingerprints are disabled.
+        "includeSlotNames": false
     },
-    "minify": true, // If true then the "optimizer-minify-js" and
-                    // "optimizer-minify-css" plugins will be
-                    // enabled (defaults to false)
-    "resolveCssUrls": true, // If true then the "optimizer-resolve-css-urls" plugin
-                            // will be enabled (defaults to true)
-    "bundlingEnabled": true, // If true then resources will be bundled (defaults to true)
-    // Pre-configured bundles that apply to all pages:
+
+    // If "minify" is set to true then output CSS and JavaScript will run
+    // through a minification transform. (defaults to false)
+    "minify": true,
+
+    // If "resolveCssUrls" is set to try then URLs found in CSS files will be
+    // resolved and the original URLs will be replaced with the resolved URLs.
+    // (defaults to true)
+    "resolveCssUrls": true,
+
+    // If "bundlingEnabled" is set to true then dependencies will be concatenated
+    // together into one or more bundles. If set to false then each dependency
+    // will be written to a separate file. (defaults to true)
+    "bundlingEnabled": true,
+
+    // If you want consistent bundles across pages then those shared bundles
+    // can be specified below. If a page dependency is part of a shared
+    // bundle then the shared bundle will be added to the page (instead of
+    // adding the dependency to the page bundle).
     "bundles": [
         {
+            // Name of the bundle (used for determining the output filename)
             "name": "bundle1",
+
+            // Set of dependencies to add to the bundle
             "dependencies": [
                 "foo.js",
                 "baz.js"
@@ -859,7 +888,8 @@ A dependency can be described using a simple `String` path as shown in the follo
 ```json
 [
     "style.less",
-    "../third-party/jquery.js"
+    "../third-party/jquery.js",
+    "**/*.css"
 ]
 ```
 
@@ -867,10 +897,13 @@ In the examples, the dependency type is inferred from the filename extension. Al
 
 ```json
 [
+    "style.less",
     "less: style.less",
-    { "type": "js", "path": "../third-party/jquery.js" }
+    { "type": "less", "path": "style.less" }
 ]
 ```
+
+_NOTE: all of the above are equivalent_
 
 You can also create a dependency that references dependencies in a separate `optimizer.json` file. For example:
 ```js
@@ -1114,7 +1147,7 @@ Below is a list of plugins that are currently available:
 * Third-party plugins
     * [optimizer-dust](https://github.com/raptorjs3/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
     * [optimizer-handlebars](https://github.com/raptorjs3/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-	* [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
+    * [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
     * [optimizer-less](https://github.com/raptorjs3/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
     * [optimizer-marko](https://github.com/raptorjs3/optimizer-require): Compile [Raptor template](https://github.com/raptorjs3/marko) files to JavaScript
     * [optimizer-sass](https://github.com/raptorjs3/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
@@ -1315,7 +1348,7 @@ module.exports = function myPlugin(optimizer, config) {
 
                 // NOTE: resolvePath can be used to resolve a provided relative path to a full path
                 this.path = this.resolvePath(this.path);
-				callback();
+                callback();
             },
 
             // Read the resource:
@@ -1396,7 +1429,7 @@ optimizer.dependencies.registerPackageType('dir', {
     },
 
     init: function(context, callback) {
-		var path = this.path;
+        var path = this.path;
 
         if (!path) {
             callback(new Error('"path" is required'));
@@ -1404,17 +1437,17 @@ optimizer.dependencies.registerPackageType('dir', {
 
         this.path = path = this.resolvePath(path); // Convert the relative path to an absolute path
 
-		fs.stat(path, function(err, stat) {
-			if (err) {
-				return callback(err);
-			}
+        fs.stat(path, function(err, stat) {
+            if (err) {
+                return callback(err);
+            }
 
-			if (!stat.isDirectory()) {
-				return callback(new Error('Directory expected: ' + path));
-			}
+            if (!stat.isDirectory()) {
+                return callback(new Error('Directory expected: ' + path));
+            }
 
-			callback();
-		});
+            callback();
+        });
     },
 
     getDependencies: function(context, callback) {
@@ -1518,8 +1551,8 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
-	- [gulp-optimizer](https://github.com/raptorjs3/gulp-optimizer)
-	- [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx)
+    - [gulp-optimizer](https://github.com/raptorjs3/gulp-optimizer)
+    - [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx)
 
 # Contribute
 
