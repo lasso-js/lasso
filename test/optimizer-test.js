@@ -773,4 +773,51 @@ describe('optimizer/index', function() {
                 done();
             });
     });
+
+    it('should generate unique filenames for non-file dependencies when bundling is disabled', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: false,
+            plugins: [
+                {
+                    plugin: function(optimizer, config) {
+                        optimizer.dependencies.registerJavaScriptType('foo', {
+                            properties: {
+                            },
+
+                            init: function(optimizerContext, callback) {
+                                callback();
+                            },
+
+                            read: function(optimizerContext, callback) {
+                                callback(null, 'FOO');
+                            }
+                        });
+                    }
+                }
+            ]
+        }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {type: 'foo'}
+                ],
+                from: module
+            }, function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(writerTracker.getCodeForFilename('foo-testPage.js')).to.equal("FOO");
+
+                done();
+            });
+    });
 });

@@ -418,7 +418,7 @@ describe('optimizer-require' , function() {
                     return done(e);
                 }
 
-                var actual = writerTracker.getCodeForFilename('loader-metadata-.js');
+                var actual = writerTracker.getCodeForFilename('loader-metadata-testPage.js');
 
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
