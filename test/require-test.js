@@ -602,4 +602,56 @@ describe('optimizer-require' , function() {
                 optimizer.flushAllCaches(done);
             });
     });
+
+    it('should allow for require("<type>:<path>")"', function(done) {
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                require: {
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                },
+                plugins: [
+                    {
+                        plugin: 'optimizer-require',
+                        config: {
+                            includeClient: false
+                        }
+                    }
+                ],
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+            }, nodePath.join(__dirname, 'test-project'));
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: ./require-complex'
+                ],
+                from: nodePath.join(__dirname, 'test-project')
+            }, function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                expect(writerTracker.getOutputPaths()).to.deep.equal([
+                        nodePath.join(__dirname, 'build/testPage.css'),
+                        nodePath.join(__dirname, 'build/testPage.js')
+                    ]);
+
+                var actualCSS = writerTracker.getCodeForFilename('testPage.css');
+                expect(actualCSS).to.equal('.simple { color: red; }');
+
+                var actualJS = writerTracker.getCodeForFilename('testPage.js');
+
+                // console.log('ACTUAL JS:\n' + actualJS);
+
+                expect(actualJS).to.equal("$rmod.def(\"/simple\", function(require, exports, module, __filename, __dirname) { console.log('SIMPLE');\n\n});\n$rmod.def(\"/require-complex\", function(require, exports, module, __filename, __dirname) { /*require('css: ./simple.css');*/\nrequire('./simple');\n});");
+
+                optimizer.flushAllCaches(done);
+            });
+    });
 });
