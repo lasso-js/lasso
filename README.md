@@ -484,25 +484,26 @@ Output for page "my-page":
 Asynchronously (i.e. lazy loading) of additional dependencies is also supported by the Optimizer as shown in the following sample code:
 
 ```javascript
-var foo = require('foo');
 var raptorLoader = require('raptor-loader');
-exports.doSomething = function(callback) {
-    raptorLoader.async(function(err) {
-        if (err) {
-            // Handle the case where one or more of the
-            // dependencies failed to load.
-        }
 
-        // Any modules that are required within the scope
-        // of this function will be loaded asynchronously
-        var bar = require('bar');
-        var baz = require('baz');
+raptorLoader.async(function(err) {
+    // Any modules that are required within the scope
+    // of this function will be loaded asynchronously.
+    // The Optimizer ensures that modules are only
+    // loaded once from the server.
 
-        // Do something with bar and baz...
+    if (err) {
+        // Handle the case where one or more of the
+        // dependencies failed to load.
+    }
 
-        callback();
+    var add = require('./add');
+    var jquery = require('jquery');
+
+    jquery(function() {
+        $(document.body).append('2+2=' + add(2, 2));
     });
-}
+});
 ```
 
 ## Tutorial: JavaScript API
