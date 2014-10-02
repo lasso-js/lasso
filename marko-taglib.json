@@ -48,7 +48,7 @@
         "optimizer-img": {
             "renderer": "./taglib/img-tag",
             "attributes": {
-                "src": "string",
+                "src": "path",
                 "base-path": "string",
                 "optimizer": "expression",
                 "*": "string"

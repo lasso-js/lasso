@@ -10,7 +10,7 @@ module.exports = function render(input, context) {
     if (!pageOptimizer) {
         pageOptimizer = optimizerRenderContext.data.pageOptimizer || optimizer.defaultPageOptimizer;
     }
-    
+
     if (!pageOptimizer) {
         throw new Error('Page optimizer not configured for application. Use require("optimizer").configureDefault(config) to configure the default page optimizer or provide an optimizer as input using the "optimizer" attribute.');
     }
@@ -21,20 +21,15 @@ module.exports = function render(input, context) {
     var optimizerContext = optimizerRenderContext.data.optimizerContext;
 
     if (!optimizerContext) {
-        optimizerContext = optimizerRenderContext.data.optimizerContext = pageOptimizer.createOptimizerContext();
+        optimizerContext = optimizerRenderContext.data.optimizerContext = pageOptimizer.createOptimizerContext({});
         optimizerContext.renderContext = context;
     }
 
-    if (input.basePath) {
-        optimizerContext = Object.create(optimizerContext);
-        optimizerContext.basePath = input.basePath;
-    }
-    
     var asyncContext;
     var done = false;
 
     function renderImgTag(url, context) {
-        context.write('<img src="' + url + '"');        
+        context.write('<img src="' + url + '"');
         if (input['*']) {
             context.write(attrs(input['*']));
         }
