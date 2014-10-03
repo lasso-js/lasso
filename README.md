@@ -3,7 +3,7 @@ RaptorJS Optimizer
 
 The RaptorJS Optimizer is a Node.js-style module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
-This tool offers many different optimizations such as a bundling, code splitting, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Marko. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
+This tool offers many different optimizations such as a bundling, code splitting, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
 ![eBay Open Source](https://raw.githubusercontent.com/raptorjs/optimizer/master/images/ebay.png)
 
@@ -173,7 +173,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
         * Disk caches are utilized to avoid repeating the same work
 * Dependency Compilation
     * Less
-    * Marko
+    * [Marko](https://github.com/raptorjs/marko)
     * Dust
     * etc.
 * Extensible
