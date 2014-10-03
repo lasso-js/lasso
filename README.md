@@ -5,7 +5,7 @@ The RaptorJS Optimizer is a Node.js-style module bundler that also provides firs
 
 This tool offers many different optimizations such as a bundling, code splitting, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and Marko. This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
-![eBay Open Source](https://raw.githubusercontent.com/raptorjs3/optimizer/master/images/ebay.png)
+![eBay Open Source](https://raw.githubusercontent.com/raptorjs/optimizer/master/images/ebay.png)
 
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
@@ -212,7 +212,7 @@ The following command should be used to install the `optimizer` module into your
 npm install optimizer --save
 ```
 
-If you would like to use the available command line interface, then you should install the [optimizer-cli](https://github.com/raptorjs3/optimizer-cli) module globally using the following command:
+If you would like to use the available command line interface, then you should install the [optimizer-cli](https://github.com/raptorjs/optimizer-cli) module globally using the following command:
 
 ```bash
 npm install optimizer-cli --global
@@ -224,7 +224,7 @@ npm install optimizer-cli --global
 
 <hr>
 
-[__Sample App:__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli)
+[__Sample App:__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli)
 
 <hr>
 
@@ -400,7 +400,7 @@ With the `--production` option enabled, all of the resources are concatenated to
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config)
 
 <hr>
 
@@ -476,7 +476,7 @@ Output for page "my-page":
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async)To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async)To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async)
 
 <hr>
 
@@ -510,7 +510,7 @@ raptorLoader.async(function(err) {
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api)
 
 <hr>
 
@@ -546,7 +546,7 @@ optimizer.optimizePage({
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib)
 
 <hr>
 
@@ -590,7 +590,7 @@ template.render({}, function(err, html) {
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-templates) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-templates](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-templates)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates)
 
 <hr>
 
@@ -621,7 +621,7 @@ template.render(
     });
 ```
 
-_NOTE: The reason we use `require.resolve('./template.marko')` instead of `require('template.marko')` is that Node.js does not understand how to load `.marko` modules and the use of the `require.extensions` has been [deprecated](http://nodejs.org/api/globals.html#globals_require_extensions). `require.resolve()` is used to get the resolved path for the template and the [marko](https://github.com/raptorjs3/marko) module uses that path to load template into memory._
+_NOTE: The reason we use `require.resolve('./template.marko')` instead of `require('template.marko')` is that Node.js does not understand how to load `.marko` modules and the use of the `require.extensions` has been [deprecated](http://nodejs.org/api/globals.html#globals_require_extensions). `require.resolve()` is used to get the resolved path for the template and the [marko](https://github.com/raptorjs/marko) module uses that path to load template into memory._
 
 Running `node main.js` on the server will produce the following output in the console:
 
@@ -629,7 +629,7 @@ Running `node main.js` on the server will produce the following output in the co
 Template output: Hello Frank!
 ```
 
-In order to automatically detect and compile required `*.marko` templates we will need to install the [optimizer-marko](https://github.com/raptorjs3/optimizer-marko) plugin using the following command:
+In order to automatically detect and compile required `*.marko` templates we will need to install the [optimizer-marko](https://github.com/raptorjs/optimizer-marko) plugin using the following command:
 
 ```bash
 npm install optimizer-marko
@@ -650,7 +650,7 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express)
 
 <hr>
 
@@ -730,7 +730,7 @@ Alternatively, you can create a JSON configuration file and use that instead:
 optimizer --config optimizer-config.json
 ```
 
-For more documentation on the Command Line Interface please see the [optimizer-cli docs](https://github.com/raptorjs3/optimizer-cli).
+For more documentation on the Command Line Interface please see the [optimizer-cli docs](https://github.com/raptorjs/optimizer-cli).
 
 ## Configuration
 
@@ -978,7 +978,7 @@ __Using the Marko taglib:__
 
 The Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
-This functionality is offered by the core [optimizer-require](https://github.com/raptorjs3/optimizer-require) plugin which introduces a new `require` dependency type. For example:
+This functionality is offered by the core [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin which introduces a new `require` dependency type. For example:
 ```json
 [
     "require: ./path-to-some-module"
@@ -998,7 +998,7 @@ The `optimizer-require` plugin will automatically wrap all Node.js modules so th
 
 The `optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
-For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/optimizer-require](https://github.com/raptorjs3/optimizer-require) plugin.
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/optimizer-require](https://github.com/raptorjs/optimizer-require) plugin.
 
 # Bundling
 
@@ -1081,7 +1081,7 @@ For more information on working with bundles. Please see the [bundling docs](doc
 
 # Asynchronous Module Loading
 
-The Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs3/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
+The Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
 
 ```javascript
 require('raptor-loader').async(function() {
@@ -1141,19 +1141,19 @@ require('raptor-loader').async(
 Below is a list of plugins that are currently available:
 
 * Core plugins
-    * [optimizer-require](https://github.com/raptorjs3/optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-    * [optimizer-minify-css](https://github.com/raptorjs3/optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-    * [optimizer-minify-js](https://github.com/raptorjs3/optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-    * [optimizer-resolve-css-urls](https://github.com/raptorjs3/optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+    * [optimizer-require](https://github.com/raptorjs/optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
+    * [optimizer-minify-css](https://github.com/raptorjs/optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+    * [optimizer-minify-js](https://github.com/raptorjs/optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+    * [optimizer-resolve-css-urls](https://github.com/raptorjs/optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
 
 * Third-party plugins
-    * [optimizer-dust](https://github.com/raptorjs3/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
-    * [optimizer-handlebars](https://github.com/raptorjs3/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-    * [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
-    * [optimizer-less](https://github.com/raptorjs3/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
-    * [optimizer-marko](https://github.com/raptorjs3/optimizer-require): Compile [Raptor template](https://github.com/raptorjs3/marko) files to JavaScript
-    * [optimizer-sass](https://github.com/raptorjs3/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
-    * [optimizer-stylus](https://github.com/raptorjs3/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
+    * [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
+    * [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
+    * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
+    * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
+    * [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
+    * [optimizer-sass](https://github.com/raptorjs/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
+    * [optimizer-stylus](https://github.com/raptorjs/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
@@ -1165,7 +1165,7 @@ If you create your own plugin please send a Pull Request and it will show up abo
 
 # Optimizer Taglib
 
-If you are using [Marko](https://github.com/raptorjs3/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the Optimizer to easily optimize page dependencies and embed them into your page.
+If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the Optimizer to easily optimize page dependencies and embed them into your page.
 
 ## Using the Optimizer Taglib with Marko
 
@@ -1326,7 +1326,7 @@ There are three types of dependencies that are supported:
 * __CSS dependency:__ Produces CSS code
 * __Package dependency:__ Produces a package of additional JavaScript and CSS dependencies
 
-Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [optimizer-less](https://github.com/raptorjs3/optimizer-less)).
+Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [optimizer-less](https://github.com/raptorjs/optimizer-less)).
 
 ### Custom JavaScript Dependency Type
 
@@ -1533,13 +1533,13 @@ module.exports = function (pageOptimizer, pluginConfig) {
 
 # Sample Projects
 
-* [raptor-samples/optimizer-cli](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface.
-* [raptor-samples/optimizer-config](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-config): Sample app that demonstrates the use of a JSON config file.
-* [raptor-samples/optimizer-async](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading.
-* [raptor-samples/optimizer-js-api](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
-* [raptor-samples/optimizer-taglib](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Marko.
-* [raptor-samples/optimizer-templates](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-templates): Sample app that demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/optimizer-express](https://github.com/raptorjs3/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the Optimizer at runtime as part of an Express server app.
+* [raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface.
+* [raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config): Sample app that demonstrates the use of a JSON config file.
+* [raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading.
+* [raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
+* [raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Marko.
+* [raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates): Sample app that demonstrates the use of rendering the same templates on both the server and the client.
+* [raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the Optimizer at runtime as part of an Express server app.
 
 # Discuss
 
@@ -1553,8 +1553,8 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
-    - [gulp-optimizer](https://github.com/raptorjs3/gulp-optimizer)
-    - [optimizer-jsx](https://github.com/raptorjs3/optimizer-jsx)
+    - [gulp-optimizer](https://github.com/raptorjs/gulp-optimizer)
+    - [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx)
 
 # Contribute
 
