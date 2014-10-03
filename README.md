@@ -945,7 +945,7 @@ If needed, a JavaScript expression can be used to describe a more complex condit
     "dependencies": [
         {
             "path": "hello-mobile.js",
-            "if": "extensions.contains('mobile') || extensions.contains('ipad')"
+            "if": "extensions.contains('phone') || extensions.contains('tablet')"
         }
     ]
 }
