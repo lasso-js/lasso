@@ -14,7 +14,8 @@
                 "dependencies": "expression",
                 "enabled-extensions": "expression",
                 "extensions": "expression",
-                "wait-for": "expression"
+                "wait-for": "expression",
+                "timeout": "integer"
             },
             "var": "_dependenciesParent",
             "import-var": {

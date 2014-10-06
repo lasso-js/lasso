@@ -12,10 +12,9 @@ function renderSlot(slotName, optimizedPage, context, optimizerContext) {
 
 module.exports = function render(input, context) {
     var slotName = input.name;
-    
-    
     var optimizerRenderContext = util.getOptimizerRenderContext(context);
     var optimizedPageDataHolder = optimizerRenderContext.data.optimizedPage;
+    var timeout = optimizerRenderContext.data.timeout;
 
     if (!optimizedPageDataHolder) {
         throw new Error('Optimized page not found for slot "' + slotName + '". The <optimizer-page> tag should be used to generate the optimized page.');
@@ -23,12 +22,14 @@ module.exports = function render(input, context) {
 
     optimizerRenderContext.emitBeforeSlot(slotName, context);
 
-
     if (optimizedPageDataHolder.isResolved()) {
         renderSlot(slotName, optimizedPageDataHolder.data, context, optimizerRenderContext);
     } else {
-        var asyncContext = context.beginAsync({name: 'optimizer-slot:' + slotName});
-        
+        var asyncContext = context.beginAsync({
+            name: 'optimizer-slot:' + slotName,
+            timeout: timeout
+        });
+
         optimizedPageDataHolder.done(function(err, optimizedPage) {
             if (err) {
                 // logger.error('Optimizer "' + slotName + '" slot failed.', err);

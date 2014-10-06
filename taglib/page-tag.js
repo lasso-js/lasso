@@ -15,7 +15,7 @@ module.exports = function render(input, context) {
     }
 
     var optimizerRenderContext = util.getOptimizerRenderContext(context);
-    
+
     var pageName = input.name || input.pageName;
 
     if (!pageName) {
@@ -50,9 +50,10 @@ module.exports = function render(input, context) {
     optimizerRenderContext.data.pageOptimizer = pageOptimizer;
 
     var optimizedPageDataHolder;
-    
+
     // store optimized page data holder in the context data (used by slot tags)
     optimizerRenderContext.data.optimizedPage = optimizedPageDataHolder = new DataHolder();
+    optimizerRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
     function done(err, optimizedPage) {
         if (err) {
@@ -63,29 +64,29 @@ module.exports = function render(input, context) {
     }
 
     function doOptimizePage() {
-        
+
         var enabledExtensions = pageOptimizer.resolveEnabledExtensions(optimizerRenderContext, input);
 
         if (logger.isDebugEnabled()) {
             logger.debug('Enabled page extensions: ' + enabledExtensions);
         }
-        
+
         pageOptimizer.optimizePage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
-                
+
                 // the page name (used for caching)
                 pageName: pageName,
-                
+
                 // properties for the optimizer context
                 data: optimizerContextData,
-                
+
                 // Provide base path for resolving relative top-level dependencies
                 from: input.module || input.dirname,
-                
+
                 // what is this for?
                 basePath: input.basePath,
-                
+
                 // extensions to be enabled at time of rendering
                 enabledExtensions: enabledExtensions,
 
@@ -116,7 +117,7 @@ module.exports = function render(input, context) {
                                 return {
                                     type: 'package',
                                     path: path
-                                };   
+                                };
                             });
                     } else if (input.invokeBody) {
                         dependencies = [];
