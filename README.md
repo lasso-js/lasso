@@ -1006,9 +1006,9 @@ If you want to include a module and have it run when loaded (i.e. self-executing
 ]
 ```
 
-The `optimizer-require` plugin will automatically scan the source for for any required module to include any additional modules that are required by a particular module (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+The [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
 
-The `optimizer-require` plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
+The [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
 
 The `optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
