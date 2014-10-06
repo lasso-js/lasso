@@ -64,10 +64,15 @@ This tool offers many different optimizations such as a bundling, code splitting
 
 # Example
 
-Install some modules from npm:
+Install the command line interface for the Optimizer:
 
-```
+```text
 npm install optimizer-cli --global
+```
+
+Install a helper module from npm:
+
+```text
 npm install change-case
 ```
 
@@ -102,7 +107,7 @@ __my-page.html:__
     <title>Optimizer Demo</title>
 </head>
 <body>
-    <h1 id="header">Optimizer Demo</h1>
+    <h1>Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -110,12 +115,14 @@ __my-page.html:__
 Run the following command:
 
 ```bash
-optimizer style.css --main main.js --inject-into my-page.html
+optimizer style.css \
+    --main main.js \
+    --inject-into my-page.html
 ```
 
 Output:
 
-```
+```text
 Output for page "my-page":
   Resource bundle files:
     static/my-page-9ac9985e.js
@@ -275,7 +282,7 @@ __style.less:__
 ```css
 @headerColor: #5B83AD;
 
-#header {
+h1 {
     color: @headerColor;
 }
 ```
@@ -290,7 +297,7 @@ __my-page.html:__
     <title>Optimizer Demo</title>
 </head>
 <body>
-    <h1 id="header">Optimizer Demo</h1>
+    <h1>Optimizer Demo</h1>
 </body>
 </html>
 ```
@@ -335,7 +342,7 @@ The updated `my-page.html` file should be similar to the following:
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1 id="header">Optimizer Demo</h1>
+    <h1>Optimizer Demo</h1>
     <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
@@ -385,7 +392,7 @@ The updated `my-page.html` file should be similar to the following:
     <!-- </optimizer-head> -->
 </head>
 <body>
-    <h1 id="header">Optimizer Demo</h1>
+    <h1>Optimizer Demo</h1>
     <!-- <optimizer-body> -->
     <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
@@ -454,7 +461,9 @@ __my-page.optimizer.json:__
 Now run the page optimizer using the newly created JSON config file and JSON dependencies file:
 
 ```bash
-optimizer ./my-page.optimizer.json --inject-into my-page.html --config optimizer-config.json
+optimizer ./my-page.optimizer.json \
+    --inject-into my-page.html \
+    --config optimizer-config.json
 ```
 
 Because of the newly configured bundles, we'll see additional JavaScript bundles written to disk as shown below:
@@ -488,9 +497,12 @@ var raptorLoader = require('raptor-loader');
 
 raptorLoader.async(function(err) {
     // Any modules that are required within the scope
-    // of this function will be loaded asynchronously.
+    // of this function will be loaded asynchronously*.
     // The Optimizer ensures that modules are only
     // loaded once from the server.
+    //
+    // *Modules that were included as part of the initial
+    // page load will automatically be de-duped.
 
     if (err) {
         // Handle the case where one or more of the
@@ -569,7 +581,7 @@ __my-page.marko:__
     <optimizer-head/>
 </head>
 <body>
-    <h1 id="header">Optimizer Demo</h1>
+    <h1>Optimizer Demo</h1>
 
     <!-- <script> tags will be injected below: -->
     <optimizer-body/>
@@ -701,7 +713,9 @@ The `optimizer` module includes a command line interface (CLI) that can be used 
 A simple usage that writes out a JavaScript bundle and a CSS bundle to the `static/` directory that includes all of the required dependencies is shown below:
 
 ```bash
-optimizer foo.js style.less --main main.js --name my-page
+optimizer foo.js style.less \
+    --main main.js \
+    --name my-page
 ```
 
 With additional options:
