@@ -1151,7 +1151,7 @@ __Third-party plugins__
 
 * [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
 * [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-* [optimizer-images](https://github.com/raptorjs/optimizer-jsx): Get image info (including URL, width and height) for any image on both the server and client
+* [optimizer-images](https://github.com/raptorjs/optimizer-images): Get image info (including URL, width and height) for any image on both the server and client
 * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
 * [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
