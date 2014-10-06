@@ -1140,21 +1140,23 @@ require('raptor-loader').async(
 
 Below is a list of plugins that are currently available:
 
-* Core plugins
-    * [optimizer-require](https://github.com/raptorjs/optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-    * [optimizer-minify-css](https://github.com/raptorjs/optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-    * [optimizer-minify-js](https://github.com/raptorjs/optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-    * [optimizer-resolve-css-urls](https://github.com/raptorjs/optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+__Core plugins:__
 
-* Third-party plugins
-    * [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
-    * [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-    * [optimizer-images](https://github.com/raptorjs/optimizer-jsx): Get image info (including URL, width and height) for any image on both the server and client
-    * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
-    * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
-    * [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
-    * [optimizer-sass](https://github.com/raptorjs/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
-    * [optimizer-stylus](https://github.com/raptorjs/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
+* [optimizer-require](https://github.com/raptorjs/optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
+* [optimizer-minify-css](https://github.com/raptorjs/optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+* [optimizer-minify-js](https://github.com/raptorjs/optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+* [optimizer-resolve-css-urls](https://github.com/raptorjs/optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+
+__Third-party plugins__
+
+* [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
+* [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
+* [optimizer-images](https://github.com/raptorjs/optimizer-jsx): Get image info (including URL, width and height) for any image on both the server and client
+* [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
+* [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
+* [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
+* [optimizer-sass](https://github.com/raptorjs/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
+* [optimizer-stylus](https://github.com/raptorjs/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
