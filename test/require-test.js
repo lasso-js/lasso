@@ -171,16 +171,16 @@ describe('optimizer-require' , function() {
                 }
 
                 // console.log('writer: ', writer);
-                expect(writerTracker.getOutputPaths()).to.deep.equal([
-                        nodePath.join(__dirname, 'build/testPage.js')
-                    ]);
+                var build = nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, '/');
+                expect(writerTracker.getOutputPaths()).to.deep.equal([build]);
 
                 // console.log(writerTracker.getCodeForFilename('testPage.js'));
 
                 var actual = writerTracker.getCodeForFilename('testPage.js');
-                fs.writeFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.actual.js'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(
-                    fs.readFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.expected.js'), {encoding: 'utf8'}));
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.actual.js').replace(/\\\\/g, '/'), actual, {encoding: 'utf8'});
+                var read = fs.readFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.expected.js'), {encoding: 'utf8'});
+                read = read.replace(/\r/g, '')
+                expect(actual).to.equal(read);
 
                 optimizer.flushAllCaches(done);
             });
@@ -229,9 +229,9 @@ describe('optimizer-require' , function() {
                 }
 
                 expect(writerTracker.getOutputPaths()).to.deep.equal([
-                        nodePath.join(__dirname, 'build/core.js'),
-                        nodePath.join(__dirname, 'build/jquery.js'),
-                        nodePath.join(__dirname, 'build/testPage.js')
+                        nodePath.join(__dirname, 'build/core.js').replace(/\\/g, "/"),
+                        nodePath.join(__dirname, 'build/jquery.js').replace(/\\/g, "/"),
+                        nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
                     ]);
 
                 optimizer.flushAllCaches(done);
@@ -463,8 +463,9 @@ describe('optimizer-require' , function() {
                 var actual = writerTracker.getCodeForFilename('testPage.js');
 
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/require-json.actual.js'), actual, {encoding: 'utf8'});
-                expect(actual).to.equal(
-                    fs.readFileSync(nodePath.join(__dirname, 'resources/require-json.expected.js'), {encoding: 'utf8'}));
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'resources/require-json.expected.js'), {encoding: 'utf8'});
+                expected = expected.replace(/\r/g, '');
+                expect(actual).to.equal(expected);
 
                 optimizer.flushAllCaches(done);
             });
@@ -506,7 +507,7 @@ describe('optimizer-require' , function() {
 
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/require-run.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
-                    fs.readFileSync(nodePath.join(__dirname, 'resources/require-run.expected.js'), {encoding: 'utf8'}));
+                    fs.readFileSync(nodePath.join(__dirname, 'resources/require-run.expected.js').replace(/\\/g, "/"), {encoding: 'utf8'}));
 
                 optimizer.flushAllCaches(done);
             });
@@ -548,7 +549,7 @@ describe('optimizer-require' , function() {
                 }
 
                 expect(writerTracker.getOutputPaths()).to.deep.equal([
-                        nodePath.join(__dirname, 'build/testPage.js')
+                        nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
                     ]);
 
                 var actual = writerTracker.getCodeForFilename('testPage.js');
@@ -594,7 +595,7 @@ describe('optimizer-require' , function() {
                 }
 
                 expect(writerTracker.getOutputPaths()).to.deep.equal([
-                        nodePath.join(__dirname, 'build/testPage.css')
+                        nodePath.join(__dirname, 'build/testPage.css').replace(/\\/g, "/")
                     ]);
 
                 var actual = writerTracker.getCodeForFilename('testPage.css');
@@ -638,8 +639,8 @@ describe('optimizer-require' , function() {
                 }
 
                 expect(writerTracker.getOutputPaths()).to.deep.equal([
-                        nodePath.join(__dirname, 'build/testPage.css'),
-                        nodePath.join(__dirname, 'build/testPage.js')
+                        nodePath.join(__dirname, 'build/testPage.css').replace(/\\/g, "/"),
+                        nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
                     ]);
 
                 var actualCSS = writerTracker.getCodeForFilename('testPage.css');

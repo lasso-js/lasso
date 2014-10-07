@@ -14,11 +14,11 @@ function testRender(path, data, done, options) {
     // var compiledPath = nodePath.join(__dirname, path + '.actual.js');
     // var compiler = require('marko/compiler').createCompiler(inputPath);
     // var src = fs.readFileSync(inputPath, {encoding: 'utf8'});
-    
+
     // var compiledSrc = compiler.compile(src);
     // fs.writeFileSync(compiledPath, compiledSrc, {encoding: 'utf8'});
 
-    
+
     var dust = require('dustjs-linkedin');
 
     dust.render(inputPath, data, function(err, output) {
@@ -46,7 +46,7 @@ function testRender(path, data, done, options) {
         } catch(e) {
             return done(e);
         }
-    }); 
+    });
 }
 
 require('raptor-logging').configureLoggers({

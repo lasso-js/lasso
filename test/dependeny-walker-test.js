@@ -65,6 +65,10 @@ describe('optimizer' , function() {
 
                 // console.log(JSON.stringify(dependencies, null, 4));
 
+				for(var i=0; i < dependencies.length; i++) {
+					dependencies[i] = dependencies[i].replace(/\\\\/g, '\\');
+				}
+
                 expect(dependencies).to.deep.equal([
                     '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
                     '[package: path="' + nodePath.join(__dirname, 'src/moduleA/optimizer.json') + '"]',
