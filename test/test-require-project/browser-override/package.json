@@ -1,0 +1,6 @@
+{
+    "main": "server.js",
+    "browser": {
+        "./server.js": "./client.js"
+    }
+}

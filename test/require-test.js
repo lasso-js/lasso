@@ -655,4 +655,47 @@ describe('optimizer-require' , function() {
                 optimizer.flushAllCaches(done);
             });
     });
+
+    it('should allow for browser overrides', function(done) {
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                plugins: [
+                    {
+                        plugin: 'optimizer-require',
+                        config: {
+                            includeClient: false
+                        }
+                    }
+                ],
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+            }, nodePath.join(__dirname, 'test-project'));
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    'require: ./browser-override'
+                ],
+                from: nodePath.join(__dirname, 'test-require-project')
+            }, function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                expect(writerTracker.getOutputPaths()).to.deep.equal([
+                        nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
+                    ]);
+
+                var actual = writerTracker.getCodeForFilename('testPage.js');
+                expect(actual).to.contain("[CLIENT]");
+                expect(actual).to.not.contain("[SERVER]");
+
+                optimizer.flushAllCaches(done);
+            });
+    });
 });
