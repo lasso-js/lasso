@@ -21,6 +21,8 @@ function testRender(path, data, done, options) {
 
     var dust = require('dustjs-linkedin');
 
+    inputPath = inputPath.replace(/[\\]/g, '/');
+
     dust.render(inputPath, data, function(err, output) {
         if (err) {
             return done(err);
