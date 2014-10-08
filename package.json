@@ -55,7 +55,6 @@
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
-    "version": "1.2.9",
     "keywords": [
         "bundler",
         "build",
@@ -63,5 +62,6 @@
         "javascript",
         "concat",
         "minify"
-    ]
+    ],
+    "version": "1.2.10"
 }
