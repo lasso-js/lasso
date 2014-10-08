@@ -6,6 +6,8 @@ var expect = require('chai').expect;
 var path = require('path');
 var util = require('./util');
 var outputDir = path.join(__dirname, 'build');
+var series = require('raptor-async/series');
+
 require('app-module-path').addPath(path.join(__dirname, 'src'));
 describe('optimizer/index', function() {
     beforeEach(function(done) {
@@ -835,5 +837,93 @@ describe('optimizer/index', function() {
 
                 done();
             });
+    });
+
+    it('should support supporting out common dependencies into a separate bundle', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            plugins: [
+            ],
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            'intersection': [
+                                path.join(__dirname, 'fixtures/code-splitting/page1.optimizer.json'),
+                                path.join(__dirname, 'fixtures/code-splitting/page2.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        series(
+            [
+                function(callback) {
+                    writerTracker.reset();
+                    pageOptimizer.optimizePage({
+                            pageName: 'page1',
+                            dependencies: [
+                                path.join(__dirname, 'fixtures/code-splitting/page1.optimizer.json')
+                            ],
+                            from: module
+                        }, function(err, optimizedPage) {
+                            if (err) {
+                                return callback(err);
+                            }
+
+                            expect(writerTracker.getCodeForFilename('page1.js')).to.equal("FOO");
+
+                            expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                                    'common.js',
+                                    'page1.js'
+                                ]);
+
+                            expect(writerTracker.getCodeForFilename('common.js')).to.equal("COMMON");
+
+                            callback();
+                        });
+                },
+                function(callback) {
+                    writerTracker.reset();
+                    pageOptimizer.optimizePage({
+                            pageName: 'page2',
+                            dependencies: [
+                                path.join(__dirname, 'fixtures/code-splitting/page2.optimizer.json')
+                            ],
+                            from: module
+                        }, function(err, optimizedPage) {
+                            if (err) {
+                                return callback(err);
+                            }
+
+                            expect(writerTracker.getCodeForFilename('page2.js')).to.equal("BAR");
+
+                            expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                                    'common.js',
+                                    'page2.js'
+                                ]);
+
+                            expect(writerTracker.getCodeForFilename('common.js')).to.equal("COMMON");
+
+                            callback();
+                        });
+                }
+            ],
+            done
+        );
+
+
+
     });
 });

@@ -4,8 +4,7 @@ var ok = require('assert').ok;
 
 function WriterTracker(writer) {
     var _this = this;
-    this.outputFilesByPath = {};
-    this.outputFilesByName = {};
+    this.reset();
 
     writer.on('resourceWritten', function(resource) {
         var outputFile = resource.outputFile;
@@ -58,6 +57,11 @@ WriterTracker.prototype = {
         return files;
     },
 
+    reset: function() {
+        this.outputFilesByPath = {};
+        this.outputFilesByName = {};
+    },
+
     toString: function() {
         return '[WriterTracker@' + module.filename + ']';
     }
@@ -65,6 +69,6 @@ WriterTracker.prototype = {
 
 WriterTracker.create = function(writer) {
     return new WriterTracker(writer);
-}
+};
 
 module.exports = WriterTracker;

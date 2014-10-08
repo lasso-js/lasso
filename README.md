@@ -155,6 +155,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 * Optimize Client-side Dependencies
     * Supports all types of dependencies (JavaScript, CSS, images, Less, CoffeeScript, etc.)
     * Configurable resource bundling
+    * Code splitting
     * JavaScript minification
     * CSS minification
     * [Fingerprinted](http://en.wikipedia.org/wiki/Fingerprint_(computing)) resource URLs
@@ -1020,8 +1021,9 @@ By default, all dependencies required for a page will be bundled into a single J
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle.
 
-## Bundling Example
+Bundles can be configured using the `"bundles"` configuration property that accepts an array of bundle configurations. Each bundle should consist of a name and a set of dependencies to assign to that bundle.
 
+## Bundling Example
 
 Given the following configured bundles:
 
@@ -1082,12 +1084,24 @@ Output for page "my-page":
     build/my-page.html.json
 ```
 
-For reference, the following is the content of `build/my-page.html.json` after running the last command:
+To support code splitting, the Optimizer supports an `intersection` dependency type that can be used to create a bundle that consists of the set of dependencies that a set of pages have in common. The following code illustrates how to create a bundle that contains code that pages have in common:
 
 ```json
 {
-    "body": "<script type=\"text/javascript\" src=\"static/my-page.js\"></script>\n<script type=\"text/javascript\" src=\"static/bundle1.js\"></script>",
-    "head": "<link rel=\"stylesheet\" type=\"text/css\" href=\"static/my-page.css\">"
+    ...
+    "bundles": [
+        {
+            "name": "common",
+            "dependencies": [
+                {
+                    "intersection": [
+                        "./src/pages/home/optimizer.json",
+                        "./src/pages/profile/optimizer.json"
+                    ]
+                }
+            ]
+        }
+    ]
 }
 ```
 
