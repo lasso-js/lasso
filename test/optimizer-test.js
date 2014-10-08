@@ -65,10 +65,8 @@ describe('optimizer/index', function() {
     it('should handle de-duplication correctly', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
-            fileWriter: {
-                outputDir: outputDir,
-                fingerprintsEnabled: false
-            },
+            outputDir: outputDir,
+            fingerprintsEnabled: false,
             enabledExtensions: ['jquery', 'browser'],
             bundles: [
                 {
