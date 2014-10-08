@@ -26,6 +26,7 @@ This tool offers many different optimizations such as a bundling, code splitting
     - [Tutorial: Optimizer Taglib](#tutorial-optimizer-taglib)
     - [Tutorial: Client/Server Template Rendering](#tutorial-clientserver-template-rendering)
     - [Tutorial: Runtime Optimization with Express](#tutorial-runtime-optimization-with-express)
+    - [Tutorial: Code Splitting](#tutorial-code-splitting)
 - [Usage](#usage)
     - [Command Line Interface](#command-line-interface)
     - [Configuration](#configuration)
@@ -703,6 +704,36 @@ app.get('/', function(req, res) {
 ...
 
 app.listen(8080);
+```
+
+## Tutorial: Code Splitting
+
+<hr>
+
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting) To try out and experiment with the code for this tutorial, please see the following project:<br>[raptor-samples/optimizer-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting)
+
+<hr>
+
+The Optimizer supports splitting out code that multiple pages/entry points have in common into separate bundles. This is accomplished by assigning an `intersection` dependency to a bundle. The `intersection` dependency is a package dependency that produces a set of dependencies that is the intersection of one or more packages. the intersection of. Code splitting ensures that the same code is not downloaded twice by the user when navigating a web application.
+
+The following bundle configuration illustrates how to split out common code into a separate bundle:
+
+```json
+{
+    "bundles": [
+        {
+            "name": "common",
+            "dependencies": [
+                {
+                    "intersection": [
+                        "./src/pages/home/optimizer.json",
+                        "./src/pages/profile/optimizer.json"
+                    ]
+                }
+            ]
+        }
+    ]
+}
 ```
 
 # Usage
@@ -1564,13 +1595,14 @@ module.exports = function (pageOptimizer, pluginConfig) {
 
 # Sample Projects
 
-* [raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli): Sample usage of the command-line interface.
-* [raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config): Sample app that demonstrates the use of a JSON config file.
-* [raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async): Sample app that demonstrates asynchronous/lazy dependency loading.
-* [raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api): Sample app that demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
-* [raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib): Sample app that demonstrates the use of the optimizer taglib for Marko.
-* [raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates): Sample app that demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express): Sample app that demonstrates using the Optimizer at runtime as part of an Express server app.
+* [raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli): Demonstrates the command-line interface.
+* [raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config): Demonstrates the usage of a JSON config file.
+* [raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async): Demonstrates asynchronous/lazy dependency loading.
+* [raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api): Demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
+* [raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib): Demonstrates the use of the optimizer taglib for Marko.
+* [raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates): Demonstrates the use of rendering the same templates on both the server and the client.
+* [raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express): Demonstrates using the Optimizer at runtime as part of an Express server app.
+* [raptor-samples/optimizer-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
 
 # Discuss
 
