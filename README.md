@@ -417,10 +417,8 @@ __optimizer-config.json:__
     "plugins": [
         "optimizer-less"
     ],
-    "fileWriter": {
-        "outputDir": "static",
-        "fingerprintsEnabled": true
-    },
+    "outputDir": "static",
+	"fingerprintsEnabled": true,
     "minify": true,
     "resolveCssUrls": true,
     "bundlingEnabled": true,
@@ -1080,14 +1078,14 @@ The following bundle configuration illustrates how to split out common code into
 ## Default Configuration
 ```javascript
 {
-    // Configure the bundle file writer:
-    "fileWriter": {
-        // Write all bundles into the "static" directory
-        "outputDir": "static",
+    // Write all bundles into the "static" directory
+	"outputDir": "static",
 
-        // Include fingerprint in output files
-        "fingerprintsEnabled": true  
-    }
+	// URL prefix for all bundles
+	"urlPrefix": "/static",
+
+	// Include fingerprint in output files
+	"fingerprintsEnabled": true  
 }
 ```
 
@@ -1106,24 +1104,21 @@ The following bundle configuration illustrates how to split out common code into
         },
         ...
     ],
-    // Bundle file writer configuration
-    "fileWriter": {
-        // The base output directory for generated bundles
-        "outputDir": "static",
+    // The base output directory for generated bundles
+	"outputDir": "static",
 
-        // Optional URL prefix to prepend to relative bundle paths
-        "urlPrefix": "http://mycdn/static",
+	// Optional URL prefix to prepend to relative bundle paths
+	"urlPrefix": "http://mycdn/static",
 
-        // If fingerprints are enabled then a shasum will be included in the URL.
-        // This feature is used for cache busting.
-        "fingerprintsEnabled": true,
+	// If fingerprints are enabled then a shasum will be included in the URL.
+	// This feature is used for cache busting.
+	"fingerprintsEnabled": true,
 
-        // If fingerprints are not enabled then the same output file would be
-        // used for bundles that go into the head and bundles that go in the
-        // body. Enabling this option will ensure that bundles have unique names
-        // even if fingerprints are disabled.
-        "includeSlotNames": false
-    },
+	// If fingerprints are not enabled then the same output file would be
+	// used for bundles that go into the head and bundles that go in the
+	// body. Enabling this option will ensure that bundles have unique names
+	// even if fingerprints are disabled.
+	"includeSlotNames": false
 
     // If "minify" is set to true then output CSS and JavaScript will run
     // through a minification transform. (defaults to false)
