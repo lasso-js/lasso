@@ -677,7 +677,7 @@ describe('optimizer/index', function() {
                 if (err) {
                     return done(err);
                 }
-                expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="test/build/testPage-b66ed708.js"></script>');
+                expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="/static/testPage-b66ed708.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
                 optimizer.flushAllCaches(done);
             });
