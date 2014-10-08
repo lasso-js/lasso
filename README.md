@@ -714,7 +714,7 @@ app.listen(8080);
 
 <hr>
 
-The Optimizer supports splitting out code that multiple pages/entry points have in common into separate bundles. This is accomplished by assigning an `intersection` dependency to a bundle. The `intersection` dependency is a package dependency that produces a set of dependencies that is the intersection of one or more packages. the intersection of. Code splitting ensures that the same code is not downloaded twice by the user when navigating a web application.
+The Optimizer supports splitting out code that multiple pages/entry points have in common into separate bundles. This is accomplished by assigning an `intersection` dependency to a bundle. The `intersection` dependency is a package dependency that produces a set of dependencies that is the intersection of one or more packages. Code splitting ensures that the same code is not downloaded twice by the user when navigating a web application.
 
 The following bundle configuration illustrates how to split out common code into a separate bundle:
 
