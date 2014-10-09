@@ -152,7 +152,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Code splitting
     * JavaScript minification
     * CSS minification
-    * [Fingerprinted](http://en.wikipedia.org/wiki/Fingerprint_(computing)) resource URLs
+    * [Fingerprinted](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching) resource URLs
     * Prefix resources with CDN host name
     * Optional Base64 image encoding inside CSS files
     * Custom output transforms
@@ -198,7 +198,6 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Automatic image compression
 
 # Another Client-side Bundler?
-
 
 [Browserify](http://browserify.org/) is an excellent JavaScript module bundler. We are huge supporters of writing Node.js-style modules (i.e. CommonJS), and we also believe [npm](https://www.npmjs.org/) is an excellent package manager. If you are not using a JavaScript module bundler then you are absolutely missing out. Modularity is equally important for client-side code as it is for server-side code, and a JavaScript module bundler should be part of every front-end developer's toolbox.
 
@@ -348,7 +347,6 @@ The updated `my-page.html` file should be similar to the following:
     <!-- </optimizer-body> -->
 </body>
 </html>
-
 ```
 
 If you open up `my-page.html` in your web browser you should see a page styled with Less and the output of running `main.js`.
