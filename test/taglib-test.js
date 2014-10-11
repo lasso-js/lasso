@@ -2,7 +2,7 @@
 var chai = require('chai');
 chai.Assertion.includeStack = true;
 require('chai').should();
-var expect = require('chai').expect;
+//var expect = require('chai').expect;
 var nodePath = require('path');
 var fs = require('fs');
 
@@ -25,7 +25,7 @@ function testRender(path, data, done, options) {
     var context = options.context || new AsyncWriter(new StringBuilder());
 
     marko.render(inputPath, data, context)
-        .on('end', function() {
+        .on('finish', function() {
             try {
                 var output = context.getOutput();
 
@@ -51,10 +51,7 @@ function testRender(path, data, done, options) {
         })
         .on('error', function(e) {
             done(e || new Error('Error during render'));
-        });
-
-    context.end();
-
+        }).end();
 }
 
 require('raptor-logging').configureLoggers({
