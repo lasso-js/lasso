@@ -920,8 +920,5 @@ describe('optimizer/index', function() {
             ],
             done
         );
-
-
-
     });
 });
