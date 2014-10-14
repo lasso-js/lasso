@@ -3,7 +3,7 @@ RaptorJS Optimizer
 
 The RaptorJS Optimizer is a Node.js-style JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
-This tool offers many different optimizations such as a bundling, code splitting, lazy loading, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
+This tool offers many different optimizations such as a bundling, code splitting, lazy loading, conditional dependencies, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
 ![eBay Open Source](https://raw.githubusercontent.com/raptorjs/optimizer/master/images/ebay.png)
 
@@ -147,7 +147,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 # Features
 
 * Optimize Client-side Dependencies
-    * Supports all types of dependencies (JavaScript, CSS, images, Less, CoffeeScript, etc.)
+    * Supports all types of front-end resources (JavaScript, CSS, images, Less, CoffeeScript, etc.)
     * Configurable resource bundling
     * Code splitting
     * JavaScript minification
@@ -158,6 +158,8 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Custom output transforms
     * Declarative browser-side package dependencies using simple `optimizer.json` files
     * Generates the HTML markup required to include optimized resources
+	* Conditional dependencies
+	* Image minification
     * etc.
 * Browser-side Node.js Module Loader
     * Full support for [Isomorphic JavaScript](http://nerds.airbnb.com/isomorphic-javascript-future-web-apps/)
@@ -195,7 +197,6 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * JavaScript API, CLI and taglib
 * _Future_
     * Automatic image sprites
-    * Automatic image compression
 
 # Another Client-side Bundler?
 
@@ -1201,6 +1202,7 @@ __Third-party plugins__
 * [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
 * [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
 * [optimizer-image](https://github.com/raptorjs/optimizer-image): Get image info (including URL, width and height) for any image on both the server and client
+* [optimizer-imagemin](https://github.com/raptorjs/optimizer-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
 * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
 * [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
