@@ -64,13 +64,7 @@ module.exports = function render(input, context) {
     }
 
     function doOptimizePage() {
-
-        var enabledExtensions = pageOptimizer.resolveEnabledExtensions(optimizerRenderContext, input);
-
-        if (logger.isDebugEnabled()) {
-            logger.debug('Enabled page extensions: ' + enabledExtensions);
-        }
-
+        
         pageOptimizer.optimizePage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
@@ -88,7 +82,7 @@ module.exports = function render(input, context) {
                 basePath: input.basePath,
 
                 // extensions to be enabled at time of rendering
-                enabledExtensions: enabledExtensions,
+                enabledExtensions: input.enabledExtensions || input.extensions,
 
                 dependencies: function(callback) {
                     var dependencies = input.dependencies;
