@@ -1205,7 +1205,7 @@ __Third-party plugins__
 * [optimizer-imagemin](https://github.com/raptorjs/optimizer-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
 * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
-* [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Raptor template](https://github.com/raptorjs/marko) files to JavaScript
+* [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
 * [optimizer-sass](https://github.com/raptorjs/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
 * [optimizer-stylus](https://github.com/raptorjs/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 
