@@ -41,7 +41,9 @@ describe('optimizer/transforms', function() {
 
                 stream: true,
 
-                transform: function(stream, contentType, optimizerContext, callback) {
+                transform: function(stream, optimizerContext, callback) {
+                    var contentType = optimizerContext.contentType;
+
                     var deferredStream = optimizerContext.deferredStream(function() {
                         var chunks = [];
                         stream
@@ -116,6 +118,84 @@ describe('optimizer/transforms', function() {
             ],
             done
         );
+    });
+
+    it('should allow resource transforms to be filtered', function(done) {
+        var optimizer = require('../');
+
+        var plugin = function(pageOptimizer, pluginConfig) {
+            pageOptimizer.addTransform({
+                filter: function(optimizerContext, callback) {
+                    var path = optimizerContext.path;
+                    if (!path) {
+                        return callback(null, false);
+                    }
+
+                    if (/\.bar$/.test(path)) {
+                        callback(null, true);
+                    } else {
+                        callback(null, false);
+                    }
+                },
+
+                name: 'testTransformer',
+
+                stream: true,
+
+                transform: function(stream, contentType, optimizerContext, callback) {
+                    var through = require('through');
+                    return stream.pipe(through(
+                        function write(chunk) {
+                            this.push(chunk);
+                        },
+                        function end(chunk) {
+                            this.push(new Buffer('-TRANSFORMED', 'utf8'));
+                            this.push(null);
+                        }
+                    ));
+                }
+            });
+        };
+
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: true
+            },
+            plugins: [
+                {
+                    plugin: plugin
+                }
+            ]
+        }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
+
+        var barPath = nodePath.join(__dirname, 'fixtures/transforms/transform.bar');
+        var fooPath = nodePath.join(__dirname, 'fixtures/transforms/transform.foo');
+
+        series(
+            [
+                function(callback) {
+                    pageOptimizer.optimizeResource(barPath, function(err, result) {
+                        if (err) {
+                            return done(err);
+                        }
+                        var outputFile = result.outputFile;
+                        expect(fs.readFileSync(outputFile, 'utf8')).to.equal('hello-TRANSFORMED');
+                        callback();
+                    });
+                },
+                function(callback) {
+                    pageOptimizer.optimizeResource(fooPath, function(err, result) {
+                            if (err) {
+                                return done(err);
+                            }
+                            var outputFile = result.outputFile;
+                            expect(fs.readFileSync(outputFile, 'utf8')).to.equal('world');
+                            callback();
+                        });
+                }
+            ],
+            done);
     });
 
 });

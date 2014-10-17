@@ -2,11 +2,13 @@ var through = require('through');
 
 exports.stream = true;
 
-exports.transform = function(inStream, contentType, context) {
+exports.transform = function(inStream, context) {
+    var contentType = context.contentType;
+    
     if (!inStream) {
         throw new Error('inStream expected');
     }
-    
+
     if (contentType === 'js') {
         var code = '';
 

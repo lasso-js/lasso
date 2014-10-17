@@ -5,7 +5,8 @@ exports.stream = false;
 
 exports.contentType = 'js';
 
-exports.transform = function(code, contentType, context) {
+exports.transform = function(code, context) {
+    var contentType = context.contentType;
     ok(contentType === 'js', '"js" content type expected');
 
     var deferred = raptorPromises.defer();
