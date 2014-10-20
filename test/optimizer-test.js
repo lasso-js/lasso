@@ -496,7 +496,8 @@ describe('optimizer/index', function() {
             },
             enabledExtensions: ['jquery', 'browser'],
             inPlaceDeployment: {
-                enabled: true
+                enabled: true,
+                urlPrefix: '/in-place'
             },
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -516,47 +517,8 @@ describe('optimizer/index', function() {
 				var head = optimizedPage.getSlotHtml('head').replace(/\\/g, "/");
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
-                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="src/mixedB/mixedB.css">');
-                expect(body).to.equal('<script type="text/javascript" src="src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="src/mixedB/mixedB.js"></script>');
-                optimizer.flushAllCaches(done);
-            })
-            .done();
-    });
-    it('should allow for URLs with the file:// protocol when in-place deployment is enabled', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
-            fileWriter: {
-                outputDir: outputDir,
-                urlPrefix: '/',
-                fingerprintsEnabled: false
-            },
-            enabledExtensions: ['jquery', 'browser'],
-            inPlaceDeployment: {
-                enabled: true
-            },
-        }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
-                pageName: 'testPage',
-                dependencies: [
-                    {
-                        'package': 'mixedA'
-                    },
-                    {
-                        'package': 'mixedB'
-                    }],
-                from: module
-            })
-            .then(function(optimizedPage) {
-                expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
-                var mixedACSSPath = path.join(__dirname, 'src/mixedA/mixedA.css'.replace(/\\/g, '/'));
-                var mixedAJSPath = path.join(__dirname, 'src/mixedA/mixedA.js').replace(/\\/g, '/');
-                var mixedBCSSPath = path.join(__dirname, 'src/mixedB/mixedB.css').replace(/\\/g, '/');
-                var mixedBJSPath = path.join(__dirname, 'src/mixedB/mixedB.js').replace(/\\/g, '/');
-                var head = optimizedPage.getSlotHtml('head').replace(/\\/g, '/');
-				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, '/');
-                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="file://' + mixedACSSPath + '">\n<link rel="stylesheet" type="text/css" href="file://' + mixedBCSSPath + '">');
-                expect(body).to.equal('<script type="text/javascript" src="file://' + mixedAJSPath + '"></script>\n<script type="text/javascript" src="file://' + mixedBJSPath + '"></script>');
+                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="/in-place/src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="/in-place/src/mixedB/mixedB.css">');
+                expect(body).to.equal('<script type="text/javascript" src="/in-place/src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="/in-place/src/mixedB/mixedB.js"></script>');
                 optimizer.flushAllCaches(done);
             })
             .done();
