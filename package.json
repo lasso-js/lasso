@@ -27,7 +27,6 @@
         "raptor-cache": "^1.1.1",
         "raptor-detect": "^1.0.0",
         "raptor-dust": "^1.1.2",
-        "raptor-files": "^1.0.1",
         "raptor-logging": "^1.0.1",
         "raptor-modules": "^1.0.5",
         "raptor-objects": "^1.0.1",
