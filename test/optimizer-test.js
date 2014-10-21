@@ -976,4 +976,76 @@ describe('optimizer/index', function() {
             })
             .done();
     });
+
+    it('should resolve font URLs correctly inside pre-processed CSS files', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/static',
+                fingerprintsEnabled: true
+            },
+            plugins: [
+                {
+                    plugin: function(pageOptimizer) {
+                        pageOptimizer.dependencies.registerStyleSheetType('foo', {
+                            properties: {
+                                'path': 'string'
+                            },
+
+                            init: function(optimizerContext, callback) {
+                                this.path = this.resolvePath(this.path);
+                                callback();
+                            },
+
+                            read: function(optimizerContext, callback) {
+                                var path = this.path;
+
+                                require('fs').readFile(path, {encoding: 'utf8'}, function(err, css) {
+                                    if (err) {
+                                        return callback(err);
+                                    }
+
+                                    callback(null, css);
+                                });
+                            },
+
+                            getSourceFile: function() {
+                                return this.path;
+                            },
+
+                            getLastModified: function(optimizerContext, callback) {
+                                return callback(null, -1);
+                            }
+                        });
+                    }
+                }
+            ],
+            enabledExtensions: [],
+            bundlingEnabled: true,
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {
+                        type: 'foo',
+                        path: path.join(__dirname, 'fixtures/fonts/fonts.css').replace(/\\/g, '/')
+                    }
+                ],
+                from: module
+            }, function(err, optimizedPage) {
+                if (err) {
+                    return done(err);
+                }
+
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                        'Aleo-Regular-6be64eb6.woff',
+                        'testPage-0f710bcd.css'
+                    ]);
+
+                expect(writerTracker.getCodeForFilename('testPage-0f710bcd.css')).to.equal("@font-face { src: url(Aleo-Regular-6be64eb6.woff); }");
+                optimizer.flushAllCaches(done);
+            });
+    });
 });
