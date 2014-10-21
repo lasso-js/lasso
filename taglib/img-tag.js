@@ -36,7 +36,7 @@ module.exports = function render(input, context) {
         context.write('>');
     }
 
-    pageOptimizer.optimizeResourceCached(imgPath, {optimizerContext: optimizerContext}, function(err, optimizedResource) {
+    pageOptimizer.optimizeResource(imgPath, {optimizerContext: optimizerContext}, function(err, optimizedResource) {
         done = true;
         if (err) {
             if (asyncContext) {
