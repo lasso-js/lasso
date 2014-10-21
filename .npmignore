@@ -1,0 +1,17 @@
+/work
+/build
+/.idea/
+/npm-debug.log
+/node_modules
+/*.sublime-workspace
+*.orig
+.DS_Store
+coverage
+/test/build
+*.actual.js
+*.actual.html
+.optimizer-cache
+.cache
+/test
+*.marko.js
+*.dust.js
