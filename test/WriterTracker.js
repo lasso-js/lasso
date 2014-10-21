@@ -30,31 +30,22 @@ WriterTracker.prototype = {
 
     getOutputPaths: function() {
         var paths = Object.keys(this.outputFilesByPath);
-        for(var i=0; i < paths.length; i++) {
-		 	paths[i] = paths[i].replace(/\r/g, '');
-		 	paths[i] = paths[i].replace(/\\/g, '/');
-		}
         paths.sort();
         return paths;
     },
 
     getOutputFilenames: function() {
         var filenames = Object.keys(this.outputFilesByName);
-        for(var i=0; i < filenames.length; i++) {
-		 	filenames[i] = filenames[i].replace(/\r/g, '');
-		 	//filenames[i] = filenames[i].replace(/\\/g, '');
-		}
         filenames.sort();
         return filenames;
     },
 
     getCodeForFilename: function(filename) {
-		var files = this.outputFilesByName[filename];
-		files = files.replace(/\r/g, '');
-		// fudge for double escaping
-		files = files.replace(/\\\\/g, '/');
-		files = files.replace(/\\/g, '/');
-        return files;
+		var code = this.outputFilesByName[filename];
+        if (code) {
+            code = code.replace(/\r\n/g, '\n');
+        }
+        return code;
     },
 
     reset: function() {
