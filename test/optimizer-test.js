@@ -949,4 +949,31 @@ describe('optimizer/index', function() {
             done
         );
     });
+
+    it('should resolve font URLs correctly', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/static',
+                fingerprintsEnabled: true
+            },
+            enabledExtensions: [],
+            bundlingEnabled: true,
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'fixtures/fonts/fonts.css').replace(/\\/g, '/')
+                ],
+                from: module
+            })
+            .then(function(optimizedPage) {
+
+                expect(writerTracker.getCodeForFilename('testPage-0f710bcd.css')).to.equal("@font-face { src: url(Aleo-Regular-6be64eb6.woff); }");
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
 });
