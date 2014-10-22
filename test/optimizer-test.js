@@ -361,9 +361,9 @@ describe('optimizer/index', function() {
                 from: module
             })
             .then(function(optimizedPage) {
-				var head = optimizedPage.getSlotHtml('head').replace(/\\/g, "/");
-				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
-                expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\n$rloaderMeta={"asyncA/foo":{"js":["/testPage-async-body.js"]},"asyncA/bar":{"css":["/testPage-async-head.css"]}};');
+				var head = optimizedPage.getSlotHtml('head').replace(/\\/g, '/');
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, '/');
+                expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js\nmoduleA_js\n(function(loaderMeta) {\nloaderMeta[\"asyncA/foo\"] = {\"js\":[\"/testPage-async-body.js\"]};\nloaderMeta[\"asyncA/bar\"] = {\"css\":[\"/testPage-async-head.css\"]};\n})(window.$rloaderMeta || (window.$rloaderMeta = {}));');
                 expect(writerTracker.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css');
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage-async-body.js', 'testPage-async-head.css', 'testPage-body.js', 'testPage-head.css'] );
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
@@ -443,7 +443,7 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('mixedA-head.css')).to.equal('mixedA_css');
                 expect(writerTracker.getCodeForFilename('mixedB-body.js')).to.equal('mixedB_js');
                 expect(writerTracker.getCodeForFilename('mixedB-head.css')).to.equal('mixedB_css');
-                expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n$rloaderMeta={"asyncB/foo":{"css":["/mixedA-head.css"],"js":["/mixedA-body.js"]},"asyncB/bar":{"css":["/mixedB-head.css"],"js":["/mixedB-body.js"]}};');
+                expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n(function(loaderMeta) {\nloaderMeta[\"asyncB/foo\"] = {\"css\":[\"/mixedA-head.css\"],\"js\":[\"/mixedA-body.js\"]};\nloaderMeta[\"asyncB/bar\"] = {\"css\":[\"/mixedB-head.css\"],\"js\":[\"/mixedB-body.js\"]};\n})(window.$rloaderMeta || (window.$rloaderMeta = {}));');
                 optimizer.flushAllCaches(done);
             })
             .done();
