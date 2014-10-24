@@ -865,7 +865,7 @@ describe('optimizer/index', function() {
             });
     });
 
-    it('should support supporting out common dependencies into a separate bundle', function(done) {
+    it('should support pulling out common dependencies into a separate bundle', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             fileWriter: {
@@ -948,6 +948,256 @@ describe('optimizer/index', function() {
             ],
             done
         );
+    });
+
+    it('should finding intersection of dependencies with 100 percent threshold', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            threshold: '100%',
+                            intersection: [
+                                // a.js is found in 2/3 (100%)
+                                // b.js is found in 2/3 (66.6%)
+                                // c.js if found in 1/3 (33.3%)
+                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                ],
+                from: path.join(__dirname, 'test-intersection-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    'common.js',
+                    'testPage.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;');
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('b=true;\nc=true;');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should finding strict intersection of dependencies with numeric threshold', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            threshold: 3,
+                            intersection: [
+                                // a.js is found in 2/3 (100%)
+                                // b.js is found in 2/3 (66.6%)
+                                // c.js if found in 1/3 (33.3%)
+                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                ],
+                from: path.join(__dirname, 'test-intersection-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    'common.js',
+                    'testPage.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;');
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('b=true;\nc=true;');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should finding non-strict intersection of dependencies with numeric threshold', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            threshold: 2,
+                            intersection: [
+                                // a.js is found in 2/3 (100%)
+                                // b.js is found in 2/3 (66.6%)
+                                // c.js if found in 1/3 (33.3%)
+                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                ],
+                from: path.join(__dirname, 'test-intersection-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    'common.js',
+                    'testPage.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should finding non-strict intersection of dependencies with string threshold', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            threshold: '2',
+                            intersection: [
+                                // a.js is found in 2/3 (100%)
+                                // b.js is found in 2/3 (66.6%)
+                                // c.js if found in 1/3 (33.3%)
+                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                ],
+                from: path.join(__dirname, 'test-intersection-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    'common.js',
+                    'testPage.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should finding strict intersection of dependencies with percentage threshold', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: true,
+            bundles: [
+                {
+                    name: 'common',
+                    dependencies: [
+                        {
+                            threshold: '50%',
+                            intersection: [
+                                // a.js is found in 2/3 (66.6%)
+                                // b.js is found in 2/3 (66.6%)
+                                // c.js if found in 1/3 (33.3%)
+                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
+                                path.join(__dirname, 'test-intersection-project/bc.optimizer.json')
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                ],
+                from: path.join(__dirname, 'test-intersection-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    'common.js',
+                    'testPage.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
+                expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
     });
 
     it('should resolve font URLs correctly', function(done) {

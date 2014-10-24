@@ -1,0 +1,7 @@
+{
+    "dependencies": [
+        "./a.js",
+        "./b.js",
+        "./c.js"
+    ]
+}
