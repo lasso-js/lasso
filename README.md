@@ -1081,6 +1081,50 @@ The following bundle configuration illustrates how to split out common code into
     ]
 }
 ```
+A less strict intersection condition is also supported via a `threshold` property.
+
+For example, to find those dependencies that are among *at least two* of the widgets:
+```json
+{
+    "bundles": [
+        {
+            "name": "common",
+            "dependencies": [
+                {
+                    "threshold": 2,
+                    "intersection": [
+                        "require: ./a/widget",
+                        "require: ./b/widget",
+                        "require: ./c/widget"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+This could also be expressed as a percentage:
+```json
+{
+    "bundles": [
+        {
+            "name": "common",
+            "dependencies": [
+                {
+                    "threshold": "66%",
+                    "intersection": [
+                        "require: ./a/widget",
+                        "require: ./b/widget",
+                        "require: ./c/widget"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 # Configuration
 
