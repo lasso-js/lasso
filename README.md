@@ -22,7 +22,7 @@ This tool offers many different optimizations such as a bundling, code splitting
 	- [JSON Configuration File](#json-configuration-file)
 	- [Dependencies](#dependencies)
 		- [Conditional Dependencies](#conditional-dependencies)
-		- [Enabling Extensions](#enabling-extensions)
+		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
 	- [JavaScript API](#javascript-api)
 		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
@@ -524,12 +524,12 @@ If the path does not have a file extension then it is assumed to be a path to an
 
 ### Conditional Dependencies
 
-The Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain criteria (e.g. "mobile device" versus "desktop"). For caching reasons, the criteria for conditional dependencies should be based on a set of enabled "extensions". An extension is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
+The Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain flags (e.g. "mobile device" versus "desktop"). For caching reasons, the flags for conditional dependencies should be based on a set of enabled flag. A flag is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
 
 ```json
 {
     "dependencies": [
-        { "path": "hello-mobile.js", "if-extension": "mobile" }
+        { "path": "hello-mobile.js", "if-flag": "mobile" }
     ]
 }
 ```
@@ -538,7 +538,7 @@ Alternatively, you can also include the desktop version of a file if the "mobile
 ```json
 {
     "dependencies": [
-        { "path": "hello-desktop.js", "if-not-extension": "mobile" }
+        { "path": "hello-desktop.js", "if-not-flag": "mobile" }
     ]
 }
 ```
@@ -550,31 +550,31 @@ If needed, a JavaScript expression can be used to describe a more complex condit
     "dependencies": [
         {
             "path": "hello-mobile.js",
-            "if": "extensions.contains('phone') || extensions.contains('tablet')"
+            "if": "flags.contains('phone') || flags.contains('tablet')"
         }
     ]
 }
 ```
 
-### Enabling Extensions
+### Enabling Flags
 
-The code below shows how to enable extensions when optimizing a page:
+The code below shows how to enable flags when optimizing a page:
 
 __Using the JavaScript API:__
 
 ```javascript
 pageOptimizer.optimizePage({
     dependencies: [
-        { path: 'hello-mobile.js', 'if-extension': 'mobile' }
+        { path: 'hello-mobile.js', 'if-flag': 'mobile' }
     ],
-    extensions: ['mobile', 'foo', 'bar']
+    flags: ['mobile', 'foo', 'bar']
 })
 ```
 
 __Using the Marko taglib:__
 
 ```html
-<optimize-page ... extensions="['mobile', 'foo', 'bar']">
+<optimize-page ... flags="['mobile', 'foo', 'bar']">
     ...
 </optimize-page>
 ```

@@ -29,7 +29,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'foo',
@@ -71,7 +71,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'foo',
@@ -113,7 +113,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'foo',
@@ -155,7 +155,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'foo',
@@ -197,7 +197,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
@@ -232,7 +232,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'everything',
@@ -271,7 +271,7 @@ describe('optimizer/bundling', function() {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingStrategy: 'lean',
             bundles: [
                 {

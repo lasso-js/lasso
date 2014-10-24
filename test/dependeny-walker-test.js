@@ -49,7 +49,7 @@ describe('optimizer' , function() {
 
         dependencyWalker.walk({
                 optimizerManifest: optimizerManifest,
-                enabledExtensions: ['jquery', 'browser'],
+                flags: ['jquery', 'browser'],
                 optimizerContext: optimizerContext,
                 on: {
                     dependency: function(dependency, optimizerContext) {

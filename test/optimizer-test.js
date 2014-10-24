@@ -32,7 +32,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: true
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingEnabled: true,
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -67,7 +67,7 @@ describe('optimizer/index', function() {
         var pageOptimizer = optimizer.create({
             outputDir: outputDir,
             fingerprintsEnabled: false,
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundles: [
                 {
                     name: 'bundle1',
@@ -120,7 +120,7 @@ describe('optimizer/index', function() {
                 includeSlotNames: true,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser']
+            flags: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({
@@ -162,7 +162,7 @@ describe('optimizer/index', function() {
                 includeSlotNames: true,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser']
+            flags: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({
@@ -203,7 +203,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingEnabled: true,
             bundles: [
                 {
@@ -275,7 +275,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingEnabled: true,
             bundles: [
                 {
@@ -343,7 +343,7 @@ describe('optimizer/index', function() {
                 includeSlotNames: true,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser']
+            flags: ['jquery', 'browser']
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({
@@ -387,7 +387,7 @@ describe('optimizer/index', function() {
                 includeSlotNames: true,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingEnabled: true,
             bundles: [
                 {
@@ -456,7 +456,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             plugins: [
                 {
                     plugin: function(pageOptimizer, config) {
@@ -494,7 +494,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             inPlaceDeployment: {
                 enabled: true,
                 urlPrefix: '/in-place'
@@ -657,7 +657,7 @@ describe('optimizer/index', function() {
     it('should allow for external resource URLs', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -684,7 +684,7 @@ describe('optimizer/index', function() {
         this.timeout(5000);
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
-            enabledExtensions: [],
+            flags: [],
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
@@ -758,7 +758,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['jquery', 'browser'],
+            flags: ['jquery', 'browser'],
             bundlingEnabled: true,
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -1208,7 +1208,7 @@ describe('optimizer/index', function() {
                 urlPrefix: '/static',
                 fingerprintsEnabled: true
             },
-            enabledExtensions: [],
+            flags: [],
             bundlingEnabled: true,
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -1271,7 +1271,7 @@ describe('optimizer/index', function() {
                     }
                 }
             ],
-            enabledExtensions: [],
+            flags: [],
             bundlingEnabled: true,
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);

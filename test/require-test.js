@@ -146,7 +146,7 @@ describe('optimizer-require' , function() {
         var optimizer = require('../');
 
         var pageOptimizer = optimizer.create({
-                enabledExtensions: ['jquery', 'browser'],
+                flags: ['jquery', 'browser'],
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -190,7 +190,7 @@ describe('optimizer-require' , function() {
         var optimizer = require('../');
 
         var pageOptimizer = optimizer.create({
-                enabledExtensions: ['jquery', 'browser'],
+                flags: ['jquery', 'browser'],
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
@@ -699,7 +699,7 @@ describe('optimizer-require' , function() {
             });
     });
 
-    it('should allow for require overrides based on extension', function(done) {
+    it('should allow for require overrides based on flag', function(done) {
         var optimizer = require('../');
 
         var pageOptimizer = optimizer.create({
@@ -721,9 +721,9 @@ describe('optimizer-require' , function() {
 
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
-                extensions: ['mobile'],
+                flags: ['mobile'],
                 dependencies: [
-                    'require: ./extension-override'
+                    'require: ./flag-override'
                 ],
                 from: nodePath.join(__dirname, 'test-require-project')
             }, function(e, optimizedPage) {

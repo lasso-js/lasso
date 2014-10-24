@@ -64,7 +64,7 @@ module.exports = function render(input, context) {
     }
 
     function doOptimizePage() {
-        
+
         pageOptimizer.optimizePage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
@@ -82,7 +82,7 @@ module.exports = function render(input, context) {
                 basePath: input.basePath,
 
                 // extensions to be enabled at time of rendering
-                enabledExtensions: input.enabledExtensions || input.extensions,
+                flags: input.flags || input.enabledExtensions || input.extensions,
 
                 dependencies: function(callback) {
                     var dependencies = input.dependencies;

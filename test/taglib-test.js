@@ -78,7 +78,7 @@ describe('optimizer/taglib' , function() {
                 includeSlotNames: false,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['browser']
+            flags: ['browser']
         }, __dirname);
 
 

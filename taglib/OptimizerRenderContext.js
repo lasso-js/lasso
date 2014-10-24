@@ -2,7 +2,6 @@ var EventEmitter = require('events').EventEmitter;
 
 var OptimizerRenderContext = function() {
     OptimizerRenderContext.$super.call(this);
-    this._enabledExtensions = null;
     this._waitFor = [];
     this.data = {};
 };
@@ -30,25 +29,6 @@ OptimizerRenderContext.prototype = {
         });
     },
 
-    enableExtension: function(extensionName) {
-        var extensions = this._enabledExtensions;
-        if (!extensions) {
-            extensions = this._enabledExtensions = extensions.createExtensionSet();
-        }
-        extensions.add(extensionName);
-    },
-
-    disableExtension: function(extensionName) {
-        var extensions = this._enabledExtensions;
-        if (extensions) {
-            extensions.remove(extensionName);
-        }
-    },
-
-    getEnabledExtensions: function() {
-        return this._enabledExtensions;
-    },
-
     waitFor: function(promise) {
         if (!promise) {
             throw new Error('Invalid waitFor promise');
@@ -58,7 +38,7 @@ OptimizerRenderContext.prototype = {
             this._waitFor = this._waitFor.concat(promise);
         }
         else {
-            this._waitFor.push(promise);    
+            this._waitFor.push(promise);
         }
     },
 

@@ -12,8 +12,15 @@
                 "optimizer": "expression",
                 "data": "expression",
                 "dependencies": "expression",
-                "enabled-extensions": "expression",
-                "extensions": "expression",
+                "flags": "expression",
+                "enabled-extensions": {
+                    "target-property": "flags",
+                    "type": "expression"
+                },
+                "extensions": {
+                    "target-property": "flags",
+                    "type": "expression"
+                },
                 "wait-for": "expression",
                 "timeout": "integer"
             },

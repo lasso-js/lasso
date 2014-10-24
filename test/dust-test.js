@@ -81,7 +81,7 @@ describe('optimizer/dust' , function() {
                 includeSlotNames: false,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['browser']
+            flags: ['browser']
         }, __dirname);
 
         done();
@@ -99,7 +99,7 @@ describe('optimizer/dust' , function() {
                 includeSlotNames: false,
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['browser']
+            flags: ['browser']
         }, __dirname);
 
         testRender('test-project/src/pages/page1/template.dust', {

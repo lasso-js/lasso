@@ -8,7 +8,7 @@ var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
-describe('optimizer extensions (legacy)', function() {
+describe('optimizer flags', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -23,7 +23,7 @@ describe('optimizer extensions (legacy)', function() {
         });
         done();
     });
-    it('should allow for optimizing a page with extensions', function(done) {
+    it('should allow for optimizing a page with flags', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             fileWriter: {
@@ -31,7 +31,7 @@ describe('optimizer extensions (legacy)', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['a'],
+            flags: ['a'],
             bundlingEnabled: false
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
@@ -40,15 +40,15 @@ describe('optimizer extensions (legacy)', function() {
                 dependencies: [
                     './optimizer.json'
                 ],
-                from: nodePath.join(__dirname, 'test-extensions-project')
+                from: nodePath.join(__dirname, 'test-flags-project')
             })
             .then(function(optimizedPage) {
 
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
-                    // a.js only included if "a" extension is enabled
+                    // a.js only included if "a" flag is enabled
                     'a.js',
 
-                    /* NOTE: b.js should not be included because it requires extension "b" */
+                    /* NOTE: b.js should not be included because it requires flag "b" */
                     // 'a.js'
 
                     // c.js is always included (not conditional)
@@ -62,17 +62,17 @@ describe('optimizer extensions (legacy)', function() {
             .done();
     });
 
-    it('should allow for optimizing a page with extensions and bundles', function(done) {
+    it('should allow for optimizing a page with flags and bundles', function(done) {
         var optimizer = require('../');
 
-        var from = nodePath.join(__dirname, 'test-extensions-project');
+        var from = nodePath.join(__dirname, 'test-flags-project');
         var pageOptimizer = optimizer.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['a'],
+            flags: ['a'],
             bundlingEnabled: true,
 
             bundles: [
@@ -104,7 +104,7 @@ describe('optimizer extensions (legacy)', function() {
             .done();
     });
 
-    it('should allow if-not-extension', function(done) {
+    it('should allow if-not-flag', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
             fileWriter: {
@@ -112,25 +112,25 @@ describe('optimizer extensions (legacy)', function() {
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             },
-            enabledExtensions: ['a'],
+            flags: ['a'],
             bundlingEnabled: false
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    {'type': 'js', 'path': './a.js', 'if-extension': 'a'},
-                    {'type': 'js', 'path': './b.js', 'if-not-extension': 'a'}
+                    {'type': 'js', 'path': './a.js', 'if-flag': 'a'},
+                    {'type': 'js', 'path': './b.js', 'if-not-flag': 'a'}
                 ],
-                from: nodePath.join(__dirname, 'test-extensions-project')
+                from: nodePath.join(__dirname, 'test-flags-project')
             })
             .then(function(optimizedPage) {
 
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
-                    // a.js only included if "a" extension is enabled
+                    // a.js only included if "a" flag is enabled
                     'a.js',
 
-                    /* NOTE: b.js should not be included because it will only be included if "a" extension is not enabled */
+                    /* NOTE: b.js should not be included because it will only be included if "a" flag is not enabled */
                     // 'b.js'
                 ]);
 

@@ -1,9 +1,0 @@
-{
-    "requireRemap": [
-        {
-            "from": "./foo.js",
-            "to": "./foo-mobile.js",
-            "if-extension": "mobile"
-        }
-    ]
-}
