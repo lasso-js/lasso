@@ -698,4 +698,47 @@ describe('optimizer-require' , function() {
                 optimizer.flushAllCaches(done);
             });
     });
+
+    it('should allow for require overrides based on extension', function(done) {
+        var optimizer = require('../');
+
+        var pageOptimizer = optimizer.create({
+                plugins: [
+                    {
+                        plugin: 'optimizer-require',
+                        config: {
+                            includeClient: false
+                        }
+                    }
+                ],
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+            }, nodePath.join(__dirname, 'test-project'));
+
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                extensions: ['mobile'],
+                dependencies: [
+                    'require: ./extension-override'
+                ],
+                from: nodePath.join(__dirname, 'test-require-project')
+            }, function(e, optimizedPage) {
+                if (e) {
+                    return done(e);
+                }
+
+                expect(writerTracker.getOutputPaths()).to.deep.equal([
+                        nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
+                    ]);
+
+                var actual = writerTracker.getCodeForFilename('testPage.js');
+                expect(actual).to.contain("[FOO-MOBILE]");
+                expect(actual).to.not.contain("[FOO-DESKTOP]");
+                optimizer.flushAllCaches(done);
+            });
+    });
 });
