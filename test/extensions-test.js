@@ -103,4 +103,41 @@ describe('optimizer extensions', function() {
             })
             .done();
     });
+
+    it('should allow if-not-extension', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            enabledExtensions: ['a'],
+            bundlingEnabled: false
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {'type': 'js', 'path': './a.js', 'if-extension': 'a'},
+                    {'type': 'js', 'path': './b.js', 'if-not-extension': 'a'}
+                ],
+                from: nodePath.join(__dirname, 'test-extensions-project')
+            })
+            .then(function(optimizedPage) {
+                
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    // a.js only included if "a" extension is enabled
+                    'a.js',
+                    
+                    /* NOTE: b.js should not be included because it will only be included if "a" extension is not enabled */
+                    // 'b.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('a.js')).to.equal('a=true;');
+                expect(writerTracker.getCodeForFilename('b.js')).to.equal(undefined);
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
 });
