@@ -1,0 +1,15 @@
+{
+    "dependencies": [
+        {
+            "type": "js", "path": "./a.js",
+            "if-flag": "a"
+        },
+        {
+            "type": "js", "path": "./b.js",
+            "if-flag": "b"
+        },
+        {
+            "type": "js", "path": "./c.js"
+        }
+    ]
+}
