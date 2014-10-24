@@ -534,6 +534,15 @@ The Optimizer supports conditional dependencies. Conditional dependencies is a p
 }
 ```
 
+Alternatively, you can also include the desktop version of a file if the "mobile" extension is not enabled.
+```json
+{
+    "dependencies": [
+        { "path": "hello-desktop.js", "if-not-extension": "mobile" }
+    ]
+}
+```
+
 If needed, a JavaScript expression can be used to describe a more complex condition as shown in the following sample code:
 
 ```json
