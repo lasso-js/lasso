@@ -1256,6 +1256,7 @@ __Third-party plugins__
 * [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
 * [optimizer-image](https://github.com/raptorjs/optimizer-image): Get image info (including URL, width and height) for any image on both the server and client
 * [optimizer-imagemin](https://github.com/raptorjs/optimizer-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
+* [optimizer-jade](https://github.com/raptorjs/optimizer-jade): Compile [Jade](http://jade-lang.com/) templates to JavaScript
 * [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
 * [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
