@@ -1218,6 +1218,7 @@ This could also be expressed as a percentage:
 The Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
 This functionality is offered by the core [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin which introduces a new `require` dependency type. For example:
+
 ```json
 [
     "require: ./path-to-some-module"
@@ -1225,10 +1226,43 @@ This functionality is offered by the core [optimizer-require](https://github.com
 ```
 
 If you want to include a module and have it run when loaded (i.e. self-executing) then you should use the `require-run` dependency type:
+
 ```json
 [
     "require-run: ./main"
 ]
+```
+
+Examples of conditional requires:
+
+```json
+[
+    {
+        "require-run": "./foo",
+        "if-flag": "bar"
+    },
+    {
+        "require": "./foo",
+        "if-flag": "bar"
+    }
+]
+```
+
+It's also possible to remap a require based on a flag:
+
+```json
+{
+    "dependencies": [
+        ...
+    ],
+    "requireRemap": [
+        {
+            "from": "./foo.js",
+            "to": "./foo-mobile.js",
+            "if-flag": "mobile"
+        }
+    ]
+}
 ```
 
 The [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
