@@ -9,10 +9,10 @@ $rmod.dep("", "require", "4.0.0");
 $rmod.def("/require@4.0.0/baz/index", function(require, exports, module, __filename, __dirname) { exports.baz = true;
 });
 $rmod.def("/foo@1.0.0/lib/index", function(require, exports, module, __filename, __dirname) { exports.foo = "1.0.0";
-require('baz');
-require('require/baz');
+require('/$/foo/$/baz'/*'baz'*/);
+require('/$/require/baz'/*'require/baz'*/);
 });
-$rmod.def("/amd-module", function(require, exports, module, __filename, __dirname) { var foo = require('foo');
+$rmod.def("/amd-module", function(require, exports, module, __filename, __dirname) { var foo = require('/$/foo'/*'foo'*/);
 exports.action = function () {
 };
 });

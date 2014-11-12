@@ -1,0 +1,1 @@
+require('foo/node_modules/baz');
