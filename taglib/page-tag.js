@@ -103,10 +103,6 @@ module.exports = function render(input, context) {
                     } else if (dependencies) {
 
                     } else if (packagePaths) {
-                        if (typeof packagePaths === 'string') {
-                            packagePaths = packagePaths.split(/\s*,\s*/);
-                        }
-
                         dependencies = packagePaths.map(function(path) {
                                 return {
                                     type: 'package',

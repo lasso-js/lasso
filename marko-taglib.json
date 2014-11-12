@@ -7,7 +7,7 @@
                 "name": "string",
                 "cache-key": "string",
                 "package-path": "string",
-                "package-paths": "string",
+                "package-paths": "expression",
                 "base-path": "string",
                 "optimizer": "expression",
                 "data": "expression",
