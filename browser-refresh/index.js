@@ -2,7 +2,7 @@ var optimizer = require('../');
 
 exports.enable = function(patterns) {
     if (!patterns) {
-        return;
+        patterns = "*.css *.less *.styl *.scss *.sass *.png *.jpeg *.jpg *.gif *.webp";
     }
 
     if (process.env.BROWSER_REFRESH_URL) {
