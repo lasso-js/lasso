@@ -505,7 +505,7 @@ In the examples, the dependency type is inferred from the filename extension. Al
 
 _NOTE: all of the above are equivalent_
 
-You can also create a dependency that references dependencies in a separate `optimizer.json` file. For example:
+You can also create a dependency that references dependencies in a separate `optimizer.json` file. Dependencies that have the `optimizer.json` extension are automatically resolved using the require resolver if they are not relative paths. For example:
 ```js
 [
     // Relative path:
@@ -523,6 +523,7 @@ If the path does not have a file extension then it is assumed to be a path to an
     "my-module"
 ]
 ```
+If you use the short-hand notation for `optimizer.json` dependencies, the paths will still be resolved using the require resolver as long as they are not relative paths.
 
 ### Conditional Dependencies
 
