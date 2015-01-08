@@ -66,17 +66,13 @@ describe('optimizer/taglib' , function() {
         done();
     });
 
-    // it('should compile a simple page template', function() {
-    //     testCompiler('test-project/src/pages/page1.marko');
-    // });
-
     it('should render a simple page template', function(done) {
         require('../').configure({
             fileWriter: {
                 outputDir: nodePath.join(__dirname, 'build'),
                 urlPrefix: '/static',
                 includeSlotNames: false,
-                fingerprintsEnabled: false
+                fingerprintsEnabled: true
             },
             flags: ['browser']
         }, __dirname);

@@ -64,6 +64,28 @@
             "import-var": {
                 "dirname": "__dirname"
             }
+        },
+        "_optimizer-resources-root": {
+            "renderer": "./taglib/optimizer-resources-root-tag",
+            "attributes": {
+                "paths": "string"
+            },
+            "vars": [
+                "out"
+            ]
+        },
+        "optimizer-resource": {
+            "node-class": "./taglib/optimizer-resource-tag",
+            "attributes": {
+                "path": "path",
+                "var": "string"
+            },
+            "vars": [
+                "out"
+            ],
+            "transformer": {
+                "path": "./taglib/optimizer-resource-tag-transformer"
+            }
         }
     }
 }

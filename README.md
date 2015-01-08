@@ -842,6 +842,8 @@ You can also configure the default page optimizer used by the optimizer tags:
 require('optimizer').configure({...});
 ```
 
+For more details, please see following documentation: [Optimizer Taglib for Marko](taglib-marko.md)
+
 ### Using the Optimizer Taglib with Dust
 
 You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('optimizer/dust').registerHelpers(dust)` to register the helpers:

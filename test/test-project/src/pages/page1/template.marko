@@ -1,8 +1,10 @@
 <optimizer-page name="page1" package-path="./optimizer.json"/>
+<optimizer-resource path="./favicon.ico" var="favicon"/>
 
 <html>
     <head>
         <optimizer-head/>
+        <link rel="shortcut icon" href="${favicon.url}">
     </head>
     <body>
         <optimizer-body/>
