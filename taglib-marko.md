@@ -71,8 +71,8 @@ Optimizes the page so that the resulting JavaScript and CSS resources can be inj
 
 Supported attributes:
 
-- __name__ (string) - The name of the page (used to determine the name of page bundles). Defaults to the name of the parent directory if not provided.
-- __cache-key__ (string) - The cache key that should be used to cache the optimized page. Defaults to the name (see above). NOTE: The set of enabled flags are always appended to the cache key.
+- __name__ (string) - The name of the page (used to determine the name of output page bundles). Defaults to the name of the parent directory if not provided.
+- __cache-key__ (string) - The cache key that should be used to cache the optimized page. Defaults to the template path. NOTE: The set of enabled flags are always appended to the cache key.
 - __package-path__ (string) - The relative path to the the JSON file that declares the top-level page dependencies.
 - __package-paths__ (Array) - Similar to `package-paths`, but an Array of paths.
 - __optimizer__ (expression) - A reference to a `PageOptimizer` instance. Defaults to the default page optimizer (i.e. `require('optimizer').getDefaultPageOptimizer()`)

@@ -679,7 +679,7 @@ For added flexibility there is a JavaScript API that can be used to optimize pag
 var optimizer = require('optimizer');
 optimizer.configure('optimizer-config.json');
 optimizer.optimizePage({
-        name: 'my-page'
+        name: 'my-page',
         dependencies: [
             "style.less",
             "require-run: ./main"
@@ -699,6 +699,16 @@ optimizer.optimizePage({
         //  <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     });
 ```
+
+The `optimizerPage(options)` method supports the following options:
+
+- `data` (`Object`) - Arbitrary data that can be made available to plugins via `optimizerContext.data`.
+- `cacheKey` (`String`) - A unique String to use for cache reads and writes. Defaults to `name`.
+- `dependencies` (`Array`) - An array of top-level page dependencies (e.g. `['foo.js', 'foo.css', 'require: jquery']`).
+- `flags` (`Array`) - The set of enabled flags (e.g. `['mobile', 'touch']`).
+- `from` (`String`) - The base path for resolving relative paths for top-level dependencies.
+- `name` (`String`) - The page name. Used for determining the names of the output JS/CSS bundles.
+- `packagePath` (`String`) - The path to an `optimizer.json` file that describes the top-level dependencies.
 
 ### Configuring the Default Page Optimizer
 ```javascript
@@ -776,7 +786,7 @@ If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://gi
 You can now add the optimizer tags to your page templates. For example:
 
 ```html
-<optimizer-page name="my-page" package-path="./optimizer.json"/>
+<optimizer-page package-path="./optimizer.json"/>
 
 <!doctype html>
 <html lang="en">

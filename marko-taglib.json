@@ -26,7 +26,8 @@
             },
             "var": "_dependenciesParent",
             "import-var": {
-                "dirname": "__dirname"
+                "dirname": "__dirname",
+                "filename": "__filename"
             }
         },
         "optimizer-dependencies": {

@@ -17,13 +17,18 @@ module.exports = function render(input, context) {
     var optimizerRenderContext = util.getOptimizerRenderContext(context);
 
     var pageName = input.name || input.pageName;
+    var cacheKey = input.cacheKey;
 
-    if (!pageName) {
+    if (!pageName && input.dirname) {
         if (input.dirname) {
             // Use the base name of the containing directory as the page name
             // Example: "myapp/src/pages/welcome/index.marko" --> "welcome"
             pageName = nodePath.basename(input.dirname);
         }
+    }
+
+    if (!cacheKey) {
+        cacheKey = input.filename || pageName; // Use the filename of the template as the cache key
     }
 
     // We need to provide the optimizer with some data that it might need
@@ -37,6 +42,8 @@ module.exports = function render(input, context) {
     var optimizerContextData = {
         renderContext: context
     };
+
+    console.log('OPTIMIZER PAGE TAG', pageName, '-', cacheKey);
 
     // The user of the tag may have also provided some additional data to add
     // to the optimizer context
@@ -69,7 +76,9 @@ module.exports = function render(input, context) {
                 // Make sure the page is cached (should be the default)
                 cache: true,
 
-                // the page name (used for caching)
+                cacheKey: cacheKey,
+
+                // the page name (used for naming output bundles associated with this page)
                 pageName: pageName,
 
                 // properties for the optimizer context
