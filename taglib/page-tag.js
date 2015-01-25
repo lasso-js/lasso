@@ -43,8 +43,6 @@ module.exports = function render(input, context) {
         renderContext: context
     };
 
-    console.log('OPTIMIZER PAGE TAG', pageName, '-', cacheKey);
-
     // The user of the tag may have also provided some additional data to add
     // to the optimizer context
     var inputData = input.data;
