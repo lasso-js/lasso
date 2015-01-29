@@ -448,7 +448,7 @@ __my-page.optimizer.json:__
 ```json
 {
     "dependencies": [
-        "style.less",
+        "./style.less",
         "require-run: ./main"
     ]
 }
@@ -487,7 +487,7 @@ A dependency can be described using a simple `String` path as shown in the follo
 
 ```json
 [
-    "style.less",
+    "./style.less",
     "../third-party/jquery.js",
     "**/*.css"
 ]
@@ -497,9 +497,9 @@ In the examples, the dependency type is inferred from the filename extension. Al
 
 ```json
 [
-    "style.less",
-    "less: style.less",
-    { "type": "less", "path": "style.less" }
+    "./style.less",
+    "less: ./style.less",
+    { "type": "less", "path": "./style.less" }
 ]
 ```
 
@@ -532,7 +532,7 @@ The Optimizer supports conditional dependencies. Conditional dependencies is a p
 ```json
 {
     "dependencies": [
-        { "path": "hello-mobile.js", "if-flag": "mobile" }
+        { "path": "./hello-mobile.js", "if-flag": "mobile" }
     ]
 }
 ```
@@ -541,7 +541,7 @@ Alternatively, you can also include the desktop version of a file if the "mobile
 ```json
 {
     "dependencies": [
-        { "path": "hello-desktop.js", "if-not-flag": "mobile" }
+        { "path": "./hello-desktop.js", "if-not-flag": "mobile" }
     ]
 }
 ```
@@ -552,7 +552,7 @@ If needed, a JavaScript expression can be used to describe a more complex condit
 {
     "dependencies": [
         {
-            "path": "hello-mobile.js",
+            "path": "./hello-mobile.js",
             "if": "flags.contains('phone') || flags.contains('tablet')"
         }
     ]
@@ -568,7 +568,7 @@ __Using the JavaScript API:__
 ```javascript
 pageOptimizer.optimizePage({
     dependencies: [
-        { path: 'hello-mobile.js', 'if-flag': 'mobile' }
+        { path: './hello-mobile.js', 'if-flag': 'mobile' }
     ],
     flags: ['mobile', 'foo', 'bar']
 })
@@ -626,7 +626,7 @@ You can also specify additional explicit dependencies if necessary:
 ```javascript
 require('raptor-loader').async(
     [
-        'style.less',
+        './style.less',
         'some/other/optimizer.json'
     ],
     function() {
@@ -648,7 +648,7 @@ You can also choose to declare async dependencies in an `optimizer.json` file:
         "my-module/lazy": [
             "require: foo",
             "require: bar",
-            "style.less",
+            "./style.less",
             "some/other/optimizer.json"
         ]
     }
@@ -681,7 +681,7 @@ optimizer.configure('optimizer-config.json');
 optimizer.optimizePage({
         name: 'my-page',
         dependencies: [
-            "style.less",
+            "./style.less",
             "require-run: ./main"
         ]
     },
@@ -728,10 +728,10 @@ var optimizer = require('optimizer');
 optimizer.optimizePage({
         name: 'my-page',
         dependencies: [
-            'foo.js',
-            'bar.js',
-            'baz.js',
-            'qux.css'
+            './foo.js',
+            './bar.js',
+            './baz.js',
+            './qux.css'
         ]
     },
     function(err, optimizedPage) {
@@ -808,10 +808,10 @@ _optimizer.json_:
 ```json
 {
     "dependencies": [
-        "jquery.js",
-        "foo.js",
-        "bar.js",
-        "style.less"
+        "./jquery.js",
+        "./foo.js",
+        "./bar.js",
+        "./style.less"
     ]
 }
 ```
@@ -1015,14 +1015,14 @@ Given the following configured bundles:
         {
             "name": "bundle1",
             "dependencies": [
-                "foo.js",
-                "baz.js"
+                "./foo.js",
+                "./baz.js"
             ]
         },
         {
             "name": "bundle2",
             "dependencies": [
-                "bar.js"
+                "./bar.js"
             ]
         }
     ]
@@ -1213,14 +1213,14 @@ This could also be expressed as a percentage:
 
             // Set of dependencies to add to the bundle
             "dependencies": [
-                "foo.js",
-                "baz.js"
+                "./foo.js",
+                "./baz.js"
             ]
         },
         {
             "name": "bundle2",
             "dependencies": [
-                "style/*.css",
+                "./style/*.css",
                 "require: **/*.js"
             ]
         }
