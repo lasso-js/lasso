@@ -150,6 +150,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 
 * Optimize Client-side Dependencies
     * Supports all types of front-end resources (JavaScript, CSS, images, Less, CoffeeScript, etc.)
+    * Asynchronous/lazy loading of JS/CSS
     * Configurable resource bundling
     * Code splitting
     * JavaScript minification
