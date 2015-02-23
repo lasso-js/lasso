@@ -710,6 +710,7 @@ describe('optimizer/index', function() {
                 optimizer.flushAllCaches(done);
             });
     });
+
     it('should optimize a page that has an installed module that uses async loading', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
@@ -817,7 +818,7 @@ describe('optimizer/index', function() {
                 done();
             });
     });
-    
+
     it('should allow for glob patterns with relative paths', function(done) {
         var optimizer = require('../');
         var pageOptimizer = optimizer.create({
@@ -1027,7 +1028,7 @@ describe('optimizer/index', function() {
                 from: path.join(__dirname, 'test-intersection-project')
             })
             .then(function(optimizedPage) {
-                
+
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'common.js',
                     'testPage.js'
@@ -1077,7 +1078,7 @@ describe('optimizer/index', function() {
                 from: path.join(__dirname, 'test-intersection-project')
             })
             .then(function(optimizedPage) {
-                
+
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'common.js',
                     'testPage.js'
@@ -1127,7 +1128,7 @@ describe('optimizer/index', function() {
                 from: path.join(__dirname, 'test-intersection-project')
             })
             .then(function(optimizedPage) {
-                
+
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'common.js',
                     'testPage.js'
@@ -1177,7 +1178,7 @@ describe('optimizer/index', function() {
                 from: path.join(__dirname, 'test-intersection-project')
             })
             .then(function(optimizedPage) {
-                
+
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'common.js',
                     'testPage.js'
@@ -1227,7 +1228,7 @@ describe('optimizer/index', function() {
                 from: path.join(__dirname, 'test-intersection-project')
             })
             .then(function(optimizedPage) {
-                
+
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'common.js',
                     'testPage.js'
@@ -1337,5 +1338,147 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-0f710bcd.css')).to.equal("@font-face { src: url(Aleo-Regular-6be64eb6.woff); }");
                 optimizer.flushAllCaches(done);
             });
+    });
+
+    it('should allow for inline "end" dependencies', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            }
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {path: './src/moduleA/moduleA.js', inline: 'end'},
+                    './src/moduleB/moduleB.js',
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(optimizedPage) {
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
+                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should allow for inline true dependencies', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            }
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {path: './src/moduleA/moduleA.js', inline: true},
+                    './src/moduleB/moduleB.js',
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(optimizedPage) {
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
+                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should allow for inline false dependencies', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            }
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {path: './src/moduleA/moduleA.js', inline: false},
+                    './src/moduleB/moduleB.js'
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(optimizedPage) {
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
+                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should allow for inline "beginning" dependencies', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            }
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    {path: './src/moduleA/moduleA.js', inline: 'beginning'},
+                    './src/moduleB/moduleB.js',
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(optimizedPage) {
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
+                expect(body).to.equal('<script type=\"text/javascript\">moduleA_js</script>\n<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should allow for inline "in-place" dependencies', function(done) {
+        var optimizer = require('../');
+        var pageOptimizer = optimizer.create({
+            fileWriter: {
+                outputDir: outputDir,
+                urlPrefix: '/',
+                fingerprintsEnabled: false
+            },
+            bundlingEnabled: false
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        pageOptimizer.optimizePage({
+                pageName: 'testPage',
+                dependencies: [
+                    './src/moduleA/moduleA.js',
+                    {path: './src/moduleB/moduleB.js', inline: 'in-place'},
+                    './src/moduleC/moduleC.js'
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(optimizedPage) {
+				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['moduleA.js', 'moduleC.js']);
+                expect(body).to.equal('<script type=\"text/javascript\" src=\"/src/moduleA/moduleA.js\"></script>\n<script type=\"text/javascript\">moduleB_js</script>\n<script type=\"text/javascript\" src=\"/src/moduleC/moduleC.js\"></script>');
+                optimizer.flushAllCaches(done);
+            })
+            .done();
     });
 });
