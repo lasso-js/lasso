@@ -1,5 +1,5 @@
-module.exports = function render(input, context) {
-    if (input.invokeBody) {
-        input.invokeBody();
+module.exports = function render(input, out) {
+    if (input.renderBody) {
+        input.renderBody(out);
     }
 };

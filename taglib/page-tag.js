@@ -116,9 +116,9 @@ module.exports = function render(input, context) {
                                     path: path
                                 };
                             });
-                    } else if (input.invokeBody) {
+                    } else if (input.getDependencies) {
                         dependencies = [];
-                        input.invokeBody({
+                        input.getDependencies({
                             addDependency: function(dependency) {
                                 dependencies.push(dependency);
                             }

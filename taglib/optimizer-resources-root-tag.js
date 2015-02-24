@@ -4,9 +4,9 @@ var async = require('async');
 var util = require('./util');
 
 module.exports = function render(input, out) {
-    var invokeBody = input.invokeBody;
+    var renderBody = input.renderBody;
 
-    if (!invokeBody) {
+    if (!renderBody) {
         return;
     }
 
@@ -33,7 +33,7 @@ module.exports = function render(input, out) {
     var asyncOut = null;
     var done = false;
 
-    function renderBody(err, optimizedResources) {
+    function doRenderBody(err, optimizedResources) {
         done = true;
         // When invoking the body we are going to either render to the async out (if
         // one or more bundles needed to be asynchronously loaded) or the original
@@ -49,7 +49,7 @@ module.exports = function render(input, out) {
             // all of the code will render to and the remaining arguments will be the loaded
             // bundles in the order that maps to the associated variables that were found at
             // compile time
-            input.invokeBody.apply(this, [targetOut].concat(optimizedResources));
+            renderBody.apply(this, [targetOut].concat(optimizedResources));
         }
 
         if (asyncOut) {
@@ -64,7 +64,7 @@ module.exports = function render(input, out) {
         function(path, callback) {
             pageOptimizer.optimizeResource(path, optimizerContext, callback);
         },
-        renderBody);
+        doRenderBody);
 
     if (!done) {
         asyncOut = out.beginAsync({ name: 'optimizer-resources:' + paths.join(',')});
