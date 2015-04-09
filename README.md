@@ -27,9 +27,9 @@ This tool offers many different optimizations such as a bundling, code splitting
 		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
 	- [JavaScript API](#javascript-api)
-		- [Configuring the Default Page Optimizer](#configuring-the-default-page-lasso)
+		- [Configuring the Default Lasso](#configuring-the-default-page-lasso)
 		- [Optimizing a Page](#optimizing-a-page)
-		- [Creating a New Page Optimizer](#creating-a-new-page-lasso)
+		- [Creating a New Lasso](#creating-a-new-page-lasso)
 	- [Optimizer Taglib](#lasso-taglib)
 		- [Using the Optimizer Taglib with Marko](#using-the-lasso-taglib-with-marko)
 		- [Using the Optimizer Taglib with Dust](#using-the-lasso-taglib-with-dust)
@@ -711,7 +711,7 @@ The `lassoPage(options)` method supports the following options:
 - `name` (`String`) - The page name. Used for determining the names of the output JS/CSS bundles.
 - `packagePath` (`String`) - The path to an `browser.json` file that describes the top-level dependencies.
 
-### Configuring the Default Page Optimizer
+### Configuring the Default Lasso
 ```javascript
 var lasso = require('lasso');
 lasso.configure(config);
@@ -759,7 +759,7 @@ lasso.optimizePage({
     });
 ```
 
-### Creating a New Page Optimizer
+### Creating a New Lasso
 
 ```javascript
 var myLasso = lasso.create(config);
