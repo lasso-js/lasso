@@ -1352,7 +1352,7 @@ A plugin is simply a Node.js module that exports a function with the following s
 ```javascript
 /**
  * A plugin for the Optimizer
- * @param  {lasso/lib/PageOptimizer} lasso An instance of a PageOptimizer that can be configured
+ * @param  {lasso/lib/Lasso} lasso An instance of a Lasso that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
 module.exports = function(lasso, config) {

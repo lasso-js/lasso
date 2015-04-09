@@ -75,7 +75,7 @@ Supported attributes:
 - __cache-key__ (string) - The cache key that should be used to cache the optimized page. Defaults to the template path. NOTE: The set of enabled flags are always appended to the cache key.
 - __package-path__ (string) - The relative path to the the JSON file that declares the top-level page dependencies.
 - __package-paths__ (Array) - Similar to `package-paths`, but an Array of paths.
-- __lasso__ (expression) - A reference to a `PageOptimizer` instance. Defaults to the default page lasso (i.e. `require('lasso').getDefaultPageOptimizer()`)
+- __lasso__ (expression) - A reference to a `Lasso` instance. Defaults to the default page lasso (i.e. `require('lasso').getDefaultLasso()`)
 - __data__ (expression) - Optional data to copy into the `lassoContext.data` object.
 - __dependencies__ (expression) - An array of dependencies to optimize.
 - __flags__ (expression) - An array of flags to enable during optimization

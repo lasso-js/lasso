@@ -11,7 +11,7 @@ module.exports = function render(input, context) {
     var theLasso = input.lasso;
 
     if (!theLasso) {
-        theLasso = lasso.defaultPageOptimizer;
+        theLasso = lasso.defaultLasso;
     }
 
     var lassoRenderContext = util.getOptimizerRenderContext(context);
