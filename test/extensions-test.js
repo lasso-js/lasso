@@ -38,7 +38,7 @@ describe('optimizer extensions (legacy)', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: nodePath.join(__dirname, 'test-extensions-project')
             })
@@ -79,7 +79,7 @@ describe('optimizer extensions (legacy)', function() {
                 {
                     name: 'foo',
                     dependencies: [
-                        './optimizer.json'
+                        './browser.json'
                     ]
                 }
             ]

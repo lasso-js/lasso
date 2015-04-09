@@ -159,7 +159,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Prefix resources with CDN host name
     * Optional Base64 image encoding inside CSS files
     * Custom output transforms
-    * Declarative browser-side package dependencies using simple `optimizer.json` files
+    * Declarative browser-side package dependencies using simple `browser.json` files
     * Generates the HTML markup required to include optimized resources
 	* Conditional dependencies
 	* Image minification
@@ -444,7 +444,7 @@ __optimizer-config.json:__
 
 In addition, let's put our page dependencies in their own JSON file:
 
-__my-page.optimizer.json:__
+__my-page.browser.json:__
 
 ```json
 {
@@ -458,7 +458,7 @@ __my-page.optimizer.json:__
 Now run the page optimizer using the newly created JSON config file and JSON dependencies file:
 
 ```bash
-optimizer ./my-page.optimizer.json \
+optimizer ./my-page.browser.json \
     --inject-into my-page.html \
     --config optimizer-config.json
 ```
@@ -480,7 +480,7 @@ Output for page "my-page":
 
 ## Dependencies
 
-To optimize a page the Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `optimizer.json` files.
+To optimize a page the Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `browser.json` files.
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -506,25 +506,25 @@ In the examples, the dependency type is inferred from the filename extension. Al
 
 _NOTE: all of the above are equivalent_
 
-You can also create a dependency that references dependencies in a separate `optimizer.json` file. Dependencies that have the `optimizer.json` extension are automatically resolved using the require resolver if they are not relative paths. For example:
+You can also create a dependency that references dependencies in a separate `browser.json` file. Dependencies that have the `browser.json` extension are automatically resolved using the require resolver if they are not relative paths. For example:
 ```js
 [
     // Relative path:
-    "./some-module/optimizer.json",
+    "./some-module/browser.json",
 
-    // Look for "my-module/optimizer.json" in "node_modules":
-    "my-module/optimizer.json"
+    // Look for "my-module/browser.json" in "node_modules":
+    "my-module/browser.json"
 ]
 ```
 
-If the path does not have a file extension then it is assumed to be a path to an `optimizer.json` file so the following short-hand works as well:
+If the path does not have a file extension then it is assumed to be a path to an `browser.json` file so the following short-hand works as well:
 ```js
 [
     "./some-module"
     "my-module"
 ]
 ```
-If you use the short-hand notation for `optimizer.json` dependencies, the paths will still be resolved using the require resolver as long as they are not relative paths.
+If you use the short-hand notation for `browser.json` dependencies, the paths will still be resolved using the require resolver as long as they are not relative paths.
 
 ### Conditional Dependencies
 
@@ -628,7 +628,7 @@ You can also specify additional explicit dependencies if necessary:
 require('raptor-loader').async(
     [
         './style.less',
-        'some/other/optimizer.json'
+        'some/other/browser.json'
     ],
     function() {
         // All of the requires nested in this function block will be lazily loaded.
@@ -638,7 +638,7 @@ require('raptor-loader').async(
     });
 ```
 
-You can also choose to declare async dependencies in an `optimizer.json` file:
+You can also choose to declare async dependencies in an `browser.json` file:
 
 ```json
 {
@@ -650,7 +650,7 @@ You can also choose to declare async dependencies in an `optimizer.json` file:
             "require: foo",
             "require: bar",
             "./style.less",
-            "some/other/optimizer.json"
+            "some/other/browser.json"
         ]
     }
 }
@@ -709,7 +709,7 @@ The `optimizerPage(options)` method supports the following options:
 - `flags` (`Array`) - The set of enabled flags (e.g. `['mobile', 'touch']`).
 - `from` (`String`) - The base path for resolving relative paths for top-level dependencies.
 - `name` (`String`) - The page name. Used for determining the names of the output JS/CSS bundles.
-- `packagePath` (`String`) - The path to an `optimizer.json` file that describes the top-level dependencies.
+- `packagePath` (`String`) - The path to an `browser.json` file that describes the top-level dependencies.
 
 ### Configuring the Default Page Optimizer
 ```javascript
@@ -787,7 +787,7 @@ If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://gi
 You can now add the optimizer tags to your page templates. For example:
 
 ```html
-<optimizer-page package-path="./optimizer.json"/>
+<optimizer-page package-path="./browser.json"/>
 
 <!doctype html>
 <html lang="en">
@@ -803,9 +803,9 @@ You can now add the optimizer tags to your page templates. For example:
 </html>
 ```
 
-You will then need to create an `optimizer.json` in the same directory as your page template. For example:
+You will then need to create an `browser.json` in the same directory as your page template. For example:
 
-_optimizer.json_:
+_browser.json_:
 ```json
 {
     "dependencies": [
@@ -875,7 +875,7 @@ Finally, in your Dust templates you can use the new optimizer helpers as shown b
 
 ```html
 
-{@optimizer-page name="my-page" packagePath="./optimizer.json" /}
+{@optimizer-page name="my-page" packagePath="./browser.json" /}
 
 <!doctype html>
 <html lang="en">
@@ -1088,8 +1088,8 @@ The following bundle configuration illustrates how to split out common code into
             "dependencies": [
                 {
                     "intersection": [
-                        "./src/pages/home/optimizer.json",
-                        "./src/pages/profile/optimizer.json"
+                        "./src/pages/home/browser.json",
+                        "./src/pages/profile/browser.json"
                     ]
                 }
             ]
@@ -1431,7 +1431,7 @@ module.exports = function myPlugin(optimizer, config) {
 };
 ```
 
-Once registered, the above dependency can then be referenced from an `optimizer.json` as shown in the following code:
+Once registered, the above dependency can then be referenced from an `browser.json` as shown in the following code:
 
 ```json
 {

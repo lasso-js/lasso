@@ -53,7 +53,7 @@ require('optimizer').optimizePage({
 If you are using the taglib, page-level bundles can be passed in as part of the attributes. For example, with Marko:
 
 ```html
-<optimizer-page package-path="./optimizer.json" bundles="./optimizer-bundles.json"/>
+<optimizer-page package-path="./browser.json" bundles="./optimizer-bundles.json"/>
 ```
 
 # Recursive Dependencies and Bundling

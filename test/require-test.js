@@ -366,7 +366,7 @@ describe('optimizer-require' , function() {
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: projectDir
             },
@@ -409,7 +409,7 @@ describe('optimizer-require' , function() {
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: projectDir
             },

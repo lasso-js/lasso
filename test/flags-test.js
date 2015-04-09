@@ -38,7 +38,7 @@ describe('optimizer flags', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: nodePath.join(__dirname, 'test-flags-project')
             })
@@ -79,7 +79,7 @@ describe('optimizer flags', function() {
                 {
                     name: 'foo',
                     dependencies: [
-                        './optimizer.json'
+                        './browser.json'
                     ]
                 }
             ]

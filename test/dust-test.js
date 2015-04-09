@@ -103,7 +103,7 @@ describe('optimizer/dust' , function() {
         }, __dirname);
 
         testRender('test-project/src/pages/page1/template.dust', {
-            packagePath: nodePath.join(__dirname, 'test-project/src/pages/page1/optimizer.json')
+            packagePath: nodePath.join(__dirname, 'test-project/src/pages/page1/browser.json')
         }, done);
     });
 

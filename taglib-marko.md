@@ -28,7 +28,7 @@ npm install optimizer --save
 # Example Template
 
 ```html
-<optimizer-page name="my-page" package-path="./optimizer.json"/>
+<optimizer-page name="my-page" package-path="./browser.json"/>
 
 <!doctype html>
 <html lang="en">
@@ -83,22 +83,22 @@ Supported attributes:
 
 Examples:
 
-_With a path to an `optimizer.json` file:_
+_With a path to an `browser.json` file:_
 
 ```html
-<optimizer-page package-path="./optimizer.json"/>
+<optimizer-page package-path="./browser.json"/>
 ```
 
 _With an explicit page name flags:_
 
 ```html
-<optimizer-page name="home" package-path="./optimizer.json"/>
+<optimizer-page name="home" package-path="./browser.json"/>
 ```
 
 _With enabled flags:_
 
 ```html
-<optimizer-page package-path="./optimizer.json" flags="['foo', 'bar']"/>
+<optimizer-page package-path="./browser.json" flags="['foo', 'bar']"/>
 ```
 
 _With dependencies:_

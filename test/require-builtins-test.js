@@ -48,7 +48,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: path.join(__dirname, 'test-builtins-project').replace(/\\/g, '/')
             }, function(err, optimizedPage) {

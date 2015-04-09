@@ -11,7 +11,7 @@ exports.registerHelpers = function(dust) {
                 var packagePath = params.packagePath;
                 if (!packagePath) {
                     if (!params.dependencies) {
-                        params.packagePath = nodePath.join(dirname, 'optimizer.json');
+                        params.packagePath = nodePath.join(dirname, 'browser.json');
                     }
                 } else if (packagePath.startsWith('.')) {
                     params.packagePath = nodePath.join(dirname, packagePath);

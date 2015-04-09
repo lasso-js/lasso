@@ -124,9 +124,9 @@ module.exports = function render(input, context) {
                             }
                         });
                     } else {
-                        // Look for an optimizer.json in the same directory
+                        // Look for an browser.json in the same directory
                         if (input.dirname) {
-                            packagePath = nodePath.join(input.dirname, 'optimizer.json');
+                            packagePath = nodePath.join(input.dirname, 'browser.json');
                             if (fs.existsSync(packagePath)) {
                                 dependencies = [
                                     {

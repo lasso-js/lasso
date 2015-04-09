@@ -70,8 +70,8 @@ describe('optimizer' , function() {
 				}
 
                 expect(dependencies).to.deep.equal([
-                    '[package: path="' + nodePath.join(__dirname, 'src/asyncA/optimizer.json') + '"]',
-                    '[package: path="' + nodePath.join(__dirname, 'src/moduleA/optimizer.json') + '"]',
+                    '[package: path="' + nodePath.join(__dirname, 'src/asyncA/browser.json') + '"]',
+                    '[package: path="' + nodePath.join(__dirname, 'src/moduleA/browser.json') + '"]',
                     '[js: path="' + nodePath.join(__dirname, 'src/moduleA/moduleA.js') + '"]'
                 ]);
 

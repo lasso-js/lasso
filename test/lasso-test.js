@@ -600,7 +600,7 @@ describe('optimizer/index', function() {
                 pageName: 'testPage',
                 dependencies: [
                     {
-                        'package': 'css-url-transform/require-test.optimizer.json'
+                        'package': 'css-url-transform/require-test.browser.json'
                     }],
                 from: module,
                 basePath: __dirname
@@ -636,7 +636,7 @@ describe('optimizer/index', function() {
                 pageName: 'testPage',
                 dependencies: [
                     {
-                        'package': 'css-url-transform/custom-resolver.optimizer.json'
+                        'package': 'css-url-transform/custom-resolver.browser.json'
                     }],
                 from: module,
                 basePath: __dirname
@@ -802,7 +802,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    './optimizer.json'
+                    './browser.json'
                 ],
                 from: path.join(__dirname, 'test-project-globs').replace(/\\/g, '/')
             }, function(err, optimizedPage) {
@@ -842,7 +842,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    './relative-paths.optimizer.json'
+                    './relative-paths.browser.json'
                 ],
                 from: path.join(__dirname, 'test-project-globs').replace(/\\/g, '/')
             }, function(err, optimizedPage) {
@@ -923,8 +923,8 @@ describe('optimizer/index', function() {
                     dependencies: [
                         {
                             'intersection': [
-                                path.join(__dirname, 'fixtures/code-splitting/page1.optimizer.json'),
-                                path.join(__dirname, 'fixtures/code-splitting/page2.optimizer.json')
+                                path.join(__dirname, 'fixtures/code-splitting/page1.browser.json'),
+                                path.join(__dirname, 'fixtures/code-splitting/page2.browser.json')
                             ]
                         }
                     ]
@@ -941,7 +941,7 @@ describe('optimizer/index', function() {
                     pageOptimizer.optimizePage({
                             pageName: 'page1',
                             dependencies: [
-                                path.join(__dirname, 'fixtures/code-splitting/page1.optimizer.json')
+                                path.join(__dirname, 'fixtures/code-splitting/page1.browser.json')
                             ],
                             from: module
                         }, function(err, optimizedPage) {
@@ -966,7 +966,7 @@ describe('optimizer/index', function() {
                     pageOptimizer.optimizePage({
                             pageName: 'page2',
                             dependencies: [
-                                path.join(__dirname, 'fixtures/code-splitting/page2.optimizer.json')
+                                path.join(__dirname, 'fixtures/code-splitting/page2.browser.json')
                             ],
                             from: module
                         }, function(err, optimizedPage) {
@@ -1010,9 +1010,9 @@ describe('optimizer/index', function() {
                                 // a.js is found in 2/3 (100%)
                                 // b.js is found in 2/3 (66.6%)
                                 // c.js if found in 1/3 (33.3%)
-                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                                path.join(__dirname, 'test-intersection-project/a.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.browser.json')
                             ]
                         }
                     ]
@@ -1023,7 +1023,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                    path.join(__dirname, 'test-intersection-project/abc.browser.json')
                 ],
                 from: path.join(__dirname, 'test-intersection-project')
             })
@@ -1060,9 +1060,9 @@ describe('optimizer/index', function() {
                                 // a.js is found in 2/3 (100%)
                                 // b.js is found in 2/3 (66.6%)
                                 // c.js if found in 1/3 (33.3%)
-                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                                path.join(__dirname, 'test-intersection-project/a.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.browser.json')
                             ]
                         }
                     ]
@@ -1073,7 +1073,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                    path.join(__dirname, 'test-intersection-project/abc.browser.json')
                 ],
                 from: path.join(__dirname, 'test-intersection-project')
             })
@@ -1110,9 +1110,9 @@ describe('optimizer/index', function() {
                                 // a.js is found in 2/3 (100%)
                                 // b.js is found in 2/3 (66.6%)
                                 // c.js if found in 1/3 (33.3%)
-                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                                path.join(__dirname, 'test-intersection-project/a.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.browser.json')
                             ]
                         }
                     ]
@@ -1123,7 +1123,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                    path.join(__dirname, 'test-intersection-project/abc.browser.json')
                 ],
                 from: path.join(__dirname, 'test-intersection-project')
             })
@@ -1160,9 +1160,9 @@ describe('optimizer/index', function() {
                                 // a.js is found in 2/3 (100%)
                                 // b.js is found in 2/3 (66.6%)
                                 // c.js if found in 1/3 (33.3%)
-                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                                path.join(__dirname, 'test-intersection-project/a.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/abc.browser.json')
                             ]
                         }
                     ]
@@ -1173,7 +1173,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                    path.join(__dirname, 'test-intersection-project/abc.browser.json')
                 ],
                 from: path.join(__dirname, 'test-intersection-project')
             })
@@ -1210,9 +1210,9 @@ describe('optimizer/index', function() {
                                 // a.js is found in 2/3 (66.6%)
                                 // b.js is found in 2/3 (66.6%)
                                 // c.js if found in 1/3 (33.3%)
-                                path.join(__dirname, 'test-intersection-project/a.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/ab.optimizer.json'),
-                                path.join(__dirname, 'test-intersection-project/bc.optimizer.json')
+                                path.join(__dirname, 'test-intersection-project/a.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/ab.browser.json'),
+                                path.join(__dirname, 'test-intersection-project/bc.browser.json')
                             ]
                         }
                     ]
@@ -1223,7 +1223,7 @@ describe('optimizer/index', function() {
         pageOptimizer.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
-                    path.join(__dirname, 'test-intersection-project/abc.optimizer.json')
+                    path.join(__dirname, 'test-intersection-project/abc.browser.json')
                 ],
                 from: path.join(__dirname, 'test-intersection-project')
             })
