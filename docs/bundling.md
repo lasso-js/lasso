@@ -1,7 +1,7 @@
-RaptorJS Optimizer Bundling
+Lasso.js Bundling
 ====================================
 
-Bundling can either be enabled or disabled during page optimization. If bundling is disabled then every dependency will be written to its own file. If bundling is enabled then dependencies will be concatenated together based on the bundles configured for the application and page. The RaptorJS Optimizer allows both application-level and page-level bundles to be configured.
+Bundling can either be enabled or disabled during page optimization. If bundling is disabled then every dependency will be written to its own file. If bundling is enabled then dependencies will be concatenated together based on the bundles configured for the application and page. Lasso.js allows both application-level and page-level bundles to be configured.
 
 # Application-level Bundles
 
@@ -58,7 +58,7 @@ If you are using the taglib, page-level bundles can be passed in as part of the 
 
 # Recursive Dependencies and Bundling
 
-When assigning a dependency to a bundle it is possible that a particular package dependency might have additional dependencies. The RaptorJS Optimizer gives you control over how transitive dependencies are handled via a special "recurse into" option. The possible values for "recurse into" option are the following:
+When assigning a dependency to a bundle it is possible that a particular package dependency might have additional dependencies. Lasso.js gives you control over how transitive dependencies are handled via a special "recurse into" option. The possible values for "recurse into" option are the following:
 
 * __`"all"`:__ All transitive dependencies, regardless of where they are located on disk, will be added to the bundle.
 * __`"dir"`:__ Only transitive dependencies that are in the exact same directory associated with the root dependency will be added to the bundle.
