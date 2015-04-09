@@ -1,13 +1,13 @@
 Lasso.js
 ==================
 
-[![Build Status](https://travis-ci.org/raptorjs/lasso.svg?branch=master)](https://travis-ci.org/raptorjs/lasso) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/raptorjs/lasso?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/lasso-js/lasso.svg?branch=master)](https://travis-ci.org/lasso-js/lasso) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/lasso-js/lasso?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Lasso.js is a Node.js-style JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, code splitting, lazy loading, conditional dependencies, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
-![eBay Open Source](https://raw.githubusercontent.com/raptorjs/lasso/master/images/ebay.png)
+![eBay Open Source](https://raw.githubusercontent.com/lasso-js/lasso/master/images/ebay.png)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -217,7 +217,7 @@ The following command should be used to install the `lasso` module into your pro
 npm install lasso --save
 ```
 
-If you would like to use the available command line interface, then you should install the [lasso-cli](https://github.com/raptorjs/lasso-cli) module globally using the following command:
+If you would like to use the available command line interface, then you should install the [lasso-cli](https://github.com/lasso-js/lasso-cli) module globally using the following command:
 
 ```bash
 npm install lasso-cli --global
@@ -400,7 +400,7 @@ The updated `my-page.html` file should be similar to the following:
 
 With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
-For more documentation on the Command Line Interface please see the [lasso-cli docs](https://github.com/raptorjs/lasso-cli).
+For more documentation on the Command Line Interface please see the [lasso-cli docs](https://github.com/lasso-js/lasso-cli).
 
 ## JSON Configuration File
 
@@ -934,7 +934,7 @@ Running `node main.js` on the server will produce the following output in the co
 Template output: Hello Frank!
 ```
 
-In order to automatically detect and compile required `*.marko` templates we will need to install the [lasso-marko](https://github.com/raptorjs/lasso-marko) plugin using the following command:
+In order to automatically detect and compile required `*.marko` templates we will need to install the [lasso-marko](https://github.com/lasso-js/lasso-marko) plugin using the following command:
 
 ```bash
 npm install lasso-marko
@@ -1233,7 +1233,7 @@ This could also be expressed as a percentage:
 
 Lasso.js provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
-This functionality is offered by the core [lasso-require](https://github.com/raptorjs/lasso-require) plugin which introduces a new `require` dependency type. For example:
+This functionality is offered by the core [lasso-require](https://github.com/lasso-js/lasso-require) plugin which introduces a new `require` dependency type. For example:
 
 ```json
 [
@@ -1281,13 +1281,13 @@ It's also possible to remap a require based on a flag:
 }
 ```
 
-The [lasso-require](https://github.com/raptorjs/lasso-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+The [lasso-require](https://github.com/lasso-js/lasso-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
 
-The [lasso-require](https://github.com/raptorjs/lasso-require) plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
+The [lasso-require](https://github.com/lasso-js/lasso-require) plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
 
 The `lasso-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
-For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/lasso-require](https://github.com/raptorjs/lasso-require) plugin.
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/lasso-require](https://github.com/lasso-js/lasso-require) plugin.
 
 # Available Plugins
 
@@ -1295,24 +1295,24 @@ Below is a list of plugins that are currently available:
 
 __Core plugins:__
 
-* [lasso-require](https://github.com/raptorjs/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-* [lasso-minify-css](https://github.com/raptorjs/lasso-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-* [lasso-minify-js](https://github.com/raptorjs/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-* [lasso-resolve-css-urls](https://github.com/raptorjs/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+* [lasso-require](https://github.com/lasso-js/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
+* [lasso-minify-css](https://github.com/lasso-js/lasso-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+* [lasso-minify-js](https://github.com/lasso-js/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+* [lasso-resolve-css-urls](https://github.com/lasso-js/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
 
 __Third-party plugins__
 
-* [lasso-dust](https://github.com/raptorjs/lasso-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
-* [lasso-handlebars](https://github.com/raptorjs/lasso-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-* [lasso-image](https://github.com/raptorjs/lasso-image): Get image info (including URL, width and height) for any image on both the server and client
-* [lasso-imagemin](https://github.com/raptorjs/lasso-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
-* [lasso-jade](https://github.com/raptorjs/lasso-jade): Compile [Jade](http://jade-lang.com/) templates to JavaScript
-* [lasso-jsx](https://github.com/raptorjs/lasso-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
-* [lasso-less](https://github.com/raptorjs/lasso-less): Compile [Less](http://lesscss.org/) files to CSS
-* [lasso-lodash](https://github.com/raptorjs/lasso-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
-* [lasso-marko](https://github.com/raptorjs/lasso-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
-* [lasso-sass](https://github.com/raptorjs/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
-* [lasso-stylus](https://github.com/raptorjs/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
+* [lasso-dust](https://github.com/lasso-js/lasso-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
+* [lasso-handlebars](https://github.com/lasso-js/lasso-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
+* [lasso-image](https://github.com/lasso-js/lasso-image): Get image info (including URL, width and height) for any image on both the server and client
+* [lasso-imagemin](https://github.com/lasso-js/lasso-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
+* [lasso-jade](https://github.com/lasso-js/lasso-jade): Compile [Jade](http://jade-lang.com/) templates to JavaScript
+* [lasso-jsx](https://github.com/lasso-js/lasso-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
+* [lasso-less](https://github.com/lasso-js/lasso-less): Compile [Less](http://lesscss.org/) files to CSS
+* [lasso-lodash](https://github.com/lasso-js/lasso-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
+* [lasso-marko](https://github.com/lasso-js/lasso-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
+* [lasso-sass](https://github.com/lasso-js/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
+* [lasso-stylus](https://github.com/lasso-js/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
@@ -1380,7 +1380,7 @@ There are three types of dependencies that are supported:
 * __CSS dependency:__ Produces CSS code
 * __Package dependency:__ Produces a package of additional JavaScript and CSS dependencies
 
-Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [lasso-less](https://github.com/raptorjs/lasso-less)).
+Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [lasso-less](https://github.com/lasso-js/lasso-less)).
 
 ### Custom JavaScript Dependency Type
 
@@ -1609,7 +1609,7 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
     - [gulp-lasso](https://github.com/raptorjs/gulp-lasso)
-    - [lasso-jsx](https://github.com/raptorjs/lasso-jsx)
+    - [lasso-jsx](https://github.com/lasso-js/lasso-jsx)
 
 # Contribute
 

@@ -3,7 +3,7 @@
     "description": "Module to support the optimized delivery of web application resources",
     "repository": {
         "type": "git",
-        "url": "https://github.com/raptorjs/lasso.git"
+        "url": "https://github.com/lasso-js/lasso.git"
     },
     "scripts": {
         "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
