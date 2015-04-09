@@ -51,7 +51,7 @@ describe('lasso/index', function() {
                     './browser.json'
                 ],
                 from: path.join(__dirname, 'test-builtins-project').replace(/\\/g, '/')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }

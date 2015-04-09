@@ -686,16 +686,16 @@ lasso.optimizePage({
             "require-run: ./main"
         ]
     },
-    function(err, optimizedPage) {
+    function(err, lassoPageResult) {
         if (err) {
             // Handle the error
         }
 
-        var headHtml = optimizedPage.getHeadHtml();
+        var headHtml = lassoPageResult.getHeadHtml();
         // headHtml will contain something similar to the following:
         // <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
 
-        var bodyHtml = optimizedPage.getBodyHtml();
+        var bodyHtml = lassoPageResult.getBodyHtml();
         // bodyHtml will contain something similar to the following:
         //  <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     });
@@ -735,19 +735,19 @@ lasso.optimizePage({
             './qux.css'
         ]
     },
-    function(err, optimizedPage) {
+    function(err, lassoPageResult) {
         if (err) {
             console.log('Failed to optimize page: ', err);
             return;
         }
 
-        var headHtml = optimizedPage.getHeadHtml();
+        var headHtml = lassoPageResult.getHeadHtml();
         /*
         String with a value similar to the following:
         <link rel="stylesheet" type="text/css" href="/static/my-page-85e3288e.css">
         */
 
-        var bodyHtml = optimizedPage.getBodyHtml();
+        var bodyHtml = lassoPageResult.getBodyHtml();
         /*
         String with a value similar to the following:
         <script type="text/javascript" src="/static/bundle1-6df28666.js"></script>

@@ -65,7 +65,7 @@ describe('lasso-require' , function() {
                     'require: ./hello.foo'
                 ],
                 from: nodePath.join(__dirname, 'test-require-project')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -116,7 +116,7 @@ describe('lasso-require' , function() {
                     'require: ./resolve-main'
                 ],
                 from: nodePath.join(__dirname, 'test-require-project')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -165,7 +165,7 @@ describe('lasso-require' , function() {
                     { 'require': 'foo' },
                     { 'require': 'bar' }],
                 from: nodePath.join(__dirname, 'test-project/index.js')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -223,7 +223,7 @@ describe('lasso-require' , function() {
                     'require: foo'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -263,7 +263,7 @@ describe('lasso-require' , function() {
                     'require ./amd-module'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(err, optimizedPage) {
+            }, function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -301,7 +301,7 @@ describe('lasso-require' , function() {
                 ],
                 from: nodePath.join(__dirname, 'test-project')
             },
-            function(e, optimizedPage) {
+            function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -370,7 +370,7 @@ describe('lasso-require' , function() {
                 ],
                 from: projectDir
             },
-            function(e, optimizedPage) {
+            function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -413,7 +413,7 @@ describe('lasso-require' , function() {
                 ],
                 from: projectDir
             },
-            function(e, optimizedPage) {
+            function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -455,7 +455,7 @@ describe('lasso-require' , function() {
                 ],
                 from: projectDir
             },
-            function(e, optimizedPage) {
+            function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -498,7 +498,7 @@ describe('lasso-require' , function() {
                 ],
                 from: projectDir
             },
-            function(e, optimizedPage) {
+            function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -543,7 +543,7 @@ describe('lasso-require' , function() {
                     'require: ./simple'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -589,7 +589,7 @@ describe('lasso-require' , function() {
                     'require: ./simple.css'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -633,7 +633,7 @@ describe('lasso-require' , function() {
                     'require: ./require-complex'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -682,7 +682,7 @@ describe('lasso-require' , function() {
                     'require: ./browser-override'
                 ],
                 from: nodePath.join(__dirname, 'test-require-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -726,7 +726,7 @@ describe('lasso-require' , function() {
                     'require: ./flag-override'
                 ],
                 from: nodePath.join(__dirname, 'test-require-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }
@@ -771,7 +771,7 @@ describe('lasso-require' , function() {
                     'require: ./nested'
                 ],
                 from: nodePath.join(__dirname, 'test-project')
-            }, function(e, optimizedPage) {
+            }, function(e, lassoPageResult) {
                 if (e) {
                     return done(e);
                 }

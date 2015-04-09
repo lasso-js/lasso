@@ -1,7 +1,7 @@
 var util = require('./util');
 
-function renderSlot(slotName, optimizedPage, context, lassoContext) {
-    var slotHtml = optimizedPage.getSlotHtml(slotName);
+function renderSlot(slotName, lassoPageResult, context, lassoContext) {
+    var slotHtml = lassoPageResult.getSlotHtml(slotName);
 
     if (slotHtml) {
         context.write(slotHtml);
@@ -13,31 +13,31 @@ function renderSlot(slotName, optimizedPage, context, lassoContext) {
 module.exports = function render(input, context) {
     var slotName = input.name;
     var lassoRenderContext = util.getOptimizerRenderContext(context);
-    var optimizedPageDataHolder = lassoRenderContext.data.optimizedPage;
+    var lassoPageResultDataHolder = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
 
-    if (!optimizedPageDataHolder) {
+    if (!lassoPageResultDataHolder) {
         throw new Error('Optimized page not found for slot "' + slotName + '". The <lasso-page> tag should be used to generate the optimized page.');
     }
 
     lassoRenderContext.emitBeforeSlot(slotName, context);
 
-    if (optimizedPageDataHolder.isResolved()) {
-        renderSlot(slotName, optimizedPageDataHolder.data, context, lassoRenderContext);
+    if (lassoPageResultDataHolder.isResolved()) {
+        renderSlot(slotName, lassoPageResultDataHolder.data, context, lassoRenderContext);
     } else {
         var asyncContext = context.beginAsync({
             name: 'lasso-slot:' + slotName,
             timeout: timeout
         });
 
-        optimizedPageDataHolder.done(function(err, optimizedPage) {
+        lassoPageResultDataHolder.done(function(err, lassoPageResult) {
             if (err) {
                 // logger.error('Optimizer "' + slotName + '" slot failed.', err);
                 asyncContext.error(err);
                 return;
             }
 
-            renderSlot(slotName, optimizedPage, asyncContext, lassoRenderContext);
+            renderSlot(slotName, lassoPageResult, asyncContext, lassoRenderContext);
             asyncContext.end();
         });
     }

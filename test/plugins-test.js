@@ -48,7 +48,7 @@ describe('lasso/plugins', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-plugins-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }

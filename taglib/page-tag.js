@@ -54,17 +54,17 @@ module.exports = function render(input, context) {
     // later (e.g. to optimize a image resource referenced by a <lasso-img> tag).
     lassoRenderContext.data.lasso = theLasso;
 
-    var optimizedPageDataHolder;
+    var lassoPageResultDataHolder;
 
     // store optimized page data holder in the context data (used by slot tags)
-    lassoRenderContext.data.optimizedPage = optimizedPageDataHolder = new DataHolder();
+    lassoRenderContext.data.lassoPageResult = lassoPageResultDataHolder = new DataHolder();
     lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
-    function done(err, optimizedPage) {
+    function done(err, lassoPageResult) {
         if (err) {
-            optimizedPageDataHolder.reject(err);
+            lassoPageResultDataHolder.reject(err);
         } else {
-            optimizedPageDataHolder.resolve(optimizedPage);
+            lassoPageResultDataHolder.resolve(lassoPageResult);
         }
     }
 

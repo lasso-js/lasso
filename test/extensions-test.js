@@ -42,7 +42,7 @@ describe('lasso extensions (legacy)', function() {
                 ],
                 from: nodePath.join(__dirname, 'test-extensions-project')
             })
-            .then(function(optimizedPage) {
+            .then(function(lassoPageResult) {
 
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     // a.js only included if "a" extension is enabled
@@ -92,7 +92,7 @@ describe('lasso extensions (legacy)', function() {
                 ],
                 from: from
             })
-            .then(function(optimizedPage) {
+            .then(function(lassoPageResult) {
 
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     'foo.js'
@@ -124,7 +124,7 @@ describe('lasso extensions (legacy)', function() {
                 ],
                 from: nodePath.join(__dirname, 'test-extensions-project')
             })
-            .then(function(optimizedPage) {
+            .then(function(lassoPageResult) {
 
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
                     // a.js only included if "a" extension is enabled

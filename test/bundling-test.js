@@ -49,7 +49,7 @@ describe('lasso/bundling', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-bundling-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -91,7 +91,7 @@ describe('lasso/bundling', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-bundling-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -133,7 +133,7 @@ describe('lasso/bundling', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-bundling-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -175,7 +175,7 @@ describe('lasso/bundling', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-bundling-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -210,7 +210,7 @@ describe('lasso/bundling', function() {
                     ],
                 from: nodePath.join(__dirname, 'test-bundling-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -253,7 +253,7 @@ describe('lasso/bundling', function() {
                 ],
                 from: nodePath.join(__dirname, 'test-bundling-strategies-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }
@@ -294,7 +294,7 @@ describe('lasso/bundling', function() {
                 ],
                 from: nodePath.join(__dirname, 'test-bundling-strategies-project')
             },
-            function(err, optimizedPage) {
+            function(err, lassoPageResult) {
                 if (err) {
                     return done(err);
                 }

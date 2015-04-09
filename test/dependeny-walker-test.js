@@ -29,7 +29,7 @@ describe('lasso' , function() {
     it('should walk dependencies correctly', function(done) {
         var dependencyWalker = require('../lib/dependency-walker');
         var OptimizerManifest = require('../lib/OptimizerManifest');
-        var OptimizerContext = require('../lib/OptimizerContext');
+        var LassoContext = require('../lib/LassoContext');
         var DependencyRegistry = require('../lib/dependencies').DependencyRegistry;
 
         var lassoManifest = new OptimizerManifest({
@@ -42,7 +42,7 @@ describe('lasso' , function() {
             dirname: __dirname
         });
 
-        var lassoContext = new OptimizerContext();
+        var lassoContext = new LassoContext();
 
         var dependencies = [];
         var contexts = [];
