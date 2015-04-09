@@ -24,7 +24,7 @@ describe('lasso/bundling', function() {
     });
     it('should bundle correctly with recurseInto set to "all"', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -41,8 +41,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -66,7 +66,7 @@ describe('lasso/bundling', function() {
 
     it('should bundle correctly with recurseInto set to "dir"', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -83,8 +83,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -108,7 +108,7 @@ describe('lasso/bundling', function() {
 
     it('should bundle correctly with recurseInto set to "dirtree"', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -125,8 +125,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -150,7 +150,7 @@ describe('lasso/bundling', function() {
 
     it('should bundle correctly with recurseInto set to "module"', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -167,8 +167,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -192,7 +192,7 @@ describe('lasso/bundling', function() {
 
     it('should bundle correctly with no bundles', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -202,8 +202,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -227,7 +227,7 @@ describe('lasso/bundling', function() {
 
     it('should support default bundling strategy', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -245,8 +245,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'default',
                 dependencies: [
                     'a.js'
@@ -266,7 +266,7 @@ describe('lasso/bundling', function() {
 
     it('should support lean bundling strategy', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -285,8 +285,8 @@ describe('lasso/bundling', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'default',
                 dependencies: [
                     'a.js',

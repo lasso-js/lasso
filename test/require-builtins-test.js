@@ -27,7 +27,7 @@ describe('lasso/index', function() {
 
     it('should allow for requiring builtins', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -44,8 +44,8 @@ describe('lasso/index', function() {
             ]
         }, __dirname, __filename);
 
-        // var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        // var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './browser.json'

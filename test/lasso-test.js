@@ -26,7 +26,7 @@ describe('lasso/index', function() {
     });
     it('should allow for optimizing a page with fingerprints enabled', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -35,8 +35,8 @@ describe('lasso/index', function() {
             flags: ['jquery', 'browser'],
             bundlingEnabled: true,
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -64,7 +64,7 @@ describe('lasso/index', function() {
     });
     it('should handle de-duplication correctly', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: false,
             flags: ['jquery', 'browser'],
@@ -85,8 +85,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'moduleA',
@@ -113,7 +113,7 @@ describe('lasso/index', function() {
     });
     it('should allow for slots', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -122,8 +122,8 @@ describe('lasso/index', function() {
             },
             flags: ['jquery', 'browser']
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -155,7 +155,7 @@ describe('lasso/index', function() {
     });
     it('should allow for slots overriding', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -164,8 +164,8 @@ describe('lasso/index', function() {
             },
             flags: ['jquery', 'browser']
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -197,7 +197,7 @@ describe('lasso/index', function() {
     });
     it('should allow for configurable bundles', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -232,8 +232,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -269,7 +269,7 @@ describe('lasso/index', function() {
     });
     it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -305,8 +305,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'package:nestedA',
@@ -336,7 +336,7 @@ describe('lasso/index', function() {
     });
     it('should allow for loader metadata', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -345,8 +345,8 @@ describe('lasso/index', function() {
             },
             flags: ['jquery', 'browser']
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -380,7 +380,7 @@ describe('lasso/index', function() {
     });
     it('should allow for loader metadata with configurable bundles', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -408,8 +408,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -450,7 +450,7 @@ describe('lasso/index', function() {
     });
     it('should allow for output transforms', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -459,17 +459,17 @@ describe('lasso/index', function() {
             flags: ['jquery', 'browser'],
             plugins: [
                 {
-                    plugin: function(pageOptimizer, config) {
-                        pageOptimizer.addTransform(require('./src/transforms/css-transform1.js'));
-                        pageOptimizer.addTransform(require('./src/transforms/css-transform2.js'));
-                        pageOptimizer.addTransform(require('./src/transforms/js-transform1-async.js'));
-                        pageOptimizer.addTransform(require('./src/transforms/js-transform2-async.js'));
+                    plugin: function(theLasso, config) {
+                        theLasso.addTransform(require('./src/transforms/css-transform1.js'));
+                        theLasso.addTransform(require('./src/transforms/css-transform2.js'));
+                        theLasso.addTransform(require('./src/transforms/js-transform1-async.js'));
+                        theLasso.addTransform(require('./src/transforms/js-transform2-async.js'));
                     }
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -488,7 +488,7 @@ describe('lasso/index', function() {
     });
     it('should allow for in-place deployment', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -500,8 +500,8 @@ describe('lasso/index', function() {
                 urlPrefix: '/in-place'
             },
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -525,15 +525,15 @@ describe('lasso/index', function() {
     });
     it('should allow for image URLs in CSS files to be resolved', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
             },
             resolveCssUrls: true
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -557,7 +557,7 @@ describe('lasso/index', function() {
     });
     it('should allow for image URLs in CSS files to be resolved when bundling is disabled', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -565,8 +565,8 @@ describe('lasso/index', function() {
             bundlingEnabled: false,
             resolveCssUrls: true
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -590,13 +590,13 @@ describe('lasso/index', function() {
     });
     it('should allow resolving URLs via require pseudo protocol', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: true,
             resolveCssUrls: true
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -620,7 +620,7 @@ describe('lasso/index', function() {
     });
     it('should allow custom CSS url resolver', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: true,
             resolveCssUrls: {
@@ -631,8 +631,8 @@ describe('lasso/index', function() {
                 }
             }
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -656,7 +656,7 @@ describe('lasso/index', function() {
     });
     it('should allow for external resource URLs', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             flags: ['jquery', 'browser'],
             fileWriter: {
                 outputDir: outputDir,
@@ -664,7 +664,7 @@ describe('lasso/index', function() {
             },
             bundles: []
         }, __dirname, __filename);
-        pageOptimizer.optimizePage({
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'js: http://code.jquery.com/jquery-1.11.0.min.js'
@@ -683,7 +683,7 @@ describe('lasso/index', function() {
     it('should allow for external resource URLs to be inlined', function(done) {
         this.timeout(5000);
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             flags: [],
             fileWriter: {
                 outputDir: outputDir,
@@ -691,7 +691,7 @@ describe('lasso/index', function() {
             },
             bundlingEnabled: true
         }, __dirname, __filename);
-        pageOptimizer.optimizePage({
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -713,7 +713,7 @@ describe('lasso/index', function() {
 
     it('should optimize a page that has an installed module that uses async loading', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -721,8 +721,8 @@ describe('lasso/index', function() {
             },
             bundlingEnabled: true,
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -753,7 +753,7 @@ describe('lasso/index', function() {
 
     it('should allow for resource dependencies to be an absolute path', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -762,8 +762,8 @@ describe('lasso/index', function() {
             flags: ['jquery', 'browser'],
             bundlingEnabled: true,
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'src/main.js').replace(/\\/g, '/')
@@ -781,7 +781,7 @@ describe('lasso/index', function() {
 
     it('should allow for glob patterns', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -798,8 +798,8 @@ describe('lasso/index', function() {
             ]
         }, __dirname, __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './browser.json'
@@ -821,7 +821,7 @@ describe('lasso/index', function() {
 
     it('should allow for glob patterns with relative paths', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -838,8 +838,8 @@ describe('lasso/index', function() {
             ]
         }, __dirname, __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './relative-paths.browser.json'
@@ -861,7 +861,7 @@ describe('lasso/index', function() {
 
     it('should generate unique filenames for non-file dependencies when bundling is disabled', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -888,8 +888,8 @@ describe('lasso/index', function() {
             ]
         }, __dirname, __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {type: 'foo'}
@@ -908,7 +908,7 @@ describe('lasso/index', function() {
 
     it('should support pulling out common dependencies into a separate bundle', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -932,13 +932,13 @@ describe('lasso/index', function() {
             ]
         }, __dirname, __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
 
         series(
             [
                 function(callback) {
                     writerTracker.reset();
-                    pageOptimizer.optimizePage({
+                    theLasso.optimizePage({
                             pageName: 'page1',
                             dependencies: [
                                 path.join(__dirname, 'fixtures/code-splitting/page1.browser.json')
@@ -963,7 +963,7 @@ describe('lasso/index', function() {
                 },
                 function(callback) {
                     writerTracker.reset();
-                    pageOptimizer.optimizePage({
+                    theLasso.optimizePage({
                             pageName: 'page2',
                             dependencies: [
                                 path.join(__dirname, 'fixtures/code-splitting/page2.browser.json')
@@ -993,7 +993,7 @@ describe('lasso/index', function() {
 
     it('should finding intersection of dependencies with 100 percent threshold', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1019,8 +1019,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'test-intersection-project/abc.browser.json')
@@ -1043,7 +1043,7 @@ describe('lasso/index', function() {
 
     it('should finding strict intersection of dependencies with numeric threshold', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1069,8 +1069,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'test-intersection-project/abc.browser.json')
@@ -1093,7 +1093,7 @@ describe('lasso/index', function() {
 
     it('should finding non-strict intersection of dependencies with numeric threshold', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1119,8 +1119,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'test-intersection-project/abc.browser.json')
@@ -1143,7 +1143,7 @@ describe('lasso/index', function() {
 
     it('should finding non-strict intersection of dependencies with string threshold', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1169,8 +1169,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'test-intersection-project/abc.browser.json')
@@ -1193,7 +1193,7 @@ describe('lasso/index', function() {
 
     it('should finding strict intersection of dependencies with percentage threshold', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1219,8 +1219,8 @@ describe('lasso/index', function() {
                 }
             ]
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'test-intersection-project/abc.browser.json')
@@ -1243,7 +1243,7 @@ describe('lasso/index', function() {
 
     it('should resolve font URLs correctly', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/static',
@@ -1252,8 +1252,8 @@ describe('lasso/index', function() {
             flags: [],
             bundlingEnabled: true,
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     path.join(__dirname, 'fixtures/fonts/fonts.css').replace(/\\/g, '/')
@@ -1270,7 +1270,7 @@ describe('lasso/index', function() {
 
     it('should resolve font URLs correctly inside pre-processed CSS files', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/static',
@@ -1278,8 +1278,8 @@ describe('lasso/index', function() {
             },
             plugins: [
                 {
-                    plugin: function(pageOptimizer) {
-                        pageOptimizer.dependencies.registerStyleSheetType('foo', {
+                    plugin: function(theLasso) {
+                        theLasso.dependencies.registerStyleSheetType('foo', {
                             properties: {
                                 'path': 'string'
                             },
@@ -1315,8 +1315,8 @@ describe('lasso/index', function() {
             flags: [],
             bundlingEnabled: true,
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {
@@ -1342,15 +1342,15 @@ describe('lasso/index', function() {
 
     it('should allow for inline "end" dependencies', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             }
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {path: './src/moduleA/moduleA.js', inline: 'end'},
@@ -1370,15 +1370,15 @@ describe('lasso/index', function() {
 
     it('should allow for inline true dependencies', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             }
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {path: './src/moduleA/moduleA.js', inline: true},
@@ -1398,15 +1398,15 @@ describe('lasso/index', function() {
 
     it('should allow for inline false dependencies', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             }
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {path: './src/moduleA/moduleA.js', inline: false},
@@ -1426,15 +1426,15 @@ describe('lasso/index', function() {
 
     it('should allow for inline "beginning" dependencies', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
                 fingerprintsEnabled: false
             }
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {path: './src/moduleA/moduleA.js', inline: 'beginning'},
@@ -1454,7 +1454,7 @@ describe('lasso/index', function() {
 
     it('should allow for inline "in-place" dependencies', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var theLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1462,8 +1462,8 @@ describe('lasso/index', function() {
             },
             bundlingEnabled: false
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './src/moduleA/moduleA.js',

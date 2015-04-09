@@ -8,10 +8,10 @@ var DataHolder = require('raptor-async/DataHolder');
 var extend = require('raptor-util/extend');
 
 module.exports = function render(input, context) {
-    var pageOptimizer = input.lasso;
+    var theLasso = input.lasso;
 
-    if (!pageOptimizer) {
-        pageOptimizer = lasso.defaultPageOptimizer;
+    if (!theLasso) {
+        theLasso = lasso.defaultPageOptimizer;
     }
 
     var lassoRenderContext = util.getOptimizerRenderContext(context);
@@ -50,9 +50,9 @@ module.exports = function render(input, context) {
         extend(lassoContextData, inputData);
     }
 
-    // Store the pageOptimizer into the render context in case it is needed
+    // Store the theLasso into the render context in case it is needed
     // later (e.g. to optimize a image resource referenced by a <lasso-img> tag).
-    lassoRenderContext.data.pageOptimizer = pageOptimizer;
+    lassoRenderContext.data.lasso = theLasso;
 
     var optimizedPageDataHolder;
 
@@ -70,7 +70,7 @@ module.exports = function render(input, context) {
 
     function doOptimizePage() {
 
-        pageOptimizer.optimizePage({
+        theLasso.optimizePage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
 

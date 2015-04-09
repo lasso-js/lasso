@@ -567,7 +567,7 @@ The code below shows how to enable flags when optimizing a page:
 __Using the JavaScript API:__
 
 ```javascript
-pageOptimizer.optimizePage({
+myLasso.optimizePage({
     dependencies: [
         { path: './hello-mobile.js', 'if-flag': 'mobile' }
     ],
@@ -762,8 +762,8 @@ lasso.optimizePage({
 ### Creating a New Page Optimizer
 
 ```javascript
-var pageOptimizer = lasso.create(config);
-pageOptimizer.optimizePage(...);
+var myLasso = lasso.create(config);
+myLasso.optimizePage(...);
 ```
 
 
@@ -1355,18 +1355,18 @@ A plugin is simply a Node.js module that exports a function with the following s
  * @param  {lasso/lib/PageOptimizer} lasso An instance of a PageOptimizer that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
-module.exports = function(pageOptimizer, config) {
+module.exports = function(lasso, config) {
     // Register dependency types:
-    pageOptimizer.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
-    pageOptimizer.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
-    pageOptimizer.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
+    lasso.dependencies.registerJavaScriptType('my-js-type', require('./dependency-my-js-type'));
+    lasso.dependencies.registerStyleSheetType('my-css-type', require('./dependency-my-css-type'));
+    lasso.dependencies.registerPackageType('my-package-type', require('./dependency-my-package-type'));
 
     // Add an output transform
-    pageOptimizer.addTransform(require('./my-transform'));
+    lasso.addTransform(require('./my-transform'));
 
     // Register a custom Node.js/CommonJS module compiler for a custom filename extension
     // var myModule = require('./hello.test');
-    pageOptimizer.dependencies.registerRequireExtension('test', function(path, context, callback) {
+    lasso.dependencies.registerRequireExtension('test', function(path, context, callback) {
         callback(null, "exports.sayHello = function() { console.log('Hello!'); }");
     });
 };
@@ -1533,13 +1533,13 @@ lasso.dependencies.registerPackageType('dir', {
 
 ## Custom Output Transforms
 
-Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle. Another example is that an output transform may be used to remove `console.log` statements from output JavaScript code. Transforms should be registered by a plugin using the `pageOptimizer.addTransform(transform)` method.
+Registered output transforms are used to process bundles as they are written to disk. As an example, an output transform can be used to minify a JavaScript or CSS bundle. Another example is that an output transform may be used to remove `console.log` statements from output JavaScript code. Transforms should be registered by a plugin using the `lasso.addTransform(transform)` method.
 
 As an example, the following unhelpful transform will convert all JavaScript source code to upper case:
 
 ```javascript
-module.exports = function (pageOptimizer, pluginConfig) {
-    pageOptimizer.addTransform({
+module.exports = function (lasso, pluginConfig) {
+    lasso.addTransform({
 
         // Only apply to JavaScript code
         contentType: 'js', //  'css' is the other option
@@ -1563,8 +1563,8 @@ Below is the streaming version of the same transform:
 ```javascript
 var through = require('through');
 
-module.exports = function (pageOptimizer, pluginConfig) {
-    pageOptimizer.addTransform({
+module.exports = function (lasso, pluginConfig) {
+    lasso.addTransform({
 
         // Only apply to JavaScript code
         contentType: 'js', //  'css' is the other option

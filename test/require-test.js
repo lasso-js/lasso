@@ -40,7 +40,7 @@ describe('lasso-require' , function() {
         var lasso = require('../');
         var requireFooPlugin = require('./plugins/require-foo-plugin');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
@@ -57,9 +57,9 @@ describe('lasso-require' , function() {
                 ]
             }, nodePath.join(__dirname, 'test-require-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./hello.foo'
@@ -91,7 +91,7 @@ describe('lasso-require' , function() {
         var lasso = require('../');
         var requireFooPlugin = require('./plugins/require-foo-plugin');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
@@ -108,9 +108,9 @@ describe('lasso-require' , function() {
                 ]
             }, nodePath.join(__dirname, 'test-require-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./resolve-main'
@@ -145,7 +145,7 @@ describe('lasso-require' , function() {
     it('should handle require for modules with dependencies', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 flags: ['jquery', 'browser'],
                 fileWriter: {
                     outputDir: outputDir,
@@ -157,9 +157,9 @@ describe('lasso-require' , function() {
                 }
             }, __dirname, __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     { 'require': 'foo' },
@@ -189,7 +189,7 @@ describe('lasso-require' , function() {
     it('should bundle require dependencies correctly', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 flags: ['jquery', 'browser'],
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
@@ -214,9 +214,9 @@ describe('lasso-require' , function() {
                 ]
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: jquery',
@@ -241,7 +241,7 @@ describe('lasso-require' , function() {
     it('should allow for browserify-style transforms', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -255,9 +255,9 @@ describe('lasso-require' , function() {
                 }
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require ./amd-module'
@@ -280,7 +280,7 @@ describe('lasso-require' , function() {
     it('should allow for modules to be mapped to globals', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -292,9 +292,9 @@ describe('lasso-require' , function() {
                 }
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: jquery'
@@ -320,7 +320,7 @@ describe('lasso-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -360,9 +360,9 @@ describe('lasso-require' , function() {
                 ]
             }, projectDir);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
@@ -390,7 +390,7 @@ describe('lasso-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -403,9 +403,9 @@ describe('lasso-require' , function() {
                 bundlingEnabled: false
             }, projectDir);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
@@ -433,7 +433,7 @@ describe('lasso-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-project');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -446,9 +446,9 @@ describe('lasso-require' , function() {
                 bundlingEnabled: true
             }, projectDir);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                 'require: ./test.json'
@@ -476,7 +476,7 @@ describe('lasso-require' , function() {
 
         var projectDir = nodePath.join(__dirname, 'test-project');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -489,9 +489,9 @@ describe('lasso-require' , function() {
                 bundlingEnabled: true
             }, projectDir);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require-run'
@@ -517,7 +517,7 @@ describe('lasso-require' , function() {
     it('should handle a simple require', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
@@ -535,9 +535,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./simple'
@@ -563,7 +563,7 @@ describe('lasso-require' , function() {
     it('should allow CSS files to be required', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
@@ -581,9 +581,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./simple.css'
@@ -607,7 +607,7 @@ describe('lasso-require' , function() {
     it('should allow for require("<type>:<path>")"', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
@@ -625,9 +625,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./require-complex'
@@ -659,7 +659,7 @@ describe('lasso-require' , function() {
     it('should allow for browser overrides', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 plugins: [
                     {
                         plugin: 'lasso-require',
@@ -674,9 +674,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./browser-override'
@@ -702,7 +702,7 @@ describe('lasso-require' , function() {
     it('should allow for require overrides based on flag', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 plugins: [
                     {
                         plugin: 'lasso-require',
@@ -717,9 +717,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 flags: ['mobile'],
                 dependencies: [
@@ -745,7 +745,7 @@ describe('lasso-require' , function() {
     it('should handle requiring of a nested require', function(done) {
         var lasso = require('../');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
@@ -763,9 +763,9 @@ describe('lasso-require' , function() {
                 },
             }, nodePath.join(__dirname, 'test-project'));
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        pageOptimizer.optimizePage({
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./nested'

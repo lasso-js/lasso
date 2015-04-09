@@ -25,7 +25,7 @@ describe('lasso extensions (legacy)', function() {
     });
     it('should allow for optimizing a page with extensions', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -34,8 +34,8 @@ describe('lasso extensions (legacy)', function() {
             enabledExtensions: ['a'],
             bundlingEnabled: false
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './browser.json'
@@ -66,7 +66,7 @@ describe('lasso extensions (legacy)', function() {
         var lasso = require('../');
 
         var from = nodePath.join(__dirname, 'test-extensions-project');
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -84,8 +84,8 @@ describe('lasso extensions (legacy)', function() {
                 }
             ]
         }, from, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     './c.js'
@@ -106,7 +106,7 @@ describe('lasso extensions (legacy)', function() {
 
     it('should allow if-not-extension', function(done) {
         var lasso = require('../');
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -115,8 +115,8 @@ describe('lasso extensions (legacy)', function() {
             enabledExtensions: ['a'],
             bundlingEnabled: false
         }, __dirname, __filename);
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                     {'type': 'js', 'path': './a.js', 'if-extension': 'a'},

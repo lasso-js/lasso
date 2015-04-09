@@ -4,14 +4,14 @@ var attrs = require('raptor-util/attrs');
 var util = require('./util');
 
 module.exports = function render(input, context) {
-    var pageOptimizer = input.lasso;
+    var theLasso = input.lasso;
     var lassoRenderContext = util.getOptimizerRenderContext(context);
 
-    if (!pageOptimizer) {
-        pageOptimizer = lassoRenderContext.data.pageOptimizer || lasso.defaultPageOptimizer;
+    if (!theLasso) {
+        theLasso = lassoRenderContext.data.lasso || lasso.defaultPageOptimizer;
     }
 
-    if (!pageOptimizer) {
+    if (!theLasso) {
         throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');
     }
 
@@ -21,7 +21,7 @@ module.exports = function render(input, context) {
     var lassoContext = lassoRenderContext.data.lassoContext;
 
     if (!lassoContext) {
-        lassoContext = lassoRenderContext.data.lassoContext = pageOptimizer.createOptimizerContext({});
+        lassoContext = lassoRenderContext.data.lassoContext = theLasso.createOptimizerContext({});
         lassoContext.renderContext = context;
     }
 
@@ -36,7 +36,7 @@ module.exports = function render(input, context) {
         context.write('>');
     }
 
-    pageOptimizer.optimizeResource(imgPath, {lassoContext: lassoContext}, function(err, optimizedResource) {
+    theLasso.optimizeResource(imgPath, {lassoContext: lassoContext}, function(err, optimizedResource) {
         done = true;
         if (err) {
             if (asyncContext) {

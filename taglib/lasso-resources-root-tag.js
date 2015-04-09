@@ -10,14 +10,14 @@ module.exports = function render(input, out) {
         return;
     }
 
-    var pageOptimizer = input.lasso;
+    var theLasso = input.lasso;
     var lassoRenderContext = util.getOptimizerRenderContext(out);
 
-    if (!pageOptimizer) {
-        pageOptimizer = lassoRenderContext.data.pageOptimizer || lasso.defaultPageOptimizer;
+    if (!theLasso) {
+        theLasso = lassoRenderContext.data.lasso || lasso.defaultPageOptimizer;
     }
 
-    if (!pageOptimizer) {
+    if (!theLasso) {
         throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');
     }
 
@@ -25,7 +25,7 @@ module.exports = function render(input, out) {
     var lassoContext = lassoRenderContext.data.lassoContext;
 
     if (!lassoContext) {
-        lassoContext = lassoRenderContext.data.lassoContext = pageOptimizer.createOptimizerContext({});
+        lassoContext = lassoRenderContext.data.lassoContext = theLasso.createOptimizerContext({});
         lassoContext.renderContext = out;
     }
 
@@ -62,7 +62,7 @@ module.exports = function render(input, out) {
     async.map(
         paths,
         function(path, callback) {
-            pageOptimizer.optimizeResource(path, lassoContext, callback);
+            theLasso.optimizeResource(path, lassoContext, callback);
         },
         doRenderBody);
 

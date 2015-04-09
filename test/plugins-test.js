@@ -28,7 +28,7 @@ describe('lasso/plugins', function() {
 
         var plugin = require('./plugins/foo-plugin');
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -40,8 +40,8 @@ describe('lasso/plugins', function() {
             ]
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
-        var writerTracker = require('./WriterTracker').create(pageOptimizer.writer);
-        pageOptimizer.optimizePage({
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.optimizePage({
                 pageName: 'testPage',
                 dependencies: [
                         'hello.foo'

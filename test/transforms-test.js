@@ -33,8 +33,8 @@ describe('lasso/transforms', function() {
 
         var results = {};
 
-        var plugin = function(pageOptimizer, pluginConfig) {
-            pageOptimizer.addTransform({
+        var plugin = function(myLasso, pluginConfig) {
+            myLasso.addTransform({
                 contentType: ['foo', 'bar'],
 
                 name: 'testTransformer',
@@ -76,7 +76,7 @@ describe('lasso/transforms', function() {
             });
         };
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
@@ -94,7 +94,7 @@ describe('lasso/transforms', function() {
         series(
             [
                 function(callback) {
-                    pageOptimizer.optimizeResource(barPath, function(err, result) {
+                    myLasso.optimizeResource(barPath, function(err, result) {
                         if (err) {
                             return done(err);
                         }
@@ -105,7 +105,7 @@ describe('lasso/transforms', function() {
                     });
                 },
                 function(callback) {
-                    pageOptimizer.optimizeResource(fooPath, function(err, result) {
+                    myLasso.optimizeResource(fooPath, function(err, result) {
                             if (err) {
                                 return done(err);
                             }
@@ -123,8 +123,8 @@ describe('lasso/transforms', function() {
     it('should allow resource transforms to be filtered', function(done) {
         var lasso = require('../');
 
-        var plugin = function(pageOptimizer, pluginConfig) {
-            pageOptimizer.addTransform({
+        var plugin = function(myLasso, pluginConfig) {
+            myLasso.addTransform({
                 filter: function(lassoContext, callback) {
                     var path = lassoContext.path;
                     if (!path) {
@@ -157,7 +157,7 @@ describe('lasso/transforms', function() {
             });
         };
 
-        var pageOptimizer = lasso.create({
+        var myLasso = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
@@ -175,7 +175,7 @@ describe('lasso/transforms', function() {
         series(
             [
                 function(callback) {
-                    pageOptimizer.optimizeResource(barPath, function(err, result) {
+                    myLasso.optimizeResource(barPath, function(err, result) {
                         if (err) {
                             return done(err);
                         }
@@ -185,7 +185,7 @@ describe('lasso/transforms', function() {
                     });
                 },
                 function(callback) {
-                    pageOptimizer.optimizeResource(fooPath, function(err, result) {
+                    myLasso.optimizeResource(fooPath, function(err, result) {
                             if (err) {
                                 return done(err);
                             }
