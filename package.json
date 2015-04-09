@@ -51,7 +51,7 @@
         "deamdify": "^0.1.1"
     },
     "license": "Apache License v2.0",
-    "main": "lib/lasso.js",
+    "main": "lib/index.js",
     "publishConfig": {
         "registry": "https://registry.npmjs.org/"
     },
