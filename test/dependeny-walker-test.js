@@ -28,11 +28,11 @@ describe('lasso' , function() {
 
     it('should walk dependencies correctly', function(done) {
         var dependencyWalker = require('../lib/dependency-walker');
-        var OptimizerManifest = require('../lib/OptimizerManifest');
+        var LassoManifest = require('../lib/LassoManifest');
         var LassoContext = require('../lib/LassoContext');
         var DependencyRegistry = require('../lib/dependencies').DependencyRegistry;
 
-        var lassoManifest = new OptimizerManifest({
+        var lassoManifest = new LassoManifest({
             manifest: {
                 dependencies: [
                     { 'package': 'asyncA' }
