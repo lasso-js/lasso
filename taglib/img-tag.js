@@ -5,7 +5,7 @@ var util = require('./util');
 
 module.exports = function render(input, context) {
     var theLasso = input.lasso;
-    var lassoRenderContext = util.getOptimizerRenderContext(context);
+    var lassoRenderContext = util.getLassoRenderContext(context);
 
     if (!theLasso) {
         theLasso = lassoRenderContext.data.lasso || lasso.defaultLasso;

@@ -12,7 +12,7 @@ function renderSlot(slotName, lassoPageResult, context, lassoContext) {
 
 module.exports = function render(input, context) {
     var slotName = input.name;
-    var lassoRenderContext = util.getOptimizerRenderContext(context);
+    var lassoRenderContext = util.getLassoRenderContext(context);
     var lassoPageResultDataHolder = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
 
@@ -32,7 +32,6 @@ module.exports = function render(input, context) {
 
         lassoPageResultDataHolder.done(function(err, lassoPageResult) {
             if (err) {
-                // logger.error('Optimizer "' + slotName + '" slot failed.', err);
                 asyncContext.error(err);
                 return;
             }

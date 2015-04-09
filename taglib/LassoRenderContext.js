@@ -1,12 +1,12 @@
 var EventEmitter = require('events').EventEmitter;
 
-var OptimizerRenderContext = function() {
-    OptimizerRenderContext.$super.call(this);
+var LassoRenderContext = function() {
+    LassoRenderContext.$super.call(this);
     this._waitFor = [];
     this.data = {};
 };
 
-OptimizerRenderContext.prototype = {
+LassoRenderContext.prototype = {
     onBeforeSlot: function(slotName, cb) {
         this.on('beforeSlot.' + slotName, cb);
     },
@@ -47,6 +47,6 @@ OptimizerRenderContext.prototype = {
     }
 };
 
-require('raptor-util').inherit(OptimizerRenderContext, EventEmitter);
+require('raptor-util').inherit(LassoRenderContext, EventEmitter);
 
-module.exports = OptimizerRenderContext;
+module.exports = LassoRenderContext;

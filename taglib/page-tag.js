@@ -14,7 +14,7 @@ module.exports = function render(input, context) {
         theLasso = lasso.defaultLasso;
     }
 
-    var lassoRenderContext = util.getOptimizerRenderContext(context);
+    var lassoRenderContext = util.getLassoRenderContext(context);
 
     var pageName = input.name || input.pageName;
     var cacheKey = input.cacheKey;

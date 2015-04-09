@@ -30,9 +30,9 @@ This tool offers many different optimizations such as a bundling, code splitting
 		- [Configuring the Default Lasso](#configuring-the-default-page-lasso)
 		- [Optimizing a Page](#optimizing-a-page)
 		- [Creating a New Lasso](#creating-a-new-page-lasso)
-	- [Optimizer Taglib](#lasso-taglib)
-		- [Using the Optimizer Taglib with Marko](#using-the-lasso-taglib-with-marko)
-		- [Using the Optimizer Taglib with Dust](#using-the-lasso-taglib-with-dust)
+	- [Lasso.js Taglib](#lasso-taglib)
+		- [Using Lasso.js Taglib with Marko](#using-the-lasso-taglib-with-marko)
+		- [Using Lasso.js Taglib with Dust](#using-the-lasso-taglib-with-dust)
 	- [Client/Server Template Rendering](#clientserver-template-rendering)
 	- [Runtime Optimization with Express](#runtime-optimization-with-express)
 	- [Bundling](#bundling)
@@ -42,7 +42,7 @@ This tool offers many different optimizations such as a bundling, code splitting
 	- [Complete Configuration](#complete-configuration)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Available Plugins](#available-plugins)
-- [Extending the Optimizer](#extending-the-lasso)
+- [Extending Lasso.js](#extending-the-lasso)
 	- [Custom Plugins](#custom-plugins)
 	- [Custom Dependency Types](#custom-dependency-types)
 		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
@@ -60,7 +60,7 @@ This tool offers many different optimizations such as a bundling, code splitting
 
 # Example
 
-Install the command line interface for the Optimizer:
+Install the command line interface for Lasso.js:
 
 ```text
 npm install lasso-cli --global
@@ -100,10 +100,10 @@ __my-page.html:__
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Optimizer Demo</title>
+    <title>Lasso.js Demo</title>
 </head>
 <body>
-    <h1>Optimizer Demo</h1>
+    <h1>Lasso.js Demo</h1>
 </body>
 </html>
 ```
@@ -131,9 +131,9 @@ Output for page "my-page":
 
 Open up `my-page.html` in your web browser and in the JavaScript console you will see the output of our program running in the browser, as well as a page styled by `style.css`.
 
-As you can see, with the Optimizer you no longer have to struggle with managing complex build scripts. Simply let the Optimizer worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
+As you can see, with Lasso.js you no longer have to struggle with managing complex build scripts. Simply let Lasso.js worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
-There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize the Optimizer in your application.
+There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize Lasso.js in your application.
 
 # Design Philosophy
 
@@ -205,9 +205,9 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 
 [Browserify](http://browserify.org/) is an excellent JavaScript module bundler. We are huge supporters of writing Node.js-style modules (i.e. CommonJS), and we also believe [npm](https://www.npmjs.org/) is an excellent package manager. If you are not using a JavaScript module bundler then you are absolutely missing out. Modularity is equally important for client-side code as it is for server-side code, and a JavaScript module bundler should be part of every front-end developer's toolbox.
 
-So why did we create the Lasso.js if Browserify is such a great tool? We created the Lasso.js because we wanted a top-notch JavaScript module bundler that _also_ provides first-level support for transporting CSS, "plain" JavaScript, images, fonts and other front-end assets to the browser in the most optimal way. In addition, we want to enable developers to easily create web applications that follow [widely accepted rules for creating faster-loading websites](http://stevesouders.com/examples/rules.php) (such as putting StyleSheets at the top, and JavaScript at the bottom). We also want to allow for developers to easily load additional JavaScript and StyleSheets after the initial page load.
+So why did we create Lasso.js if Browserify is such a great tool? We created Lasso.js because we wanted a top-notch JavaScript module bundler that _also_ provides first-level support for transporting CSS, "plain" JavaScript, images, fonts and other front-end assets to the browser in the most optimal way. In addition, we want to enable developers to easily create web applications that follow [widely accepted rules for creating faster-loading websites](http://stevesouders.com/examples/rules.php) (such as putting StyleSheets at the top, and JavaScript at the bottom). We also want to allow for developers to easily load additional JavaScript and StyleSheets after the initial page load.
 
-While high performance is very important for production systems, we want to also provide a more developer-friendly experience by offering fast, incremental builds, simplifying development and by producing debuggable output code. And, of course, we do not want developers to have to learn how to code their applications in a new way so the Lasso.js was built to not change how you already code. You'll even find support for Browserify shims and transforms. Therefore, if you try out the Lasso.js and it is not the tool for you, then feel free to switch back to something else (it'll of course be ready if your application's requirements change in the future). eBay and other large companies rely on the Lasso.js for delivering high performance websites and are committed to its success. If you try it out and find gaps, please let us know!
+While high performance is very important for production systems, we want to also provide a more developer-friendly experience by offering fast, incremental builds, simplifying development and by producing debuggable output code. And, of course, we do not want developers to have to learn how to code their applications in a new way so Lasso.js was built to not change how you already code. You'll even find support for Browserify shims and transforms. Therefore, if you try out Lasso.js and it is not the tool for you, then feel free to switch back to something else (it'll of course be ready if your application's requirements change in the future). eBay and other large companies rely on Lasso.js for delivering high performance websites and are committed to its success. If you try it out and find gaps, please let us know!
 
 # Installation
 
@@ -233,7 +233,7 @@ npm install lasso-cli --global
 
 <hr>
 
-Install the command line interface for the Optimizer:
+Install the command line interface for Lasso.js:
 
 ```bash
 npm install lasso-cli --global
@@ -292,10 +292,10 @@ __my-page.html:__
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Optimizer Demo</title>
+    <title>Lasso.js Demo</title>
 </head>
 <body>
-    <h1>Optimizer Demo</h1>
+    <h1>Lasso.js Demo</h1>
 </body>
 </html>
 ```
@@ -334,13 +334,13 @@ The updated `my-page.html` file should be similar to the following:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Optimizer Demo</title>
+    <title>Lasso.js Demo</title>
     <!-- <lasso-head> -->
     <link rel="stylesheet" type="text/css" href="static/style.less.css">
     <!-- </lasso-head> -->
 </head>
 <body>
-    <h1>Optimizer Demo</h1>
+    <h1>Lasso.js Demo</h1>
     <!-- <lasso-body> -->
     <script type="text/javascript" src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
@@ -383,13 +383,13 @@ The updated `my-page.html` file should be similar to the following:
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Optimizer Demo</title>
+    <title>Lasso.js Demo</title>
     <!-- <lasso-head> -->
     <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
     <!-- </lasso-head> -->
 </head>
 <body>
-    <h1>Optimizer Demo</h1>
+    <h1>Lasso.js Demo</h1>
     <!-- <lasso-body> -->
     <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
@@ -480,7 +480,7 @@ Output for page "my-page":
 
 ## Dependencies
 
-To optimize a page the Optimizer walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `browser.json` files.
+To optimize a page Lasso.js walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `browser.json` files.
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -528,7 +528,7 @@ If you use the short-hand notation for `browser.json` dependencies, the paths wi
 
 ### Conditional Dependencies
 
-The Optimizer supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain flags (e.g. "mobile device" versus "desktop"). For caching reasons, the flags for conditional dependencies should be based on a set of enabled flag. A flag is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
+Lasso.js supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain flags (e.g. "mobile device" versus "desktop"). For caching reasons, the flags for conditional dependencies should be based on a set of enabled flag. A flag is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
 
 ```json
 {
@@ -592,7 +592,7 @@ __Using the Marko taglib:__
 <hr>
 
 
-The Optimizer supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
+Lasso.js supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
 
 ```javascript
 var raptorLoader = require('raptor-loader');
@@ -600,7 +600,7 @@ var raptorLoader = require('raptor-loader');
 raptorLoader.async(function(err) {
     // Any modules that are required within the scope
     // of this function will be loaded asynchronously*.
-    // The Optimizer ensures that modules are only
+    // Lasso.js ensures that modules are only
     // loaded once from the server.
     //
     // *Modules that were included as part of the initial
@@ -620,7 +620,7 @@ raptorLoader.async(function(err) {
 });
 ```
 
-During optimization, the Optimizer detects the call to `require('raptor-loader').async(...)` and transforms the code such that the function is not invoked until all of the required modules referenced in the body of callback function are completely loaded.
+During optimization, Lasso.js detects the call to `require('raptor-loader').async(...)` and transforms the code such that the function is not invoked until all of the required modules referenced in the body of callback function are completely loaded.
 
 You can also specify additional explicit dependencies if necessary:
 
@@ -767,7 +767,7 @@ myLasso.optimizePage(...);
 ```
 
 
-## Optimizer Taglib
+## Lasso.js Taglib
 
 <hr>
 
@@ -777,9 +777,9 @@ myLasso.optimizePage(...);
 
 For the ultimate in usability, a taglib is provided for Marko (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles.
 
-If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for the Optimizer to easily optimize page dependencies and embed them into your page.
+If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for Lasso.js to easily optimize page dependencies and embed them into your page.
 
-### Using the Optimizer Taglib with Marko
+### Using Lasso.js Taglib with Marko
 
 1. `npm install lasso --save`
 2. `npm install marko --save`
@@ -817,7 +817,7 @@ _browser.json_:
 }
 ```
 
-Using Marko and the Optimizer taglib, you can simply render the page using code similar to the following:
+Using Marko and Lasso.js taglib, you can simply render the page using code similar to the following:
 
 ```javascript
 var template = require('marko').load('my-page.marko');
@@ -853,9 +853,9 @@ You can also configure the default page lasso used by the lasso tags:
 require('lasso').configure({...});
 ```
 
-For more details, please see following documentation: [Optimizer Taglib for Marko](taglib-marko.md)
+For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
 
-### Using the Optimizer Taglib with Dust
+### Using Lasso.js Taglib with Dust
 
 You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('lasso/dust').registerHelpers(dust)` to register the helpers:
 
@@ -959,11 +959,11 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-The Optimizer has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use the Optimizer at runtime is to use the taglib and simply render the page template to the response output stream.
+Lasso.js has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use Lasso.js at runtime is to use the taglib and simply render the page template to the response output stream.
 
-The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by the Optimizer is a simple cache lookup.
+The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by Lasso.js is a simple cache lookup.
 
-By default, the Optimizer writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
+By default, Lasso.js writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
 
 __server.js__
 
@@ -999,7 +999,7 @@ app.listen(8080);
 
 ## Bundling
 
-By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, The Optimizer allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because the Optimizer also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
+By default, all dependencies required for a page will be bundled into a single JavaScript bundle and a single CSS bundle. However, Lasso.js allows application-level bundles to be configured to allow for consistent bundles across pages and for multiple bundles to be included on a single page. Because Lasso.js also generates the HTML markup to include page bundles, the page itself does not need to be changed if the bundle configuration is changed.
 
 If a page has a dependency that is part of an application-level bundle then the dependency will be included as part of the application-level bundle instead of being aggregated with the page-level bundle.
 
@@ -1076,7 +1076,7 @@ For more information on working with bundles. Please see the [bundling docs](doc
 
 <hr>
 
-The Optimizer supports splitting out code that multiple pages/entry points have in common into separate bundles. This is accomplished by assigning an `intersection` dependency to a bundle. The `intersection` dependency is a package dependency that produces a set of dependencies that is the intersection of one or more packages. Code splitting ensures that the same code is not downloaded twice by the user when navigating a web application.
+Lasso.js supports splitting out code that multiple pages/entry points have in common into separate bundles. This is accomplished by assigning an `intersection` dependency to a bundle. The `intersection` dependency is a package dependency that produces a set of dependencies that is the intersection of one or more packages. Code splitting ensures that the same code is not downloaded twice by the user when navigating a web application.
 
 The following bundle configuration illustrates how to split out common code into a separate bundle:
 
@@ -1162,7 +1162,7 @@ This could also be expressed as a percentage:
 
 ```javascript
 {
-    // Configure Optimizer plugins
+    // Configure Lasso.js plugins
     "plugins": [
         // Plugin with a default config:
         "lasso-less",
@@ -1231,7 +1231,7 @@ This could also be expressed as a percentage:
 
 # Node.js-style Module Support
 
-The Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
+Lasso.js provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
 This functionality is offered by the core [lasso-require](https://github.com/raptorjs/lasso-require) plugin which introduces a new `require` dependency type. For example:
 
@@ -1322,7 +1322,7 @@ npm install lasso-less --save
 
 If you create your own plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `lasso-plugin` and `lasso` in your `package.json` so that others can browse for it using [npm](https://www.npmjs.org/)
 
-# Extending the Optimizer
+# Extending Lasso.js
 
 Only read below if you are building plugins or transforms to further enhance the `lasso` module.
 
@@ -1351,7 +1351,7 @@ A plugin is simply a Node.js module that exports a function with the following s
 
 ```javascript
 /**
- * A plugin for the Optimizer
+ * A plugin for Lasso.js
  * @param  {lasso/lib/Lasso} lasso An instance of a Lasso that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
@@ -1593,7 +1593,7 @@ module.exports = function (lasso, pluginConfig) {
 * [raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api): Demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
 * [raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib): Demonstrates the use of the lasso taglib for Marko.
 * [raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates): Demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express): Demonstrates using the Optimizer at runtime as part of an Express server app.
+* [raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express): Demonstrates using Lasso.js at runtime as part of an Express server app.
 * [raptor-samples/lasso-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
 
 # Discuss

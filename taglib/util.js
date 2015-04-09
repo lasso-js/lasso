@@ -1,10 +1,10 @@
-var OptimizerRenderContext = require('./OptimizerRenderContext');
-var CONTEXT_KEY = 'lasso/OptimizerRenderContext';
+var LassoRenderContext = require('./LassoRenderContext');
+var CONTEXT_KEY = 'lasso/LassoRenderContext';
 
-function getOptimizerRenderContext(renderContext) {
+function getLassoRenderContext(renderContext) {
     var data = renderContext.attributes;
     return data[CONTEXT_KEY] ||
-        (data[CONTEXT_KEY] = new OptimizerRenderContext(renderContext));
+        (data[CONTEXT_KEY] = new LassoRenderContext(renderContext));
 }
 
-exports.getOptimizerRenderContext = getOptimizerRenderContext;
+exports.getLassoRenderContext = getLassoRenderContext;

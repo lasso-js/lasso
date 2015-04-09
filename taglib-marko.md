@@ -1,7 +1,7 @@
-Optimizer Taglib for Marko
+Lasso.js Taglib for Marko
 ==========================
 
-The [Optimizer](README.md) includes a taglib for Marko for easily injecting `<script>` and `<link>` tags into a page, as well as resource URLs for images and other types of front-end resources.
+The [Lasso.js](README.md) includes a taglib for Marko for easily injecting `<script>` and `<link>` tags into a page, as well as resource URLs for images and other types of front-end resources.
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
