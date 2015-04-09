@@ -9,37 +9,37 @@ The [Optimizer](README.md) includes a taglib for Marko for easily injecting `<sc
 
 - [Example](#example)
 - [Tags](#tags)
-    - [`<optimizer-page>`](#optimizer-page)
-    - [`<optimizer-head>`](#optimizer-head)
-    - [`<optimizer-body>`](#optimizer-body)
-    - [`<optimizer-img>`](#optimizer-img)
-    - [`<optimizer-resource>`](#optimizer-resource)
+    - [`<lasso-page>`](#lasso-page)
+    - [`<lasso-head>`](#lasso-head)
+    - [`<lasso-body>`](#lasso-body)
+    - [`<lasso-img>`](#lasso-img)
+    - [`<lasso-resource>`](#lasso-resource)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Installation
 
-Since the optimizer taglib is part of the `optimizer` module you only need to install the `optimizer` module to use this taglib:
+Since the lasso taglib is part of the `lasso` module you only need to install the `lasso` module to use this taglib:
 
 ```bash
-npm install optimizer --save
+npm install lasso --save
 ```
 
 # Example Template
 
 ```html
-<optimizer-page name="my-page" package-path="./browser.json"/>
+<lasso-page name="my-page" package-path="./browser.json"/>
 
 <!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Test Page</title>
-        <optimizer-head/>
+        <lasso-head/>
     </head>
     <body>
         <h1>Test Page</h1>
-        <optimizer-body/>
+        <lasso-body/>
     </body>
 </html>
 ```
@@ -65,9 +65,9 @@ Output HTML will be similar to the following:
 
 # Tags
 
-## `<optimizer-page>`
+## `<lasso-page>`
 
-Optimizes the page so that the resulting JavaScript and CSS resources can be injected into the output HTML. The `<optimizer-head>` and `<optimizer-body>` tags are used as insertion points. By default, all CSS `<link>` tags will be added to the `<optimizer-head>` slot and all `<script>` tags will be added to the `<optimizer-body>` slot.
+Optimizes the page so that the resulting JavaScript and CSS resources can be injected into the output HTML. The `<lasso-head>` and `<lasso-body>` tags are used as insertion points. By default, all CSS `<link>` tags will be added to the `<lasso-head>` slot and all `<script>` tags will be added to the `<lasso-body>` slot.
 
 Supported attributes:
 
@@ -75,8 +75,8 @@ Supported attributes:
 - __cache-key__ (string) - The cache key that should be used to cache the optimized page. Defaults to the template path. NOTE: The set of enabled flags are always appended to the cache key.
 - __package-path__ (string) - The relative path to the the JSON file that declares the top-level page dependencies.
 - __package-paths__ (Array) - Similar to `package-paths`, but an Array of paths.
-- __optimizer__ (expression) - A reference to a `PageOptimizer` instance. Defaults to the default page optimizer (i.e. `require('optimizer').getDefaultPageOptimizer()`)
-- __data__ (expression) - Optional data to copy into the `optimizerContext.data` object.
+- __lasso__ (expression) - A reference to a `PageOptimizer` instance. Defaults to the default page lasso (i.e. `require('lasso').getDefaultPageOptimizer()`)
+- __data__ (expression) - Optional data to copy into the `lassoContext.data` object.
 - __dependencies__ (expression) - An array of dependencies to optimize.
 - __flags__ (expression) - An array of flags to enable during optimization
 - __timeout__ (integer) - The maximum time to allow for the optimization to complete before throwing an error
@@ -86,36 +86,36 @@ Examples:
 _With a path to an `browser.json` file:_
 
 ```html
-<optimizer-page package-path="./browser.json"/>
+<lasso-page package-path="./browser.json"/>
 ```
 
 _With an explicit page name flags:_
 
 ```html
-<optimizer-page name="home" package-path="./browser.json"/>
+<lasso-page name="home" package-path="./browser.json"/>
 ```
 
 _With enabled flags:_
 
 ```html
-<optimizer-page package-path="./browser.json" flags="['foo', 'bar']"/>
+<lasso-page package-path="./browser.json" flags="['foo', 'bar']"/>
 ```
 
 _With dependencies:_
 
 ```html
-<optimizer-page dependencies="['foo.js', 'bar.css']"/>
+<lasso-page dependencies="['foo.js', 'bar.css']"/>
 ```
 
-## `<optimizer-head>`
+## `<lasso-head>`
 
 The head slot that is used as the marker for inserting CSS `<link>` tags in the head section of the HTML page.
 
-## `<optimizer-body>`
+## `<lasso-body>`
 
 The body slot that is used as the marker for inserting JavaScript `<script>` tags in the body section of the HTML page.
 
-## `<optimizer-img>`
+## `<lasso-img>`
 
 Optimizes an image resource and renders an `<img>` tag with the `src` attribute set to the resulting URL of the optimized image resource.
 
@@ -127,7 +127,7 @@ Supported attributes:
 Example:
 
 ```html
-<optimizer-img src="./foo.png" width="32" height="32" class="foo">
+<lasso-img src="./foo.png" width="32" height="32" class="foo">
 ```
 
 The output will be similar to the following:
@@ -136,7 +136,7 @@ The output will be similar to the following:
 <img src="/static/foo-1b4c0db.png" width="32" height="32" class="foo">
 ```
 
-## `<optimizer-resource>`
+## `<lasso-resource>`
 
 Optimizes an arbitrary resource and introduces a local variable that can be used to inject the resulting resource URL into the page.
 
@@ -148,7 +148,7 @@ Supported attributes:
 Example:
 
 ```html
-<optimizer-resource path="./favicon.ico" var="favicon"/>
+<lasso-resource path="./favicon.ico" var="favicon"/>
 <link rel="shortcut icon" href="${favicon.url}">
 ```
 

@@ -4,7 +4,7 @@ require('raptor-polyfill/string/startsWith');
 
 exports.registerHelpers = function(dust) {
     raptorDust.registerHelpers({
-        'optimizer-page': {
+        'lasso-page': {
             buildInput: function(chunk, context, bodies, params, renderContext) {
                 var dirname = nodePath.dirname(context.templateName);
 
@@ -26,9 +26,9 @@ exports.registerHelpers = function(dust) {
             },
             renderer: require('../taglib/page-tag')
         },
-        'optimizer-slot': require('../taglib/slot-tag'),
-        'optimizer-head': require('../taglib/head-tag'),
-        'optimizer-body': require('../taglib/body-tag'),
-        'optimizer-img': require('../taglib/img-tag')
+        'lasso-slot': require('../taglib/slot-tag'),
+        'lasso-head': require('../taglib/head-tag'),
+        'lasso-body': require('../taglib/body-tag'),
+        'lasso-img': require('../taglib/img-tag')
     }, dust);
 };

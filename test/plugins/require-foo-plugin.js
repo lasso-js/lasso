@@ -1,10 +1,10 @@
 var fs = require('fs');
 
-module.exports = exports = function(optimizer, config) {
-    optimizer.dependencies.registerRequireExtension(
+module.exports = exports = function(lasso, config) {
+    lasso.dependencies.registerRequireExtension(
         'foo',
         {
-            read: function(path, optimizerContext, callback) {
+            read: function(path, lassoContext, callback) {
                 fs.readFile(path, {encoding: 'utf8'}, function(err, src) {
                     if (err) {
                         return callback(err);
@@ -14,8 +14,8 @@ module.exports = exports = function(optimizer, config) {
                 });
             },
 
-            lastModified: function(path, optimizerContext, callback) {
-                optimizerContext.getFileLastModified(path, callback);
+            lastModified: function(path, lassoContext, callback) {
+                lassoContext.getFileLastModified(path, callback);
             }
         });
 };

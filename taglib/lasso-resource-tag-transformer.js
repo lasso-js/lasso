@@ -1,8 +1,8 @@
 /**
 * This method walks up the tree from the provided node to find the
-* root "_optimizer-resources-root" node. The root node is what asynchronously
+* root "_lasso-resources-root" node. The root node is what asynchronously
 * loads all of the bundles and asynchronously renders the body. If a
-* root "_optimizer-resources-root" node is not found then a new one is created
+* root "_lasso-resources-root" node is not found then a new one is created
 * and made to be a child of the true root. All of the child nodes
 * of the actual root node are moved to children of the newly created
 * node.
@@ -12,23 +12,23 @@
 */
 function findRootResourcesNode(node, compiler) {
     if (node.isRoot()) {
-        if (node.data.optimizerResourcesNode) { // Is a "_optimizer-resources-root" already associated with the root node?
+        if (node.data.lassoResourcesNode) { // Is a "_lasso-resources-root" already associated with the root node?
             // If so then use that node
-            return node.data.optimizerResourcesNode;
+            return node.data.lassoResourcesNode;
         } else {
-            // Otherwise, create a new "_optimizer-resources-root" node
+            // Otherwise, create a new "_lasso-resources-root" node
             var rootResourcesNode =
-                node.data.optimizerResourcesNode =
-                compiler.createTagHandlerNode('_optimizer-resources-root');
+                node.data.lassoResourcesNode =
+                compiler.createTagHandlerNode('_lasso-resources-root');
 
             // *Move* all of the existing children of the root node to this node
             // NOTE: A node can only have one parent so an appendChild will move the node to the new parent
             node.forEachChild(function (childNode) {
-                // Make the node that used to be a child of the root node, a child of the 'optimizer-resources' node
+                // Make the node that used to be a child of the root node, a child of the 'lasso-resources' node
                 rootResourcesNode.appendChild(childNode);
             });
 
-            // Now make the new "_optimizer-resources" node the only child of the root node
+            // Now make the new "_lasso-resources" node the only child of the root node
             node.appendChild(rootResourcesNode);
 
             // Keep up with each bundles need to be loaded in order to render the template
@@ -52,7 +52,7 @@ function findRootResourcesNode(node, compiler) {
                 pathExpressionArray.push(pathExpression.toString());
             };
 
-            // Return the newly created "_optimizer-resources-root" node
+            // Return the newly created "_lasso-resources-root" node
             return rootResourcesNode;
         }
     } else {
@@ -62,10 +62,10 @@ function findRootResourcesNode(node, compiler) {
 
 module.exports = function transform(node, compiler, builder) {
 
-    // Get or create the root "_optimizer-resources-root" node
+    // Get or create the root "_lasso-resources-root" node
     var rootResourcesNode = findRootResourcesNode(node, compiler);
 
-    if (node.tagName === 'optimizer-resource') {
+    if (node.tagName === 'lasso-resource') {
         var varName = node.getAttribute('var');
         var bundleName = node.getProperty('path');
 

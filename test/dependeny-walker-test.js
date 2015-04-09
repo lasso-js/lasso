@@ -7,7 +7,7 @@ var nodePath = require('path');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-describe('optimizer' , function() {
+describe('lasso' , function() {
 
     beforeEach(function(done) {
         for (var k in require.cache) {
@@ -19,7 +19,7 @@ describe('optimizer' , function() {
         require('raptor-promises').enableLongStacks();
 
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN'
+            'lasso': 'WARN'
         });
 
         done();
@@ -32,7 +32,7 @@ describe('optimizer' , function() {
         var OptimizerContext = require('../lib/OptimizerContext');
         var DependencyRegistry = require('../lib/dependencies').DependencyRegistry;
 
-        var optimizerManifest = new OptimizerManifest({
+        var lassoManifest = new OptimizerManifest({
             manifest: {
                 dependencies: [
                     { 'package': 'asyncA' }
@@ -42,20 +42,20 @@ describe('optimizer' , function() {
             dirname: __dirname
         });
 
-        var optimizerContext = new OptimizerContext();
+        var lassoContext = new OptimizerContext();
 
         var dependencies = [];
         var contexts = [];
 
         dependencyWalker.walk({
-                optimizerManifest: optimizerManifest,
+                lassoManifest: lassoManifest,
                 flags: ['jquery', 'browser'],
-                optimizerContext: optimizerContext,
+                lassoContext: lassoContext,
                 on: {
-                    dependency: function(dependency, optimizerContext) {
+                    dependency: function(dependency, lassoContext) {
 
                         dependencies.push(dependency.toString());
-                        contexts.push(optimizerContext);
+                        contexts.push(lassoContext);
                         // At this point we have added the dependency to a bundle and we know the bundle is not asynchronous
                     }
                 }

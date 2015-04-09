@@ -1,10 +1,10 @@
-{@optimizer-page name="page1" packagePath=packagePath /}
+{@lasso-page name="page1" packagePath=packagePath /}
 
 <html>
     <head>
-        {@optimizer-head /}
+        {@lasso-head /}
     </head>
     <body>
-        {@optimizer-body /}
+        {@lasso-body /}
     </body>
 </html>

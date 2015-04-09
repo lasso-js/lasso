@@ -55,11 +55,11 @@ function testRender(path, data, done, options) {
 }
 
 require('raptor-logging').configureLoggers({
-        'optimizer': 'WARN'
+        'lasso': 'WARN'
     });
 
 
-describe('optimizer/taglib' , function() {
+describe('lasso/taglib' , function() {
 
     beforeEach(function(done) {
 

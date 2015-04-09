@@ -5,7 +5,7 @@ module.exports = function transform(node, compiler, template) {
             if (child.isElementNode() && !child.uri) {
                 // Convert unnamespaced element nodes to "DependencyTag" nodes
 
-                child.tag = compiler.taglibs.getTag('optimizer-dependency');
+                child.tag = compiler.taglibs.getTag('lasso-dependency');
 
                 if (child.localName !== 'dependency') {
                     child.setProperty('type', child.localName);
@@ -36,7 +36,7 @@ module.exports = function transform(node, compiler, template) {
 
     node.forEachChild(function(child) {
         if (!child.uri && (child.tagName === 'dependencies' || child.tagName === 'includes')) {
-            child.tag = compiler.taglibs.getTag('optimizer-dependencies');
+            child.tag = compiler.taglibs.getTag('lasso-dependencies');
             convertDependencyTags(child);
         }
     }, this);

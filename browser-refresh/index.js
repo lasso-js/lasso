@@ -1,5 +1,5 @@
 var browserRefreshClient = require('browser-refresh-client');
-var optimizer = require('../');
+var lasso = require('../');
 var nodePath = require('path');
 
 var styleExtensions = {
@@ -32,7 +32,7 @@ exports.enable = function(patterns) {
     browserRefreshClient
         .enableSpecialReload(patterns, { autoRefresh: false })
         .onFileModified(function(path) {
-            optimizer.handleWatchedFileChanged(path);
+            lasso.handleWatchedFileChanged(path);
 
             var extname = nodePath.extname(path);
             if (extname) {
@@ -40,13 +40,13 @@ exports.enable = function(patterns) {
             }
 
             if (imageExtensions[extname]) {
-                console.log('[optimizer/browser-refresh] Image modified: ' + path);
+                console.log('[lasso/browser-refresh] Image modified: ' + path);
                 browserRefreshClient.refreshImages();
             } else if (styleExtensions[extname]) {
-                console.log('[optimizer/browser-refresh] StyleSheet modified: ' + path);
+                console.log('[lasso/browser-refresh] StyleSheet modified: ' + path);
                 browserRefreshClient.refreshStyles();
             } else {
-                console.log('[optimizer/browser-refresh] File modified: ' + path);
+                console.log('[lasso/browser-refresh] File modified: ' + path);
                 browserRefreshClient.refreshPage();
             }
         });

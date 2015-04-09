@@ -5,7 +5,7 @@ Bundling can either be enabled or disabled during page optimization. If bundling
 
 # Application-level Bundles
 
-Application-level bundles are bundles that apply to every page that is optimized. Application-level bundles allow for consistant bundles across pages when pages have common dependencies. Application-level bundles are typically configured as part of the optimizer configuration as show below:
+Application-level bundles are bundles that apply to every page that is optimized. Application-level bundles allow for consistant bundles across pages when pages have common dependencies. Application-level bundles are typically configured as part of the lasso configuration as show below:
 
 ```json
 {
@@ -27,14 +27,14 @@ Application-level bundles are bundles that apply to every page that is optimized
 }
 ```
 
-While assigning dependencies to bundles during a page optimization, if the optimizer detects that a dependency is part of a application-level bundle then that bundle will be added to the list of output bundles for the page and result in either a `<script>` or `<link>` tag including the resource associated with the application-level bundle.
+While assigning dependencies to bundles during a page optimization, if the lasso detects that a dependency is part of a application-level bundle then that bundle will be added to the list of output bundles for the page and result in either a `<script>` or `<link>` tag including the resource associated with the application-level bundle.
 
 # Page-level Bundles
 
-The optimizer also allows for page-level to be configured when optimizing a particular page. Application-level bundles always take precedence over page-level bundles. Page-level bundles can be configured when optimizing a page as shown in the following example JavaScript code:
+The lasso also allows for page-level to be configured when optimizing a particular page. Application-level bundles always take precedence over page-level bundles. Page-level bundles can be configured when optimizing a page as shown in the following example JavaScript code:
 
 ```javascript
-require('optimizer').optimizePage({
+require('lasso').optimizePage({
         name: "my-page",
         dependencies: [
             ...
@@ -53,7 +53,7 @@ require('optimizer').optimizePage({
 If you are using the taglib, page-level bundles can be passed in as part of the attributes. For example, with Marko:
 
 ```html
-<optimizer-page package-path="./browser.json" bundles="./optimizer-bundles.json"/>
+<lasso-page package-path="./browser.json" bundles="./lasso-bundles.json"/>
 ```
 
 # Recursive Dependencies and Bundling
@@ -68,7 +68,7 @@ When assigning a dependency to a bundle it is possible that a particular package
 The "recurse into" option can be specified using the `recurseInto` property at the bundle level or at the dependency level as shown in the following sample code:
 
 ```javascript
-require('optimizer').optimizePage({
+require('lasso').optimizePage({
         name: "my-page",
         dependencies: [
             ...

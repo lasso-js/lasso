@@ -7,7 +7,7 @@ var nodePath = require('path');
 var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
-describe('optimizer/plugins', function() {
+describe('lasso/plugins', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -17,18 +17,18 @@ describe('optimizer/plugins', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
 
     it('should only read a dependency once during optimization', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var plugin = require('./plugins/foo-plugin');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false

@@ -1,4 +1,4 @@
-var optimizer = require('../');
+var lasso = require('../');
 var util = require('./util');
 var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
@@ -8,13 +8,13 @@ var DataHolder = require('raptor-async/DataHolder');
 var extend = require('raptor-util/extend');
 
 module.exports = function render(input, context) {
-    var pageOptimizer = input.optimizer;
+    var pageOptimizer = input.lasso;
 
     if (!pageOptimizer) {
-        pageOptimizer = optimizer.defaultPageOptimizer;
+        pageOptimizer = lasso.defaultPageOptimizer;
     }
 
-    var optimizerRenderContext = util.getOptimizerRenderContext(context);
+    var lassoRenderContext = util.getOptimizerRenderContext(context);
 
     var pageName = input.name || input.pageName;
     var cacheKey = input.cacheKey;
@@ -31,34 +31,34 @@ module.exports = function render(input, context) {
         cacheKey = input.filename || pageName; // Use the filename of the template as the cache key
     }
 
-    // We need to provide the optimizer with some data that it might need
+    // We need to provide the lasso with some data that it might need
     // to optimize the page correctly. We provide "renderContext", specifically,
     // because the "renderContext" also holds a response to the output stream
     // which may be the HTTP response object. From the HTTP response object
     // we can get to the HTTP request. From the HTTP request we can get to the user
     // locale and the protocol (e.g. "http" versus "https") and all of this information
     // may be needed to optimize the page correctly. Ultimately, during the optimization
-    // phase, this data can be access using the "optimizerContext.data" property
-    var optimizerContextData = {
+    // phase, this data can be access using the "lassoContext.data" property
+    var lassoContextData = {
         renderContext: context
     };
 
     // The user of the tag may have also provided some additional data to add
-    // to the optimizer context
+    // to the lasso context
     var inputData = input.data;
     if (inputData) {
-        extend(optimizerContextData, inputData);
+        extend(lassoContextData, inputData);
     }
 
     // Store the pageOptimizer into the render context in case it is needed
-    // later (e.g. to optimize a image resource referenced by a <optimizer-img> tag).
-    optimizerRenderContext.data.pageOptimizer = pageOptimizer;
+    // later (e.g. to optimize a image resource referenced by a <lasso-img> tag).
+    lassoRenderContext.data.pageOptimizer = pageOptimizer;
 
     var optimizedPageDataHolder;
 
     // store optimized page data holder in the context data (used by slot tags)
-    optimizerRenderContext.data.optimizedPage = optimizedPageDataHolder = new DataHolder();
-    optimizerRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
+    lassoRenderContext.data.optimizedPage = optimizedPageDataHolder = new DataHolder();
+    lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
     function done(err, optimizedPage) {
         if (err) {
@@ -79,8 +79,8 @@ module.exports = function render(input, context) {
                 // the page name (used for naming output bundles associated with this page)
                 pageName: pageName,
 
-                // properties for the optimizer context
-                data: optimizerContextData,
+                // properties for the lasso context
+                data: lassoContextData,
 
                 // Provide base path for resolving relative top-level dependencies
                 from: input.module || input.dirname,
@@ -148,7 +148,7 @@ module.exports = function render(input, context) {
             done);
     }
 
-    var waitFor = optimizerRenderContext.getWaitFor();
+    var waitFor = lassoRenderContext.getWaitFor();
 
     if (input.waitFor) {
         if (waitFor) {

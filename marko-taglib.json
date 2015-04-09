@@ -1,6 +1,6 @@
 {
     "tags": {
-        "optimizer-page": {
+        "lasso-page": {
             "renderer": "./taglib/page-tag",
             "transformer": "./taglib/page-tag-transformer",
             "attributes": {
@@ -9,7 +9,7 @@
                 "package-path": "string",
                 "package-paths": "expression",
                 "base-path": "string",
-                "optimizer": "expression",
+                "lasso": "expression",
                 "data": "expression",
                 "dependencies": "expression",
                 "flags": "expression",
@@ -30,10 +30,10 @@
                 "filename": "__filename"
             }
         },
-        "optimizer-dependencies": {
+        "lasso-dependencies": {
             "renderer": "./taglib/dependencies-tag"
         },
-        "optimizer-dependency": {
+        "lasso-dependency": {
             "renderer": "./taglib/dependency-tag",
             "import-var": {
                 "dependenciesParent": "_dependenciesParent"
@@ -42,44 +42,44 @@
                 "*": "string"
             }
         },
-        "optimizer-slot": {
+        "lasso-slot": {
             "renderer": "./taglib/slot-tag",
             "attributes": {
                 "name": "string"
             }
         },
-        "optimizer-head": {
+        "lasso-head": {
             "renderer": "./taglib/head-tag"
         },
-        "optimizer-body": {
+        "lasso-body": {
             "renderer": "./taglib/body-tag"
         },
-        "optimizer-img": {
+        "lasso-img": {
             "renderer": "./taglib/img-tag",
             "attributes": {
                 "src": "path",
                 "base-path": "string",
-                "optimizer": "expression",
+                "lasso": "expression",
                 "*": "string"
             },
             "import-var": {
                 "dirname": "__dirname"
             }
         },
-        "_optimizer-resources-root": {
-            "renderer": "./taglib/optimizer-resources-root-tag",
+        "_lasso-resources-root": {
+            "renderer": "./taglib/lasso-resources-root-tag",
             "attributes": {
                 "paths": "string"
             }
         },
-        "optimizer-resource": {
-            "node-class": "./taglib/optimizer-resource-tag",
+        "lasso-resource": {
+            "node-class": "./taglib/lasso-resource-tag",
             "attributes": {
                 "path": "path",
                 "var": "string"
             },
             "transformer": {
-                "path": "./taglib/optimizer-resource-tag-transformer"
+                "path": "./taglib/lasso-resource-tag-transformer"
             }
         }
     }

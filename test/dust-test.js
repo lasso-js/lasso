@@ -52,12 +52,12 @@ function testRender(path, data, done, options) {
 }
 
 require('raptor-logging').configureLoggers({
-        'optimizer': 'WARN'
+        'lasso': 'WARN'
     });
 
 
 
-describe('optimizer/dust' , function() {
+describe('lasso/dust' , function() {
 
     beforeEach(function(done) {
         var dust = require('dustjs-linkedin');

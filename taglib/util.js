@@ -1,5 +1,5 @@
 var OptimizerRenderContext = require('./OptimizerRenderContext');
-var CONTEXT_KEY = 'optimizer/OptimizerRenderContext';
+var CONTEXT_KEY = 'lasso/OptimizerRenderContext';
 
 function getOptimizerRenderContext(renderContext) {
     var data = renderContext.attributes;

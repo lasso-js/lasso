@@ -1,7 +1,7 @@
 var fs = require('fs');
 
-module.exports = exports = function(optimizer, config) {
-    optimizer.dependencies.registerJavaScriptType(
+module.exports = exports = function(lasso, config) {
+    lasso.dependencies.registerJavaScriptType(
         'foo',
         {
             properties: {
@@ -16,7 +16,7 @@ module.exports = exports = function(optimizer, config) {
                 this.path = this.resolvePath(this.path);
             },
 
-            read: function(optimizerContext, callback) {
+            read: function(lassoContext, callback) {
                 // console.log(module.id, 'READ: ', this.path);
                 module.exports.counter++;
 
@@ -35,7 +35,7 @@ module.exports = exports = function(optimizer, config) {
                 return this.path;
             },
 
-            lastModified: function(optimizerContext, callback) {
+            lastModified: function(lassoContext, callback) {
                 return callback(null, -1);
             }
         });

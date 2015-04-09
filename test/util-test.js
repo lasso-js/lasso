@@ -8,13 +8,13 @@ var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 var fs = require('fs');
 
-describe('optimizer/util', function() {
+describe('lasso/util', function() {
 
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();

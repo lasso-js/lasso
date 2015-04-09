@@ -1,6 +1,6 @@
 'use strict';
 function OptimizerResourceNode(props) {
-    OptimizerResourceNode.$super.call(this, 'optimizer-resource');
+    OptimizerResourceNode.$super.call(this, 'lasso-resource');
     if (props) {
         this.setProperties(props);
     }

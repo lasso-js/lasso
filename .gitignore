@@ -10,5 +10,5 @@ coverage
 /test/build
 *.actual.js
 *.actual.html
-.optimizer-cache
+.lasso-cache
 .cache

@@ -12,7 +12,7 @@ var outputDir = nodePath.join(__dirname, 'build');
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
 
-describe('optimizer/transforms', function() {
+describe('lasso/transforms', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -22,14 +22,14 @@ describe('optimizer/transforms', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
 
     it('should allow resources to be transformed', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var results = {};
 
@@ -41,10 +41,10 @@ describe('optimizer/transforms', function() {
 
                 stream: true,
 
-                transform: function(stream, optimizerContext, callback) {
-                    var contentType = optimizerContext.contentType;
+                transform: function(stream, lassoContext, callback) {
+                    var contentType = lassoContext.contentType;
 
-                    var deferredStream = optimizerContext.deferredStream(function() {
+                    var deferredStream = lassoContext.deferredStream(function() {
                         var chunks = [];
                         stream
                             .on('data', function(chunk) {
@@ -57,7 +57,7 @@ describe('optimizer/transforms', function() {
                                 var buffer = Buffer.concat(chunks); // Create a buffer from all the received chunks
                                 var str = buffer.toString('utf8');
 
-                                results[optimizerContext.path] = str;
+                                results[lassoContext.path] = str;
 
                                 if (contentType === 'foo') {
                                     deferredStream.push(str + '-FOO');
@@ -76,7 +76,7 @@ describe('optimizer/transforms', function() {
             });
         };
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
@@ -121,12 +121,12 @@ describe('optimizer/transforms', function() {
     });
 
     it('should allow resource transforms to be filtered', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var plugin = function(pageOptimizer, pluginConfig) {
             pageOptimizer.addTransform({
-                filter: function(optimizerContext, callback) {
-                    var path = optimizerContext.path;
+                filter: function(lassoContext, callback) {
+                    var path = lassoContext.path;
                     if (!path) {
                         return callback(null, false);
                     }
@@ -142,7 +142,7 @@ describe('optimizer/transforms', function() {
 
                 stream: true,
 
-                transform: function(stream, contentType, optimizerContext, callback) {
+                transform: function(stream, contentType, lassoContext, callback) {
                     var through = require('through');
                     return stream.pipe(through(
                         function write(chunk) {
@@ -157,7 +157,7 @@ describe('optimizer/transforms', function() {
             });
         };
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true

@@ -8,7 +8,7 @@ var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
-describe('optimizer flags', function() {
+describe('lasso flags', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -18,14 +18,14 @@ describe('optimizer flags', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
     it('should allow for optimizing a page with flags', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -57,16 +57,16 @@ describe('optimizer flags', function() {
 
                 expect(writerTracker.getCodeForFilename('a.js')).to.equal('a=true;');
                 expect(writerTracker.getCodeForFilename('c.js')).to.equal('c=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for optimizing a page with flags and bundles', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var from = nodePath.join(__dirname, 'test-flags-project');
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -99,14 +99,14 @@ describe('optimizer flags', function() {
                 ]);
 
                 expect(writerTracker.getCodeForFilename('foo.js')).to.equal('a=true;\nc=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow if-not-flag', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -136,7 +136,7 @@ describe('optimizer flags', function() {
 
                 expect(writerTracker.getCodeForFilename('a.js')).to.equal('a=true;');
                 expect(writerTracker.getCodeForFilename('b.js')).to.equal(undefined);
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });

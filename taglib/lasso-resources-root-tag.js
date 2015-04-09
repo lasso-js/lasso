@@ -1,4 +1,4 @@
-var optimizer = require('../');
+var lasso = require('../');
 var async = require('async');
 
 var util = require('./util');
@@ -10,23 +10,23 @@ module.exports = function render(input, out) {
         return;
     }
 
-    var pageOptimizer = input.optimizer;
-    var optimizerRenderContext = util.getOptimizerRenderContext(out);
+    var pageOptimizer = input.lasso;
+    var lassoRenderContext = util.getOptimizerRenderContext(out);
 
     if (!pageOptimizer) {
-        pageOptimizer = optimizerRenderContext.data.pageOptimizer || optimizer.defaultPageOptimizer;
+        pageOptimizer = lassoRenderContext.data.pageOptimizer || lasso.defaultPageOptimizer;
     }
 
     if (!pageOptimizer) {
-        throw new Error('Page optimizer not configured for application. Use require("optimizer").configureDefault(config) to configure the default page optimizer or provide an optimizer as input using the "optimizer" attribute.');
+        throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');
     }
 
 
-    var optimizerContext = optimizerRenderContext.data.optimizerContext;
+    var lassoContext = lassoRenderContext.data.lassoContext;
 
-    if (!optimizerContext) {
-        optimizerContext = optimizerRenderContext.data.optimizerContext = pageOptimizer.createOptimizerContext({});
-        optimizerContext.renderContext = out;
+    if (!lassoContext) {
+        lassoContext = lassoRenderContext.data.lassoContext = pageOptimizer.createOptimizerContext({});
+        lassoContext.renderContext = out;
     }
 
     var paths = input.paths;
@@ -62,11 +62,11 @@ module.exports = function render(input, out) {
     async.map(
         paths,
         function(path, callback) {
-            pageOptimizer.optimizeResource(path, optimizerContext, callback);
+            pageOptimizer.optimizeResource(path, lassoContext, callback);
         },
         doRenderBody);
 
     if (!done) {
-        asyncOut = out.beginAsync({ name: 'optimizer-resources:' + paths.join(',')});
+        asyncOut = out.beginAsync({ name: 'lasso-resources:' + paths.join(',')});
     }
 };

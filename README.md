@@ -1,13 +1,13 @@
 RaptorJS Optimizer
 ==================
 
-[![Build Status](https://travis-ci.org/raptorjs/optimizer.svg?branch=master)](https://travis-ci.org/raptorjs/optimizer) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/raptorjs/optimizer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Build Status](https://travis-ci.org/raptorjs/lasso.svg?branch=master)](https://travis-ci.org/raptorjs/lasso) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/raptorjs/lasso?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 The RaptorJS Optimizer is a Node.js-style JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, code splitting, lazy loading, conditional dependencies, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
 
-![eBay Open Source](https://raw.githubusercontent.com/raptorjs/optimizer/master/images/ebay.png)
+![eBay Open Source](https://raw.githubusercontent.com/raptorjs/lasso/master/images/ebay.png)
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
@@ -27,12 +27,12 @@ This tool offers many different optimizations such as a bundling, code splitting
 		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
 	- [JavaScript API](#javascript-api)
-		- [Configuring the Default Page Optimizer](#configuring-the-default-page-optimizer)
+		- [Configuring the Default Page Optimizer](#configuring-the-default-page-lasso)
 		- [Optimizing a Page](#optimizing-a-page)
-		- [Creating a New Page Optimizer](#creating-a-new-page-optimizer)
-	- [Optimizer Taglib](#optimizer-taglib)
-		- [Using the Optimizer Taglib with Marko](#using-the-optimizer-taglib-with-marko)
-		- [Using the Optimizer Taglib with Dust](#using-the-optimizer-taglib-with-dust)
+		- [Creating a New Page Optimizer](#creating-a-new-page-lasso)
+	- [Optimizer Taglib](#lasso-taglib)
+		- [Using the Optimizer Taglib with Marko](#using-the-lasso-taglib-with-marko)
+		- [Using the Optimizer Taglib with Dust](#using-the-lasso-taglib-with-dust)
 	- [Client/Server Template Rendering](#clientserver-template-rendering)
 	- [Runtime Optimization with Express](#runtime-optimization-with-express)
 	- [Bundling](#bundling)
@@ -42,7 +42,7 @@ This tool offers many different optimizations such as a bundling, code splitting
 	- [Complete Configuration](#complete-configuration)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Available Plugins](#available-plugins)
-- [Extending the Optimizer](#extending-the-optimizer)
+- [Extending the Optimizer](#extending-the-lasso)
 	- [Custom Plugins](#custom-plugins)
 	- [Custom Dependency Types](#custom-dependency-types)
 		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
@@ -63,7 +63,7 @@ This tool offers many different optimizations such as a bundling, code splitting
 Install the command line interface for the Optimizer:
 
 ```text
-npm install optimizer-cli --global
+npm install lasso-cli --global
 ```
 
 Install a helper module from npm:
@@ -111,7 +111,7 @@ __my-page.html:__
 Run the following command:
 
 ```bash
-optimizer style.css \
+lasso style.css \
     --main main.js \
     --inject-into my-page.html
 ```
@@ -211,16 +211,16 @@ While high performance is very important for production systems, we want to also
 
 # Installation
 
-The following command should be used to install the `optimizer` module into your project:
+The following command should be used to install the `lasso` module into your project:
 
 ```bash
-npm install optimizer --save
+npm install lasso --save
 ```
 
-If you would like to use the available command line interface, then you should install the [optimizer-cli](https://github.com/raptorjs/optimizer-cli) module globally using the following command:
+If you would like to use the available command line interface, then you should install the [lasso-cli](https://github.com/raptorjs/lasso-cli) module globally using the following command:
 
 ```bash
-npm install optimizer-cli --global
+npm install lasso-cli --global
 ```
 
 # Usage
@@ -229,14 +229,14 @@ npm install optimizer-cli --global
 
 <hr>
 
-[__Sample App:__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli)
+[__Sample App:__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-cli](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli)
 
 <hr>
 
 Install the command line interface for the Optimizer:
 
 ```bash
-npm install optimizer-cli --global
+npm install lasso-cli --global
 ```
 
 In an empty directory, initialize a new Node.js project using the following command:
@@ -251,7 +251,7 @@ Install required modules into the new project:
 
 ```bash
 npm install jquery
-npm install optimizer-less
+npm install lasso-less
 ```
 
 Create the following files:
@@ -303,10 +303,10 @@ __my-page.html:__
 Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
 
 ```bash
-optimizer style.less \
+lasso style.less \
     --main main.js \
     --inject-into my-page.html \
-    --plugins optimizer-less \
+    --plugins lasso-less \
     --development
 ```
 
@@ -335,20 +335,20 @@ The updated `my-page.html` file should be similar to the following:
 <head>
     <meta charset="UTF-8">
     <title>Optimizer Demo</title>
-    <!-- <optimizer-head> -->
+    <!-- <lasso-head> -->
     <link rel="stylesheet" type="text/css" href="static/style.less.css">
-    <!-- </optimizer-head> -->
+    <!-- </lasso-head> -->
 </head>
 <body>
     <h1>Optimizer Demo</h1>
-    <!-- <optimizer-body> -->
+    <!-- <lasso-body> -->
     <script type="text/javascript" src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
     <script type="text/javascript" src="static/add.js"></script>
     <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
     <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="static/main.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
-    <!-- </optimizer-body> -->
+    <!-- </lasso-body> -->
 </body>
 </html>
 ```
@@ -358,10 +358,10 @@ If you open up `my-page.html` in your web browser you should see a page styled w
 Now try again with `production` mode:
 
 ```bash
-optimizer style.less \
+lasso style.less \
     --main main.js \
     --inject-into my-page.html \
-    --plugins optimizer-less \
+    --plugins lasso-less \
     --production
 ```
 
@@ -384,41 +384,41 @@ The updated `my-page.html` file should be similar to the following:
 <head>
     <meta charset="UTF-8">
     <title>Optimizer Demo</title>
-    <!-- <optimizer-head> -->
+    <!-- <lasso-head> -->
     <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
-    <!-- </optimizer-head> -->
+    <!-- </lasso-head> -->
 </head>
 <body>
     <h1>Optimizer Demo</h1>
-    <!-- <optimizer-body> -->
+    <!-- <lasso-body> -->
     <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
     <script type="text/javascript">$rmod.ready();</script>
-    <!-- </optimizer-body> -->
+    <!-- </lasso-body> -->
 </body>
 </html>
 ```
 
 With the `--production` option enabled, all of the resources are concatenated together, minified and fingerprinted – perfect for high performance web applications running in production.
 
-For more documentation on the Command Line Interface please see the [optimizer-cli docs](https://github.com/raptorjs/optimizer-cli).
+For more documentation on the Command Line Interface please see the [lasso-cli docs](https://github.com/raptorjs/lasso-cli).
 
 ## JSON Configuration File
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-config](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config)
 
 <hr>
 
 The number of command line arguments can get unwieldy so it is better to split out configuration into a separate JSON file. Let's now create a configuration file and configure a few bundles to make things more interesting:
 
-__optimizer-config.json:__
+__lasso-config.json:__
 
 ```json
 {
 
     "plugins": [
-        "optimizer-less"
+        "lasso-less"
     ],
     "outputDir": "static",
 	"fingerprintsEnabled": true,
@@ -455,12 +455,12 @@ __my-page.browser.json:__
 }
 ```
 
-Now run the page optimizer using the newly created JSON config file and JSON dependencies file:
+Now run the page lasso using the newly created JSON config file and JSON dependencies file:
 
 ```bash
-optimizer ./my-page.browser.json \
+lasso ./my-page.browser.json \
     --inject-into my-page.html \
-    --config optimizer-config.json
+    --config lasso-config.json
 ```
 
 Because of the newly configured bundles, we'll see additional JavaScript bundles written to disk as shown below:
@@ -587,7 +587,7 @@ __Using the Marko taglib:__
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async)To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async)To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-async](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async)
 
 <hr>
 
@@ -670,16 +670,16 @@ require('raptor-loader').async(
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api)
 
 <hr>
 
 For added flexibility there is a JavaScript API that can be used to optimize pages as shown in the following sample code:
 
 ```javascript
-var optimizer = require('optimizer');
-optimizer.configure('optimizer-config.json');
-optimizer.optimizePage({
+var lasso = require('lasso');
+lasso.configure('lasso-config.json');
+lasso.optimizePage({
         name: 'my-page',
         dependencies: [
             "./style.less",
@@ -701,9 +701,9 @@ optimizer.optimizePage({
     });
 ```
 
-The `optimizerPage(options)` method supports the following options:
+The `lassoPage(options)` method supports the following options:
 
-- `data` (`Object`) - Arbitrary data that can be made available to plugins via `optimizerContext.data`.
+- `data` (`Object`) - Arbitrary data that can be made available to plugins via `lassoContext.data`.
 - `cacheKey` (`String`) - A unique String to use for cache reads and writes. Defaults to `name`.
 - `dependencies` (`Array`) - An array of top-level page dependencies (e.g. `['foo.js', 'foo.css', 'require: jquery']`).
 - `flags` (`Array`) - The set of enabled flags (e.g. `['mobile', 'touch']`).
@@ -713,8 +713,8 @@ The `optimizerPage(options)` method supports the following options:
 
 ### Configuring the Default Page Optimizer
 ```javascript
-var optimizer = require('optimizer');
-optimizer.configure(config);
+var lasso = require('lasso');
+lasso.configure(config);
 ```
 
 If the value of the `config` argument is a `String` then it is treated as a path to a JSON configuration file.
@@ -722,11 +722,11 @@ If the value of the `config` argument is a `String` then it is treated as a path
 
 ### Optimizing a Page
 
-The following code illustrates how to optimize a simple set of JavaScript and CSS dependencies using the default configured optimizer:
+The following code illustrates how to optimize a simple set of JavaScript and CSS dependencies using the default configured lasso:
 
 ```javascript
-var optimizer = require('optimizer');
-optimizer.optimizePage({
+var lasso = require('lasso');
+lasso.optimizePage({
         name: 'my-page',
         dependencies: [
             './foo.js',
@@ -762,7 +762,7 @@ optimizer.optimizePage({
 ### Creating a New Page Optimizer
 
 ```javascript
-var pageOptimizer = optimizer.create(config);
+var pageOptimizer = lasso.create(config);
 pageOptimizer.optimizePage(...);
 ```
 
@@ -771,7 +771,7 @@ pageOptimizer.optimizePage(...);
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib)
 
 <hr>
 
@@ -781,24 +781,24 @@ If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://gi
 
 ### Using the Optimizer Taglib with Marko
 
-1. `npm install optimizer --save`
+1. `npm install lasso --save`
 2. `npm install marko --save`
 
-You can now add the optimizer tags to your page templates. For example:
+You can now add the lasso tags to your page templates. For example:
 
 ```html
-<optimizer-page package-path="./browser.json"/>
+<lasso-page package-path="./browser.json"/>
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    <optimizer-head/>
+    <lasso-head/>
 </head>
 <body>
     <h1>Test Page</h1>
-    <optimizer-body/>
+    <lasso-body/>
 </body>
 </html>
 ```
@@ -847,46 +847,46 @@ The output of the page rendering will be similar to the following:
 
 The optimized result is cached so you can skip the build step!
 
-You can also configure the default page optimizer used by the optimizer tags:
+You can also configure the default page lasso used by the lasso tags:
 
 ```javascript
-require('optimizer').configure({...});
+require('lasso').configure({...});
 ```
 
 For more details, please see following documentation: [Optimizer Taglib for Marko](taglib-marko.md)
 
 ### Using the Optimizer Taglib with Dust
 
-You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('optimizer/dust').registerHelpers(dust)` to register the helpers:
+You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('lasso/dust').registerHelpers(dust)` to register the helpers:
 
 Install required dependencies:
 
-1. `npm install optimizer --save`
+1. `npm install lasso --save`
 2. `npm install dustjs-linkedin --save`
 
 Register the Dust helpers during initialization:
 
 ```javascript
 var dust = require('dustjs-linkedin');
-require('optimizer/dust').registerHelpers(dust);
+require('lasso/dust').registerHelpers(dust);
 ```
 
-Finally, in your Dust templates you can use the new optimizer helpers as shown below:
+Finally, in your Dust templates you can use the new lasso helpers as shown below:
 
 ```html
 
-{@optimizer-page name="my-page" packagePath="./browser.json" /}
+{@lasso-page name="my-page" packagePath="./browser.json" /}
 
 <!doctype html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    {@optimizer-head /}
+    {@lasso-head /}
 </head>
 <body>
     <h1>Test Page</h1>
-    {@optimizer-body /}
+    {@lasso-body /}
 </body>
 </html>
 ```
@@ -895,7 +895,7 @@ Finally, in your Dust templates you can use the new optimizer helpers as shown b
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates)
 
 <hr>
 
@@ -934,19 +934,19 @@ Running `node main.js` on the server will produce the following output in the co
 Template output: Hello Frank!
 ```
 
-In order to automatically detect and compile required `*.marko` templates we will need to install the [optimizer-marko](https://github.com/raptorjs/optimizer-marko) plugin using the following command:
+In order to automatically detect and compile required `*.marko` templates we will need to install the [lasso-marko](https://github.com/raptorjs/lasso-marko) plugin using the following command:
 
 ```bash
-npm install optimizer-marko
+npm install lasso-marko
 ```
 
 We can then optimize the page using the following command:
 
 ```bash
-optimizer style.less \
+lasso style.less \
     --main main.js \
     --inject-into my-page.html \
-    --plugins optimizer-marko
+    --plugins lasso-marko
 ```
 
 After opening `my-page.html` in your web browser you should then see the same output written to the browser's JavaScript console.
@@ -955,7 +955,7 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express)
 
 <hr>
 
@@ -1034,7 +1034,7 @@ Given the following configured bundles:
 Optimizing a page that does not include any dependencies in application-level bundles:
 
 ```bash
-optimizer app.js style.css --name my-page -c optimizer-config.json
+lasso app.js style.css --name my-page -c lasso-config.json
 ```
 
 Output:
@@ -1051,7 +1051,7 @@ Output for page "my-page":
 
 Optimizing a page that includes "foo.js" that is part of "bundle1":
 ```bash
-optimizer app.js foo.js style.css --name my-page -c optimizer-config.json
+lasso app.js foo.js style.css --name my-page -c lasso-config.json
 ```
 
 Output:
@@ -1072,7 +1072,7 @@ For more information on working with bundles. Please see the [bundling docs](doc
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting) To try out and experiment with the code, please see the following project:<br>[raptor-samples/optimizer-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting)
+[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting)
 
 <hr>
 
@@ -1165,10 +1165,10 @@ This could also be expressed as a percentage:
     // Configure Optimizer plugins
     "plugins": [
         // Plugin with a default config:
-        "optimizer-less",
+        "lasso-less",
         // Plugin with custom configuration:
         {
-            "plugin": "optimizer-my-plugin",
+            "plugin": "lasso-my-plugin",
             "config": { ... }
         },
         ...
@@ -1233,7 +1233,7 @@ This could also be expressed as a percentage:
 
 The Optimizer provides full support for transporting Node.js modules to the browser. If you write your modules in the standard Node.js way (i.e. using `require`, `module.exports` and `exports`) then the module will be able to be loaded on both the server and in the browser.
 
-This functionality is offered by the core [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin which introduces a new `require` dependency type. For example:
+This functionality is offered by the core [lasso-require](https://github.com/raptorjs/lasso-require) plugin which introduces a new `require` dependency type. For example:
 
 ```json
 [
@@ -1281,13 +1281,13 @@ It's also possible to remap a require based on a flag:
 }
 ```
 
-The [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
+The [lasso-require](https://github.com/raptorjs/lasso-require) plugin will automatically scan the source to find all `require(path)` calls to determine which additional modules need to be included in the output bundles (done recursively). For a `require` to automatically be detected it must be in the form `require("<module-name>")` or `require.resolve("<module-name>")`.
 
-The [optimizer-require](https://github.com/raptorjs/optimizer-require) plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
+The [lasso-require](https://github.com/raptorjs/lasso-require) plugin will automatically wrap all Node.js modules so that the psuedo globals (i.e. `require`, `module`, `exports`, `__filename` and `__dirname`) are made available to the module source code.
 
-The `optimizer-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
+The `lasso-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
-For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/optimizer-require](https://github.com/raptorjs/optimizer-require) plugin.
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/lasso-require](https://github.com/raptorjs/lasso-require) plugin.
 
 # Available Plugins
 
@@ -1295,40 +1295,40 @@ Below is a list of plugins that are currently available:
 
 __Core plugins:__
 
-* [optimizer-require](https://github.com/raptorjs/optimizer-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-* [optimizer-minify-css](https://github.com/raptorjs/optimizer-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-* [optimizer-minify-js](https://github.com/raptorjs/optimizer-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-* [optimizer-resolve-css-urls](https://github.com/raptorjs/optimizer-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+* [lasso-require](https://github.com/raptorjs/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
+* [lasso-minify-css](https://github.com/raptorjs/lasso-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+* [lasso-minify-js](https://github.com/raptorjs/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+* [lasso-resolve-css-urls](https://github.com/raptorjs/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
 
 __Third-party plugins__
 
-* [optimizer-dust](https://github.com/raptorjs/optimizer-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
-* [optimizer-handlebars](https://github.com/raptorjs/optimizer-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
-* [optimizer-image](https://github.com/raptorjs/optimizer-image): Get image info (including URL, width and height) for any image on both the server and client
-* [optimizer-imagemin](https://github.com/raptorjs/optimizer-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
-* [optimizer-jade](https://github.com/raptorjs/optimizer-jade): Compile [Jade](http://jade-lang.com/) templates to JavaScript
-* [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
-* [optimizer-less](https://github.com/raptorjs/optimizer-less): Compile [Less](http://lesscss.org/) files to CSS
-* [optimizer-lodash](https://github.com/raptorjs/optimizer-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
-* [optimizer-marko](https://github.com/raptorjs/optimizer-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
-* [optimizer-sass](https://github.com/raptorjs/optimizer-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
-* [optimizer-stylus](https://github.com/raptorjs/optimizer-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
+* [lasso-dust](https://github.com/raptorjs/lasso-dust): Compile [Dust](https://github.com/linkedin/dustjs) template files to JavaScript
+* [lasso-handlebars](https://github.com/raptorjs/lasso-handlebars): Compile [Handlebars](http://handlebarsjs.com/) template files to JavaScript
+* [lasso-image](https://github.com/raptorjs/lasso-image): Get image info (including URL, width and height) for any image on both the server and client
+* [lasso-imagemin](https://github.com/raptorjs/lasso-imagemin): Minify GIF, PNG, JPG and SVG images during optimization
+* [lasso-jade](https://github.com/raptorjs/lasso-jade): Compile [Jade](http://jade-lang.com/) templates to JavaScript
+* [lasso-jsx](https://github.com/raptorjs/lasso-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
+* [lasso-less](https://github.com/raptorjs/lasso-less): Compile [Less](http://lesscss.org/) files to CSS
+* [lasso-lodash](https://github.com/raptorjs/lasso-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
+* [lasso-marko](https://github.com/raptorjs/lasso-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
+* [lasso-sass](https://github.com/raptorjs/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
+* [lasso-stylus](https://github.com/raptorjs/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
 ```bash
-npm install optimizer-less --save
+npm install lasso-less --save
 ```
 
-If you create your own plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `optimizer-plugin` and `optimizer` in your `package.json` so that others can browse for it using [npm](https://www.npmjs.org/)
+If you create your own plugin please send a Pull Request and it will show up above. Also, do not forget to tag your plugin with `lasso-plugin` and `lasso` in your `package.json` so that others can browse for it using [npm](https://www.npmjs.org/)
 
 # Extending the Optimizer
 
-Only read below if you are building plugins or transforms to further enhance the `optimizer` module.
+Only read below if you are building plugins or transforms to further enhance the `lasso` module.
 
 ## Custom Plugins
 
-A plugin can be used to change how the optimizer operates. This includes the following:
+A plugin can be used to change how the lasso operates. This includes the following:
 
 * Register a custom dependency to support dependencies that compile to JS or CSS
     * Examples:
@@ -1343,16 +1343,16 @@ A plugin can be used to change how the optimizer operates. This includes the fol
         * Add an output transform to minify CSS code
         * Add an output transform to remove `console.log` from JS code
         * Add an output transform to resolve image URLs in CSS files
-* Configure the optimizer
+* Configure the lasso
     * Examples:
-        * Allow a plugin to automatically configure the optimizer for production usage
+        * Allow a plugin to automatically configure the lasso for production usage
 
 A plugin is simply a Node.js module that exports a function with the following signature:
 
 ```javascript
 /**
  * A plugin for the Optimizer
- * @param  {optimizer/lib/PageOptimizer} optimizer An instance of a PageOptimizer that can be configured
+ * @param  {lasso/lib/PageOptimizer} lasso An instance of a PageOptimizer that can be configured
  * @param  {Object} The plugin configuration provided by the user
  */
 module.exports = function(pageOptimizer, config) {
@@ -1380,15 +1380,15 @@ There are three types of dependencies that are supported:
 * __CSS dependency:__ Produces CSS code
 * __Package dependency:__ Produces a package of additional JavaScript and CSS dependencies
 
-Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [optimizer-less](https://github.com/raptorjs/optimizer-less)).
+Each of these dependencies is described in the next few sections. However, it is recommended to also check out the source code of [available plugins](#available-plugins) listed above (e.g. [lasso-less](https://github.com/raptorjs/lasso-less)).
 
 ### Custom JavaScript Dependency Type
 
 If you would like to introduce your own custom dependency types then you will need to have your plugin register a dependency handler. This is illustrated in the following sample code:
 
 ```javascript
-module.exports = function myPlugin(optimizer, config) {
-    optimizer.dependencies.registerJavaScriptType(
+module.exports = function myPlugin(lasso, config) {
+    lasso.dependencies.registerJavaScriptType(
         'my-custom-type',
         {
             // Declare which properties can be passed to the dependency type
@@ -1462,8 +1462,8 @@ If a custom dependency supports more than just a `path` property, additional pro
 If you would like to introduce your own custom dependency types then you will need to have your plugin register a dependency handler as shown in the following sample code:
 
 ```javascript
-module.exports = function myPlugin(optimizer, config) {
-    optimizer.dependencies.registerStyleSheetType(
+module.exports = function myPlugin(lasso, config) {
+    lasso.dependencies.registerStyleSheetType(
         'my-custom-type',
         handler);
 };
@@ -1479,7 +1479,7 @@ A custom package dependency can be used to dynamically resolve additional depend
 var fs = require('fs');
 var path = require('path');
 
-optimizer.dependencies.registerPackageType('dir', {
+lasso.dependencies.registerPackageType('dir', {
     properties: {
         'path': 'string'
     },
@@ -1587,14 +1587,14 @@ module.exports = function (pageOptimizer, pluginConfig) {
 
 # Sample Projects
 
-* [raptor-samples/optimizer-cli](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-cli): Demonstrates the command-line interface.
-* [raptor-samples/optimizer-config](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-config): Demonstrates the usage of a JSON config file.
-* [raptor-samples/optimizer-async](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-async): Demonstrates asynchronous/lazy dependency loading.
-* [raptor-samples/optimizer-js-api](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-js-api): Demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
-* [raptor-samples/optimizer-taglib](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-taglib): Demonstrates the use of the optimizer taglib for Marko.
-* [raptor-samples/optimizer-templates](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-templates): Demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/optimizer-express](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-express): Demonstrates using the Optimizer at runtime as part of an Express server app.
-* [raptor-samples/optimizer-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/optimizer-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
+* [raptor-samples/lasso-cli](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli): Demonstrates the command-line interface.
+* [raptor-samples/lasso-config](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config): Demonstrates the usage of a JSON config file.
+* [raptor-samples/lasso-async](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async): Demonstrates asynchronous/lazy dependency loading.
+* [raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api): Demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
+* [raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib): Demonstrates the use of the lasso taglib for Marko.
+* [raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates): Demonstrates the use of rendering the same templates on both the server and the client.
+* [raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express): Demonstrates using the Optimizer at runtime as part of an Express server app.
+* [raptor-samples/lasso-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
 
 # Discuss
 
@@ -1608,8 +1608,8 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
-    - [gulp-optimizer](https://github.com/raptorjs/gulp-optimizer)
-    - [optimizer-jsx](https://github.com/raptorjs/optimizer-jsx)
+    - [gulp-lasso](https://github.com/raptorjs/gulp-lasso)
+    - [lasso-jsx](https://github.com/raptorjs/lasso-jsx)
 
 # Contribute
 

@@ -10,7 +10,7 @@ var outputDir = nodePath.join(__dirname, 'build');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-describe('optimizer-require' , function() {
+describe('lasso-require' , function() {
 
     beforeEach(function(done) {
 
@@ -26,21 +26,21 @@ describe('optimizer-require' , function() {
 
         require('raptor-logging').configureLoggers({
             // 'raptor-cache': 'WARN',
-            // 'optimizer/lib/page-bundles-builder': 'WARN',
-            // 'optimizer/perf': 'WARN'
+            // 'lasso/lib/page-bundles-builder': 'WARN',
+            // 'lasso/perf': 'WARN'
             'raptor-cache': 'WARN',
-            'optimizer': 'WARN',
-            'optimizer-debug': 'WARN'
+            'lasso': 'WARN',
+            'lasso-debug': 'WARN'
         });
 
         done();
     });
 
     it('should allow for custom require extensions', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
         var requireFooPlugin = require('./plugins/require-foo-plugin');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
@@ -48,7 +48,7 @@ describe('optimizer-require' , function() {
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -83,15 +83,15 @@ describe('optimizer-require' , function() {
                 // console.log(actual);
                 // expect(actual).to.equal(expected);
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for require.resolve', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
         var requireFooPlugin = require('./plugins/require-foo-plugin');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 bundlingEnabled: false,
                 fileWriter: {
                     outputDir: outputDir,
@@ -99,7 +99,7 @@ describe('optimizer-require' , function() {
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -138,14 +138,14 @@ describe('optimizer-require' , function() {
                 // console.log(actual);
                 // expect(actual).to.equal(expected);
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should handle require for modules with dependencies', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 flags: ['jquery', 'browser'],
                 fileWriter: {
                     outputDir: outputDir,
@@ -182,14 +182,14 @@ describe('optimizer-require' , function() {
                 read = read.replace(/\r/g, '')
                 expect(actual).to.equal(read);
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should bundle require dependencies correctly', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 flags: ['jquery', 'browser'],
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
@@ -234,14 +234,14 @@ describe('optimizer-require' , function() {
                         nodePath.join(__dirname, 'build/testPage.js').replace(/\\/g, "/")
                     ]);
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for browserify-style transforms', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -273,14 +273,14 @@ describe('optimizer-require' , function() {
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/amd-module.actual.js'), actual, {encoding: 'utf8'});
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/amd-module.expected.js'), {encoding: 'utf8'}));
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for modules to be mapped to globals', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false
@@ -311,16 +311,16 @@ describe('optimizer-require' , function() {
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/jquery-global.expected.js'), {encoding: 'utf8'}));
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for same commonjs-def in different async package with bundling enabled', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -381,16 +381,16 @@ describe('optimizer-require' , function() {
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/loader-metadata.expected.js'), {encoding: 'utf8'}));
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for same commonjs-def in different async package without bundling enabled', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var projectDir = nodePath.join(__dirname, 'test-async-project');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -424,16 +424,16 @@ describe('optimizer-require' , function() {
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/loader-metadata-no-bundles.expected.js'), {encoding: 'utf8'}));
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for requiring json files', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var projectDir = nodePath.join(__dirname, 'test-project');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -467,16 +467,16 @@ describe('optimizer-require' , function() {
                 expected = expected.replace(/\r/g, '');
                 expect(actual).to.equal(expected);
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for running required modules', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
         var projectDir = nodePath.join(__dirname, 'test-project');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 fileWriter: {
                     outputDir: outputDir,
                     fingerprintsEnabled: false,
@@ -509,21 +509,21 @@ describe('optimizer-require' , function() {
                 expect(actual).to.equal(
                     fs.readFileSync(nodePath.join(__dirname, 'resources/require-run.expected.js').replace(/\\/g, "/"), {encoding: 'utf8'}));
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
 
     it('should handle a simple require', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -556,20 +556,20 @@ describe('optimizer-require' , function() {
                 expect(actual).to.contain('"/simple"');
                 expect(actual).to.contain("console.log('SIMPLE');");
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow CSS files to be required', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -600,20 +600,20 @@ describe('optimizer-require' , function() {
 
                 var actual = writerTracker.getCodeForFilename('testPage.css');
                 expect(actual).to.equal('.simple { color: red; }');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for require("<type>:<path>")"', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -652,17 +652,17 @@ describe('optimizer-require' , function() {
 
                 expect(actualJS).to.equal("$rmod.def(\"/simple\", function(require, exports, module, __filename, __dirname) { console.log('SIMPLE');\n\n});\n$rmod.def(\"/require-complex\", function(require, exports, module, __filename, __dirname) { /*require('css: ./simple.css');*/\nrequire('./simple');\n});");
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for browser overrides', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -695,17 +695,17 @@ describe('optimizer-require' , function() {
                 expect(actual).to.contain("[CLIENT]");
                 expect(actual).to.not.contain("[SERVER]");
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for require overrides based on flag', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -738,20 +738,20 @@ describe('optimizer-require' , function() {
                 var actual = writerTracker.getCodeForFilename('testPage.js');
                 expect(actual).to.contain("[FOO-MOBILE]");
                 expect(actual).to.not.contain("[FOO-DESKTOP]");
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should handle requiring of a nested require', function(done) {
-        var optimizer = require('../');
+        var lasso = require('../');
 
-        var pageOptimizer = optimizer.create({
+        var pageOptimizer = lasso.create({
                 require: {
                     rootDir: nodePath.join(__dirname, 'test-project')
                 },
                 plugins: [
                     {
-                        plugin: 'optimizer-require',
+                        plugin: 'lasso-require',
                         config: {
                             includeClient: false
                         }
@@ -783,7 +783,7 @@ describe('optimizer-require' , function() {
                 var actual = writerTracker.getCodeForFilename('testPage.js');
                 expect(actual).to.contain('require(\'/$/foo/$/baz\'');
 
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 });

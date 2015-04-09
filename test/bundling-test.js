@@ -7,7 +7,7 @@ var nodePath = require('path');
 var util = require('./util');
 var outputDir = nodePath.join(__dirname, 'build');
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
-describe('optimizer/bundling', function() {
+describe('lasso/bundling', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -17,14 +17,14 @@ describe('optimizer/bundling', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
     it('should bundle correctly with recurseInto set to "all"', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -65,8 +65,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should bundle correctly with recurseInto set to "dir"', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -107,8 +107,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should bundle correctly with recurseInto set to "dirtree"', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -149,8 +149,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should bundle correctly with recurseInto set to "module"', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -191,8 +191,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should bundle correctly with no bundles', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -226,8 +226,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should support default bundling strategy', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -265,8 +265,8 @@ describe('optimizer/bundling', function() {
     });
 
     it('should support lean bundling strategy', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false

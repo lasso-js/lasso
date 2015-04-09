@@ -9,7 +9,7 @@ var outputDir = path.join(__dirname, 'build');
 var series = require('raptor-async/series');
 
 require('app-module-path').addPath(path.join(__dirname, 'src'));
-describe('optimizer/index', function() {
+describe('lasso/index', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -19,14 +19,14 @@ describe('optimizer/index', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
     it('should allow for optimizing a page with fingerprints enabled', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -58,13 +58,13 @@ describe('optimizer/index', function() {
                     'testPage-ad75c8ad.css'] );
                 expect(writerTracker.getCodeForFilename('testPage-7fe8fdc6.js')).to.equal('nestedB_js\nnestedA_js\nnestedC_js');
                 expect(writerTracker.getCodeForFilename('testPage-ad75c8ad.css')).to.equal('nestedB_css\nnestedA_css\nnestedC_css');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should handle de-duplication correctly', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: false,
             flags: ['jquery', 'browser'],
@@ -107,13 +107,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundle1.js')).to.equal('moduleA_js\nmoduleB_js');
                 expect(writerTracker.getCodeForFilename('bundle2.js')).to.equal('moduleC_js');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('moduleD_js');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for slots', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -149,13 +149,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-head.js')).to.equal('slotA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body.css')).to.equal('slotA_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('mixedA_js');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for slots overriding', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -191,13 +191,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-custom-body.js')).to.equal('mixedA_js\nslotB_js');
                 expect(writerTracker.getCodeForFilename('testPage-head2.js')).to.equal('nestedB_js\nnestedA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body2.css')).to.equal('nestedB_css\nnestedA_css');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for configurable bundles', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -263,13 +263,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundleB.css')).to.equal('nestedB_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for configurable bundles with "recurseInto" set to "all"', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -330,13 +330,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('bundleA.css')).to.equal('nestedB_css\nnestedA_css');
                 expect(writerTracker.getCodeForFilename('bundleC.js')).to.equal('nestedC_js');
                 expect(writerTracker.getCodeForFilename('bundleC.css')).to.equal('nestedC_css');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for loader metadata', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -374,13 +374,13 @@ describe('optimizer/index', function() {
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
                 expect(writerTracker.getCodeForFilename('testPage-async-body.js')).to.equal('asyncA_js');
                 expect(writerTracker.getCodeForFilename('testPage-async-head.css')).to.equal('asyncA_css');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for loader metadata with configurable bundles', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -444,13 +444,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getCodeForFilename('mixedB-body.js')).to.equal('mixedB_js');
                 expect(writerTracker.getCodeForFilename('mixedB-head.css')).to.equal('mixedB_css');
                 expect(writerTracker.getCodeForFilename('testPage-body.js')).to.equal('moduleA_js\n(function(loaderMeta) {\nloaderMeta[\"asyncB/foo\"] = {\"css\":[\"/mixedA-head.css\"],\"js\":[\"/mixedA-body.js\"]};\nloaderMeta[\"asyncB/bar\"] = {\"css\":[\"/mixedB-head.css\"],\"js\":[\"/mixedB-body.js\"]};\n})(window.$rloaderMeta || (window.$rloaderMeta = {}));');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for output transforms', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -482,13 +482,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage.css', 'testPage.js'] );
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('transformsA_js-JavaScriptTransform1Async-JavaScriptTransform2Async');
                 expect(writerTracker.getCodeForFilename('testPage.css')).to.equal('TRANSFORMSA_CSS-CSSTRANSFORM1-CSSTransform2');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for in-place deployment', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -519,13 +519,13 @@ describe('optimizer/index', function() {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
                 expect(head).to.equal('<link rel="stylesheet" type="text/css" href="/in-place/src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="/in-place/src/mixedB/mixedB.css">');
                 expect(body).to.equal('<script type="text/javascript" src="/in-place/src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="/in-place/src/mixedB/mixedB.js"></script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for image URLs in CSS files to be resolved', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: true
@@ -551,13 +551,13 @@ describe('optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('testPage-4b7673cd.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for image URLs in CSS files to be resolved when bundling is disabled', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 fingerprintsEnabled: false
@@ -584,13 +584,13 @@ describe('optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('css-url-transform.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow resolving URLs via require pseudo protocol', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: true,
             resolveCssUrls: true
@@ -614,17 +614,17 @@ describe('optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('testPage-4b7673cd.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow custom CSS url resolver', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             outputDir: outputDir,
             fingerprintsEnabled: true,
             resolveCssUrls: {
-                urlResolver: function(url, optimizerContext, callback) {
+                urlResolver: function(url, lassoContext, callback) {
                     url = url.replace('SOME_DIR', path.join(__dirname, 'src/css-url-transform'));
                     url = url.replace('MYCOMPANY', 'ebay');
                     callback(null, url);
@@ -650,13 +650,13 @@ describe('optimizer/index', function() {
                 var actual = writerTracker.getCodeForFilename('testPage-4b7673cd.css');
                 // console.log(actual);
                 expect(actual).to.equal(expected);
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
     it('should allow for external resource URLs', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             flags: ['jquery', 'browser'],
             fileWriter: {
                 outputDir: outputDir,
@@ -675,15 +675,15 @@ describe('optimizer/index', function() {
                 // console.log('OPTIMIZED PAGE: ', optimizedPage);
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for external resource URLs to be inlined', function(done) {
         this.timeout(5000);
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             flags: [],
             fileWriter: {
                 outputDir: outputDir,
@@ -707,13 +707,13 @@ describe('optimizer/index', function() {
                 }
                 expect(optimizedPage.getBodyHtml()).to.equal('<script type="text/javascript" src="/static/testPage-b66ed708.js"></script>');
                 expect(optimizedPage.getHeadHtml()).to.equal('');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should optimize a page that has an installed module that uses async loading', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -746,14 +746,14 @@ describe('optimizer/index', function() {
                 expect(syncCode).to.contain('MAIN');
                 expect(syncCode).to.not.contain('BAR');
                 expect(asyncCode).to.contain('BAR');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for resource dependencies to be an absolute path', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -774,14 +774,14 @@ describe('optimizer/index', function() {
                 // console.log(writerTracker.getOutputFilenames());
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal("console.log('MAIN');\n");
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for glob patterns', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -790,7 +790,7 @@ describe('optimizer/index', function() {
             bundlingEnabled: true,
             plugins: [
                 {
-                    plugin: 'optimizer-require',
+                    plugin: 'lasso-require',
                     config: {
                         includeClient: false
                     }
@@ -820,8 +820,8 @@ describe('optimizer/index', function() {
     });
 
     it('should allow for glob patterns with relative paths', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -830,7 +830,7 @@ describe('optimizer/index', function() {
             bundlingEnabled: true,
             plugins: [
                 {
-                    plugin: 'optimizer-require',
+                    plugin: 'lasso-require',
                     config: {
                         includeClient: false
                     }
@@ -860,8 +860,8 @@ describe('optimizer/index', function() {
     });
 
     it('should generate unique filenames for non-file dependencies when bundling is disabled', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -870,16 +870,16 @@ describe('optimizer/index', function() {
             bundlingEnabled: false,
             plugins: [
                 {
-                    plugin: function(optimizer, config) {
-                        optimizer.dependencies.registerJavaScriptType('foo', {
+                    plugin: function(lasso, config) {
+                        lasso.dependencies.registerJavaScriptType('foo', {
                             properties: {
                             },
 
-                            init: function(optimizerContext, callback) {
+                            init: function(lassoContext, callback) {
                                 callback();
                             },
 
-                            read: function(optimizerContext, callback) {
+                            read: function(lassoContext, callback) {
                                 callback(null, 'FOO');
                             }
                         });
@@ -907,8 +907,8 @@ describe('optimizer/index', function() {
     });
 
     it('should support pulling out common dependencies into a separate bundle', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -992,8 +992,8 @@ describe('optimizer/index', function() {
     });
 
     it('should finding intersection of dependencies with 100 percent threshold', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1036,14 +1036,14 @@ describe('optimizer/index', function() {
 
                 expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('b=true;\nc=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should finding strict intersection of dependencies with numeric threshold', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1086,14 +1086,14 @@ describe('optimizer/index', function() {
 
                 expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('b=true;\nc=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should finding non-strict intersection of dependencies with numeric threshold', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1136,14 +1136,14 @@ describe('optimizer/index', function() {
 
                 expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should finding non-strict intersection of dependencies with string threshold', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1186,14 +1186,14 @@ describe('optimizer/index', function() {
 
                 expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should finding strict intersection of dependencies with percentage threshold', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1236,14 +1236,14 @@ describe('optimizer/index', function() {
 
                 expect(writerTracker.getCodeForFilename('common.js')).to.equal('a=true;\nb=true;');
                 expect(writerTracker.getCodeForFilename('testPage.js')).to.equal('c=true;');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should resolve font URLs correctly', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/static',
@@ -1263,14 +1263,14 @@ describe('optimizer/index', function() {
             .then(function(optimizedPage) {
 
                 expect(writerTracker.getCodeForFilename('testPage-0f710bcd.css')).to.equal("@font-face { src: url(Aleo-Regular-6be64eb6.woff); }");
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should resolve font URLs correctly inside pre-processed CSS files', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/static',
@@ -1284,12 +1284,12 @@ describe('optimizer/index', function() {
                                 'path': 'string'
                             },
 
-                            init: function(optimizerContext, callback) {
+                            init: function(lassoContext, callback) {
                                 this.path = this.resolvePath(this.path);
                                 callback();
                             },
 
-                            read: function(optimizerContext, callback) {
+                            read: function(lassoContext, callback) {
                                 var path = this.path;
 
                                 require('fs').readFile(path, {encoding: 'utf8'}, function(err, css) {
@@ -1305,7 +1305,7 @@ describe('optimizer/index', function() {
                                 return this.path;
                             },
 
-                            getLastModified: function(optimizerContext, callback) {
+                            getLastModified: function(lassoContext, callback) {
                                 return callback(null, -1);
                             }
                         });
@@ -1336,13 +1336,13 @@ describe('optimizer/index', function() {
                     ]);
 
                 expect(writerTracker.getCodeForFilename('testPage-0f710bcd.css')).to.equal("@font-face { src: url(Aleo-Regular-6be64eb6.woff); }");
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             });
     });
 
     it('should allow for inline "end" dependencies', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1363,14 +1363,14 @@ describe('optimizer/index', function() {
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
                 expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for inline true dependencies', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1391,14 +1391,14 @@ describe('optimizer/index', function() {
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
                 expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for inline false dependencies', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1419,14 +1419,14 @@ describe('optimizer/index', function() {
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
                 expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for inline "beginning" dependencies', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1447,14 +1447,14 @@ describe('optimizer/index', function() {
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
                 expect(body).to.equal('<script type=\"text/javascript\">moduleA_js</script>\n<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });
 
     it('should allow for inline "in-place" dependencies', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -1477,7 +1477,7 @@ describe('optimizer/index', function() {
 				var body = optimizedPage.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['moduleA.js', 'moduleC.js']);
                 expect(body).to.equal('<script type=\"text/javascript\" src=\"/src/moduleA/moduleA.js\"></script>\n<script type=\"text/javascript\">moduleB_js</script>\n<script type=\"text/javascript\" src=\"/src/moduleC/moduleC.js\"></script>');
-                optimizer.flushAllCaches(done);
+                lasso.flushAllCaches(done);
             })
             .done();
     });

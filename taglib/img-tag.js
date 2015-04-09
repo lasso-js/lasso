@@ -1,28 +1,28 @@
-var optimizer = require('../');
+var lasso = require('../');
 var nodePath = require('path');
 var attrs = require('raptor-util/attrs');
 var util = require('./util');
 
 module.exports = function render(input, context) {
-    var pageOptimizer = input.optimizer;
-    var optimizerRenderContext = util.getOptimizerRenderContext(context);
+    var pageOptimizer = input.lasso;
+    var lassoRenderContext = util.getOptimizerRenderContext(context);
 
     if (!pageOptimizer) {
-        pageOptimizer = optimizerRenderContext.data.pageOptimizer || optimizer.defaultPageOptimizer;
+        pageOptimizer = lassoRenderContext.data.pageOptimizer || lasso.defaultPageOptimizer;
     }
 
     if (!pageOptimizer) {
-        throw new Error('Page optimizer not configured for application. Use require("optimizer").configureDefault(config) to configure the default page optimizer or provide an optimizer as input using the "optimizer" attribute.');
+        throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');
     }
 
     var src = input.src;
     var imgPath = nodePath.resolve(input.dirname, src);
 
-    var optimizerContext = optimizerRenderContext.data.optimizerContext;
+    var lassoContext = lassoRenderContext.data.lassoContext;
 
-    if (!optimizerContext) {
-        optimizerContext = optimizerRenderContext.data.optimizerContext = pageOptimizer.createOptimizerContext({});
-        optimizerContext.renderContext = context;
+    if (!lassoContext) {
+        lassoContext = lassoRenderContext.data.lassoContext = pageOptimizer.createOptimizerContext({});
+        lassoContext.renderContext = context;
     }
 
     var asyncContext;
@@ -36,7 +36,7 @@ module.exports = function render(input, context) {
         context.write('>');
     }
 
-    pageOptimizer.optimizeResource(imgPath, {optimizerContext: optimizerContext}, function(err, optimizedResource) {
+    pageOptimizer.optimizeResource(imgPath, {lassoContext: lassoContext}, function(err, optimizedResource) {
         done = true;
         if (err) {
             if (asyncContext) {
@@ -55,6 +55,6 @@ module.exports = function render(input, context) {
     });
 
     if (!done) {
-        asyncContext = context.beginAsync({name: 'optimizer-img:' + imgPath});
+        asyncContext = context.beginAsync({name: 'lasso-img:' + imgPath});
     }
 };

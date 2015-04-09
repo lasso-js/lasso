@@ -9,7 +9,7 @@ var outputDir = path.join(__dirname, 'build');
 
 
 require('app-module-path').addPath(path.join(__dirname, 'src'));
-describe('optimizer/index', function() {
+describe('lasso/index', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
         for (var k in require.cache) {
@@ -19,15 +19,15 @@ describe('optimizer/index', function() {
         }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
-            'optimizer': 'WARN',
+            'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
         done();
     });
 
     it('should allow for requiring builtins', function(done) {
-        var optimizer = require('../');
-        var pageOptimizer = optimizer.create({
+        var lasso = require('../');
+        var pageOptimizer = lasso.create({
             fileWriter: {
                 outputDir: outputDir,
                 urlPrefix: '/',
@@ -36,7 +36,7 @@ describe('optimizer/index', function() {
             bundlingEnabled: true,
             plugins: [
                 {
-                    plugin: 'optimizer-require',
+                    plugin: 'lasso-require',
                     config: {
                         includeClient: false
                     }
