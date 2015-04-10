@@ -36,7 +36,7 @@ module.exports = function render(input, context) {
         context.write('>');
     }
 
-    theLasso.optimizeResource(imgPath, {lassoContext: lassoContext}, function(err, optimizedResource) {
+    theLasso.lassoResource(imgPath, {lassoContext: lassoContext}, function(err, lassoedResource) {
         done = true;
         if (err) {
             if (asyncContext) {
@@ -47,10 +47,10 @@ module.exports = function render(input, context) {
         }
 
         if (asyncContext) {
-            renderImgTag(optimizedResource.url, asyncContext);
+            renderImgTag(lassoedResource.url, asyncContext);
             asyncContext.end();
         } else {
-            renderImgTag(optimizedResource.url, context);
+            renderImgTag(lassoedResource.url, context);
         }
     });
 

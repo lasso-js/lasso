@@ -67,17 +67,17 @@ Output HTML will be similar to the following:
 
 ## `<lasso-page>`
 
-Optimizes the page so that the resulting JavaScript and CSS resources can be injected into the output HTML. The `<lasso-head>` and `<lasso-body>` tags are used as insertion points. By default, all CSS `<link>` tags will be added to the `<lasso-head>` slot and all `<script>` tags will be added to the `<lasso-body>` slot.
+Lassoes the page so that the resulting JavaScript and CSS resources can be injected into the output HTML. The `<lasso-head>` and `<lasso-body>` tags are used as insertion points. By default, all CSS `<link>` tags will be added to the `<lasso-head>` slot and all `<script>` tags will be added to the `<lasso-body>` slot.
 
 Supported attributes:
 
 - __name__ (string) - The name of the page (used to determine the name of output page bundles). Defaults to the name of the parent directory if not provided.
-- __cache-key__ (string) - The cache key that should be used to cache the optimized page. Defaults to the template path. NOTE: The set of enabled flags are always appended to the cache key.
+- __cache-key__ (string) - The cache key that should be used to cache the lassoed page. Defaults to the template path. NOTE: The set of enabled flags are always appended to the cache key.
 - __package-path__ (string) - The relative path to the the JSON file that declares the top-level page dependencies.
 - __package-paths__ (Array) - Similar to `package-paths`, but an Array of paths.
 - __lasso__ (expression) - A reference to a `Lasso` instance. Defaults to the default page lasso (i.e. `require('lasso').getDefaultLasso()`)
 - __data__ (expression) - Optional data to copy into the `lassoContext.data` object.
-- __dependencies__ (expression) - An array of dependencies to optimize.
+- __dependencies__ (expression) - An array of dependencies to lasso.
 - __flags__ (expression) - An array of flags to enable during optimization
 - __timeout__ (integer) - The maximum time to allow for the optimization to complete before throwing an error
 
@@ -117,7 +117,7 @@ The body slot that is used as the marker for inserting JavaScript `<script>` tag
 
 ## `<lasso-img>`
 
-Optimizes an image resource and renders an `<img>` tag with the `src` attribute set to the resulting URL of the optimized image resource.
+Lassoes an image resource and renders an `<img>` tag with the `src` attribute set to the resulting URL of the bundled image resource.
 
 Supported attributes:
 
@@ -138,11 +138,11 @@ The output will be similar to the following:
 
 ## `<lasso-resource>`
 
-Optimizes an arbitrary resource and introduces a local variable that can be used to inject the resulting resource URL into the page.
+Lassoes an arbitrary resource and introduces a local variable that can be used to inject the resulting resource URL into the page.
 
 Supported attributes:
 
-- __path__ - The relative path to the resource to optimize
+- __path__ - The relative path to the resource to bundle
 - __var__ - The name of the local variable to introduce
 
 Example:

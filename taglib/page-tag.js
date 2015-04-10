@@ -32,12 +32,12 @@ module.exports = function render(input, context) {
     }
 
     // We need to provide the lasso with some data that it might need
-    // to optimize the page correctly. We provide "renderContext", specifically,
+    // to build the page correctly. We provide "renderContext", specifically,
     // because the "renderContext" also holds a response to the output stream
     // which may be the HTTP response object. From the HTTP response object
     // we can get to the HTTP request. From the HTTP request we can get to the user
     // locale and the protocol (e.g. "http" versus "https") and all of this information
-    // may be needed to optimize the page correctly. Ultimately, during the optimization
+    // may be needed to build the page correctly. Ultimately, during the optimization
     // phase, this data can be access using the "lassoContext.data" property
     var lassoContextData = {
         renderContext: context
@@ -51,12 +51,12 @@ module.exports = function render(input, context) {
     }
 
     // Store the theLasso into the render context in case it is needed
-    // later (e.g. to optimize a image resource referenced by a <lasso-img> tag).
+    // later (e.g. to bundle a image resource referenced by a <lasso-img> tag).
     lassoRenderContext.data.lasso = theLasso;
 
     var lassoPageResultDataHolder;
 
-    // store optimized page data holder in the context data (used by slot tags)
+    // store lassoed page data holder in the context data (used by slot tags)
     lassoRenderContext.data.lassoPageResult = lassoPageResultDataHolder = new DataHolder();
     lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
@@ -68,9 +68,9 @@ module.exports = function render(input, context) {
         }
     }
 
-    function doOptimizePage() {
+    function doLassoPage() {
 
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
 
@@ -161,10 +161,10 @@ module.exports = function render(input, context) {
     if (waitFor && waitFor.length) {
         logger.debug('Waiting for ' + waitFor.length + ' promise(s) to complete before optimizing page.');
         raptorPromises.all(waitFor)
-            .then(doOptimizePage)
+            .then(doLassoPage)
             .done();
     }
     else {
-        doOptimizePage();
+        doLassoPage();
     }
 };

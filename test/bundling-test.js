@@ -42,7 +42,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -84,7 +84,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -126,7 +126,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -168,7 +168,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -203,7 +203,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'require: ./main'
@@ -246,7 +246,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'default',
                 dependencies: [
                     'a.js'
@@ -286,7 +286,7 @@ describe('lasso/bundling', function() {
         }, nodePath.join(__dirname, 'test-bundling-strategies-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(theLasso.writer);
-        theLasso.optimizePage({
+        theLasso.lassoPage({
                 pageName: 'default',
                 dependencies: [
                     'a.js',

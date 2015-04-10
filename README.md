@@ -131,7 +131,7 @@ Output for page "my-page":
 
 Open up `my-page.html` in your web browser and in the JavaScript console you will see the output of our program running in the browser, as well as a page styled by `style.css`.
 
-As you can see, with Lasso.js you no longer have to struggle with managing complex build scripts. Simply let Lasso.js worry about generating all of the required optimized resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
+As you can see, with Lasso.js you no longer have to struggle with managing complex build scripts. Simply let Lasso.js worry about generating all of the required resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
 There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize Lasso.js in your application.
 
@@ -148,7 +148,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 
 # Features
 
-* Optimize Client-side Dependencies
+* Bundle Client-side Dependencies
     * Supports all types of front-end resources (JavaScript, CSS, images, Less, CoffeeScript, etc.)
     * Asynchronous/lazy loading of JS/CSS
     * Configurable resource bundling
@@ -160,7 +160,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Optional Base64 image encoding inside CSS files
     * Custom output transforms
     * Declarative browser-side package dependencies using simple `browser.json` files
-    * Generates the HTML markup required to include optimized resources
+    * Generates the HTML markup required to include bundled resources
 	* Conditional dependencies
 	* Image minification
     * etc.
@@ -300,7 +300,7 @@ __my-page.html:__
 </html>
 ```
 
-Finally, run the following command to generate the optimized resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
+Finally, run the following command to generate the resource bundles for the page and to also inject the required `<script>` and `<link>` tags into the HTML page:
 
 ```bash
 lasso style.less \
@@ -480,7 +480,7 @@ Output for page "my-page":
 
 ## Dependencies
 
-To optimize a page Lasso.js walks a dependency graph. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `browser.json` files.
+Lasso.js walks a dependency graph to find all of the resources that need to be bundled. A dependency can either be a JavaScript or CSS resource (or a file that compiles to either JavaScript or CSS) or a dependency can be a reference to a set of transitive dependencies. Some dependencies are inferred from scanning source code and other dependencies can be made explicit by listing them out in the code of JavaScript modules or in separate `browser.json` files.
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
@@ -528,7 +528,7 @@ If you use the short-hand notation for `browser.json` dependencies, the paths wi
 
 ### Conditional Dependencies
 
-Lasso.js supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be optimized differently based on certain flags (e.g. "mobile device" versus "desktop"). For caching reasons, the flags for conditional dependencies should be based on a set of enabled flag. A flag is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
+Lasso.js supports conditional dependencies. Conditional dependencies is a powerful feature that allows for a page to be built differently based on certain flags (e.g. "mobile device" versus "desktop"). For caching reasons, the flags for conditional dependencies should be based on a set of enabled flag. A flag is just an arbitrary name that can be enabled/disabled before optimizing a page. For example, to make a dependency conditional such that is only included for mobile devices you can do the following:
 
 ```json
 {
@@ -567,7 +567,7 @@ The code below shows how to enable flags when optimizing a page:
 __Using the JavaScript API:__
 
 ```javascript
-myLasso.optimizePage({
+myLasso.lassoPage({
     dependencies: [
         { path: './hello-mobile.js', 'if-flag': 'mobile' }
     ],
@@ -578,9 +578,9 @@ myLasso.optimizePage({
 __Using the Marko taglib:__
 
 ```html
-<optimize-page ... flags="['mobile', 'foo', 'bar']">
+<lasso-page ... flags="['mobile', 'foo', 'bar']">
     ...
-</optimize-page>
+</lasso-page>
 ```
 
 ## Asynchronous/Lazy Loading
@@ -674,12 +674,12 @@ require('raptor-loader').async(
 
 <hr>
 
-For added flexibility there is a JavaScript API that can be used to optimize pages as shown in the following sample code:
+For added flexibility there is a JavaScript API that can be used to lasso pages as shown in the following sample code:
 
 ```javascript
 var lasso = require('lasso');
 lasso.configure('lasso-config.json');
-lasso.optimizePage({
+lasso.lassoPage({
         name: 'my-page',
         dependencies: [
             "./style.less",
@@ -722,11 +722,11 @@ If the value of the `config` argument is a `String` then it is treated as a path
 
 ### Optimizing a Page
 
-The following code illustrates how to optimize a simple set of JavaScript and CSS dependencies using the default configured lasso:
+The following code illustrates how to lasso a simple set of JavaScript and CSS dependencies using the default configured lasso:
 
 ```javascript
 var lasso = require('lasso');
-lasso.optimizePage({
+lasso.lassoPage({
         name: 'my-page',
         dependencies: [
             './foo.js',
@@ -737,7 +737,7 @@ lasso.optimizePage({
     },
     function(err, lassoPageResult) {
         if (err) {
-            console.log('Failed to optimize page: ', err);
+            console.log('Failed to lasso page: ', err);
             return;
         }
 
@@ -763,7 +763,7 @@ lasso.optimizePage({
 
 ```javascript
 var myLasso = lasso.create(config);
-myLasso.optimizePage(...);
+myLasso.lassoPage(...);
 ```
 
 
@@ -775,9 +775,9 @@ myLasso.optimizePage(...);
 
 <hr>
 
-For the ultimate in usability, a taglib is provided for Marko (and Dust) to automatically optimize a page _and_ inject the required HTML markup to include the optimized JavaScript and CSS bundles.
+For the ultimate in usability, a taglib is provided for Marko (and Dust) to automatically lasso a page _and_ inject the required HTML markup to include the JavaScript and CSS bundles.
 
-If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for Lasso.js to easily optimize page dependencies and embed them into your page.
+If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for Lasso.js to easily lasso page dependencies and embed them into your page.
 
 ### Using Lasso.js Taglib with Marko
 
@@ -845,7 +845,7 @@ The output of the page rendering will be similar to the following:
 </html>
 ```
 
-The optimized result is cached so you can skip the build step!
+The lasso result is cached so you can skip the build step!
 
 You can also configure the default page lasso used by the lasso tags:
 
@@ -940,7 +940,7 @@ In order to automatically detect and compile required `*.marko` templates we wil
 npm install lasso-marko
 ```
 
-We can then optimize the page using the following command:
+We can then lasso the page using the following command:
 
 ```bash
 lasso style.less \
@@ -961,9 +961,9 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 Lasso.js has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use Lasso.js at runtime is to use the taglib and simply render the page template to the response output stream.
 
-The first time the page renders, the page will be optimized and cached and the output of the optimization will be used to produce the final page HTML. After the first page rendering, the only work that will be done by Lasso.js is a simple cache lookup.
+The first time the page renders, the page will be lassoed and cached and the output of the lasso will be used to produce the final page HTML. After the first page rendering, the only work that will be done by Lasso.js is a simple cache lookup.
 
-By default, Lasso.js writes all optimized resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
+By default, Lasso.js writes all resource bundles into the `static/` directory at the root of your application. In addition, by default, all resource URLs will be prefixed with `/static`. If resources are to be served up by the local Express server we will need to register the appropriate middleware as shown in the following sample code:
 
 __server.js__
 
@@ -1298,7 +1298,7 @@ __Core plugins:__
 * [lasso-require](https://github.com/lasso-js/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
 * [lasso-minify-css](https://github.com/lasso-js/lasso-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
 * [lasso-minify-js](https://github.com/lasso-js/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
-* [lasso-resolve-css-urls](https://github.com/lasso-js/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an optimized resource URL
+* [lasso-resolve-css-urls](https://github.com/lasso-js/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an lassoed resource URL
 
 __Third-party plugins__
 
@@ -1590,7 +1590,7 @@ module.exports = function (lasso, pluginConfig) {
 * [raptor-samples/lasso-cli](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli): Demonstrates the command-line interface.
 * [raptor-samples/lasso-config](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config): Demonstrates the usage of a JSON config file.
 * [raptor-samples/lasso-async](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async): Demonstrates asynchronous/lazy dependency loading.
-* [raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api): Demonstrates how to use JavaScript API to optimize a page and inject the resulting head and body markup into a page.
+* [raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api): Demonstrates how to use JavaScript API to lasso a page and inject the resulting head and body markup into a page.
 * [raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib): Demonstrates the use of the lasso taglib for Marko.
 * [raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates): Demonstrates the use of rendering the same templates on both the server and the client.
 * [raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express): Demonstrates using Lasso.js at runtime as part of an Express server app.

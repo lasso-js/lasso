@@ -5,7 +5,7 @@ Bundling can either be enabled or disabled during page optimization. If bundling
 
 # Application-level Bundles
 
-Application-level bundles are bundles that apply to every page that is optimized. Application-level bundles allow for consistant bundles across pages when pages have common dependencies. Application-level bundles are typically configured as part of the lasso configuration as show below:
+Application-level bundles are bundles that apply to every page that are lassoed. Application-level bundles allow for consistant bundles across pages when pages have common dependencies. Application-level bundles are typically configured as part of the lasso configuration as show below:
 
 ```json
 {
@@ -34,7 +34,7 @@ While assigning dependencies to bundles during a page optimization, if the lasso
 The lasso also allows for page-level to be configured when optimizing a particular page. Application-level bundles always take precedence over page-level bundles. Page-level bundles can be configured when optimizing a page as shown in the following example JavaScript code:
 
 ```javascript
-require('lasso').optimizePage({
+require('lasso').lassoPage({
         name: "my-page",
         dependencies: [
             ...
@@ -68,7 +68,7 @@ When assigning a dependency to a bundle it is possible that a particular package
 The "recurse into" option can be specified using the `recurseInto` property at the bundle level or at the dependency level as shown in the following sample code:
 
 ```javascript
-require('lasso').optimizePage({
+require('lasso').lassoPage({
         name: "my-page",
         dependencies: [
             ...

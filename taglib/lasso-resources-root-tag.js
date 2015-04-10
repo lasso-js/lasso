@@ -33,7 +33,7 @@ module.exports = function render(input, out) {
     var asyncOut = null;
     var done = false;
 
-    function doRenderBody(err, optimizedResources) {
+    function doRenderBody(err, bundledResources) {
         done = true;
         // When invoking the body we are going to either render to the async out (if
         // one or more bundles needed to be asynchronously loaded) or the original
@@ -49,7 +49,7 @@ module.exports = function render(input, out) {
             // all of the code will render to and the remaining arguments will be the loaded
             // bundles in the order that maps to the associated variables that were found at
             // compile time
-            renderBody.apply(this, [targetOut].concat(optimizedResources));
+            renderBody.apply(this, [targetOut].concat(bundledResources));
         }
 
         if (asyncOut) {
@@ -62,7 +62,7 @@ module.exports = function render(input, out) {
     async.map(
         paths,
         function(path, callback) {
-            theLasso.optimizeResource(path, lassoContext, callback);
+            theLasso.lassoResource(path, lassoContext, callback);
         },
         doRenderBody);
 

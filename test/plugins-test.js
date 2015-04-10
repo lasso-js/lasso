@@ -41,7 +41,7 @@ describe('lasso/plugins', function() {
         }, nodePath.join(__dirname, 'test-bundling-project'), __filename);
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                         'hello.foo'

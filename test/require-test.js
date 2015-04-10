@@ -59,7 +59,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./hello.foo'
@@ -110,7 +110,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./resolve-main'
@@ -159,7 +159,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     { 'require': 'foo' },
@@ -216,7 +216,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: jquery',
@@ -257,7 +257,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require ./amd-module'
@@ -294,7 +294,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: jquery'
@@ -362,7 +362,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
@@ -405,7 +405,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: raptor-loader',
@@ -448,7 +448,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                 'require: ./test.json'
@@ -491,7 +491,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require-run'
@@ -537,7 +537,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./simple'
@@ -583,7 +583,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./simple.css'
@@ -627,7 +627,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./require-complex'
@@ -676,7 +676,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./browser-override'
@@ -719,7 +719,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 flags: ['mobile'],
                 dependencies: [
@@ -765,7 +765,7 @@ describe('lasso-require' , function() {
 
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     'require: ./nested'

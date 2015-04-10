@@ -1,6 +1,6 @@
 {
   "name": "lasso",
-  "description": "Module to support the optimized delivery of web application resources",
+  "description": "Lasso.js is a build tool and runtime library for building and bundling all of the resources needed by a web application",
   "repository": {
     "type": "git",
     "url": "https://github.com/lasso-js/lasso.git"

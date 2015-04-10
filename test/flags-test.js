@@ -35,7 +35,7 @@ describe('lasso flags', function() {
             bundlingEnabled: false
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     './browser.json'
@@ -85,7 +85,7 @@ describe('lasso flags', function() {
             ]
         }, from, __filename);
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     './c.js'
@@ -116,7 +116,7 @@ describe('lasso flags', function() {
             bundlingEnabled: false
         }, __dirname, __filename);
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     {'type': 'js', 'path': './a.js', 'if-flag': 'a'},

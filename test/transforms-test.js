@@ -94,7 +94,7 @@ describe('lasso/transforms', function() {
         series(
             [
                 function(callback) {
-                    myLasso.optimizeResource(barPath, function(err, result) {
+                    myLasso.lassoResource(barPath, function(err, result) {
                         if (err) {
                             return done(err);
                         }
@@ -105,7 +105,7 @@ describe('lasso/transforms', function() {
                     });
                 },
                 function(callback) {
-                    myLasso.optimizeResource(fooPath, function(err, result) {
+                    myLasso.lassoResource(fooPath, function(err, result) {
                             if (err) {
                                 return done(err);
                             }
@@ -175,7 +175,7 @@ describe('lasso/transforms', function() {
         series(
             [
                 function(callback) {
-                    myLasso.optimizeResource(barPath, function(err, result) {
+                    myLasso.lassoResource(barPath, function(err, result) {
                         if (err) {
                             return done(err);
                         }
@@ -185,7 +185,7 @@ describe('lasso/transforms', function() {
                     });
                 },
                 function(callback) {
-                    myLasso.optimizeResource(fooPath, function(err, result) {
+                    myLasso.lassoResource(fooPath, function(err, result) {
                             if (err) {
                                 return done(err);
                             }

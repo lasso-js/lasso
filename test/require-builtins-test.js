@@ -45,7 +45,7 @@ describe('lasso/index', function() {
         }, __dirname, __filename);
 
         // var writerTracker = require('./WriterTracker').create(myLasso.writer);
-        myLasso.optimizePage({
+        myLasso.lassoPage({
                 pageName: 'testPage',
                 dependencies: [
                     './browser.json'

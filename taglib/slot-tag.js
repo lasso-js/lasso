@@ -17,7 +17,7 @@ module.exports = function render(input, context) {
     var timeout = lassoRenderContext.data.timeout;
 
     if (!lassoPageResultDataHolder) {
-        throw new Error('Optimized page not found for slot "' + slotName + '". The <lasso-page> tag should be used to generate the optimized page.');
+        throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
     }
 
     lassoRenderContext.emitBeforeSlot(slotName, context);
