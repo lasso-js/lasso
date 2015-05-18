@@ -4,7 +4,7 @@ var logger = require('raptor-logging').logger(module);
 var raptorPromises = require('raptor-promises');
 var nodePath = require('path');
 var fs = require('fs');
-var DataHolder = require('raptor-async/DataHolder');
+var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
 
 module.exports = function render(input, context) {
@@ -54,17 +54,17 @@ module.exports = function render(input, context) {
     // later (e.g. to bundle a image resource referenced by a <lasso-img> tag).
     lassoRenderContext.data.lasso = theLasso;
 
-    var lassoPageResultDataHolder;
+    var lassoPageResultAsyncValue;
 
     // store lassoed page data holder in the context data (used by slot tags)
-    lassoRenderContext.data.lassoPageResult = lassoPageResultDataHolder = new DataHolder();
+    lassoRenderContext.data.lassoPageResult = lassoPageResultAsyncValue = new AsyncValue();
     lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
     function done(err, lassoPageResult) {
         if (err) {
-            lassoPageResultDataHolder.reject(err);
+            lassoPageResultAsyncValue.reject(err);
         } else {
-            lassoPageResultDataHolder.resolve(lassoPageResult);
+            lassoPageResultAsyncValue.resolve(lassoPageResult);
         }
     }
 

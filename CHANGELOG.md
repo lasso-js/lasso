@@ -5,6 +5,10 @@ Changelog
 
 ## 1.9.x
 
+### 1.9.1
+
+- Internal: Switched from "raptor-async/DataHolder" (deprecated) to "raptor-async/AsyncValue"
+
 ### 1.9.0
 
 - [Issue #48](https://github.com/lasso-js/lasso/issues/48): Do not mangle bundle names
