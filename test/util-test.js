@@ -38,9 +38,9 @@ describe('lasso/util', function() {
 
             outStream = fs.createWriteStream(outFile2);
             outStream.on('close', function() {
-                var inTxt = fs.readFileSync(inFile, 'utf8');
-                var outFile1Txt = fs.readFileSync(outFile1, 'utf8');
-                var outFile2Txt = fs.readFileSync(outFile2, 'utf8');
+                var inTxt = fs.readFileSync(inFile, {encoding: 'utf8'});
+                var outFile1Txt = fs.readFileSync(outFile1, {encoding: 'utf8'});
+                var outFile2Txt = fs.readFileSync(outFile2, {encoding: 'utf8'});
                 expect(inTxt).to.equal(outFile1Txt);
                 expect(inTxt).to.equal(outFile2Txt);
                 done();

@@ -99,7 +99,7 @@ describe('lasso/transforms', function() {
                             return done(err);
                         }
                         var outputFile = result.outputFile;
-                        expect(fs.readFileSync(outputFile, 'utf8')).to.equal('hello-BAR');
+                        expect(fs.readFileSync(outputFile, {encoding: 'utf8'})).to.equal('hello-BAR');
                         expect(results[barPath]).to.equal('hello');
                         callback();
                     });
@@ -110,7 +110,7 @@ describe('lasso/transforms', function() {
                                 return done(err);
                             }
                             var outputFile = result.outputFile;
-                            expect(fs.readFileSync(outputFile, 'utf8')).to.equal('world-FOO');
+                            expect(fs.readFileSync(outputFile, {encoding: 'utf8'})).to.equal('world-FOO');
                             expect(results[fooPath]).to.equal('world');
                             callback();
                         });
@@ -180,7 +180,7 @@ describe('lasso/transforms', function() {
                             return done(err);
                         }
                         var outputFile = result.outputFile;
-                        expect(fs.readFileSync(outputFile, 'utf8')).to.equal('hello-TRANSFORMED');
+                        expect(fs.readFileSync(outputFile, {encoding: 'utf8'})).to.equal('hello-TRANSFORMED');
                         callback();
                     });
                 },
@@ -190,7 +190,7 @@ describe('lasso/transforms', function() {
                                 return done(err);
                             }
                             var outputFile = result.outputFile;
-                            expect(fs.readFileSync(outputFile, 'utf8')).to.equal('world');
+                            expect(fs.readFileSync(outputFile, {encoding: 'utf8'})).to.equal('world');
                             callback();
                         });
                 }

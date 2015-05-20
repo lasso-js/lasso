@@ -23,7 +23,7 @@ function WriterTracker(writer) {
 
 WriterTracker.prototype = {
     _recordOutputFile: function(outputFile) {
-        var code = fs.readFileSync(outputFile, 'utf8');
+        var code = fs.readFileSync(outputFile, {encoding: 'utf8'});
         this.outputFilesByPath[outputFile] = code;
         this.outputFilesByName[nodePath.basename(outputFile)] = code;
     },
