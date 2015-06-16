@@ -229,7 +229,7 @@ npm install lasso-cli --global
 
 <hr>
 
-[__Sample App:__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-cli](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli)
+[__Sample App:__](https://github.com/lasso-js-samples/lasso-cli) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-cli](https://github.com/lasso-js-samples/lasso-cli)
 
 <hr>
 
@@ -406,7 +406,7 @@ For more documentation on the Command Line Interface please see the [lasso-cli d
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-config](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-config) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-config](https://github.com/lasso-js-samples/lasso-config)
 
 <hr>
 
@@ -587,7 +587,7 @@ __Using the Marko taglib:__
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async)To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-async](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-async)To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-async](https://github.com/lasso-js-samples/lasso-async)
 
 <hr>
 
@@ -670,7 +670,7 @@ require('raptor-loader').async(
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-js-api) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-js-api](https://github.com/lasso-js-samples/lasso-js-api)
 
 <hr>
 
@@ -771,7 +771,7 @@ myLasso.lassoPage(...);
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-taglib) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-taglib](https://github.com/lasso-js-samples/lasso-taglib)
 
 <hr>
 
@@ -895,7 +895,7 @@ Finally, in your Dust templates you can use the new lasso helpers as shown below
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-templates) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-templates](https://github.com/lasso-js-samples/lasso-templates)
 
 <hr>
 
@@ -955,7 +955,7 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-express) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-express](https://github.com/lasso-js-samples/lasso-express)
 
 <hr>
 
@@ -1072,7 +1072,7 @@ For more information on working with bundles. Please see the [bundling docs](doc
 
 <hr>
 
-[__Sample App__](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting) To try out and experiment with the code, please see the following project:<br>[raptor-samples/lasso-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting)
+[__Sample App__](https://github.com/lasso-js-samples/lasso-code-splitting) To try out and experiment with the code, please see the following project:<br>[lasso-js-samples/lasso-code-splitting](https://github.com/lasso-js-samples/lasso-code-splitting)
 
 <hr>
 
@@ -1287,7 +1287,7 @@ The [lasso-require](https://github.com/lasso-js/lasso-require) plugin will autom
 
 The `lasso-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
-For more details on how the Node.js modules are supported on the browser, please see the documentation for the [raptor-samples/lasso-require](https://github.com/lasso-js/lasso-require) plugin.
+For more details on how the Node.js modules are supported on the browser, please see the documentation for the [lasso-js-samples/lasso-require](https://github.com/lasso-js/lasso-require) plugin.
 
 # Available Plugins
 
@@ -1587,14 +1587,14 @@ module.exports = function (lasso, pluginConfig) {
 
 # Sample Projects
 
-* [raptor-samples/lasso-cli](https://github.com/raptorjs/raptor-samples/tree/master/lasso-cli): Demonstrates the command-line interface.
-* [raptor-samples/lasso-config](https://github.com/raptorjs/raptor-samples/tree/master/lasso-config): Demonstrates the usage of a JSON config file.
-* [raptor-samples/lasso-async](https://github.com/raptorjs/raptor-samples/tree/master/lasso-async): Demonstrates asynchronous/lazy dependency loading.
-* [raptor-samples/lasso-js-api](https://github.com/raptorjs/raptor-samples/tree/master/lasso-js-api): Demonstrates how to use JavaScript API to lasso a page and inject the resulting head and body markup into a page.
-* [raptor-samples/lasso-taglib](https://github.com/raptorjs/raptor-samples/tree/master/lasso-taglib): Demonstrates the use of the lasso taglib for Marko.
-* [raptor-samples/lasso-templates](https://github.com/raptorjs/raptor-samples/tree/master/lasso-templates): Demonstrates the use of rendering the same templates on both the server and the client.
-* [raptor-samples/lasso-express](https://github.com/raptorjs/raptor-samples/tree/master/lasso-express): Demonstrates using Lasso.js at runtime as part of an Express server app.
-* [raptor-samples/lasso-code-splitting](https://github.com/raptorjs/raptor-samples/tree/master/lasso-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
+* [lasso-js-samples/lasso-async](https://github.com/lasso-js-samples/lasso-async): Demonstrates asynchronous/lazy dependency loading.
+* [lasso-js-samples/lasso-cli](https://github.com/lasso-js-samples/lasso-cli): Demonstrates the command-line interface.
+* [lasso-js-samples/lasso-code-splitting](https://github.com/lasso-js-samples/lasso-code-splitting): Demonstrates splitting out dependencies that are common across pages into a separate bundle.
+* [lasso-js-samples/lasso-config](https://github.com/lasso-js-samples/lasso-config): Demonstrates the usage of a JSON config file.
+* [lasso-js-samples/lasso-express](https://github.com/lasso-js-samples/lasso-express): Demonstrates using Lasso.js at runtime as part of an Express server app.
+* [lasso-js-samples/lasso-js-api](https://github.com/lasso-js-samples/lasso-js-api): Demonstrates how to use JavaScript API to lasso a page and inject the resulting head and body markup into a page.
+* [lasso-js-samples/lasso-taglib](https://github.com/lasso-js-samples/lasso-taglib): Demonstrates the use of the lasso taglib for Marko.
+* [lasso-js-samples/lasso-templates](https://github.com/lasso-js-samples/lasso-templates): Demonstrates the use of rendering the same templates on both the server and the client.
 
 # Discuss
 
