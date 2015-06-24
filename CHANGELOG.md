@@ -3,6 +3,22 @@ Changelog
 
 # 1.x
 
+## 1.10.x
+
+### 1.10.0
+
+- Fixed [#57](https://github.com/lasso-js/lasso/issues/57) - Allow non-JavaScript modules to be required:
+
+```javascript
+require('lasso/node-require-no-op').enable('.less', '.css');
+
+// ...
+
+require('./style.less');
+```
+
+### 1.9.0
+
 ## 1.9.x
 
 ### 1.9.1
