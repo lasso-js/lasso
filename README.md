@@ -484,17 +484,34 @@ Lasso.js walks a dependency graph to find all of the resources that need to be b
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
-A dependency can be described using a simple `String` path as shown in the following code:
+A dependency can be described using a simple `String` path as shown in the following sample `browser.json` file:
 
 ```json
-[
-    "./style.less",
-    "../third-party/jquery.js",
-    "**/*.css"
-]
+{
+	"dependencies": [
+	    "./style.less",
+	    "../third-party/jquery.js",
+	    "**/*.css"
+	]
+}
 ```
 
-In the examples, the dependency type is inferred from the filename extension. Alternatively, the dependency type can be made explicit using either one of the following formats:
+Alternatively, dependencies can be "required" inside a JavaScript module as shown in the following sample JavaScript code:
+
+```javascript
+require('./style.less');
+
+// ...
+```
+
+The only caveat to using a `require()` call to add a non-JavaScript module dependency is that by default Node.js will try to load the required file as a JavaScript module if the code runs on the server. To prevent Node.js from trying to load a Less file or other non-JavaScript files as JavaScript modules you can add the following code to your main script:
+
+```javascript
+require('lasso/node-require-no-op').enable('.less', '.css');
+```
+
+
+For simple paths, the dependency type is inferred from the filename extension. Alternatively, the dependency type can be made explicit using either one of the following formats:
 
 ```json
 [
