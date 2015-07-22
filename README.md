@@ -1330,6 +1330,8 @@ __Third-party plugins__
 * [lasso-marko](https://github.com/lasso-js/lasso-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
 * [lasso-sass](https://github.com/lasso-js/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
 * [lasso-stylus](https://github.com/lasso-js/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
+* [lasso-clean-css](https://github.com/yomed/lasso-clean-css): Minify CSS files using [clean-css](https://github.com/jakubpawlowicz/clean-css)
+
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
