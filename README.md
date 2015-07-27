@@ -9,55 +9,6 @@ This tool offers many different optimizations such as a bundling, code splitting
 
 ![eBay Open Source](https://raw.githubusercontent.com/lasso-js/lasso/master/images/ebay.png)
 
-<!-- START doctoc generated TOC please keep comment here to allow auto update -->
-<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-
-# Table of Contents
-
-- [Example](#example)
-- [Design Philosophy](#design-philosophy)
-- [Features](#features)
-- [Another Client-side Bundler?](#another-client-side-bundler)
-- [Installation](#installation)
-- [Usage](#usage)
-	- [Command Line Interface](#command-line-interface)
-	- [JSON Configuration File](#json-configuration-file)
-	- [Dependencies](#dependencies)
-		- [Conditional Dependencies](#conditional-dependencies)
-		- [Enabling Flags](#enabling-flags)
-	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
-	- [JavaScript API](#javascript-api)
-		- [Configuring the Default Lasso](#configuring-the-default-page-lasso)
-		- [Optimizing a Page](#optimizing-a-page)
-		- [Creating a New Lasso](#creating-a-new-page-lasso)
-	- [Lasso.js Taglib](#lasso-taglib)
-		- [Using Lasso.js Taglib with Marko](#using-the-lasso-taglib-with-marko)
-		- [Using Lasso.js Taglib with Dust](#using-the-lasso-taglib-with-dust)
-	- [Client/Server Template Rendering](#clientserver-template-rendering)
-	- [Runtime Optimization with Express](#runtime-optimization-with-express)
-	- [Bundling](#bundling)
-	- [Code Splitting](#code-splitting)
-- [Configuration](#configuration)
-	- [Default Configuration](#default-configuration)
-	- [Complete Configuration](#complete-configuration)
-- [Node.js-style Module Support](#nodejs-style-module-support)
-- [Available Plugins](#available-plugins)
-- [Extending Lasso.js](#extending-the-lasso)
-	- [Custom Plugins](#custom-plugins)
-	- [Custom Dependency Types](#custom-dependency-types)
-		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
-		- [Custom CSS Dependency Type](#custom-css-dependency-type)
-		- [Custom Package Type](#custom-package-type)
-	- [Custom Output Transforms](#custom-output-transforms)
-- [Sample Projects](#sample-projects)
-- [Discuss](#discuss)
-- [Maintainers](#maintainers)
-- [Contributors](#contributors)
-- [Contribute](#contribute)
-- [License](#license)
-
-<!-- END doctoc generated TOC please keep comment here to allow auto update -->
-
 # Example
 
 Install the command line interface for Lasso.js:
@@ -134,6 +85,54 @@ Open up `my-page.html` in your web browser and in the JavaScript console you wil
 As you can see, with Lasso.js you no longer have to struggle with managing complex build scripts. Simply let Lasso.js worry about generating all of the required resource bundles and injecting them into your page so that you can just focus on writing clean and modular code.
 
 There's also a JavaScript API, taglib and a collection of plugins to make your job as a front-end web developer easier. Please read on to learn how you can easily utilize Lasso.js in your application.
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+# Table of Contents
+
+- [Design Philosophy](#design-philosophy)
+- [Features](#features)
+- [Another Client-side Bundler?](#another-client-side-bundler)
+- [Installation](#installation)
+- [Usage](#usage)
+	- [Command Line Interface](#command-line-interface)
+	- [JSON Configuration File](#json-configuration-file)
+	- [Dependencies](#dependencies)
+		- [Conditional Dependencies](#conditional-dependencies)
+		- [Enabling Flags](#enabling-flags)
+	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
+	- [JavaScript API](#javascript-api)
+		- [Configuring the Default Lasso](#configuring-the-default-lasso)
+		- [Optimizing a Page](#optimizing-a-page)
+		- [Creating a New Lasso](#creating-a-new-lasso)
+	- [Lasso.js Taglib](#lassojs-taglib)
+		- [Using Lasso.js Taglib with Marko](#using-lassojs-taglib-with-marko)
+		- [Using Lasso.js Taglib with Dust](#using-lassojs-taglib-with-dust)
+	- [Client/Server Template Rendering](#clientserver-template-rendering)
+	- [Runtime Optimization with Express](#runtime-optimization-with-express)
+	- [Bundling](#bundling)
+	- [Code Splitting](#code-splitting)
+- [Configuration](#configuration)
+	- [Default Configuration](#default-configuration)
+	- [Complete Configuration](#complete-configuration)
+- [Node.js-style Module Support](#nodejs-style-module-support)
+- [Available Plugins](#available-plugins)
+- [Extending Lasso.js](#extending-lassojs)
+	- [Custom Plugins](#custom-plugins)
+	- [Custom Dependency Types](#custom-dependency-types)
+		- [Custom JavaScript Dependency Type](#custom-javascript-dependency-type)
+		- [Custom CSS Dependency Type](#custom-css-dependency-type)
+		- [Custom Package Type](#custom-package-type)
+	- [Custom Output Transforms](#custom-output-transforms)
+- [Sample Projects](#sample-projects)
+- [Discuss](#discuss)
+- [Maintainers](#maintainers)
+- [Contributors](#contributors)
+- [Contribute](#contribute)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # Design Philosophy
 
