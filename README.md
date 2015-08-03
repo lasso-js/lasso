@@ -547,12 +547,13 @@ If you use the short-hand notation for `browser.json` dependencies, the paths wi
 
 ### External Dependencies
 
-Lasso.js does allow referencing external JS files in your `browser.json` files as shown below:
+Lasso.js does allow referencing external JS/CSS files in your `browser.json` files as shown below:
 
 ```json
 {
 	"dependencies": [
-	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" }
+	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" },
+	    { "type": "css", "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" }
 	]
 }
 ```
