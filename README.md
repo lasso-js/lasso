@@ -99,6 +99,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 	- [Command Line Interface](#command-line-interface)
 	- [JSON Configuration File](#json-configuration-file)
 	- [Dependencies](#dependencies)
+		- [External Dependencies](#external-dependencies)
 		- [Conditional Dependencies](#conditional-dependencies)
 		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
@@ -483,14 +484,16 @@ Lasso.js walks a dependency graph to find all of the resources that need to be b
 
 It's also possible to register your own [custom dependency types](#custom-dependency-types). With custom dependency types, you can control how resources are compiled or a custom dependency type can be used to resolve additional dependencies during optimization.
 
-A dependency can be described using a simple `String` path as shown in the following sample `browser.json` file:
+Browser dependencies can be described as shown in the following sample `browser.json` file:
 
 ```json
 {
 	"dependencies": [
 	    "./style.less",
 	    "../third-party/jquery.js",
-	    "**/*.css"
+	    "**/*.css",
+	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" },
+	    { "type": "css", "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" }
 	]
 }
 ```
@@ -541,6 +544,31 @@ If the path does not have a file extension then it is assumed to be a path to an
 ]
 ```
 If you use the short-hand notation for `browser.json` dependencies, the paths will still be resolved using the require resolver as long as they are not relative paths.
+
+### External Dependencies
+
+Lasso.js does allow referencing external JS files in your `browser.json` files as shown below:
+
+```json
+{
+	"dependencies": [
+	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" }
+	]
+}
+```
+
+By default, Lasso.js will not bundle external resources with your application's JavaScript and CSS bundles. If you would prefer for an external resource to be downloaded from the remote server and bundled with your other application code during the lassoing then you can set the `external` property to `false` as shown below (`external` defaults to `true`):
+
+```json
+{
+	"dependencies": [
+	    { "type": "js", "url", "https://code.jquery.com/jquery-2.1.4.min.js", "external": false }
+	]
+}
+```
+
+Setting `external` to `false` in the above example will result in jQuery being downloaded from the CDN and bundled with all of the other JS code for the app. That is, the code for jQuery will not be served up by the jQuery CDN.
+
 
 ### Conditional Dependencies
 
