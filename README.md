@@ -563,7 +563,7 @@ By default, Lasso.js will not bundle external resources with your application's 
 ```json
 {
 	"dependencies": [
-	    { "type": "js", "url", "https://code.jquery.com/jquery-2.1.4.min.js", "external": false }
+	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js", "external": false }
 	]
 }
 ```
