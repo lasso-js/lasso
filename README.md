@@ -1359,6 +1359,7 @@ __Third-party plugins__
 * [lasso-sass](https://github.com/lasso-js/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
 * [lasso-stylus](https://github.com/lasso-js/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 * [lasso-clean-css](https://github.com/yomed/lasso-clean-css): Minify CSS files using [clean-css](https://github.com/jakubpawlowicz/clean-css)
+* [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer): Autoprefix CSS with vendor prefixes using [autoprefixer-core](https://github.com/postcss/autoprefixer-core)
 
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
@@ -1657,6 +1658,8 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
     - [gulp-lasso](https://github.com/raptorjs/gulp-lasso)
     - [lasso-jsx](https://github.com/lasso-js/lasso-jsx)
+* Merwan Rodriguez (Twitter: [@uno7](https://twitter.com/uno7))
+    - [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer)
 
 # Contribute
 
