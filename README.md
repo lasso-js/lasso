@@ -3,11 +3,9 @@ Lasso.js
 
 [![Build Status](https://travis-ci.org/lasso-js/lasso.svg?branch=master)](https://travis-ci.org/lasso-js/lasso) [![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/lasso-js/lasso?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Lasso.js is a Node.js-style JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
+Lasso.js is an eBay open source Node.js-style JavaScript module bundler that also provides first-level support for optimally delivering JavaScript, CSS, images and other assets to the browser.
 
 This tool offers many different optimizations such as a bundling, code splitting, lazy loading, conditional dependencies, compression and fingerprinted resource URLs. Plugins are provided to support pre-processors and compilers such as Less, Stylus and [Marko](https://github.com/raptorjs/marko). This developer-friendly tool does not require that you change the way that you already code and can easily be adopted by existing applications.
-
-![eBay Open Source](https://raw.githubusercontent.com/lasso-js/lasso/master/images/ebay.png)
 
 # Example
 
