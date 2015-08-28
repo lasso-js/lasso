@@ -22,6 +22,8 @@ Changelog
   - Rename `<optimizer-page>` to `<lasso-page>`
   - Rename `<optimizer-head>` to `<lasso-head>`
   - Rename `<optimizer-body>` to `<lasso-body>`
+- Browser.json changes
+  - remove unnecessary spacing:  e.g. convert "require :" to "require:"
 
 # 1.x
 
