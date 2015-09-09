@@ -24,6 +24,8 @@ exports.enable = function(patterns) {
         return;
     }
 
+    lasso.setDevelopmentMode();
+
     if (!patterns) {
         // Reasonable default with client-side only files...
         patterns = '*.css *.less *.styl *.scss *.sass *.png *.jpeg *.jpg *.gif *.webp *.svg';
