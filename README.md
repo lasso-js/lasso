@@ -101,7 +101,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 		- [Conditional Dependencies](#conditional-dependencies)
 		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
-	- [JavaScript API](#javascript-api)
+	- [Using the JavaScript API](#using-the-javascript-api)
 		- [Configuring the Default Lasso](#configuring-the-default-lasso)
 		- [Optimizing a Page](#optimizing-a-page)
 		- [Creating a New Lasso](#creating-a-new-lasso)
@@ -124,6 +124,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 		- [Custom CSS Dependency Type](#custom-css-dependency-type)
 		- [Custom Package Type](#custom-package-type)
 	- [Custom Output Transforms](#custom-output-transforms)
+- [JavaScript API](#javascript-api)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Maintainers](#maintainers)
@@ -709,7 +710,7 @@ require('raptor-loader').async(
     });
 ```
 
-## JavaScript API
+## Using the JavaScript API
 
 <hr>
 
@@ -1630,6 +1631,10 @@ module.exports = function (lasso, pluginConfig) {
     });
 };
 ```
+
+# JavaScript API
+
+See [JavaScript API](./docs/javascript-api.md).
 
 # Sample Projects
 
