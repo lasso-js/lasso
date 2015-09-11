@@ -1,5 +1,4 @@
 var browserRefreshClient = require('browser-refresh-client');
-var lasso = require('../');
 var nodePath = require('path');
 
 var styleExtensions = {
@@ -23,6 +22,8 @@ exports.enable = function(patterns) {
     if (!browserRefreshClient.isBrowserRefreshEnabled()) {
         return;
     }
+
+    var lasso = require('../');
 
     lasso.setDevelopmentMode();
 
