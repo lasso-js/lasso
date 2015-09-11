@@ -18,10 +18,14 @@ var imageExtensions = {
     svg: true
 };
 
+var enabled = false;
+
 exports.enable = function(patterns) {
-    if (!browserRefreshClient.isBrowserRefreshEnabled()) {
+    if (!browserRefreshClient.isBrowserRefreshEnabled() || enabled) {
         return;
     }
+
+    enabled = true;
 
     var lasso = require('../');
 
