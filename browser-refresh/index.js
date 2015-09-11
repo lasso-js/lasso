@@ -29,7 +29,7 @@ exports.enable = function(patterns) {
 
     if (!patterns) {
         // Reasonable default with client-side only files...
-        patterns = '*.marko *.css *.less *.styl *.scss *.sass *.png *.jpeg *.jpg *.gif *.webp *.svg';
+        patterns = '*.marko *.css *.less *.styl *.scss *.sass *.png *.jpeg *.jpg *.gif *.webp *.svg *.eot *.ttf *.woff *.woff2';
     }
 
     browserRefreshClient
