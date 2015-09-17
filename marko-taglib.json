@@ -55,12 +55,19 @@
             "renderer": "./taglib/body-tag"
         },
         "lasso-img": {
-            "renderer": "./taglib/img-tag",
+            "@src": "path",
+            "@*": {
+                "ignore": true
+            },
+            "transformer": {
+                "path": "./taglib/lasso-img-tag-transformer"
+            }
+        },
+        "_lasso-getImageInfo": {
+            "node-class": "./taglib/getImageInfo-node",
             "attributes": {
                 "src": "path",
-                "base-path": "string",
-                "lasso": "expression",
-                "*": "string"
+                "var": "string"
             },
             "import-var": {
                 "dirname": "__dirname"

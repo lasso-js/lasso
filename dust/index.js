@@ -28,7 +28,6 @@ exports.registerHelpers = function(dust) {
         },
         'lasso-slot': require('../taglib/slot-tag'),
         'lasso-head': require('../taglib/head-tag'),
-        'lasso-body': require('../taglib/body-tag'),
-        'lasso-img': require('../taglib/img-tag')
+        'lasso-body': require('../taglib/body-tag')
     }, dust);
 };
