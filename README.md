@@ -107,7 +107,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 		- [Creating a New Lasso](#creating-a-new-lasso)
 	- [Lasso.js Taglib](#lassojs-taglib)
 		- [Using Lasso.js Taglib with Marko](#using-lassojs-taglib-with-marko)
-		- [Using Lasso.js Taglib with Dust](#using-lassojs-taglib-with-dust)
+		- [<lasso-img>](#<lasso-img>)
 	- [Client/Server Template Rendering](#clientserver-template-rendering)
 	- [Runtime Optimization with Express](#runtime-optimization-with-express)
 	- [Bundling](#bundling)
@@ -821,7 +821,7 @@ myLasso.lassoPage(...);
 
 For the ultimate in usability, a taglib is provided for Marko (and Dust) to automatically lasso a page _and_ inject the required HTML markup to include the JavaScript and CSS bundles.
 
-If you are using [Marko](https://github.com/raptorjs/marko) or [Dust](https://github.com/linkedin/dustjs) you can utilize the available taglib for Lasso.js to easily lasso page dependencies and embed them into your page.
+If you are using [Marko](https://github.com/raptorjs/marko) you can utilize the available taglib for Lasso.js to easily lasso page dependencies and embed them into your page.
 
 ### Using Lasso.js Taglib with Marko
 
@@ -899,40 +899,20 @@ require('lasso').configure({...});
 
 For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
 
-### Using Lasso.js Taglib with Dust
+### <lasso-img>
 
-You should follow the same steps as above, except you must install the [dustjs-linkedin](https://www.npmjs.org/package/dustjs-linkedin) module and then use `require('lasso/dust').registerHelpers(dust)` to register the helpers:
+The `<lasso-img>` tag can be used to render `<img>` tags while also having the image referenced by the `src` attribute automatically go through the Lasso.js asset pipeline. In addition, if the `width` and `height` attributes are not specified then those attributes will automatically be added. This tag can be rendered on both the server and in the browser.
 
-Install required dependencies:
+Example:
 
-1. `npm install lasso --save`
-2. `npm install dustjs-linkedin --save`
-
-Register the Dust helpers during initialization:
-
-```javascript
-var dust = require('dustjs-linkedin');
-require('lasso/dust').registerHelpers(dust);
+```xml
+<lasso-img src="./foo.jpg"/>
 ```
 
-Finally, in your Dust templates you can use the new lasso helpers as shown below:
+This might produce the following HTML output depending on how Lasso.js is configured:
 
 ```html
-
-{@lasso-page name="my-page" packagePath="./browser.json" /}
-
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Test Page</title>
-    {@lasso-head /}
-</head>
-<body>
-    <h1>Test Page</h1>
-    {@lasso-body /}
-</body>
-</html>
+<img src="/static/foo-25b047cc.jpg" width="100" height="100">
 ```
 
 ## Client/Server Template Rendering
@@ -1184,7 +1164,6 @@ This could also be expressed as a percentage:
     ]
 }
 ```
-
 
 # Configuration
 
