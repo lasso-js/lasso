@@ -107,7 +107,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 		- [Creating a New Lasso](#creating-a-new-lasso)
 	- [Lasso.js Taglib](#lassojs-taglib)
 		- [Using Lasso.js Taglib with Marko](#using-lassojs-taglib-with-marko)
-		- [<lasso-img>](#<lasso-img>)
+		- [`<lasso-img>`](#<lasso-img>)
 	- [Client/Server Template Rendering](#clientserver-template-rendering)
 	- [Runtime Optimization with Express](#runtime-optimization-with-express)
 	- [Bundling](#bundling)
@@ -899,7 +899,7 @@ require('lasso').configure({...});
 
 For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
 
-### <lasso-img>
+### `<lasso-img>`
 
 The `<lasso-img>` tag can be used to render `<img>` tags while also having the image referenced by the `src` attribute automatically go through the Lasso.js asset pipeline. In addition, if the `width` and `height` attributes are not specified then those attributes will automatically be added. This tag can be rendered on both the server and in the browser.
 
