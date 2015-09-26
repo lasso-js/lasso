@@ -899,7 +899,7 @@ require('lasso').configure({...});
 
 For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
 
-<a name="%3Classo-img"></a>
+<a name="<lasso-img"></a>
 
 ### `<lasso-img>`
 
