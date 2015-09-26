@@ -899,6 +899,8 @@ require('lasso').configure({...});
 
 For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
 
+<a name="<lasso-img>"></a>
+
 ### `<lasso-img>`
 
 The `<lasso-img>` tag can be used to render `<img>` tags while also having the image referenced by the `src` attribute automatically go through the Lasso.js asset pipeline. In addition, if the `width` and `height` attributes are not specified then those attributes will automatically be added. This tag can be rendered on both the server and in the browser.
