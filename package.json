@@ -42,6 +42,8 @@
     "through": "^2.3.4"
   },
   "devDependencies": {
+    "babel": "^5.8.23",
+    "babel-runtime": "^5.8.24",
     "chai": "~1.8.1",
     "deamdify": "^0.1.1",
     "dustjs-linkedin": "^2.4.0",
