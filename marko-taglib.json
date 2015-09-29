@@ -55,9 +55,11 @@
             "renderer": "./taglib/body-tag"
         },
         "lasso-img": {
-            "@src": "path",
-            "@*": {
-                "ignore": true
+            "attributes": {
+                "src": "path",
+                "*": {
+                    "ignore": true
+                }
             },
             "transformer": {
                 "path": "./taglib/lasso-img-tag-transformer"
