@@ -711,6 +711,35 @@ describe('lasso/index', function() {
             });
     });
 
+    it('should mask define in resources when mask-define option is true', function(done) {
+        var lasso = require('../');
+        var theLasso = lasso.create({
+            outputDir: outputDir,
+            urlPrefix: '/',
+            fingerprintsEnabled: false,
+            bundlingEnabled: true
+        }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.lassoPage({
+            pageName: 'mask-define-page',
+            cache: false,
+            dependencies: [
+                {
+                    "path": path.join(__dirname, './fixtures/mask-define/library.js'),
+                    "mask-define": true
+                }
+            ]
+        })
+            .then(function(lassoPageResult) {
+                var testCode = writerTracker.getCodeForFilename('mask-define-page.js');
+                expect(testCode).to.contain('(function(define) { // START: lasso wrapper\n');
+                expect(testCode).to.contain('\n}()); // END: lasso wrapper');
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
+
     it('should lasso a page that has an installed module that uses async loading', function(done) {
         var lasso = require('../');
         var theLasso = lasso.create({
