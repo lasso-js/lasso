@@ -733,8 +733,8 @@ describe('lasso/index', function() {
         })
             .then(function(lassoPageResult) {
                 var testCode = writerTracker.getCodeForFilename('mask-define-page.js');
-                expect(testCode).to.contain('(function(define) { // START: lasso wrapper\n');
-                expect(testCode).to.contain('\n}()); // END: lasso wrapper');
+                expect(testCode).to.contain('(function(define) { /* mask define */ ');
+                expect(testCode).to.contain('\n}()); // END: mask define wrapper');
                 lasso.flushAllCaches(done);
             })
             .done();
