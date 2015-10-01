@@ -125,6 +125,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 		- [Custom Package Type](#custom-package-type)
 	- [Custom Output Transforms](#custom-output-transforms)
 - [JavaScript API](#javascript-api)
+- [AMD Compatibility](#amd-compatibility)
 - [Sample Projects](#sample-projects)
 - [Discuss](#discuss)
 - [Maintainers](#maintainers)
@@ -1616,6 +1617,10 @@ module.exports = function (lasso, pluginConfig) {
 # JavaScript API
 
 See [JavaScript API](./docs/javascript-api.md).
+
+# AMD Compatibility
+
+See [AMD Compatibility](./docs/amd.md).
 
 # Sample Projects
 
