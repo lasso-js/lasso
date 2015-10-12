@@ -29,6 +29,75 @@ Changelog
 
 ## 1.10.x
 
+### 1.11.12
+
+Fixes [#82](https://github.com/lasso-js/lasso/issues/82) - Make lasso a true singleton
+
+### 1.11.11
+
+- Minor correction in calculateConfigFingerprint code
+
+### 1.11.10
+
+- Added mask-define option for resource dependencies
+
+### 1.11.9
+
+- Changes to keep Lasso taglib compatible with older versions of `marko`
+
+### 1.11.8
+
+- Upgraded the marko dev dependency
+
+### 1.11.7
+
+- Documentation: Improved docs
+
+### 1.11.6
+
+- Documentation: Improved docs
+
+### 1.11.5
+
+- Fixesd [#77](https://github.com/lasso-js/lasso/issues/77) - <lasso-img> now works on the server and in the browser
+- Builtin es6 support for `.es6` files
+- Documentation: Added docs for #77
+
+### 1.11.4
+
+- Only enable the browser-refresh special reloads once
+
+### 1.11.3
+
+- Add web fonts to browser-refresh
+
+### 1.11.2
+
+- Fixed circular require issues for browser-refresh
+
+### 1.11.1
+
+- browser-refresh is now auto enabled.
+- Code and docs cleanup
+
+### 1.10.4
+
+- Fixed #76 Auto switch to development mode when browser-refresh is enabled
+
+### 1.10.3
+
+- Fixed #75 - Generate config cache key in a stable way
+- Documentation: new plugin: [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer): Autoprefix CSS with vendor prefixes using [autoprefixer-core](https://github.com/postcss/autoprefixer-core)
+- Documentation: Fixed #61 - Improve documentation for external resource dependencies
+
+### 1.10.2
+
+- Documentation: new third party plugin: [lasso-clean-css](https://github.com/yomed/lasso-clean-css)
+
+### 1.10.1
+
+- Fixed [#62](https://github.com/lasso-js/lasso/issues/62) - Invalidate the default lasso instance on configure
+
 ### 1.10.0
 
 - Fixed [#57](https://github.com/lasso-js/lasso/issues/57) - Allow non-JavaScript modules to be required:
