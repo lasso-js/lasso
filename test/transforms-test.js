@@ -198,4 +198,37 @@ describe('lasso/transforms', function() {
             done);
     });
 
+    it('should allow JavaScript minification', function(done) {
+        var lasso = require('../');
+
+        var myLasso = lasso.create({
+            outputDir: outputDir,
+            fingerprintsEnabled: false,
+            bundlingEnabled: false,
+            minifyJS: true,
+        }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+
+        myLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: [
+                    nodePath.join(__dirname, './fixtures/transforms/minify.js')
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(lassoPageResult) {
+
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['minify.js']);
+
+                expect(writerTracker.getCodeForFilename('minify.js')).to.not.contain('hello');
+                expect(writerTracker.getCodeForFilename('minify.js')).to.not.contain('name');
+                expect(writerTracker.getCodeForFilename('minify.js')).to.contain('console');
+
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
+
 });

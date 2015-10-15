@@ -29,6 +29,10 @@ Changelog
 
 ## 1.10.x
 
+### 1.12.0
+
+Fixes https://github.com/lasso-js/lasso-minify-js/issues/1 - Upgrade to the latest version of UglifyJS
+
 ### 1.11.12
 
 Fixes [#82](https://github.com/lasso-js/lasso/issues/82) - Make lasso a true singleton
