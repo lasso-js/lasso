@@ -8,9 +8,7 @@ var outputDir = path.join(__dirname, 'build');
 
 require('app-module-path').addPath(path.join(__dirname, 'src'));
 
-require('babel/register')({
-    extensions: [".es6"]
-});
+require('babel-core/register');
 
 describe('lasso/index', function() {
     it('should allow for es6 module transpiling using babel', function(done) {
