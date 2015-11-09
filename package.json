@@ -6,7 +6,7 @@
     "url": "https://github.com/lasso-js/lasso.git"
   },
   "scripts": {
-    "test": "rm -rf .cache && node_modules/.bin/mocha --timeout 15000 --ui bdd --reporter spec ./test && node_modules/.bin/mocha --timeout 15000 --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
+    "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
@@ -20,7 +20,7 @@
     "lasso-image": "^1.0.9",
     "lasso-minify-css": "^1.0.0",
     "lasso-minify-js": "^1.1.4",
-    "lasso-require": "https://github.com/leonli/lasso-require.git#578317ef5f3dbcd4d56fc4e6bd4916bc34ae8354",
+    "lasso-require": "^1.4.0",
     "lasso-resolve-css-urls": "^1.0.0",
     "mime": "~1.2.7",
     "mkdirp": "^0.5.0",
