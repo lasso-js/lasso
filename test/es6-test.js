@@ -8,9 +8,13 @@ var outputDir = path.join(__dirname, 'build');
 
 require('app-module-path').addPath(path.join(__dirname, 'src'));
 
-require('babel-core/register');
 
-describe('lasso/index', function() {
+
+describe('lasso/es6', function() {
+    this.timeout(15000); // Babel is really slow to load...
+
+    require('babel-core/register');
+
     it('should allow for es6 module transpiling using babel', function(done) {
         var lasso = require('../');
         var theLasso = lasso.create({
