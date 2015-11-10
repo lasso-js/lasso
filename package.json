@@ -6,7 +6,7 @@
     "url": "https://github.com/lasso-js/lasso.git"
   },
   "scripts": {
-    "test": "rm -rf .cache && node_modules/.bin/mocha --timeout 15000 --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
+    "test": "rm -rf .cache && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/mocha --ui bdd --reporter spec ./test && node_modules/.bin/jshint lib/ taglib/"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
