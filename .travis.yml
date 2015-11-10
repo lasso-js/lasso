@@ -1,5 +1,9 @@
 node_js:
-- "0.10"
+- "4.1"
 - "0.11"
+- "0.10"
+sudo: required
 language: node_js
+# getting the latest npm version to improve the compling performance of Babel
+before_script: npm install -g npm
 script: "npm test"

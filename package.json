@@ -20,7 +20,7 @@
     "lasso-image": "^1.0.9",
     "lasso-minify-css": "^1.0.0",
     "lasso-minify-js": "^1.1.4",
-    "lasso-require": "^1.3.6",
+    "lasso-require": "^1.4.0",
     "lasso-resolve-css-urls": "^1.0.0",
     "mime": "~1.2.7",
     "mkdirp": "^0.5.0",
@@ -42,8 +42,8 @@
     "through": "^2.3.4"
   },
   "devDependencies": {
-    "babel": "^5.8.23",
-    "babel-runtime": "^5.8.24",
+    "babel-core": "^6.0.20",
+    "babel-preset-es2015": "^6.0.15",
     "chai": "~1.8.1",
     "deamdify": "^0.1.1",
     "dustjs-linkedin": "^2.4.0",
