@@ -27,15 +27,17 @@ Changelog
 
 # 1.x
 
-## 1.10.x
+## 1.13.x
+
+### 1.13.0
+
+- Adds support for `noConflict` lasso configuration option
+
+## 1.12.x
 
 ### 1.12.0
 
 - Fixes https://github.com/lasso-js/lasso-minify-js/issues/1 - Upgrade to the latest version of UglifyJS
-
-### 1.12.3
-
-- Adds support for `noConflict` lasso configuration option
 
 ### 1.11.12
 
