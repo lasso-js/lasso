@@ -179,7 +179,7 @@ describe('lasso-require' , function() {
                 var actual = writerTracker.getCodeForFilename('testPage.js');
                 fs.writeFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.actual.js').replace(/\\\\/g, '/'), actual, {encoding: 'utf8'});
                 var read = fs.readFileSync(nodePath.join(__dirname, 'resources/foo-bar-bundle.expected.js'), {encoding: 'utf8'});
-                read = read.replace(/\r/g, '')
+                read = read.replace(/\r/g, '');
                 expect(actual).to.equal(read);
 
                 lasso.flushAllCaches(done);
@@ -202,7 +202,7 @@ describe('lasso-require' , function() {
                     {
                         name: 'core',
                         dependencies: [
-                            'raptor-modules/client'
+                            {type: 'commonjs-runtime'}
                         ]
                     },
                     {
@@ -785,5 +785,76 @@ describe('lasso-require' , function() {
 
                 lasso.flushAllCaches(done);
             });
+    });
+
+    it('should support no-conflict builds', function(done) {
+        var lasso = require('../');
+
+        var myLasso = lasso.create({
+                flags: ['jquery', 'browser'],
+                bundlingEnabled: false,
+                noConflict: 'myapp',
+                fileWriter: {
+                    outputDir: outputDir,
+                    fingerprintsEnabled: false
+                },
+                require: {
+                    includeClient: false,
+                    rootDir: nodePath.join(__dirname, 'test-project')
+                }
+            }, __dirname, __filename);
+
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+
+        myLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: [
+                    { 'require': 'foo' },
+                    { 'require': 'bar' }],
+                from: nodePath.join(__dirname, 'test-project/index.js')
+            }, function(err, lassoPageResult) {
+                if (err) {
+                    return done(err);
+                }
+
+                var outputFiles = [
+                    'build/myapp/raptor-modules-meta-testPage.js',
+                    'build/myapp/test-project/node_modules/bar/lib/bar.js',
+                    'build/myapp/test-project/node_modules/foo/lib/index.js',
+                    'build/myapp/test-project/node_modules/foo/node_modules/baz/lib/index.js',
+                    'build/myapp/test-project/node_modules/require/baz/index.js'
+                ].map(function(file) {
+                    return nodePath.join(__dirname, file).replace(/\\/g, '/');
+                });
+
+                // console.log('writer: ', writer);
+                expect(writerTracker.getOutputPaths()).to.deep.equal(outputFiles);
+
+                outputFiles.forEach(function(file) {
+                    var contents = fs.readFileSync(file, {encoding: 'utf8'});
+                    expect(contents.indexOf('$rmod_myapp')).to.not.equal(-1);
+                });
+
+                lasso.flushAllCaches(done);
+            });
+    });
+
+    it('should validate no-conflict option', function() {
+        var lasso = require('../');
+
+        // false value is fine
+        lasso.create({
+                noConflict: false,
+            }, __dirname, __filename);
+
+        lasso.create({
+                noConflict: 'abc',
+            }, __dirname, __filename);
+
+        expect(function() {
+            lasso.create({
+                    noConflict: true,
+                }, __dirname, __filename);
+        }).to.throw(Error);
     });
 });

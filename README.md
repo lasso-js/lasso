@@ -116,6 +116,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 	- [Default Configuration](#default-configuration)
 	- [Complete Configuration](#complete-configuration)
 - [Node.js-style Module Support](#nodejs-style-module-support)
+- [No Conflict Builds](#no-conflict-builds)
 - [Available Plugins](#available-plugins)
 - [Extending Lasso.js](#extending-lassojs)
 	- [Custom Plugins](#custom-plugins)
@@ -1251,7 +1252,17 @@ This could also be expressed as a percentage:
                 "require: **/*.js"
             ]
         }
-    ]
+    ],
+
+    // The default name of the modules runtime variable is
+    // ""$rmod" but you can change that with the noConflict option.
+    // This is necessary if you have a webpage that loads
+    // multiple JavaScript bundles that were
+    // built at different times with Lasso.
+    // The string you provide will be used to create
+    // a unique name for the modules runtime variable name by
+    // removing or replacing illegal characters.
+    "noConflict": "myapp"
 }
 ```
 
@@ -1314,6 +1325,40 @@ The [lasso-require](https://github.com/lasso-js/lasso-require) plugin will autom
 The `lasso-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
 For more details on how the Node.js modules are supported on the browser, please see the documentation for the [lasso-js-samples/lasso-require](https://github.com/lasso-js/lasso-require) plugin.
+
+# No Conflict Builds
+
+If you're using CommonJS modules in your project then this will cause the
+CommonJS runtime to be included in your build. The CommonJS runtime utilizes
+a global variable (`$rmod` by default). If your build output files need to
+co-exist with other JavaScript files that were built by Lasso separately
+then you need to make sure that your build produces a CommonJS runtime
+that is isolated from other builds. That is, you should not use the default
+`$rmod` global.
+
+To enable no-conflict build, you need to configure Lasso to use a unique
+CommonJS runtime global name. This can be done by setting the `noConflict`
+configuration property to string that is unique to your application or project.
+
+If you're using the JavaScript API then this is possible via:
+
+```javascript
+// To configure the default Lasso for no-conflict builds:
+require('lasso').configure({
+    ...
+    noConflict: 'myapp'
+});
+
+// To create a new Lasso for no-conflict builds
+require('lasso').create({
+    ...
+    noConflict: 'myapp'
+});
+
+```
+
+See [Configuration](#configuration) for full list of configuration options.
+
 
 # Available Plugins
 
