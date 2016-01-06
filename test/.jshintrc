@@ -15,8 +15,8 @@
         "runs"
     ],
 
-    "globals": { 
-        "define": true, 
+    "globals": {
+        "define": true,
         "require": true
     },
 
@@ -46,7 +46,6 @@
     "eqeqeq": false,
     "latedef": true,
     "unused": "vars",
-    
-    /* Relaxing options: */
-    "eqnull": true
+    "eqnull": true,
+    "expr": true
 }
