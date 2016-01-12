@@ -29,6 +29,10 @@ Changelog
 
 ## 1.13.x
 
+### 1.14.0
+
+- Adds support for injecting a Content Security Policy nonce into inline script and style tags. Fixes [Issue #93](https://github.com/lasso-js/lasso/issues/93)
+
 ### 1.13.0
 
 - Adds support for `noConflict` lasso configuration option
