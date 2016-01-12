@@ -7,14 +7,14 @@ var fs = require('fs');
 var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
 
-module.exports = function render(input, context) {
+module.exports = function render(input, out) {
     var theLasso = input.lasso;
 
     if (!theLasso) {
         theLasso = lasso.defaultLasso;
     }
 
-    var lassoRenderContext = util.getLassoRenderContext(context);
+    var lassoRenderContext = util.getLassoRenderContext(out);
 
     var pageName = input.name || input.pageName;
     var cacheKey = input.cacheKey;
@@ -40,7 +40,7 @@ module.exports = function render(input, context) {
     // may be needed to build the page correctly. Ultimately, during the optimization
     // phase, this data can be access using the "lassoContext.data" property
     var lassoContextData = {
-        renderContext: context
+        renderContext: out
     };
 
     // The user of the tag may have also provided some additional data to add

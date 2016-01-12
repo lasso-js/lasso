@@ -81,4 +81,24 @@ describe('lasso/taglib' , function() {
         testRender('test-project/src/pages/page1/template.marko', {}, done);
     });
 
+    it('should render a page with CSP nonce enabled', function(done) {
+        require('../').configure({
+            outputDir: nodePath.join(__dirname, 'build'),
+            urlPrefix: '/static',
+            includeSlotNames: false,
+            fingerprintsEnabled: true,
+            flags: ['browser'],
+            cspNonceProvider: function(out, lassoContext) {
+                return out.global.cspNonce;
+            }
+        }, __dirname);
+
+
+        testRender('test-project/src/pages/csp-test/template.marko', {
+            $global: {
+                cspNonce: 'abc'
+            }
+        }, done);
+    });
+
 });

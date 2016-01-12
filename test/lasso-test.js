@@ -1510,4 +1510,34 @@ describe('lasso/index', function() {
             })
             .done();
     });
+
+    it('should allow for CSP nonce on inline script tags', function(done) {
+        var lasso = require('../');
+        var theLasso = lasso.create({
+            outputDir: outputDir,
+            urlPrefix: '/',
+            fingerprintsEnabled: false,
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(theLasso.writer);
+        theLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: [
+                    {path: './src/moduleA/moduleA.js', inline: 'end'},
+                    './src/moduleB/moduleB.js',
+                ],
+                from: module,
+                basePath: __dirname
+            })
+            .then(function(lassoPageResult) {
+				var body = lassoPageResult.getSlotHtml('body', {
+                    inlineScriptAttrs: {
+                        nonce: 'abc'
+                    }
+                }).replace(/\\/g, "/");
+                expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
+                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\" nonce=\"abc\">moduleA_js</script>');
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
 });

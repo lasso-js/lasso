@@ -117,6 +117,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 	- [Complete Configuration](#complete-configuration)
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [No Conflict Builds](#no-conflict-builds)
+- [Content Security Policy Support](#content-security-policy-support)
 - [Available Plugins](#available-plugins)
 - [Extending Lasso.js](#extending-lassojs)
 	- [Custom Plugins](#custom-plugins)
@@ -161,7 +162,6 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Optional Base64 image encoding inside CSS files
     * Custom output transforms
     * Declarative browser-side package dependencies using simple `browser.json` files
-    * Generates the HTML markup required to include bundled resources
 	* Conditional dependencies
 	* Image minification
     * etc.
@@ -174,6 +174,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Full support for [browserify](http://browserify.org/) shims and transforms
     * Maintains line numbers in wrapped code
 * Developer Friendly
+    * Generates the HTML markup required to include bundled resources
     * Disable bundling and minification in development
     * Line numbers are maintained for Node.js modules source
     * Extremely fast _incremental builds_!
@@ -199,6 +200,8 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
     * Integrate with build tools
     * Use with Express or any other web development framework
     * JavaScript API, CLI and taglib
+* Security
+    * Supports the [nonce attribute](https://www.w3.org/TR/CSP2/#script-src-the-nonce-attribute) when using Content Security Policy for extra security.
 * _Future_
     * Automatic image sprites
 
@@ -1359,6 +1362,79 @@ require('lasso').create({
 
 See [Configuration](#configuration) for full list of configuration options.
 
+# Content Security Policy Support
+
+Newer browsers support a web standard called Content Security Policy that prevents, among other things, cross-site scripting attacks by whitelisting inline `<script>` and `<style>` tags (see [HTML5 Rocks: An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)). The Lasso.js taglib for Marko is used to inject the `<script>` and `<style>` tags into the HTML output and Lasso.js provides support for injecting a nonce attribute. When Lasso.js is configured you just need to register a `cspNonceProvider` as shown below:
+
+```javascript
+require('lasso').configure({
+    cspNonceProvider: function(out) {
+        // Logic for determining the nonce will vary, but the following is one option:
+        var res = out.stream;
+        var nonce = res.csp && res.csp.nonce;
+
+        // NOTE:
+        // The code above assumes that there is some middleware that
+        // stores the nonce into a [non-standard] `res.csp.nonce` variable.
+        // Use whatever is appropriate for your app.
+        return nonce; // A string value
+    }
+});
+```
+
+A Lasso.js plugin can also be used to register the CSP nonce provider as shown below:
+
+```javascript
+module.exports = function(lasso, pluginConfig) {
+    lasso.setCSPNonceProvider(function(out) {
+        return 'abc123';
+    })
+};
+```
+
+Registering a `cspNonceProvider` will result in a `nonce` attribute being added to all inline `<script>` and `<style>` tags rendered in either the `head` slot (`<lasso-head/>`) or the `body` slot (`<lasso-body/>`).
+
+
+With a CSP nonce enable, the HTML output for a page rendered using Marko might be similar to the following:
+
+```html
+<html>
+    <head>
+        <!-- BEGIN head slot: -->
+        <link rel="stylesheet" type="text/css" href="/static/page1-8b866529.css">
+        <style type="text/css" nonce="abc123">
+            body .inline {
+                background-color: red;
+            }
+        </style>
+        <!-- END head slot -->
+    </head>
+    <body>
+        <!-- BEGIN body slot: -->
+        <script type="text/javascript" src="/static/page1-1097e0f6.js"></script>
+        <script type="text/javascript" nonce="abc123">
+            console.log('hello-inline');
+        </script>
+        <!-- END body slot -->
+    </body>
+</html>
+```
+
+NOTE: A `nonce` attribute is only added to inline `<script>` and `<style>` tags.
+
+As an extra convenience, Lasso.js also supports a custom `lasso-nonce` attribute that can be dropped onto any HTML tag in your Marko template files as shown below:
+
+```xml
+<script type="text/javascript" lasso-nonce>console.log('My inline script')</script>
+<style type="text/css" lasso-nonce>.my-inline-style { }</style>
+```
+
+The output HTML will be similar to the following:
+
+```html
+<script type="text/javascript" nonce="abc123">console.log('My inline script')</script>
+<style type="text/css" nonce="abc123">.my-inline-style { }</style>
+```
 
 # Available Plugins
 
