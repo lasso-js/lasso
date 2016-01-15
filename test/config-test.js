@@ -9,7 +9,7 @@ var outputDir = nodePath.join(__dirname, 'build');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-describe('lasso-require' , function() {
+describe('config' , function() {
 
     beforeEach(function(done) {
 
