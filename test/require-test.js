@@ -471,6 +471,51 @@ describe('lasso-require' , function() {
             });
     });
 
+    it('should allow for requiring json files with "process" (https://github.com/lasso-js/lasso-require/issues/21)', function(done) {
+        var lasso = require('../');
+
+        var projectDir = nodePath.join(__dirname, 'test-project');
+
+        var myLasso = lasso.create({
+                outputDir: outputDir,
+                fingerprintsEnabled: false,
+                require: {
+                    includeClient: false,
+                    rootDir: projectDir
+                },
+                bundlingEnabled: true
+            }, projectDir);
+
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+
+        myLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: [
+                    {
+                        "type": "require",
+                        "path": require.resolve(projectDir + '/' + 'require-json-process.js')
+                    }
+                ],
+                from: projectDir
+            },
+            function(e, lassoPageResult) {
+                if (e) {
+                    return done(e);
+                }
+
+                // console.log(module.id, 'lassoPageResult:', lassoPageResult);
+
+                var actual = writerTracker.getCodeForFilename('testPage.js');
+
+                fs.writeFileSync(nodePath.join(__dirname, 'resources/require-json-process.actual.js'), actual, {encoding: 'utf8'});
+                var expected = fs.readFileSync(nodePath.join(__dirname, 'resources/require-json-process.expected.js'), {encoding: 'utf8'});
+                expected = expected.replace(/\r/g, '');
+                expect(actual).to.equal(expected);
+
+                lasso.flushAllCaches(done);
+            });
+    });
+
     it('should allow for running required modules', function(done) {
         var lasso = require('../');
 

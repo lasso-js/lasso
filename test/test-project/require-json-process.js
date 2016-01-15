@@ -1,0 +1,1 @@
+var data = require('./require-json-process-data.json');
