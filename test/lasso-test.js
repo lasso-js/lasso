@@ -143,8 +143,8 @@ describe('lasso/index', function() {
                 ] );
                 var head = lassoPageResult.getSlotHtml('head').replace(/\\/g, "/");
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
-                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-head.css">\n<script type="text/javascript" src="/testPage-head.js"></script>');
-                expect(body).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-body.css">\n<script type="text/javascript" src="/testPage-body.js"></script>');
+                expect(head).to.equal('<link rel="stylesheet" href="/testPage-head.css">\n<script src="/testPage-head.js"></script>');
+                expect(body).to.equal('<link rel="stylesheet" href="/testPage-body.css">\n<script src="/testPage-body.js"></script>');
                 expect(writerTracker.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css');
                 expect(writerTracker.getCodeForFilename('testPage-head.js')).to.equal('slotA_js');
                 expect(writerTracker.getCodeForFilename('testPage-body.css')).to.equal('slotA_css');
@@ -183,10 +183,10 @@ describe('lasso/index', function() {
 				var custombody = lassoPageResult.getSlotHtml('custom-body').replace(/\\/g, "/");
 				var head2 = lassoPageResult.getSlotHtml('head2').replace(/\\/g, "/");
 				var body2 = lassoPageResult.getSlotHtml('body2').replace(/\\/g, "/");
-                expect(customhead).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-custom-head.css">');
-                expect(custombody).to.equal('<script type="text/javascript" src="/testPage-custom-body.js"></script>');
-                expect(head2).to.equal('<script type="text/javascript" src="/testPage-head2.js"></script>');
-                expect(body2).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-body2.css">');
+                expect(customhead).to.equal('<link rel="stylesheet" href="/testPage-custom-head.css">');
+                expect(custombody).to.equal('<script src="/testPage-custom-body.js"></script>');
+                expect(head2).to.equal('<script src="/testPage-head2.js"></script>');
+                expect(body2).to.equal('<link rel="stylesheet" href="/testPage-body2.css">');
                 expect(writerTracker.getCodeForFilename('testPage-custom-head.css')).to.equal('mixedA_css\nslotB_css');
                 expect(writerTracker.getCodeForFilename('testPage-custom-body.js')).to.equal('mixedA_js\nslotB_js');
                 expect(writerTracker.getCodeForFilename('testPage-head2.js')).to.equal('nestedB_js\nnestedA_js');
@@ -367,8 +367,8 @@ describe('lasso/index', function() {
                 expect(writerTracker.getCodeForFilename('testPage-head.css')).to.equal('mixedA_css');
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( ['testPage-async-body.js', 'testPage-async-head.css', 'testPage-body.js', 'testPage-head.css'] );
                 // console.log(writerTracker.getCodeForFilename('testPage-body.js'));
-                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="/testPage-head.css">');
-                expect(body).to.equal('<script type="text/javascript" src="/testPage-body.js"></script>');
+                expect(head).to.equal('<link rel="stylesheet" href="/testPage-head.css">');
+                expect(body).to.equal('<script src="/testPage-body.js"></script>');
 
                 // ACTUAL:
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
@@ -435,7 +435,7 @@ describe('lasso/index', function() {
 				var head = lassoPageResult.getSlotHtml('head').replace(/\\/g, "/");
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(head).to.equal('');
-                expect(body).to.equal('<script type="text/javascript" src="/testPage-body.js"></script>');
+                expect(body).to.equal('<script src="/testPage-body.js"></script>');
 
                 // ACTUAL:
                 // {"nestedA":{"css":["/testPage-async-head.css"],"js":["/testPage-async-body.js"]}}
@@ -517,8 +517,8 @@ describe('lasso/index', function() {
 				var head = lassoPageResult.getSlotHtml('head').replace(/\\/g, "/");
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal( [] );
-                expect(head).to.equal('<link rel="stylesheet" type="text/css" href="/in-place/src/mixedA/mixedA.css">\n<link rel="stylesheet" type="text/css" href="/in-place/src/mixedB/mixedB.css">');
-                expect(body).to.equal('<script type="text/javascript" src="/in-place/src/mixedA/mixedA.js"></script>\n<script type="text/javascript" src="/in-place/src/mixedB/mixedB.js"></script>');
+                expect(head).to.equal('<link rel="stylesheet" href="/in-place/src/mixedA/mixedA.css">\n<link rel="stylesheet" href="/in-place/src/mixedB/mixedB.css">');
+                expect(body).to.equal('<script src="/in-place/src/mixedA/mixedA.js"></script>\n<script src="/in-place/src/mixedB/mixedB.js"></script>');
                 lasso.flushAllCaches(done);
             })
             .done();
@@ -673,7 +673,7 @@ describe('lasso/index', function() {
             })
             .then(function(lassoPageResult) {
                 // console.log('OPTIMIZED PAGE: ', lassoPageResult);
-                expect(lassoPageResult.getBodyHtml()).to.equal('<script type="text/javascript" src="http://code.jquery.com/jquery-1.11.0.min.js"></script>');
+                expect(lassoPageResult.getBodyHtml()).to.equal('<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>');
                 expect(lassoPageResult.getHeadHtml()).to.equal('');
                 lasso.flushAllCaches(done);
             })
@@ -705,7 +705,7 @@ describe('lasso/index', function() {
                 if (err) {
                     return done(err);
                 }
-                expect(lassoPageResult.getBodyHtml()).to.equal('<script type="text/javascript" src="/static/testPage-b66ed708.js"></script>');
+                expect(lassoPageResult.getBodyHtml()).to.equal('<script src="/static/testPage-b66ed708.js"></script>');
                 expect(lassoPageResult.getHeadHtml()).to.equal('');
                 lasso.flushAllCaches(done);
             });
@@ -1391,7 +1391,7 @@ describe('lasso/index', function() {
             .then(function(lassoPageResult) {
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
-                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
+                expect(body).to.equal('<script src=\"/testPage.js\"></script>\n<script>moduleA_js</script>');
                 lasso.flushAllCaches(done);
             })
             .done();
@@ -1419,7 +1419,7 @@ describe('lasso/index', function() {
             .then(function(lassoPageResult) {
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
-                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>\n<script type=\"text/javascript\">moduleA_js</script>');
+                expect(body).to.equal('<script src=\"/testPage.js\"></script>\n<script>moduleA_js</script>');
                 lasso.flushAllCaches(done);
             })
             .done();
@@ -1447,7 +1447,7 @@ describe('lasso/index', function() {
             .then(function(lassoPageResult) {
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
-                expect(body).to.equal('<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
+                expect(body).to.equal('<script src=\"/testPage.js\"></script>');
                 lasso.flushAllCaches(done);
             })
             .done();
@@ -1475,7 +1475,7 @@ describe('lasso/index', function() {
             .then(function(lassoPageResult) {
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['testPage.js']);
-                expect(body).to.equal('<script type=\"text/javascript\">moduleA_js</script>\n<script type=\"text/javascript\" src=\"/testPage.js\"></script>');
+                expect(body).to.equal('<script>moduleA_js</script>\n<script src=\"/testPage.js\"></script>');
                 lasso.flushAllCaches(done);
             })
             .done();
@@ -1505,7 +1505,7 @@ describe('lasso/index', function() {
             .then(function(lassoPageResult) {
 				var body = lassoPageResult.getSlotHtml('body').replace(/\\/g, "/");
                 expect(writerTracker.getOutputFilenames()).to.deep.equal(['moduleA.js', 'moduleC.js']);
-                expect(body).to.equal('<script type=\"text/javascript\" src=\"/src/moduleA/moduleA.js\"></script>\n<script type=\"text/javascript\">moduleB_js</script>\n<script type=\"text/javascript\" src=\"/src/moduleC/moduleC.js\"></script>');
+                expect(body).to.equal('<script src=\"/src/moduleA/moduleA.js\"></script>\n<script>moduleB_js</script>\n<script src=\"/src/moduleC/moduleC.js\"></script>');
                 lasso.flushAllCaches(done);
             })
             .done();
