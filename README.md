@@ -337,18 +337,18 @@ The updated `my-page.html` file should be similar to the following:
     <meta charset="UTF-8">
     <title>Lasso.js Demo</title>
     <!-- <lasso-head> -->
-    <link rel="stylesheet" type="text/css" href="static/style.less.css">
+    <link rel="stylesheet" href="static/style.less.css">
     <!-- </lasso-head> -->
 </head>
 <body>
     <h1>Lasso.js Demo</h1>
     <!-- <lasso-body> -->
-    <script type="text/javascript" src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
-    <script type="text/javascript" src="static/add.js"></script>
-    <script type="text/javascript" src="static/raptor-modules-meta.js"></script>
-    <script type="text/javascript" src="static/node_modules/jquery/dist/jquery.js"></script>
-    <script type="text/javascript" src="static/main.js"></script>
-    <script type="text/javascript">$rmod.ready();</script>
+    <script src="static/raptor-modules-1.0.1/client/lib/raptor-modules-client.js"></script>
+    <script src="static/add.js"></script>
+    <script src="static/raptor-modules-meta.js"></script>
+    <script src="static/node_modules/jquery/dist/jquery.js"></script>
+    <script src="static/main.js"></script>
+    <script>$rmod.ready();</script>
     <!-- </lasso-body> -->
 </body>
 </html>
@@ -386,14 +386,14 @@ The updated `my-page.html` file should be similar to the following:
     <meta charset="UTF-8">
     <title>Lasso.js Demo</title>
     <!-- <lasso-head> -->
-    <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
+    <link rel="stylesheet" href="static/my-page-169ab5d9.css">
     <!-- </lasso-head> -->
 </head>
 <body>
     <h1>Lasso.js Demo</h1>
     <!-- <lasso-body> -->
-    <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
-    <script type="text/javascript">$rmod.ready();</script>
+    <script src="static/my-page-2e3e9936.js"></script>
+    <script>$rmod.ready();</script>
     <!-- </lasso-body> -->
 </body>
 </html>
@@ -739,11 +739,11 @@ lasso.lassoPage({
 
         var headHtml = lassoPageResult.getHeadHtml();
         // headHtml will contain something similar to the following:
-        // <link rel="stylesheet" type="text/css" href="static/my-page-169ab5d9.css">
+        // <link rel="stylesheet" href="static/my-page-169ab5d9.css">
 
         var bodyHtml = lassoPageResult.getBodyHtml();
         // bodyHtml will contain something similar to the following:
-        //  <script type="text/javascript" src="static/my-page-2e3e9936.js"></script>
+        //  <script src="static/my-page-2e3e9936.js"></script>
     });
 ```
 
@@ -790,15 +790,15 @@ lasso.lassoPage({
         var headHtml = lassoPageResult.getHeadHtml();
         /*
         String with a value similar to the following:
-        <link rel="stylesheet" type="text/css" href="/static/my-page-85e3288e.css">
+        <link rel="stylesheet" href="/static/my-page-85e3288e.css">
         */
 
         var bodyHtml = lassoPageResult.getBodyHtml();
         /*
         String with a value similar to the following:
-        <script type="text/javascript" src="/static/bundle1-6df28666.js"></script>
-        <script type="text/javascript" src="/static/bundle2-132d1091.js"></script>
-        <script type="text/javascript" src="/static/my-page-1de22b65.js"></script>
+        <script src="/static/bundle1-6df28666.js"></script>
+        <script src="/static/bundle2-132d1091.js"></script>
+        <script src="/static/my-page-1de22b65.js"></script>
         */
 
         // Inject the generated HTML into the <head> and <body> sections of a page...
@@ -880,13 +880,13 @@ The output of the page rendering will be similar to the following:
 <head>
     <meta charset="UTF-8">
     <title>Test Page</title>
-    <link rel="stylesheet" type="text/css" href="/static/my-page-85e3288e.css">
+    <link rel="stylesheet" href="/static/my-page-85e3288e.css">
 </head>
 <body>
     <h1>Test Page</h1>
-    <script type="text/javascript" src="/static/bundle1-6df28666.js"></script>
-    <script type="text/javascript" src="/static/bundle2-132d1091.js"></script>
-    <script type="text/javascript" src="/static/my-page-1de22b65.js"></script>
+    <script src="/static/bundle1-6df28666.js"></script>
+    <script src="/static/bundle2-132d1091.js"></script>
+    <script src="/static/my-page-1de22b65.js"></script>
 </body>
 </html>
 ```
@@ -1181,7 +1181,7 @@ This could also be expressed as a percentage:
 	"urlPrefix": "/static",
 
 	// Include fingerprint in output files
-	"fingerprintsEnabled": true  
+	"fingerprintsEnabled": true
 }
 ```
 
