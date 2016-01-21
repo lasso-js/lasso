@@ -1641,7 +1641,7 @@ module.exports = function (lasso, pluginConfig) {
     lasso.addTransform({
 
         // Only apply to JavaScript code
-        contentType: 'js', //  'css' is the other option
+        contentType: 'js', // 'css' is the other option
 
         // Give your module a friendly name (helpful for debugging in case something goes wrong in your code)
         name: module.id,
