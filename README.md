@@ -181,7 +181,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
         * Disk caches are utilized to avoid repeating the same work
 * Dependency Compilation
     * Less
-    * [Marko](https://github.com/raptorjs/marko)
+    * [Marko](https://github.com/marko-js/marko)
     * Dust
     * etc.
 * Extensible
@@ -823,7 +823,7 @@ myLasso.lassoPage(...);
 
 For the ultimate in usability, a taglib is provided for Marko (and Dust) to automatically lasso a page _and_ inject the required HTML markup to include the JavaScript and CSS bundles.
 
-If you are using [Marko](https://github.com/raptorjs/marko) you can utilize the available taglib for Lasso.js to easily lasso page dependencies and embed them into your page.
+If you are using [Marko](https://github.com/marko-js/marko) you can utilize the available taglib for Lasso.js to easily lasso page dependencies and embed them into your page.
 
 ### Using Lasso.js Taglib with Marko
 
@@ -954,7 +954,7 @@ template.render(
     });
 ```
 
-_NOTE: The reason we use `require.resolve('./template.marko')` instead of `require('template.marko')` is that Node.js does not understand how to load `.marko` modules and the use of the `require.extensions` has been [deprecated](http://nodejs.org/api/globals.html#globals_require_extensions). `require.resolve()` is used to get the resolved path for the template and the [marko](https://github.com/raptorjs/marko) module uses that path to load template into memory._
+_NOTE: The reason we use `require.resolve('./template.marko')` instead of `require('template.marko')` is that Node.js does not understand how to load `.marko` modules and the use of the `require.extensions` has been [deprecated](http://nodejs.org/api/globals.html#globals_require_extensions). `require.resolve()` is used to get the resolved path for the template and the [marko](https://github.com/marko-js/marko) module uses that path to load template into memory._
 
 Running `node main.js` on the server will produce the following output in the console:
 
@@ -1367,7 +1367,7 @@ Below is a list of plugins that are currently available:
 __Core plugins:__
 
 * [lasso-require](https://github.com/lasso-js/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
-* [lasso-minify-css](https://github.com/lasso-js/lasso-less): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
+* [lasso-minify-css](https://github.com/lasso-js/lasso-minify-css): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
 * [lasso-minify-js](https://github.com/lasso-js/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
 * [lasso-resolve-css-urls](https://github.com/lasso-js/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an lassoed resource URL
 
@@ -1381,7 +1381,7 @@ __Third-party plugins__
 * [lasso-jsx](https://github.com/lasso-js/lasso-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [lasso-less](https://github.com/lasso-js/lasso-less): Compile [Less](http://lesscss.org/) files to CSS
 * [lasso-lodash](https://github.com/lasso-js/lasso-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
-* [lasso-marko](https://github.com/lasso-js/lasso-require): Compile [Marko template](https://github.com/raptorjs/marko) files to JavaScript
+* [lasso-marko](https://github.com/lasso-js/lasso-require): Compile [Marko template](https://github.com/marko-js/marko) files to JavaScript
 * [lasso-sass](https://github.com/lasso-js/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
 * [lasso-stylus](https://github.com/lasso-js/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 * [lasso-clean-css](https://github.com/yomed/lasso-clean-css): Minify CSS files using [clean-css](https://github.com/jakubpawlowicz/clean-css)
@@ -1690,7 +1690,7 @@ Please post questions or comments on the [RaptorJS Google Groups Discussion Foru
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
-    - [gulp-lasso](https://github.com/raptorjs/gulp-lasso)
+    - [gulp-lasso](https://github.com/marko-js/gulp-lasso)
     - [lasso-jsx](https://github.com/lasso-js/lasso-jsx)
 * Merwan Rodriguez (Twitter: [@uno7](https://twitter.com/uno7))
     - [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer)
