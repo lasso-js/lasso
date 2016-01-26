@@ -27,7 +27,30 @@ Changelog
 
 # 1.x
 
+## 1.14.x
+
+### 1.14.0
+
+- Fixed #100 - Removed type attributes from `<script>`, `<link>` and `<style>` tags, as recommended for HTML5 best practices.
+
 ## 1.13.x
+
+### 1.13.4
+
+- Allow dependencies to choose default bundle name by implementing getDefaultBundleName(pageBundleName, lassoContext)
+
+### 1.13.3
+
+- Added test for https://github.com/lasso-js/lasso-require/issues/21
+
+### 1.13.2
+
+- Fixed #95 - Further sanitize relative bundle paths that are used to determine output file
+
+### 1.13.1
+
+- Improved name generation for unbundled dependencies
+- Better OS file separator handling
 
 ### 1.13.0
 
