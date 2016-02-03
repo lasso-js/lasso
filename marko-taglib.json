@@ -90,6 +90,16 @@
             "transformer": {
                 "path": "./taglib/lasso-resource-tag-transformer"
             }
+        },
+        "*": {
+            "attributes": {
+                "lasso-nonce": {
+                    "ignore": true
+                }
+            },
+            "transformer": {
+                "path": "./taglib/lasso-nonce-attr-transformer"
+            }
         }
     }
 }

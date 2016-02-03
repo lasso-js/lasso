@@ -27,6 +27,12 @@ Changelog
 
 # 1.x
 
+## 1.15.x
+
+### 1.15.0
+
+- Adds support for injecting a Content Security Policy nonce into inline script and style tags. Fixes [Issue #93](https://github.com/lasso-js/lasso/issues/93)
+
 ## 1.14.x
 
 ### 1.14.0

@@ -44,6 +44,11 @@ LassoRenderContext.prototype = {
 
     getWaitFor: function() {
         return this._waitFor;
+    },
+
+    getLassoConfig: function() {
+        var theLasso = this.data.lasso;
+        return theLasso.config;
     }
 };
 

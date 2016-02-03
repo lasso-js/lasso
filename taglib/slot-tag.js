@@ -1,18 +1,35 @@
 var util = require('./util');
 
-function renderSlot(slotName, lassoPageResult, context, lassoContext) {
-    var slotHtml = lassoPageResult.getSlotHtml(slotName);
+
+function renderSlot(slotName, lassoPageResult, out, lassoRenderContext) {
+
+    var lassoConfig = lassoRenderContext.getLassoConfig();
+
+    var cspNonceProvider = lassoConfig.cspNonceProvider;
+    var slotData = null;
+
+    if (cspNonceProvider) {
+        var cspAttrs = {
+            nonce: cspNonceProvider(out)
+        };
+
+        slotData = {
+            inlineScriptAttrs: cspAttrs,
+            inlineStyleAttrs: cspAttrs
+        };
+    }
+    var slotHtml = lassoPageResult.getSlotHtml(slotName, slotData);
 
     if (slotHtml) {
-        context.write(slotHtml);
+        out.write(slotHtml);
     }
 
-    lassoContext.emitAfterSlot(slotName, context);
+    lassoRenderContext.emitAfterSlot(slotName, out);
 }
 
-module.exports = function render(input, context) {
+module.exports = function render(input, out) {
     var slotName = input.name;
-    var lassoRenderContext = util.getLassoRenderContext(context);
+    var lassoRenderContext = util.getLassoRenderContext(out);
     var lassoPageResultAsyncValue = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
 
@@ -20,12 +37,12 @@ module.exports = function render(input, context) {
         throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
     }
 
-    lassoRenderContext.emitBeforeSlot(slotName, context);
+    lassoRenderContext.emitBeforeSlot(slotName, out);
 
     if (lassoPageResultAsyncValue.isResolved()) {
-        renderSlot(slotName, lassoPageResultAsyncValue.data, context, lassoRenderContext);
+        renderSlot(slotName, lassoPageResultAsyncValue.data, out, lassoRenderContext);
     } else {
-        var asyncContext = context.beginAsync({
+        var asyncContext = out.beginAsync({
             name: 'lasso-slot:' + slotName,
             timeout: timeout
         });
