@@ -1,23 +1,26 @@
+'use strict';
+
 var util = require('./util');
+var extend = require('raptor-util').extend;
 
-
-function renderSlot(slotName, lassoPageResult, out, lassoRenderContext) {
+function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
 
     var lassoConfig = lassoRenderContext.getLassoConfig();
 
     var cspNonceProvider = lassoConfig.cspNonceProvider;
-    var slotData = null;
+    var slotName = attrs.name;
+    var cspAttrs = null;
 
     if (cspNonceProvider) {
-        var cspAttrs = {
+        cspAttrs = {
             nonce: cspNonceProvider(out)
         };
-
-        slotData = {
-            inlineScriptAttrs: cspAttrs,
-            inlineStyleAttrs: cspAttrs
-        };
     }
+    var slotData = {
+        inlineScriptAttrs: extend({}, attrs.inlineScriptAttrs, cspAttrs),
+        inlineStyleAttrs: extend({}, attrs.inlineStyleAttrs, cspAttrs)
+    };
+
     var slotHtml = lassoPageResult.getSlotHtml(slotName, slotData);
 
     if (slotHtml) {
@@ -40,7 +43,7 @@ module.exports = function render(input, out) {
     lassoRenderContext.emitBeforeSlot(slotName, out);
 
     if (lassoPageResultAsyncValue.isResolved()) {
-        renderSlot(slotName, lassoPageResultAsyncValue.data, out, lassoRenderContext);
+        renderSlot(input, lassoPageResultAsyncValue.data, out, lassoRenderContext);
     } else {
         var asyncContext = out.beginAsync({
             name: 'lasso-slot:' + slotName,
@@ -53,7 +56,7 @@ module.exports = function render(input, out) {
                 return;
             }
 
-            renderSlot(slotName, lassoPageResult, asyncContext, lassoRenderContext);
+            renderSlot(input, lassoPageResult, asyncContext, lassoRenderContext);
             asyncContext.end();
         });
     }
