@@ -45,7 +45,9 @@
         "lasso-slot": {
             "renderer": "./taglib/slot-tag",
             "attributes": {
-                "name": "string"
+                "name": "string",
+                "inline-style-attrs": "expression",
+                "inline-script-attrs": "expression"
             }
         },
         "lasso-head": {
