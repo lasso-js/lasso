@@ -47,14 +47,22 @@
             "attributes": {
                 "name": "string",
                 "inline-style-attrs": "expression",
-                "inline-script-attrs": "expression"
+                "inline-script-attrs": "expression",
+                "external-style-attrs": "expression",
+                "external-script-attrs": "expression"   
             }
         },
         "lasso-head": {
-            "renderer": "./taglib/head-tag"
+            "renderer": "./taglib/head-tag",
+            "attributes": {
+                "external-style-attrs": "expression"
+            }            
         },
         "lasso-body": {
-            "renderer": "./taglib/body-tag"
+            "renderer": "./taglib/body-tag",
+            "attributes": {
+                "external-script-attrs": "expression"
+            }            
         },
         "lasso-img": {
             "attributes": {

@@ -101,7 +101,7 @@ describe('lasso/taglib' , function() {
         }, done);
     });
 
-    it('should render a page with custom attributes for inline CSS and JavaScript', function(done) {
+    it('should render a page with custom attributes for inline/external CSS and JavaScript', function(done) {
         require('../').configure({
             outputDir: nodePath.join(__dirname, 'build'),
             urlPrefix: '/static',

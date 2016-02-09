@@ -3,23 +3,34 @@
 var util = require('./util');
 var extend = require('raptor-util').extend;
 
-function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
+function isAttributePresent(attrs) {
+    return !!(attrs.inlineStyleAttrs ||
+            attrs.inlineScriptAttrs ||
+            attrs.externalStyleAttrs ||
+            attrs.externalScriptAttrs);
+}
 
+function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
     var lassoConfig = lassoRenderContext.getLassoConfig();
 
     var cspNonceProvider = lassoConfig.cspNonceProvider;
     var slotName = attrs.name;
     var cspAttrs = null;
+    var slotData = null;
 
     if (cspNonceProvider) {
         cspAttrs = {
             nonce: cspNonceProvider(out)
         };
     }
-    var slotData = {
-        inlineScriptAttrs: extend(extend({}, attrs.inlineScriptAttrs), cspAttrs),
-        inlineStyleAttrs: extend(extend({}, attrs.inlineStyleAttrs), cspAttrs)
-    };
+    if (isAttributePresent(attrs) || cspAttrs) {
+        slotData = {
+            inlineScriptAttrs: extend(extend({}, attrs.inlineScriptAttrs), cspAttrs),
+            inlineStyleAttrs: extend(extend({}, attrs.inlineStyleAttrs), cspAttrs),
+            externalScriptAttrs: extend({}, attrs.externalScriptAttrs),
+            externalStyleAttrs: extend({}, attrs.externalStyleAttrs)
+        };
+    }
 
     var slotHtml = lassoPageResult.getSlotHtml(slotName, slotData);
 
