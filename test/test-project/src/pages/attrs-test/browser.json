@@ -1,0 +1,6 @@
+{
+    "dependencies": [
+        { "path": "style-inline.css", "inline": true, "slot": "css-slot" },
+        { "path": "test-inline.js", "inline": true, "slot": "js-slot" }
+    ]
+}

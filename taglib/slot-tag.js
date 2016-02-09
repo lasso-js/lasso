@@ -17,8 +17,8 @@ function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
         };
     }
     var slotData = {
-        inlineScriptAttrs: extend({}, attrs.inlineScriptAttrs, cspAttrs),
-        inlineStyleAttrs: extend({}, attrs.inlineStyleAttrs, cspAttrs)
+        inlineScriptAttrs: extend(extend({}, attrs.inlineScriptAttrs), cspAttrs),
+        inlineStyleAttrs: extend(extend({}, attrs.inlineStyleAttrs), cspAttrs)
     };
 
     var slotHtml = lassoPageResult.getSlotHtml(slotName, slotData);
