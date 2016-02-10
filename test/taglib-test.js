@@ -101,4 +101,15 @@ describe('lasso/taglib' , function() {
         }, done);
     });
 
+    it('should render a page with custom attributes for inline/external CSS and JavaScript', function(done) {
+        require('../').configure({
+            outputDir: nodePath.join(__dirname, 'build'),
+            urlPrefix: '/static',
+            includeSlotNames: false,
+            fingerprintsEnabled: true,
+            flags: ['browser']
+        }, __dirname);
+
+        testRender('test-project/src/pages/attrs-test/template.marko', {}, done);
+    });
 });

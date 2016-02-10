@@ -1362,6 +1362,61 @@ require('lasso').create({
 
 See [Configuration](#configuration) for full list of configuration options.
 
+# Custom attributes for Script & Style tags
+It is also possible to add custome attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below. 
+
+__page.marko__
+```html
+<lasso-page name="page" package-path="./browser.json"/>
+
+<html>
+    <head>
+        <lasso-head external-style-attrs="{'css-custom1': true}"/>
+        <lasso-slot name="ext-css-slot" external-style-attrs="{'css-custom2': true}"/>
+        <lasso-slot name="css-slot" inline-style-attrs="{'css-custom3': true}"/>
+    </head>
+    <body>
+        <lasso-body external-script-attrs="{'js-custom1': true}"/>    
+        <lasso-slot name="ext-js-slot" external-script-attrs="{'js-custom2': true}"/>
+        <lasso-slot name="js-slot" inline-script-attrs="{'js-custom3': true}"/>
+    </body>
+</html>
+
+```
+__browser.json__
+```json
+{
+    "dependencies": [
+        { "path": "style-ext.css", "slot": "ext-css-slot" },
+        { "path": "test-ext.js", "slot": "ext-js-slot" },    
+        "style.css",
+        "test.js",    
+        { "path": "style-inline.css", "inline": true, "slot": "css-slot" },
+        { "path": "test-inline.js", "inline": true, "slot": "js-slot" }
+    ]
+}
+```
+__Output HTML__
+```html
+<html>
+    <head>
+        <link rel="stylesheet" href="/static/page-1ae3e9bf.css" css-custom1>
+        <link rel="stylesheet" href="/static/page-244694d6.css" css-custom2>
+        <style css-custom3>
+            body .inline {
+    	        background-color: red;
+	    }
+	</style>
+    </head>
+    <body>
+        <script src="/static/page-ce0ad224.js" js-custom1></script> 
+        <script src="/static/page-c3a331b0.js" js-custom2></script>
+        <script js-custom3>
+            console.log('hello-inline');
+        </script>
+    </body>
+</html>
+```
 # Content Security Policy Support
 
 Newer browsers support a web standard called Content Security Policy that prevents, among other things, cross-site scripting attacks by whitelisting inline `<script>` and `<style>` tags (see [HTML5 Rocks: An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)). The Lasso.js taglib for Marko is used to inject the `<script>` and `<style>` tags into the HTML output and Lasso.js provides support for injecting a nonce attribute. When Lasso.js is configured you just need to register a `cspNonceProvider` as shown below:
