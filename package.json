@@ -54,7 +54,7 @@
     "lasso-marko": "^2.0.1",
     "mocha": "~1.15.1"
   },
-  "license": "Apache License v2.0",
+  "license": "Apache-2.0",
   "main": "lib/index.js",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
