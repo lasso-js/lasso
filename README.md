@@ -1364,7 +1364,16 @@ See [Configuration](#configuration) for full list of configuration options.
 
 # Content Security Policy Support
 
-Newer browsers support a web standard called Content Security Policy that prevents, among other things, cross-site scripting attacks by whitelisting inline `<script>` and `<style>` tags (see [HTML5 Rocks: An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)). The Lasso.js taglib for Marko is used to inject the `<script>` and `<style>` tags into the HTML output and Lasso.js provides support for injecting a nonce attribute. When Lasso.js is configured you just need to register a `cspNonceProvider` as shown below:
+Newer browsers support a web standard called Content Security Policy that
+prevents, among other things, cross-site scripting attacks by whitelisting
+inline `<script>` and `<style>` tags (see
+[HTML5 Rocks: An Introduction to Content Security Policy](http://www.html5rocks.com/en/tutorials/security/content-security-policy/)).
+
+## Securing Dynamically Built Pages
+The Lasso.js taglib for Marko is used to inject the `<script>` and `<style>`
+tags into the HTML output and Lasso.js provides support for injecting a nonce
+attribute. When Lasso.js is configured you just need to register a
+`cspNonceProvider` as shown below:
 
 ```javascript
 require('lasso').configure({
@@ -1422,7 +1431,9 @@ With a CSP nonce enable, the HTML output for a page rendered using Marko might b
 
 NOTE: A `nonce` attribute is only added to inline `<script>` and `<style>` tags.
 
-As an extra convenience, Lasso.js also supports a custom `lasso-nonce` attribute that can be dropped onto any HTML tag in your Marko template files as shown below:
+As an extra convenience, Lasso.js also supports a custom `lasso-nonce`
+attribute that can be dropped onto any HTML tag in your Marko template
+files as shown below:
 
 ```xml
 <script type="text/javascript" lasso-nonce>console.log('My inline script')</script>
@@ -1434,6 +1445,56 @@ The output HTML will be similar to the following:
 ```html
 <script type="text/javascript" nonce="abc123">console.log('My inline script')</script>
 <style type="text/css" nonce="abc123">.my-inline-style { }</style>
+```
+
+## Securing Statically Built Pages
+
+If your page is statically built (such as when creating a Single Page App)
+then you should enable inline code fingerprinting which is way to whitelist
+exactly which inline code blocks should be allowed. It is important to
+emphasize, that a _nonce_ ("number once") will not properly secure a
+statically built application since the HTML is built once which prevents
+the nonce from changing. To secure your statically built application,
+you should instead fingerprint all of the inline code blocks and include
+these fingerprints in your CSP.
+
+Here is an example of what CSP might look like if using SHA256 fingerprints:
+`script-src 'self' 'sha256-viOn97JiWZ/fvh2VGIpROjZabjdtdrgtfO1wlPz9w7w='`
+
+```javascript
+require('lasso').configure({
+    /* typical configuration goes here */
+
+    // Configure Lasso with a function that will be called for fingerprinting
+    // each inline code block...
+    fingerprintInlineCode: function(code) {
+        var shasum = crypto.createHash('sha256');
+        shasum.update(code);
+        return shasum.digest('base64');
+    }
+});
+
+// This is the full list of fingerprints that were captured
+// across all page builds
+var inlineCodeFingerprints = [];
+
+// Collect all of the fingerprints as each page is built
+require('lasso').getDefaultLasso().on('afterLassoPage', function(event) {
+    var lassoPageResult = event.result;
+    var fingerprints = lassoPageResult.getInlineCodeFingerprints();
+    fingerprints.forEach(function(fingerprint) {
+        inlineCodeFingerprints.push(fingerprint);
+    });
+})
+
+// NOW BUILD YOUR PAGES HERE
+// ... build code goes here ...
+
+// NOW BUILD YOUR CONTENT SECURITY POLICY:
+var csp = inlineCodeFingerprints.map(function(fingerprint) {
+    return `script-src 'self' 'sha256-${fingerprint}'`
+}).join('; ');
+
 ```
 
 # Available Plugins
