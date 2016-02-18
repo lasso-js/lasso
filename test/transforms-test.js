@@ -15,16 +15,12 @@ require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 describe('lasso/transforms', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
-        for (var k in require.cache) {
-            if (require.cache.hasOwnProperty(k)) {
-                delete require.cache[k];
-            }
-        }
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
             'lasso': 'WARN',
             'raptor-cache': 'WARN'
         });
+        require('../').clearCaches();
         done();
     });
 
@@ -211,7 +207,7 @@ describe('lasso/transforms', function() {
         var writerTracker = require('./WriterTracker').create(myLasso.writer);
 
         myLasso.lassoPage({
-                pageName: 'testPage',
+                pageName: 'testPage2',
                 dependencies: [
                     nodePath.join(__dirname, './fixtures/transforms/minify.js')
                 ],
@@ -225,7 +221,6 @@ describe('lasso/transforms', function() {
                 expect(writerTracker.getCodeForFilename('minify.js')).to.not.contain('hello');
                 expect(writerTracker.getCodeForFilename('minify.js')).to.not.contain('name');
                 expect(writerTracker.getCodeForFilename('minify.js')).to.contain('console');
-
                 lasso.flushAllCaches(done);
             })
             .done();

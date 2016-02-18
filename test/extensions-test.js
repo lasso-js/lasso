@@ -11,11 +11,7 @@ require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 describe('lasso extensions (legacy)', function() {
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
-        for (var k in require.cache) {
-            if (require.cache.hasOwnProperty(k)) {
-                delete require.cache[k];
-            }
-        }
+        require('../').clearCaches();
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
             'lasso': 'WARN',

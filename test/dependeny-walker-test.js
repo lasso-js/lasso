@@ -7,20 +7,14 @@ var nodePath = require('path');
 
 require('app-module-path').addPath(nodePath.join(__dirname, 'src'));
 
-describe('lasso' , function() {
+describe('lasso/walker' , function() {
 
     beforeEach(function(done) {
-        for (var k in require.cache) {
-            if (require.cache.hasOwnProperty(k)) {
-                delete require.cache[k];
-            }
-        }
-
         require('raptor-promises').enableLongStacks();
-
         require('raptor-logging').configureLoggers({
             'lasso': 'WARN'
         });
+        require('../').clearCaches();
 
         done();
     });

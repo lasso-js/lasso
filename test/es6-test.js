@@ -13,7 +13,9 @@ require('app-module-path').addPath(path.join(__dirname, 'src'));
 describe('lasso/es6', function() {
     this.timeout(15000); // Babel is really slow to load...
 
-    require('babel-core/register');
+    require("babel-register")({
+        extensions: [".es6"]
+    });
 
     it('should allow for es6 module transpiling using babel', function(done) {
         var lasso = require('../');

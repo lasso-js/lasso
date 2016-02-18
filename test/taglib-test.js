@@ -8,6 +8,8 @@ var fs = require('fs');
 
 var StringBuilder = require('raptor-strings/StringBuilder');
 
+require('marko/compiler').registerTaglib(require.resolve('../marko.json'));
+
 function testRender(path, data, done, options) {
     var inputPath = nodePath.join(__dirname, path);
     var expectedPath = nodePath.join(__dirname, path + '.expected.html');
@@ -62,12 +64,6 @@ require('raptor-logging').configureLoggers({
 
 
 describe('lasso/taglib' , function() {
-
-    beforeEach(function(done) {
-
-        done();
-    });
-
     it('should render a simple page template', function(done) {
         require('../').configure({
             fileWriter: {

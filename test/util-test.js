@@ -12,6 +12,7 @@ describe('lasso/util', function() {
 
     beforeEach(function(done) {
         util.rmdirRecursive(outputDir);
+        require('../').clearCaches();
         require('raptor-promises').enableLongStacks();
         require('raptor-logging').configureLoggers({
             'lasso': 'WARN',

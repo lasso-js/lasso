@@ -16,11 +16,7 @@ describe('lasso-require' , function() {
 
         util.rmdirRecursive(outputDir);
 
-        for (var k in require.cache) {
-            if (require.cache.hasOwnProperty(k)) {
-                delete require.cache[k];
-            }
-        }
+        require('../').clearCaches();
 
         require('raptor-promises').enableLongStacks();
 
