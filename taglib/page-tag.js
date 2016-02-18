@@ -116,13 +116,6 @@ module.exports = function render(input, out) {
                                     path: path
                                 };
                             });
-                    } else if (input.getDependencies) {
-                        dependencies = [];
-                        input.getDependencies({
-                            addDependency: function(dependency) {
-                                dependencies.push(dependency);
-                            }
-                        });
                     } else {
                         // Look for an browser.json in the same directory
                         if (input.dirname) {

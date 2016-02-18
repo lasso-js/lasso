@@ -4,6 +4,6 @@ var slotTagInput = {
     name: 'body'
 };
 
-module.exports = function render(input, context) {
-    slotTag(slotTagInput, context);
+module.exports = function render(input, out) {
+    slotTag(slotTagInput, out);
 };

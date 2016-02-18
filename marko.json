@@ -2,11 +2,10 @@
     "tags": {
         "lasso-page": {
             "renderer": "./taglib/page-tag",
-            "transformer": "./taglib/page-tag-transformer",
             "attributes": {
                 "name": "string",
                 "cache-key": "string",
-                "package-path": "string",
+                "package-path": "path",
                 "package-paths": "expression",
                 "base-path": "string",
                 "lasso": "expression",
@@ -30,18 +29,6 @@
                 "filename": "__filename"
             }
         },
-        "lasso-dependencies": {
-            "renderer": "./taglib/dependencies-tag"
-        },
-        "lasso-dependency": {
-            "renderer": "./taglib/dependency-tag",
-            "import-var": {
-                "dependenciesParent": "_dependenciesParent"
-            },
-            "attributes": {
-                "*": "string"
-            }
-        },
         "lasso-slot": {
             "renderer": "./taglib/slot-tag",
             "attributes": {
@@ -55,24 +42,12 @@
             "renderer": "./taglib/body-tag"
         },
         "lasso-img": {
+            "code-generator": "./taglib/lasso-img-tag",
             "attributes": {
                 "src": "path",
                 "*": {
                     "ignore": true
                 }
-            },
-            "transformer": {
-                "path": "./taglib/lasso-img-tag-transformer"
-            }
-        },
-        "_lasso-getImageInfo": {
-            "node-class": "./taglib/getImageInfo-node",
-            "attributes": {
-                "src": "path",
-                "var": "string"
-            },
-            "import-var": {
-                "dirname": "__dirname"
             }
         },
         "_lasso-resources-root": {
@@ -82,13 +57,10 @@
             }
         },
         "lasso-resource": {
-            "node-class": "./taglib/lasso-resource-tag",
+            "transformer": "./taglib/lasso-resource-tag",
             "attributes": {
                 "path": "path",
                 "var": "string"
-            },
-            "transformer": {
-                "path": "./taglib/lasso-resource-tag-transformer"
             }
         },
         "*": {

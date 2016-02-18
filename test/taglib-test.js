@@ -21,13 +21,15 @@ function testRender(path, data, done, options) {
     // fs.writeFileSync(compiledPath, compiledSrc, {encoding: 'utf8'});
 
     var marko = require('marko');
+    // console.log('Rendering ' + inputPath + '...');
     var AsyncWriter = marko.AsyncWriter;
-    var context = options.context || new AsyncWriter(new StringBuilder());
+    var out = options.out || new AsyncWriter(new StringBuilder());
+    var template = marko.load(inputPath);
 
-    marko.render(inputPath, data, context)
+    template.render(data, out)
         .on('finish', function() {
             try {
-                var output = context.getOutput();
+                var output = out.getOutput();
 
                 fs.writeFileSync(actualPath, output, {encoding: 'utf8'});
 

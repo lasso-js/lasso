@@ -1,16 +1,18 @@
 var getNonceHelperPath = require.resolve('./helper-getNonce');
 
-module.exports = function transform(node, compiler, template) {
-    if (node.hasAttribute('lasso-nonce')) {
+module.exports = function transform(el, context) {
+    if (el.hasAttribute('lasso-nonce')) {
+        el.removeAttribute('lasso-nonce');
 
-        node.removeAttribute('lasso-nonce');
+        var builder = context.builder;
 
-        var getNonceRequirePath = template.getRequirePath(getNonceHelperPath);
+        var getNonceRequirePath = context.getRequirePath(getNonceHelperPath);
 
-        template.addStaticVar('__getNonce',
+        var getNonceVar = context.importModule('__getNonce', getNonceRequirePath);
 
-            'require("' + getNonceRequirePath + '")');
-
-        node.setAttribute('nonce', template.makeExpression('__getNonce(out)'));
+        el.setAttributeValue('nonce',
+            builder.functionCall(getNonceVar, [
+                builder.identifierOut()
+            ]));
     }
 };
