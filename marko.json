@@ -32,14 +32,24 @@
         "lasso-slot": {
             "renderer": "./taglib/slot-tag",
             "attributes": {
-                "name": "string"
+                "name": "string",
+                "inline-style-attrs": "expression",
+                "inline-script-attrs": "expression",
+                "external-style-attrs": "expression",
+                "external-script-attrs": "expression"   
             }
         },
         "lasso-head": {
-            "renderer": "./taglib/head-tag"
+            "renderer": "./taglib/head-tag",
+            "attributes": {
+                "external-style-attrs": "expression"
+            }            
         },
         "lasso-body": {
-            "renderer": "./taglib/body-tag"
+            "renderer": "./taglib/body-tag",
+            "attributes": {
+                "external-script-attrs": "expression"
+            }            
         },
         "lasso-img": {
             "code-generator": "./taglib/lasso-img-tag",

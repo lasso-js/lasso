@@ -1,23 +1,37 @@
+'use strict';
+
 var util = require('./util');
+var extend = require('raptor-util').extend;
 
+function isAttributePresent(attrs) {
+    return !!(attrs.inlineStyleAttrs ||
+            attrs.inlineScriptAttrs ||
+            attrs.externalStyleAttrs ||
+            attrs.externalScriptAttrs);
+}
 
-function renderSlot(slotName, lassoPageResult, out, lassoRenderContext) {
-
+function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
     var lassoConfig = lassoRenderContext.getLassoConfig();
 
     var cspNonceProvider = lassoConfig.cspNonceProvider;
+    var slotName = attrs.name;
+    var cspAttrs = null;
     var slotData = null;
 
     if (cspNonceProvider) {
-        var cspAttrs = {
+        cspAttrs = {
             nonce: cspNonceProvider(out)
         };
-
+    }
+    if (isAttributePresent(attrs) || cspAttrs) {
         slotData = {
-            inlineScriptAttrs: cspAttrs,
-            inlineStyleAttrs: cspAttrs
+            inlineScriptAttrs: extend(extend({}, attrs.inlineScriptAttrs), cspAttrs),
+            inlineStyleAttrs: extend(extend({}, attrs.inlineStyleAttrs), cspAttrs),
+            externalScriptAttrs: extend({}, attrs.externalScriptAttrs),
+            externalStyleAttrs: extend({}, attrs.externalStyleAttrs)
         };
     }
+
     var slotHtml = lassoPageResult.getSlotHtml(slotName, slotData);
 
     if (slotHtml) {
@@ -40,7 +54,7 @@ module.exports = function render(input, out) {
     lassoRenderContext.emitBeforeSlot(slotName, out);
 
     if (lassoPageResultAsyncValue.isResolved()) {
-        renderSlot(slotName, lassoPageResultAsyncValue.data, out, lassoRenderContext);
+        renderSlot(input, lassoPageResultAsyncValue.data, out, lassoRenderContext);
     } else {
         var asyncContext = out.beginAsync({
             name: 'lasso-slot:' + slotName,
@@ -53,7 +67,7 @@ module.exports = function render(input, out) {
                 return;
             }
 
-            renderSlot(slotName, lassoPageResult, asyncContext, lassoRenderContext);
+            renderSlot(input, lassoPageResult, asyncContext, lassoRenderContext);
             asyncContext.end();
         });
     }
