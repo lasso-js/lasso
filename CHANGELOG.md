@@ -25,18 +25,35 @@ Changelog
 - browser.json changes
   - remove unnecessary spacing:  e.g. convert "require :" to "require:"
 
+# 2.x
+
+## 2.0.x
+
+### 2.0.1
+
+- `registerRequireType`, switch condition blocks [PR #113](https://github.com/lasso-js/lasso/pull/113)
+
+### 2.0.0
+
+- Marko v3 compatibility
+
 # 1.x
+
+## 1.16.x
+
+### 1.16.1
+
+- Adds support for fingerprinting inline code blocks for purpose of creating Content Security Policy (CSP) that secures statically built app.
+
+### 1.16.0
+
+-  Added support for custom attributes on script and style tags for slots
 
 ## 1.15.x
 
 ### 1.15.0
 
 - Adds support for injecting a Content Security Policy nonce into inline script and style tags. Fixes [Issue #93](https://github.com/lasso-js/lasso/issues/93)
-
-### 1.16.0
-
-- Adds support for fingerprinting inline code blocks for purpose of
-  creating Content Security Policy (CSP) that secures statically built app.
 
 ## 1.14.x
 
