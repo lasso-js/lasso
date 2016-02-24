@@ -26,11 +26,9 @@ describe('lasso flags', function() {
     it('should allow for optimizing a page with flags', function(done) {
         var lasso = require('../');
         var myLasso = lasso.create({
-            fileWriter: {
-                outputDir: outputDir,
-                urlPrefix: '/',
-                fingerprintsEnabled: false
-            },
+            outputDir: outputDir,
+            urlPrefix: '/',
+            fingerprintsEnabled: false,
             flags: ['a'],
             bundlingEnabled: false
         }, __dirname, __filename);
@@ -52,11 +50,55 @@ describe('lasso flags', function() {
                     // 'a.js'
 
                     // c.js is always included (not conditional)
-                    'c.js'
+                    'c.js',
+                    'desktop-a.js',
+                    'desktop-b.js'
                 ]);
 
                 expect(writerTracker.getCodeForFilename('a.js')).to.equal('a=true;');
                 expect(writerTracker.getCodeForFilename('c.js')).to.equal('c=true;');
+                expect(writerTracker.getCodeForFilename('desktop-a.js')).to.equal('desktop_a');
+                expect(writerTracker.getCodeForFilename('desktop-b.js')).to.equal('desktop_b');
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should allow for optimizing a page with flags', function(done) {
+        var lasso = require('../');
+        var myLasso = lasso.create({
+            outputDir: outputDir,
+            urlPrefix: '/',
+            fingerprintsEnabled: false,
+            flags: ['mobile'],
+            bundlingEnabled: false
+        }, __dirname, __filename);
+        var writerTracker = require('./WriterTracker').create(myLasso.writer);
+        myLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: [
+                    './browser.json'
+                ],
+                from: nodePath.join(__dirname, 'test-flags-project')
+            })
+            .then(function(lassoPageResult) {
+
+                expect(writerTracker.getOutputFilenames()).to.deep.equal([
+                    // a.js only included if "a" flag is enabled
+                    //'a.js',
+
+                    /* NOTE: b.js should not be included because it requires flag "b" */
+                    // 'a.js'
+
+                    // c.js is always included (not conditional)
+                    'c.js',
+                    'mobile-a.js',
+                    'mobile-b.js'
+                ]);
+
+                expect(writerTracker.getCodeForFilename('c.js')).to.equal('c=true;');
+                expect(writerTracker.getCodeForFilename('mobile-a.js')).to.equal('mobile_a');
+                expect(writerTracker.getCodeForFilename('mobile-b.js')).to.equal('mobile_b');
                 lasso.flushAllCaches(done);
             })
             .done();
