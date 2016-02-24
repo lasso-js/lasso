@@ -29,6 +29,10 @@ Changelog
 
 ## 2.1.x
 
+### 2.1.1
+
+- Fixes #116 - Conditional requireRemap is broken
+
 ### 2.1.0
 
 - Fixes #115 - Allow conditional dependencies to be grouped
