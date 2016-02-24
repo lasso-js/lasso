@@ -27,6 +27,12 @@ Changelog
 
 # 2.x
 
+## 2.1.x
+
+### 2.1.0
+
+- Fixes #115 - Allow conditional dependencies to be grouped
+
 ## 2.0.x
 
 ### 2.0.1
