@@ -587,7 +587,7 @@ Lasso.js supports conditional dependencies. Conditional dependencies is a powerf
 }
 ```
 
-Alternatively, you can also include the desktop version of a file if the "mobile" extension is not enabled.
+Alternatively, you can also include the desktop version of a file if the "mobile" extension is not enabled using `if-not-flag`.
 ```json
 {
     "dependencies": [
@@ -604,6 +604,22 @@ If needed, a JavaScript expression can be used to describe a more complex condit
         {
             "path": "./hello-mobile.js",
             "if": "flags.contains('phone') || flags.contains('tablet')"
+        }
+    ]
+}
+```
+
+Finally, if you prefer, you can group your conditional dependencies if needed:
+
+```json
+{
+    "dependencies": [
+        {
+            "if-flag": "mobile",
+            "dependencies": [
+                "./style-mobile.css",
+                "./client-mobile.js"
+            ]
         }
     ]
 }
@@ -1363,7 +1379,7 @@ require('lasso').create({
 See [Configuration](#configuration) for full list of configuration options.
 
 # Custom attributes for Script & Style tags
-It is also possible to add custome attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below. 
+It is also possible to add custome attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
 
 __page.marko__
 ```html
@@ -1409,7 +1425,7 @@ __Output HTML__
 	</style>
     </head>
     <body>
-        <script src="/static/page-ce0ad224.js" js-custom1></script> 
+        <script src="/static/page-ce0ad224.js" js-custom1></script>
         <script src="/static/page-c3a331b0.js" js-custom2></script>
         <script js-custom3>
             console.log('hello-inline');

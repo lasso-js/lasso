@@ -10,6 +10,20 @@
         },
         {
             "type": "js", "path": "./c.js"
+        },
+        {
+            "if-flag": "mobile",
+            "dependencies": [
+                "./mobile-a.js",
+                "./mobile-b.js"
+            ]
+        },
+        {
+            "if-not-flag": "mobile",
+            "dependencies": [
+                "./desktop-a.js",
+                "./desktop-b.js"
+            ]
         }
     ]
 }
