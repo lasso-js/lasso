@@ -27,6 +27,12 @@ Changelog
 
 # 1.x
 
+## 1.17.x
+
+### 1.17.0
+
+- Fixes #115 - Allow conditional dependencies to be grouped
+
 ## 1.16.x
 
 ### 1.16.1
