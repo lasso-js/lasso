@@ -676,6 +676,58 @@ describe('lasso/index', function() {
             .done();
     });
 
+    it('should escape external js resource URLs', function(done) {
+        var lasso = require('../');
+        var theLasso = lasso.create({
+            flags: [],
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: false
+            },
+            bundles: []
+        }, __dirname, __filename);
+        theLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: {
+                    type: 'js',
+                    url: 'https://maps.googleapis.com/maps/api/js?key=KEY&callback=CB'
+                },
+                from: module
+            })
+            .then(function(lassoPageResult) {
+                expect(lassoPageResult.getBodyHtml()).to.equal('<script src="https://maps.googleapis.com/maps/api/js?key=KEY&amp;callback=CB"></script>');
+                expect(lassoPageResult.getHeadHtml()).to.equal('');
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
+
+    it('should escape external css resource URLs', function(done) {
+        var lasso = require('../');
+        var theLasso = lasso.create({
+            flags: [],
+            fileWriter: {
+                outputDir: outputDir,
+                fingerprintsEnabled: false
+            },
+            bundles: []
+        }, __dirname, __filename);
+        theLasso.lassoPage({
+                pageName: 'testPage',
+                dependencies: {
+                    type: 'css',
+                    url: 'https://fonts.googleapis.com/css?family=Open+Sans&subset=latin'
+                },
+                from: module
+            })
+            .then(function(lassoPageResult) {
+                expect(lassoPageResult.getBodyHtml()).to.equal('');
+                expect(lassoPageResult.getHeadHtml()).to.equal('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=latin">');
+                lasso.flushAllCaches(done);
+            })
+            .done();
+    });
+
     it('should allow for external resource URLs to be inlined', function(done) {
         this.timeout(5000);
         var lasso = require('../');
