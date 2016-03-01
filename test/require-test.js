@@ -859,7 +859,7 @@ describe('lasso-require' , function() {
                 }
 
                 var outputFiles = [
-                    'build/myapp/raptor-modules-meta-testPage.js',
+                    'build/myapp/raptor-modules-meta-testPage-browser-jquery.js',
                     'build/myapp/test-project/node_modules/bar/lib/bar.js',
                     'build/myapp/test-project/node_modules/foo/lib/index.js',
                     'build/myapp/test-project/node_modules/foo/node_modules/baz/lib/index.js',
