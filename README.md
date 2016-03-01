@@ -1888,7 +1888,7 @@ See [AMD Compatibility](./docs/amd.md).
 
 # Discuss
 
-Please post questions or comments on the [RaptorJS Google Groups Discussion Forum](http://groups.google.com/group/raptorjs).
+Please join us in the [Gitter chat room for Lasso.js](https://gitter.im/lasso-js/lasso) or [open a new Github issue](https://github.com/lasso-js/lasso/issues).
 
 # Maintainers
 
