@@ -1,2 +1,3 @@
 *.marko.js
 *.dust.js
+~*/

@@ -1,0 +1,8 @@
+{
+    "name": "autotest",
+    "version": "1.0.0",
+    "browser": {
+        "foo.js": false,
+        "./foo2": false
+    }
+}

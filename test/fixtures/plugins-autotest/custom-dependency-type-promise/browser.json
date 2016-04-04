@@ -1,0 +1,12 @@
+{
+    "dependencies": [
+        {
+            "type": "foo-js",
+            "path": "./foo.js"
+        },
+        {
+            "type": "foo-css",
+            "path": "./foo.css"
+        }
+    ]
+}

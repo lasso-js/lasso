@@ -1,7 +1,6 @@
 var lasso = require('../');
 var util = require('./util');
 var logger = require('raptor-logging').logger(module);
-var raptorPromises = require('raptor-promises');
 var nodePath = require('path');
 var fs = require('fs');
 var AsyncValue = require('raptor-async/AsyncValue');
@@ -153,9 +152,9 @@ module.exports = function render(input, out) {
 
     if (waitFor && waitFor.length) {
         logger.debug('Waiting for ' + waitFor.length + ' promise(s) to complete before optimizing page.');
-        raptorPromises.all(waitFor)
+        Promise.all(waitFor)
             .then(doLassoPage)
-            .done();
+            .catch(done);
     }
     else {
         doLassoPage();

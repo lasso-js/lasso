@@ -1,7 +1,0 @@
-{
-    "dependencies": [
-        "nestedB",
-        "nestedA.js",
-        "nestedA.css"
-    ]
-}

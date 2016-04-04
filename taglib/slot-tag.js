@@ -56,19 +56,19 @@ module.exports = function render(input, out) {
     if (lassoPageResultAsyncValue.isResolved()) {
         renderSlot(input, lassoPageResultAsyncValue.data, out, lassoRenderContext);
     } else {
-        var asyncContext = out.beginAsync({
+        var asyncOut = out.beginAsync({
             name: 'lasso-slot:' + slotName,
             timeout: timeout
         });
 
         lassoPageResultAsyncValue.done(function(err, lassoPageResult) {
             if (err) {
-                asyncContext.error(err);
+                asyncOut.error(err);
                 return;
             }
 
-            renderSlot(input, lassoPageResult, asyncContext, lassoRenderContext);
-            asyncContext.end();
+            renderSlot(input, lassoPageResult, asyncOut, lassoRenderContext);
+            asyncOut.end();
         });
     }
 };

@@ -1,8 +1,0 @@
-{
-    "dependencies": [
-        "style.css",
-        "test.js",
-        { "path": "style-inline.css", "inline": true },
-        { "path": "test-inline.js", "inline": true }
-    ]
-}
