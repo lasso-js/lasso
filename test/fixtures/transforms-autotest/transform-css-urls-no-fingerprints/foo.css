@@ -1,0 +1,8 @@
+.foo {
+    url-relative:url(ebay.png);
+    url-dot-relative:url(./ebay.png);
+    installed:url(installed/ebay.png);
+    installed-require-prefix:url(require: installed/ebay.png);
+    installed-require-prefix:url('http://foo.void/ebay.png');
+    absolute:url(/ebay.png);
+}
