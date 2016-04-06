@@ -7,6 +7,11 @@ function autoTest(name, dir, run, options, done) {
     options = options || {};
 
     var compareExt = options.compareExt;
+
+    if (compareExt && compareExt.charAt(0) !== '.') {
+        compareExt = '.' + compareExt;
+    }
+
     var actualPath = path.join(dir, 'actual' + compareExt);
     var expectedPath = path.join(dir, 'expected' + compareExt);
 
