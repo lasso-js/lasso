@@ -1,2 +1,0 @@
-[package: path="/browser.json"]
-  + [js: path="/foo.js"]

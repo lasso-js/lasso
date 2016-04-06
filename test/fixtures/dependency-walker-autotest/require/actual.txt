@@ -1,8 +1,0 @@
-[package: path="/browser.json"]
-  [require: ./foo]
-    + [commonjs-runtime]
-    + [commonjs-ready: inline="end"]
-    + [commonjs-main: dir="/autotest$1.0.0/nested", main=""]
-    [require: ./nested]
-      + [commonjs-def: path="/autotest$1.0.0/nested/index"]
-    + [commonjs-def: path="/autotest$1.0.0/foo"]

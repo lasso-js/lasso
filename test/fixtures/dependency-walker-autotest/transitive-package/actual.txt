@@ -1,4 +1,0 @@
-[package: path="/browser.json"]
-  + [js: path="/foo.js"]
-  [package: path="/nested/browser.json"]
-    + [js: path="/nested/bar.js"]
