@@ -1,4 +1,3 @@
-var lasso = require('../');
 var async = require('async');
 
 var util = require('./util');
@@ -10,12 +9,8 @@ module.exports = function render(input, out) {
         return;
     }
 
-    var theLasso = input.lasso;
     var lassoRenderContext = util.getLassoRenderContext(out);
-
-    if (!theLasso) {
-        theLasso = lassoRenderContext.data.lasso || lasso.defaultLasso;
-    }
+    var theLasso = input.lasso || lassoRenderContext.lasso;
 
     if (!theLasso) {
         throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');

@@ -43,10 +43,12 @@ describe('lasso/modules' , function() {
             lassoOptions.pageName = pageName;
             lassoOptions.from = dir;
 
+            var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
+
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
                     writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
-                    var sandbox = sandboxLoad(lassoPageResult);
+                    var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
                     main.check(sandbox.window);
                     done();
                 })

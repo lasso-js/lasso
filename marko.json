@@ -23,6 +23,7 @@
                 "wait-for": "expression",
                 "timeout": "integer"
             },
+            "no-output": true,
             "body-function": "getDependencies(_dependenciesParent)",
             "import-var": {
                 "dirname": "__dirname",
@@ -36,20 +37,20 @@
                 "inline-style-attrs": "expression",
                 "inline-script-attrs": "expression",
                 "external-style-attrs": "expression",
-                "external-script-attrs": "expression"   
+                "external-script-attrs": "expression"
             }
         },
         "lasso-head": {
             "renderer": "./taglib/head-tag",
             "attributes": {
                 "external-style-attrs": "expression"
-            }            
+            }
         },
         "lasso-body": {
             "renderer": "./taglib/body-tag",
             "attributes": {
                 "external-script-attrs": "expression"
-            }            
+            }
         },
         "lasso-img": {
             "code-generator": "./taglib/lasso-img-tag",
@@ -68,6 +69,7 @@
         },
         "lasso-resource": {
             "transformer": "./taglib/lasso-resource-tag",
+            "no-output": true,
             "attributes": {
                 "path": "path",
                 "var": "string"

@@ -1,4 +1,3 @@
-var lasso = require('../');
 var util = require('./util');
 var logger = require('raptor-logging').logger(module);
 var nodePath = require('path');
@@ -7,13 +6,11 @@ var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
 
 module.exports = function render(input, out) {
-    var theLasso = input.lasso;
-
-    if (!theLasso) {
-        theLasso = lasso.defaultLasso;
-    }
-
     var lassoRenderContext = util.getLassoRenderContext(out);
+    var theLasso = lassoRenderContext.lasso;
+    if (input.lasso) {
+        theLasso = lassoRenderContext.lasso = input.lasso;
+    }
 
     var pageName = input.name || input.pageName;
     var cacheKey = input.cacheKey;

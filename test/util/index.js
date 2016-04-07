@@ -26,7 +26,7 @@ function rmdirRecursive(dir) {
 
 
 
-function sandboxLoad(lassoPageResult) {
+function sandboxLoad(lassoPageResult, modulesRuntimeGlobal) {
     var sandbox = {
     };
 
@@ -45,7 +45,9 @@ function sandboxLoad(lassoPageResult) {
         script.runInContext(context);
     });
 
-    vm.runInContext('$_mod.ready()', context);
+    modulesRuntimeGlobal = modulesRuntimeGlobal || '$_mod';
+
+    vm.runInContext(`${modulesRuntimeGlobal}.ready()`, context);
 
     return sandbox;
 }

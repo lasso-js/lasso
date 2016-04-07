@@ -1,9 +1,10 @@
 var EventEmitter = require('events').EventEmitter;
 
-var LassoRenderContext = function() {
+var LassoRenderContext = function(lasso) {
     LassoRenderContext.$super.call(this);
     this._waitFor = [];
     this.data = {};
+    this.lasso = lasso;
 };
 
 LassoRenderContext.prototype = {
