@@ -49,8 +49,15 @@ describe('lasso/modules' , function() {
                 .then((lassoPageResult) => {
                     writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
                     var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
-                    main.check(sandbox.window);
-                    done();
+                    sandbox.$outputDir = lassoConfig.outputDir;
+                    if (main.check.length === 2) {
+                        main.check(sandbox.window, done);
+                    } else {
+                        main.check(sandbox.window);
+                        done();
+                    }
+
+
                 })
                 .catch(done);
         });

@@ -12,7 +12,7 @@ var lasso = require('../');
 
 describe('lasso/modules-es6' , function() {
     this.timeout(15000); // Babel is really slow to load...
-    
+
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'fixtures/modules-es6-autotest'),
         function (dir, done) {
@@ -48,9 +48,38 @@ describe('lasso/modules-es6' , function() {
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
                     writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
-                    var sandbox = sandboxLoad(lassoPageResult);
-                    main.check(sandbox.window);
-                    done();
+
+                    if (main.checkError) {
+                        var err;
+                        try {
+                            sandboxLoad(lassoPageResult);
+                        } catch(_err) {
+                            err = _err;
+                        }
+
+                        if (err) {
+                            try {
+                                main.checkError(err);
+                            } catch(e) {
+                                return done(e);
+                            }
+                            done();
+                        } else {
+                            done(new Error('Error expected'));
+                        }
+                    } else {
+                        var sandbox = sandboxLoad(lassoPageResult);
+                        main.check(sandbox.window);
+                        done();
+                    }
+
+                })
+                .catch((err) => {
+                    if (main.checkError) {
+                        main.checkError(err);
+                    } else {
+                        done(err);
+                    }
                 })
                 .catch(done);
         });

@@ -1,0 +1,19 @@
+<marko-compiler-options preserve-whitespace/>
+
+<lasso-page name=data.pageName package-path="./browser.json"/>
+
+
+<lasso-resource path="./favicon.ico" var="favicon"/>
+
+<html>
+    <head>
+        <lasso-head/>
+        <link rel="shortcut icon" href=favicon.url>
+    </head>
+    <body>
+        <lasso-img src="./marko-logo.png"/>
+        <lasso-img src="./marko-logo.png" width="100" height="100"/>
+        <script foo="bar" lasso-nonce>console.log('my inline script');</script>
+        <lasso-body/>
+    </body>
+</html>

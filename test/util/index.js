@@ -34,20 +34,32 @@ function sandboxLoad(lassoPageResult, modulesRuntimeGlobal) {
 
     var context = vm.createContext(sandbox);
 
-    var files = lassoPageResult.getJavaScriptFiles();
-    files.forEach((file) => {
-        var code = fs.readFileSync(file, {encoding: 'utf8'});
+    function loadScript(path) {
+        var code = fs.readFileSync(path, {encoding: 'utf8'});
         var script = new vm.Script(code, {
-            filename: file,
+            filename: path,
             displayErrors: true
         });
 
         script.runInContext(context);
+    }
+
+    var files = lassoPageResult.getOutputFilesWithInfo();
+    files.forEach((file) => {
+        if (file.contentType !== 'js' || file.async) {
+            return;
+        }
+
+        var path = file.path;
+        loadScript(path);
     });
 
     modulesRuntimeGlobal = modulesRuntimeGlobal || '$_mod';
 
     vm.runInContext(`${modulesRuntimeGlobal}.ready()`, context);
+
+    sandbox.$loadScript = sandbox.window.$loadScript = loadScript;
+    sandbox.console = sandbox.window.console = console;
 
     return sandbox;
 }

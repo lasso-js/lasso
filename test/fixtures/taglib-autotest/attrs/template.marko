@@ -1,0 +1,16 @@
+<marko-compiler-options preserve-whitespace/>
+
+<lasso-page name=data.pageName package-path="./browser.json"/>
+
+<html>
+    <head>
+        <lasso-head external-style-attrs={'my-custom': true}/>
+        <lasso-slot name="ext-css-slot" external-style-attrs={'my-custom': true}/>
+        <lasso-slot name="css-slot" inline-style-attrs={'my-custom': true}/>
+    </head>
+    <body>
+        <lasso-body external-script-attrs={'my-custom': true}/>
+        <lasso-slot name="ext-js-slot" external-script-attrs={'my-custom': true}/>
+        <lasso-slot name="js-slot" inline-script-attrs={'my-custom': true}/>
+    </body>
+</html>

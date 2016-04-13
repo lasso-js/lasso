@@ -42,12 +42,25 @@ describe('lasso/taglib' , function() {
             // var main = require(nodePath.join(dir, 'test.js'));
             var templatePath = nodePath.join(dir, 'template.marko');
             var template = marko.load(templatePath);
-            template.render({
-                $global: {
-                    lasso: theLasso
-                },
-                pageName: pageName
-            }, function(err, html) {
+
+            var templateData;
+
+            if (main.getTemplateData) {
+                templateData = main.getTemplateData();
+            }
+
+            if (!templateData) {
+                templateData = {};
+            }
+
+            if (!templateData.$global) {
+                templateData.$global = {};
+            }
+
+            templateData.$global.lasso = theLasso;
+            templateData.pageName = pageName;
+
+            template.render(templateData, function(err, html) {
                 if (err) {
                     return done(err);
                 }

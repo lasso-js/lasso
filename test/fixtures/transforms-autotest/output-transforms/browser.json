@@ -1,0 +1,6 @@
+{
+    "dependencies": [
+        "transformsA.js",
+        "transformsA.css"
+    ]
+}

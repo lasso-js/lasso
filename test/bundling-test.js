@@ -1,6 +1,7 @@
 'use strict';
 var nodePath = require('path');
 require('chai').config.includeStack = true;
+var series = require('raptor-async/series');
 
 var WriterTracker = require('./util/WriterTracker');
 var rmdirRecursive = require('./util').rmdirRecursive;
@@ -34,18 +35,56 @@ describe('lasso/bundling' , function() {
 
             var myLasso = lasso.create(lassoConfig, dir);
 
-            var lassoOptions = main.getLassoOptions(dir);
-            lassoOptions.pageName = pageName;
-            lassoOptions.from = dir;
+            var inputs;
 
-            var writerTracker = WriterTracker.create(myLasso.writer);
+            if (main.getInputs) {
+                inputs = main.getInputs();
+            } else {
+                let lassoOptions = main.getLassoOptions(dir) || {};
+                let check = main.check;
 
-            myLasso.lassoPage(lassoOptions)
-                .then((lassoPageResult) => {
-                    main.check(lassoPageResult, writerTracker);
-                    lasso.flushAllCaches(done);
-                })
-                .catch(done);
+                inputs = [
+                    {
+                        lassoOptions,
+                        check
+                    }
+                ];
+            }
+
+
+            var asyncTasks = inputs.map((input) => {
+                return (callback) => {
+                    var writerTracker = WriterTracker.create(myLasso.writer);
+
+                    var lassoOptions = input.lassoOptions;
+                    var check = input.check;
+
+                    if (!lassoOptions.pageName) {
+                        lassoOptions.pageName = pageName;
+                    }
+
+                    if (!lassoOptions.from) {
+                        lassoOptions.from = dir;
+                    }
+
+                    myLasso.lassoPage(lassoOptions)
+                        .then((lassoPageResult) => {
+                            check(lassoPageResult, writerTracker);
+                            lasso.flushAllCaches(callback);
+                        })
+                        .catch(callback);
+                };
+            });
+
+            series(asyncTasks, (err) => {
+                if (err) {
+                    return done(err);
+                }
+
+                done();
+            });
+
+
         });
 
 });

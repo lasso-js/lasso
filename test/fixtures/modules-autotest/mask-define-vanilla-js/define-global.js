@@ -1,0 +1,3 @@
+window.define = function() {
+
+};

@@ -1,0 +1,6 @@
+{
+    "dependencies": [
+        "./foo.js",
+        "./foo.css"
+    ]
+}
