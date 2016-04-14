@@ -20,7 +20,7 @@
     "lasso-image": "^1.0.9",
     "lasso-minify-css": "^1.0.0",
     "lasso-minify-js": "^1.1.4",
-    "lasso-require": "^1.4.0",
+    "lasso-require": "^1.8.0",
     "lasso-resolve-css-urls": "^1.0.0",
     "marko": "^2.8.0",
     "mime": "~1.2.7",
