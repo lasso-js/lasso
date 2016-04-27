@@ -27,6 +27,21 @@ Changelog
 
 # 2.x
 
+## 2.2.x
+
+### 2.2.2
+
+- Fixes #128 - getLastModified is broken when using registerRequireType
+
+### 2.2.1
+
+- JavaScript comments are now stripped before parsing JSON config files
+
+### 2.2.0
+
+- Significant improvements to performance and stability
+- Resolved issues related to caching and development mode
+
 ## 2.1.x
 
 ### 2.1.1
