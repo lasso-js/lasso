@@ -1,7 +1,9 @@
 node_js:
-- "4.2"
-- "0.11"
 - "0.10"
+- "0.11"
+- "4"
+- "5"
+- "6"
 sudo: false
 language: node_js
 # getting the latest npm version to improve the compling performance of Babel
