@@ -1237,7 +1237,17 @@ This could also be expressed as a percentage:
 
     // If "minify" is set to true then output CSS and JavaScript will run
     // through a minification transform. (defaults to false)
-    "minify": true,
+    "minify": false,
+
+    "minifyJS": false, // Minify JavaScript
+
+    "minifyCSS": false, // Minify CSS
+
+    "minifyInlineOnly": false, // Only minify inline resources
+
+    "minifyInlineJSOnly": false, // Only minify inline JavaScript resources
+
+    "minifyInlineCSSOnly": false, // Only minify inline CSS resources
 
     // If "resolveCssUrls" is set to try then URLs found in CSS files will be
     // resolved and the original URLs will be replaced with the resolved URLs.
