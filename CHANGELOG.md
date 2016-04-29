@@ -27,6 +27,12 @@ Changelog
 
 # 1.x
 
+## 1.18.x
+
+### 1.18.0
+
+- Fixes #84 - Handle minification separately for inline resources
+
 ## 1.17.x
 
 ### 1.17.1
