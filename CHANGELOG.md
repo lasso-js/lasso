@@ -27,12 +27,18 @@ Changelog
 
 # 2.x
 
-## 2.2.x
+## 2.3.x
 
-### 2.2.3
+### 2.3.1
+
+- Minor cleanup
+
+### 2.3.0
 
 - Fixes #84 - Allow minification to only be enabled for inline resources
 - Switched from `jsonminify` to `strip-json-comments`
+
+## 2.2.x
 
 ### 2.2.2
 
