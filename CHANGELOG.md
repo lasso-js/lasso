@@ -29,6 +29,11 @@ Changelog
 
 ## 2.2.x
 
+### 2.2.3
+
+- Fixes #84 - Allow minification to only be enabled for inline resources
+- Switched from `jsonminify` to `strip-json-comments`
+
 ### 2.2.2
 
 - Fixes #128 - getLastModified is broken when using registerRequireType
