@@ -70,7 +70,35 @@ Supported options:
 
 <a name="Lasso-lassoResource"></a>
 
-#### lassoResource(options, callback)
+#### lassoResource(path[, options]) : Promise
+
+Sends any type of resource through the Lasso.js asset pipeline and returns a `Promise` that eventually resolves to a result object with the URL. If Lasso is configured to use the default file writer then the resource referenced by the path will be copied to the static output directory. The callback will be invoked when the resource is fully written and the URL to the output resource will be part of the object that the returned promise eventually resolves to. In addition, if Lasso is configured with fingerprints enabled then a fingerprint will be added to the output resource URL. Example usage:
+
+```javascript
+var myLasso = require('lasso').getDefaultLasso();
+myLasso.lassoResource('path/to/foo.png')
+    .then(function(result) {
+        var url = result.url; // URL for the output resource
+    });
+```
+Supported options:
+
+- __cache__ (boolean) - Whether or not the result should be cached (the resource path will be used as the cache key). The default value is `true`.
+
+#### lassoResource(path[, options], callback)
+
+This method is similar to the other version that returns a `Promise` (`lassoResource(path[, options]) : Promise`), but if a `callback` function is provided as the last argument then the usage will be as follows:
+
+```javascript
+var myLasso = require('lasso').getDefaultLasso();
+myLasso.lassoResource('path/to/foo.png', function(err, result) {
+    if (err) {
+        // Handle the error
+    } else {
+        var url = result.url; // URL for the output resource
+    }
+});
+```
 
 ### Properties
 
