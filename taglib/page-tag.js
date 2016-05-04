@@ -1,4 +1,4 @@
-var util = require('./util');
+var getLassoRenderContext = require('./getLassoRenderContext');
 var logger = require('raptor-logging').logger(module);
 var nodePath = require('path');
 var fs = require('fs');
@@ -6,7 +6,7 @@ var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
 
 module.exports = function render(input, out) {
-    var lassoRenderContext = util.getLassoRenderContext(out);
+    var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = lassoRenderContext.lasso;
     if (input.lasso) {
         theLasso = lassoRenderContext.lasso = input.lasso;

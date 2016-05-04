@@ -1,6 +1,6 @@
 var async = require('async');
 
-var util = require('./util');
+var getLassoRenderContext = require('./getLassoRenderContext');
 
 module.exports = function render(input, out) {
     var renderBody = input.renderBody;
@@ -9,7 +9,7 @@ module.exports = function render(input, out) {
         return;
     }
 
-    var lassoRenderContext = util.getLassoRenderContext(out);
+    var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = input.lasso || lassoRenderContext.lasso;
 
     if (!theLasso) {

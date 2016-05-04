@@ -14,4 +14,4 @@ function getLassoRenderContext(out) {
         (global[CONTEXT_KEY] = new LassoRenderContext(theLasso));
 }
 
-exports.getLassoRenderContext = getLassoRenderContext;
+module.exports = getLassoRenderContext;

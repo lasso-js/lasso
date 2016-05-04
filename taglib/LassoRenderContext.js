@@ -1,4 +1,5 @@
 var EventEmitter = require('events').EventEmitter;
+var inherit = require('raptor-util/inherit');
 
 var LassoRenderContext = function(lasso) {
     LassoRenderContext.$super.call(this);
@@ -53,6 +54,6 @@ LassoRenderContext.prototype = {
     }
 };
 
-require('raptor-util').inherit(LassoRenderContext, EventEmitter);
+inherit(LassoRenderContext, EventEmitter);
 
 module.exports = LassoRenderContext;

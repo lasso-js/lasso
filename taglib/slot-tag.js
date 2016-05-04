@@ -1,7 +1,7 @@
 'use strict';
 
-var util = require('./util');
-var extend = require('raptor-util').extend;
+var getLassoRenderContext = require('./getLassoRenderContext');
+var extend = require('raptor-util/extend');
 
 function isAttributePresent(attrs) {
     return !!(attrs.inlineStyleAttrs ||
@@ -43,7 +43,7 @@ function renderSlot(attrs, lassoPageResult, out, lassoRenderContext) {
 
 module.exports = function render(input, out) {
     var slotName = input.name;
-    var lassoRenderContext = util.getLassoRenderContext(out);
+    var lassoRenderContext = getLassoRenderContext(out);
     var lassoPageResultAsyncValue = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
 

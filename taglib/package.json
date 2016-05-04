@@ -1,0 +1,5 @@
+{
+    "browser": {
+        "./getLassoRenderContext.js": "./getLassoRenderContext-browser.js"
+    }
+}

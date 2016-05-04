@@ -1,7 +1,7 @@
-var util = require('./util');
+var getLassoRenderContext = require('./getLassoRenderContext');
 
 module.exports = function(out) {
-    var lassoRenderContext = util.getLassoRenderContext(out);
+    var lassoRenderContext = getLassoRenderContext(out);
     var lassoConfig = lassoRenderContext.getLassoConfig();
 
     var cspNonceProvider = lassoConfig.cspNonceProvider;

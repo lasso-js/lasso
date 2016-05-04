@@ -58,6 +58,7 @@ describe('lasso/bundling' , function() {
 
                     var lassoOptions = input.lassoOptions;
                     var check = input.check;
+                    var checkError = input.checkError;
 
                     if (!lassoOptions.pageName) {
                         lassoOptions.pageName = pageName;
@@ -69,10 +70,21 @@ describe('lasso/bundling' , function() {
 
                     myLasso.lassoPage(lassoOptions)
                         .then((lassoPageResult) => {
+                            if (checkError) {
+                                return done('Error expected');
+                            }
                             check(lassoPageResult, writerTracker);
                             lasso.flushAllCaches(callback);
                         })
-                        .catch(callback);
+                        .catch((err) => {
+                            if (checkError) {
+                                checkError(err);
+                                done();
+                            } else {
+                                throw err;
+                            }
+                        })
+                        .catch(done);
                 };
             });
 
