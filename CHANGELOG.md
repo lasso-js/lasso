@@ -29,6 +29,16 @@ Changelog
 
 ## 2.3.x
 
+### 2.3.3
+
+- Fixed #134 - The `<lasso-img>` tag breaks bundling when included in a template sent to the browser
+- Fixed #133 - The dependency chain should be included in error messages when walking a dependency graph
+
+### 2.3.2
+
+- Fixed #130 - check inline minification config value ([@yomed](https://github.com/yomed))
+- Updated docs and tests
+
 ### 2.3.1
 
 - Minor cleanup
