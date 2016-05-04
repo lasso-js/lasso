@@ -1844,7 +1844,7 @@ module.exports = function (lasso, pluginConfig) {
         stream: false,
 
         // Do the magic:
-        transform: function(code, contentType, dependency, bundle) {
+        transform: function(code, lassoContext) {
             return code.toUpperCase();
         }
     });
@@ -1868,7 +1868,7 @@ module.exports = function (lasso, pluginConfig) {
         stream: true, // We want the code to be streamed to us
 
         // Do the magic:
-        transform: function(inStream, contentType, dependency, bundle) {
+        transform: function(inStream, lassoContext) {
             return inStream.pipe(through(
                 function write(data) {
                     this.queue(data.toUpperCase());
