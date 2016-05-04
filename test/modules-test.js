@@ -43,10 +43,17 @@ describe('lasso/modules' , function() {
             lassoOptions.pageName = pageName;
             lassoOptions.from = dir;
 
+            var checkError = main.checkError;
+
             var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
 
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
+
+                    if (checkError) {
+                        return done('Error expected');
+                    }
+
                     writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
                     var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
                     sandbox.$outputDir = lassoConfig.outputDir;
@@ -58,6 +65,14 @@ describe('lasso/modules' , function() {
                     }
 
 
+                })
+                .catch((err) => {
+                    if (checkError) {
+                        checkError(err);
+                        done();
+                    } else {
+                        throw err;
+                    }
                 })
                 .catch(done);
         });
