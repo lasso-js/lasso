@@ -7,7 +7,7 @@ exports.check = function(util, done) {
 
     var outputDir = nodePath.join(__dirname, 'build');
 
-    require('../../../util').rmdirRecursive(outputDir);
+    require('../../util').rmdirRecursive(outputDir);
 
     fs.mkdirSync(outputDir);
 

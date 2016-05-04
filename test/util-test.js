@@ -5,7 +5,7 @@ var util = require('../lib/util');
 
 describe('lasso/util' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/util-autotest'),
+        nodePath.join(__dirname, 'util-autotest'),
         function (dir, done) {
             var main = require(nodePath.join(dir, 'test.js'));
             main.check(util, done);

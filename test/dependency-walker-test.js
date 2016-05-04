@@ -9,7 +9,7 @@ var lasso = require('../');
 
 describe('lasso/dependency-walker' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/dependency-walker-autotest'),
+        nodePath.join(__dirname, 'dependency-walker-autotest'),
         function (dir, done) {
 
             var dependencyWalker = require('../lib/dependency-walker');

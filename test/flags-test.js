@@ -10,7 +10,7 @@ var lasso = require('../');
 
 describe('lasso/flags' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/flags-autotest'),
+        nodePath.join(__dirname, 'flags-autotest'),
         function (dir, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));

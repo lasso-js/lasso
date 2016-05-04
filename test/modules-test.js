@@ -12,7 +12,7 @@ var lasso = require('../');
 
 describe('lasso/modules' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/modules-autotest'),
+        nodePath.join(__dirname, 'modules-autotest'),
         function (dir, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));

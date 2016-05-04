@@ -14,7 +14,7 @@ describe('lasso/modules-es6' , function() {
     this.timeout(15000); // Babel is really slow to load...
 
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/modules-es6-autotest'),
+        nodePath.join(__dirname, 'modules-es6-autotest'),
         function (dir, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));

@@ -11,7 +11,7 @@ var lasso = require('../');
 
 describe('lasso/bundling' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'fixtures/bundling-autotest'),
+        nodePath.join(__dirname, 'bundling-autotest'),
         function (dir, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));
