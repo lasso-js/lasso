@@ -1,0 +1,7 @@
+{
+    "dependencies": [
+        "./foo/browser.json",
+        "./bar/browser.json",
+        "require-run: ./main"
+    ]
+}
