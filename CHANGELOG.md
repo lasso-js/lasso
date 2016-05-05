@@ -29,6 +29,10 @@ Changelog
 
 ## 2.3.x
 
+### 2.3.4
+
+- Fixed #135 - Incorrect key is calculated for require dependencies in `browser.json` files in some situations
+
 ### 2.3.3
 
 - Fixed #134 - The `<lasso-img>` tag breaks bundling when included in a template sent to the browser
