@@ -29,6 +29,14 @@ Changelog
 
 ## 1.18.x
 
+### 1.18.2
+
+- Fixes #136 - Just use a unique ID for packages if calculateKey() is not implemented
+
+### 1.18.1
+
+- Fixes #130 - check inline minification config value
+
 ### 1.18.0
 
 - Fixes #84 - Handle minification separately for inline resources
