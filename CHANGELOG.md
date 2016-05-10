@@ -29,6 +29,11 @@ Changelog
 
 ## 2.3.x
 
+### 2.3.5
+
+- Fixes #136 - Just use a unique ID for packages if calculateKey() is not implemented
+- Added new events: `beforeAddDependencyToAsyncPageBundle`, `beforeAddDependencyToSyncPageBundle`
+
 ### 2.3.4
 
 - Fixed #135 - Incorrect key is calculated for require dependencies in `browser.json` files in some situations
