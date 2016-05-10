@@ -2,4 +2,5 @@
   [dependencies: if-flag="foo", dependencies=["./common.js",{"path":"./foo1.js","type":"js"}]]
     + [js: path="/common.js"]
     + [js: path="/foo1.js"]
+  [dependencies: if-flag="foo", dependencies=["./common.js",{"path":"./foo2.js","type":"js"}]]
     + [js: path="/foo2.js"]
