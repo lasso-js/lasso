@@ -23,7 +23,14 @@ describe('lasso/dependency-walker' , function() {
             var dependencyRegistry = lasso.getDefaultLasso().getDependencyRegistry();
             ok(dependencyRegistry);
 
-            var lassoContext = lasso.getDefaultLasso().createLassoContext();
+            var flags;
+            if (main.getFlags) {
+                flags = main.getFlags(dir);
+            }
+
+            var lassoContext = lasso.getDefaultLasso().createLassoContext({
+                flags: flags
+            });
 
             var lassoManifest = new LassoManifest({
                 manifest: {
@@ -33,24 +40,14 @@ describe('lasso/dependency-walker' , function() {
                 dirname: dir
             });
 
-
-            var walkOptions;
-            if (main.getWalkOptions) {
-                walkOptions = main.getWalkOptions(dir);
-            }
-
-            if (!walkOptions) {
-                walkOptions = {
-                        lassoManifest: lassoManifest,
-                        flags: ['jquery', 'browser'],
-                        lassoContext: lassoContext,
-                        on: {
-                            dependency: function(dependency, lassoContext) {
-                                tree.add(dependency, lassoContext.parentDependency);
-                            }
-                        }
-                    };
-            }
+            var walkOptions = {};
+            walkOptions.lassoManifest = lassoManifest;
+            walkOptions.lassoContext = lassoContext;
+            walkOptions.on = {
+                dependency: function(dependency, lassoContext) {
+                    tree.add(dependency, lassoContext.parentDependency);
+                }
+            };
 
             dependencyWalker.walk(walkOptions, function(err) {
                     if (err) {
