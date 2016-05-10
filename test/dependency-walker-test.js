@@ -10,7 +10,7 @@ var lasso = require('../');
 describe('lasso/dependency-walker' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'dependency-walker-autotest'),
-        function (dir, done) {
+        function (dir, helpers, done) {
 
             var dependencyWalker = require('../lib/dependency-walker');
             var LassoManifest = require('../lib/LassoManifest');
@@ -60,10 +60,9 @@ describe('lasso/dependency-walker' , function() {
                     var output = tree.toString();
                     output = relativizePaths(output, dir);
 
-                    done(null, output);
+                    helpers.compare(output, '.txt');
+                    done();
                 });
-        }, {
-            compareExt: '.txt'
         });
 
 });

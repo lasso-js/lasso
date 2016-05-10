@@ -1,0 +1,11 @@
+{
+    "dependencies": [
+        "require: ./foo"
+    ],
+
+    "async": {
+        "foo": [
+            "./async-foo.js"
+        ]
+    }
+}

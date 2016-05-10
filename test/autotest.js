@@ -1,75 +1,62 @@
+'use strict';
+
 var fs = require('fs');
 var enabledTest = process.env.TEST;
 var path = require('path');
 var assert = require('assert');
 
+var enabledTestNames = enabledTest && enabledTest.split(/[\s*,\s*/]/);
+var enabledTests = null;
+
+if (enabledTestNames && enabledTestNames.length > 1) {
+    enabledTests = {};
+    enabledTest = null;
+    enabledTestNames.forEach((testName) => {
+        enabledTests[testName] = true;
+    });
+}
+
+var fs = require('fs');
+var enabledTest = process.env.TEST;
+var path = require('path');
+var assert = require('assert');
+
+
+function compareHelper(dir, actual, suffix) {
+    var actualPath = path.join(dir, 'actual' + suffix);
+    var expectedPath = path.join(dir, 'expected' + suffix);
+
+    var isObject = typeof actual === 'string' ? false : true;
+    var actualString = isObject ? JSON.stringify(actual, null, 4) : actual;
+    fs.writeFileSync(actualPath, actualString, { encoding: 'utf8' });
+
+    var expectedString;
+
+    try {
+        expectedString = fs.readFileSync(expectedPath, { encoding: 'utf8' });
+    } catch(e) {
+        expectedString = isObject ? '"TBD"' : 'TBD';
+        fs.writeFileSync(expectedPath, expectedString, {encoding: 'utf8'});
+    }
+
+    if (isObject) {
+        actual = JSON.parse(actualString);
+    }
+
+    var expected = isObject ? JSON.parse(expectedString) : expectedString;
+    assert.deepEqual(actual, expected);
+}
+
 function autoTest(name, dir, run, options, done) {
     options = options || {};
 
-    var compareExt = options.compareExt;
-
-    if (compareExt && compareExt.charAt(0) !== '.') {
-        compareExt = '.' + compareExt;
-    }
-
-    var actualPath = path.join(dir, 'actual' + compareExt);
-    var expectedPath = path.join(dir, 'expected' + compareExt);
-
-    run(dir, function(err, actual) {
-        if (err) {
-            return done(err);
+    var helpers = {
+        compare(actual, suffix) {
+            compareHelper(dir, actual, suffix);
         }
+    };
 
-        if (!compareExt) {
-            return done();
-        }
-
-        fs.writeFileSync(actualPath, compareExt === '.json' ? JSON.stringify(actual, null, 4) : actual, {encoding: 'utf8'});
-
-        var expected;
-
-        try {
-            expected = fs.readFileSync(expectedPath, { encoding: 'utf8' });
-        } catch(e) {
-            expected = compareExt === '.json' ? '"TBD"' : 'TBD';
-            fs.writeFileSync(expectedPath, expected, {encoding: 'utf8'});
-        }
-
-        if (compareExt === '.json') {
-            var expectedObject = JSON.parse(expected);
-
-            // Remove functions from the object
-            if (!actual) {
-                throw new Error(`Actual is not valid for ${name}`);
-            }
-            actual = JSON.parse(JSON.stringify(actual));
-
-            try {
-                assert.deepEqual(
-                    actual,
-                    expectedObject);
-            } catch(e) {
-                // var actualJSON = JSON.stringify(actual, null, 4);
-                // var expectedJSON = JSON.stringify(expectedObject, null, 4);
-                //
-                // console.error('Unexpected output for "' + name + '":\nEXPECTED (' + expectedPath + '):\n---------\n' + expectedJSON +
-                //     '\n---------\nACTUAL (' + actualPath + '):\n---------\n' + actualJSON + '\n---------');
-                throw new Error('Unexpected output for "' + name + '"');
-            }
-        } else {
-            if (actual !== expected) {
-                throw new Error('Unexpected output for "' + name + '"');
-            }
-        }
-
-        done();
-    });
-
-    // assert.deepEqual(
-    //     actual,
-    //     expected,
-    //     'Unexpected output for "' + name + '":\nEXPECTED (' + expectedPath + '):\n---------\n' + expectedJSON +
-    //     '\n---------\nACTUAL (' + actualPath + '):\n---------\n' + actualJSON + '\n---------');
+    run(dir, helpers, done);
 }
 
 exports.scanDir = function(autoTestDir, run, options) {
@@ -77,6 +64,10 @@ exports.scanDir = function(autoTestDir, run, options) {
         fs.readdirSync(autoTestDir)
             .forEach(function(name) {
                 if (name.charAt(0) === '.') {
+                    return;
+                }
+
+                if (enabledTests && !enabledTests[name]) {
                     return;
                 }
 

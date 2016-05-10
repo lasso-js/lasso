@@ -15,7 +15,7 @@ describe('lasso/modules-es6' , function() {
 
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'modules-es6-autotest'),
-        function (dir, done) {
+        function (dir, helpers, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);

@@ -12,7 +12,7 @@ var lasso = require('../');
 describe('lasso/plugins' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'plugins-autotest'),
-        function (dir, done) {
+        function (dir, helpers, done) {
 
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
@@ -42,7 +42,7 @@ describe('lasso/plugins' , function() {
 
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
-                    main.check(lassoPageResult, writerTracker);
+                    main.check(lassoPageResult, writerTracker, helpers);
                     lasso.flushAllCaches(done);
                 })
                 .catch(done);

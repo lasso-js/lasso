@@ -10,7 +10,7 @@ var fs = require('fs');
 describe('lasso/taglib' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'taglib-autotest'),
-        function (dir, done) {
+        function (dir, helpers, done) {
             var testName = nodePath.basename(dir);
             var pageName = 'taglib-' + testName;
 
@@ -65,10 +65,9 @@ describe('lasso/taglib' , function() {
                     return done(err);
                 }
 
-                done(null, html);
+                helpers.compare(html, '.marko');
+                done();
             });
-        }, {
-            compareExt: '.marko'
         });
 
 });

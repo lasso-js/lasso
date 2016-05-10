@@ -1,0 +1,13 @@
+{
+    "dependencies": [
+        {
+            "path": "./foo.js",
+            "slot": "my-inline-slot"
+        },
+        {
+            "path": "./bar.js",
+            "slot": "my-inline-slot"
+        },
+        "./baz.js"
+    ]
+}
