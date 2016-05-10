@@ -1,5 +1,3 @@
-var expect = require('chai').expect;
-
 exports.getLassoConfig = function() {
     return {
         fingerprintsEnabled: false,
@@ -20,5 +18,5 @@ exports.getLassoOptions = function() {
 
 exports.check = function(lassoPageResult, writerTracker, helpers) {
     var events = require('./plugin').events;
-    helpers.compare(events, '-events.json');
+    helpers.compare(helpers.relativizePaths(events), '-events.json');
 };

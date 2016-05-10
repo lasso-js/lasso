@@ -1,5 +1,6 @@
 function relativizePaths(o, dir) {
-
+    dir = dir || process.cwd();
+    
     function helper(o) {
         if (Array.isArray(o)) {
             return o.map(helper);
