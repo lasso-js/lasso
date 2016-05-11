@@ -18,5 +18,6 @@ exports.getLassoOptions = function() {
 
 exports.check = function(lassoPageResult, writerTracker, helpers) {
     var events = require('./plugin').events;
-    helpers.compare(helpers.relativizePaths(events), '-events.json');
+    var actual = helpers.normalizeOutput(events, { replaceVersions: true });
+    helpers.compare(actual, '-events.json');
 };

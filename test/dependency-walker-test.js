@@ -2,7 +2,7 @@
 var nodePath = require('path');
 require('chai').config.includeStack = true;
 var ok = require('assert').ok;
-var relativizePaths = require('./util/relativizePaths');
+var normalizeOutput = require('./util/normalizeOutput');
 
 var DependencyTree = require('../lib/DependencyTree');
 var lasso = require('../');
@@ -55,7 +55,7 @@ describe('lasso/dependency-walker' , function() {
                     }
 
                     var output = tree.toString();
-                    output = relativizePaths(output, dir);
+                    output = normalizeOutput(output, dir);
 
                     helpers.compare(output, '.txt');
                     done();

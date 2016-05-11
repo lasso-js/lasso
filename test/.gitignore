@@ -2,3 +2,4 @@
 *.dust.js
 ~*/
 actual.*
+actual-*

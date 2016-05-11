@@ -4,7 +4,7 @@ require('chai').config.includeStack = true;
 
 var WriterTracker = require('./util/WriterTracker');
 var rmdirRecursive = require('./util').rmdirRecursive;
-var relativizePaths = require('./util/relativizePaths');
+var normalizeOutput = require('./util/normalizeOutput');
 
 var buildDir = nodePath.join(__dirname, 'build');
 
@@ -14,7 +14,7 @@ describe('lasso/plugins' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'plugins-autotest'),
         function (dir, helpers, done) {
-            helpers.relativizePaths = relativizePaths;
+            helpers.normalizeOutput = normalizeOutput;
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
             var pageName = 'plugins-' + testName;
