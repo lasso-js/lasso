@@ -29,6 +29,10 @@ Changelog
 
 ## 2.3.x
 
+### 2.3.6
+
+- Fixes #137 - Don't allow double callbacks in case of multiple errors on the same read stream
+
 ### 2.3.5
 
 - Fixes #136 - Just use a unique ID for packages if calculateKey() is not implemented
