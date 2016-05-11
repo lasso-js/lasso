@@ -34,6 +34,26 @@ Changelog
 - Fixes #136 - Just use a unique ID for packages if calculateKey() is not implemented
 - Added new events: `beforeAddDependencyToAsyncPageBundle`, `beforeAddDependencyToSyncPageBundle`
 
+Example plugin:
+
+```javascript
+module.exports = exports = function(lasso, config) {
+    lasso.on('beforeBuildPage', (event) => {
+        var context = event.context;
+
+        context.on('beforeAddDependencyToSyncPageBundle', (event) => {
+            var dependency = event.dependency;
+
+        });
+
+        context.on('beforeAddDependencyToAsyncPageBundle', (event) => {
+            var dependency = event.dependency;
+
+        });
+    });
+};
+```
+
 ### 2.3.4
 
 - Fixed #135 - Incorrect key is calculated for require dependencies in `browser.json` files in some situations
