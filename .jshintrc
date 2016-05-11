@@ -1,16 +1,6 @@
 {
-    "predef": [
-        
-    ],
-
-    "globals": {
-        "define": true,
-        "require": true
-    },
-
     "node" : true,
-    "es5" : false,
-    "browser" : true,
+    "esnext": true,
     "boss" : false,
     "curly": false,
     "debug": false,
@@ -29,12 +19,11 @@
     "plusplus": false,
     "regexp": false,
     "undef": true,
-    "sub": true,
+    "sub": false,
     "white": false,
     "eqeqeq": false,
-    "latedef": true,
+    "latedef": "func",
     "unused": "vars",
     "strict": false,
-    
     "eqnull": true
 }
