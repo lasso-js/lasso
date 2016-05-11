@@ -29,6 +29,10 @@ Changelog
 
 ## 1.19.x
 
+### 1.19.1
+
+- Fixes #137 - Don't allow double callbacks in case of multiple errors on the same read stream
+
 ### 1.19.0
 
 - Plugins API: Added support for new events: `beforeAddDependencyToAsyncPageBundle`, `beforeAddDependencyToSyncPageBundle`
@@ -47,7 +51,7 @@ module.exports = exports = function(lasso, config) {
 
         context.on('beforeAddDependencyToAsyncPageBundle', (event) => {
             var dependency = event.dependency;
-            
+
         });
     });
 };
