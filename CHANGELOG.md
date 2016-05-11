@@ -27,6 +27,32 @@ Changelog
 
 # 1.x
 
+## 1.19.x
+
+### 1.19.0
+
+- Plugins API: Added support for new events: `beforeAddDependencyToAsyncPageBundle`, `beforeAddDependencyToSyncPageBundle`
+
+Example plugin:
+
+```javascript
+module.exports = exports = function(lasso, config) {
+    lasso.on('beforeBuildPage', (event) => {
+        var context = event.context;
+
+        context.on('beforeAddDependencyToSyncPageBundle', (event) => {
+            var dependency = event.dependency;
+
+        });
+
+        context.on('beforeAddDependencyToAsyncPageBundle', (event) => {
+            var dependency = event.dependency;
+            
+        });
+    });
+};
+```
+
 ## 1.18.x
 
 ### 1.18.2
