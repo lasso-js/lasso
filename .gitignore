@@ -12,3 +12,4 @@ coverage
 *.actual.html
 .lasso-cache
 .cache
+~*
