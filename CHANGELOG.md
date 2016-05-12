@@ -27,6 +27,12 @@ Changelog
 
 # 2.x
 
+## 2.4.x
+
+### 2.4.0
+
+- Fixes #141 - Add support for UTF8 encoding inline images in CSS files
+
 ## 2.3.x
 
 ### 2.3.6
