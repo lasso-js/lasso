@@ -29,6 +29,10 @@ Changelog
 
 ## 2.4.x
 
+### 2.4.1
+
+- Fixes #143 - Only encode new lines when using utf8 encoding for data uri
+
 ### 2.4.0
 
 - Fixes #141 - Add support for UTF8 encoding inline images in CSS files
