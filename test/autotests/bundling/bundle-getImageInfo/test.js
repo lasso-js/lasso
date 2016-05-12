@@ -12,7 +12,7 @@ exports.getLassoOptions = function() {
         dependencies: [
             {
                 type: 'require',
-                path: require.resolve('../../../taglib/helper-getImageInfo')
+                path: require.resolve('../../../../taglib/helper-getImageInfo')
             }
         ]
     };

@@ -9,7 +9,7 @@ var fs = require('fs');
 
 describe('lasso/taglib' , function() {
     require('./autotest').scanDir(
-        nodePath.join(__dirname, 'taglib-autotest'),
+        nodePath.join(__dirname, 'autotests/taglib'),
         function (dir, helpers, done) {
             var testName = nodePath.basename(dir);
             var pageName = 'taglib-' + testName;
