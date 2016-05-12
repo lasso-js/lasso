@@ -73,7 +73,7 @@ describe('lasso/bundling' , function() {
                             if (checkError) {
                                 return done('Error expected');
                             }
-                            check(lassoPageResult, writerTracker);
+                            check(lassoPageResult, writerTracker, helpers);
                             lasso.flushAllCaches(callback);
                         })
                         .catch((err) => {
