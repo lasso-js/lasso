@@ -29,6 +29,10 @@ Changelog
 
 ## 2.4.x
 
+### 2.4.2
+
+- Code cleanup for base64 encoding
+
 ### 2.4.1
 
 - Fixes #143 - Only encode new lines when using utf8 encoding for data uri
