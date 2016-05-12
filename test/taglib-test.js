@@ -112,4 +112,16 @@ describe('lasso/taglib' , function() {
 
         testRender('test-project/src/pages/attrs-test/template.marko', {}, done);
     });
+
+    it('should handle inline CSS that has inline SVG', function(done) {
+        require('../').configure({
+            outputDir: nodePath.join(__dirname, 'build'),
+            urlPrefix: '/static',
+            includeSlotNames: false,
+            fingerprintsEnabled: true,
+            flags: ['browser']
+        }, __dirname);
+
+        testRender('test-project/src/pages/inline-css/template.marko', {}, done);
+    });
 });
