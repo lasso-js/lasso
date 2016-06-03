@@ -57,7 +57,7 @@ exports.getLassoOptions = function() {
 };
 
 exports.check = function(lassoPageResult, writerTracker) {
-    var expected = '.foo {background-image: url(ebay-logo-d481eb85.png);}';
+    var expected = '.foo {background-image: url(\'ebay-logo-d481eb85.png\');}';
     var actual = writerTracker.getCodeForPath(lassoPageResult.getCSSFiles()[0]);
     // console.log(actual);
     expect(actual).to.equal(expected);
