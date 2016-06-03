@@ -29,6 +29,10 @@ Changelog
 
 ## 2.4.x
 
+### 2.4.3
+
+- Loader metadata for lazily loading packages is no longer stored in a global variable and is instead integrated with the lasso modules client runtime. This change prevents separate lasso builds of JavaScript libraries from conflicting with each other when both added to the same web page.
+
 ### 2.4.2
 
 - Code cleanup for base64 encoding

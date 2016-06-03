@@ -1,8 +1,8 @@
 var lassoLoader = require('lasso-loader');
 var path = require('path');
+var loaderMeta = module.__loaderMetadata;
 
 lassoLoader.async = function(asyncId, callback) {
-    var loaderMeta = window.$lassoLoaderMeta;
     var resources = loaderMeta ? loaderMeta[asyncId] : null;
     if (!resources) {
         throw new Error('Loader metadata missing for "' + asyncId + '"');

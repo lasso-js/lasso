@@ -3,7 +3,6 @@
     "beforeAddDependencyToSyncPageBundle:[commonjs-runtime]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-ready: inline=\"end\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-builtin: name=\"lasso-loader\", target=\"/lasso-loader$x.x.x/src/index\"]",
-    "beforeAddDependencyToSyncPageBundle:[loader-metadata]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-installed: parentPath=\"/lasso-loader$x.x.x\", childName=\"raptor-util\", childVersion=\"x.x.x\", parentDir=\"/node_modules/lasso-loader\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/raptor-util$x.x.x/extend\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/lasso-loader$x.x.x/src/resource-loader\"]",
@@ -11,5 +10,6 @@
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/events$x.x.x/events\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/lasso-loader$x.x.x/src/index\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/autotest$x.x.x/foo\"]",
-    "beforeAddDependencyToAsyncPageBundle:[js: path=\"/test/autotests/plugins/events/async-foo.js\"]"
+    "beforeAddDependencyToAsyncPageBundle:[js: path=\"/test/autotests/plugins/events/async-foo.js\"]",
+    "beforeAddDependencyToSyncPageBundle:[loaderMetadata:foo|body/js//plugins-events-async]"
 ]
