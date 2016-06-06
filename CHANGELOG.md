@@ -27,9 +27,13 @@ Changelog
 
 # 2.x
 
-## 2.4.x
+## 2.5.x
 
-### 2.4.3
+### 2.5.1
+
+- Fixed #146 - Slot timeout causes other slots to timeout
+
+### 2.5.0
 
 - Loader metadata for lazily loading packages is no longer stored in a global variable and is instead integrated with the lasso modules client runtime. This change prevents separate lasso builds of JavaScript libraries from conflicting with each other when both added to the same web page.
 
