@@ -63,7 +63,13 @@ module.exports = function render(input, out) {
 
         lassoPageResultAsyncValue.done(function(err, lassoPageResult) {
             if (err) {
-                asyncOut.error(err);
+                // Trigger the error next tick so that it doesn't prevent
+                // other listeners from being invoked in calling asyncOut.error()
+                // triggers another error
+                process.nextTick(() => {
+                    asyncOut.error(err);
+                });
+
                 return;
             }
 
