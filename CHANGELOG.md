@@ -29,6 +29,10 @@ Changelog
 
 ## 2.5.x
 
+### 2.5.2
+
+- Added `null`/`undefined` when building async loader metadata
+
 ### 2.5.1
 
 - Fixed #146 - Slot timeout causes other slots to timeout
