@@ -6,21 +6,23 @@
                 "name": "string",
                 "cache-key": "string",
                 "package-path": "path",
-                "package-paths": "expression",
+                "package-paths": "array",
                 "base-path": "string",
-                "lasso": "expression",
-                "data": "expression",
+                "lasso": "lasso/Lasso",
+                "data": "object",
                 "dependencies": "expression",
-                "flags": "expression",
+                "flags": "array",
                 "enabled-extensions": {
                     "target-property": "flags",
-                    "type": "expression"
+                    "type": "array",
+                    "autocomplete": []
                 },
                 "extensions": {
                     "target-property": "flags",
-                    "type": "expression"
+                    "type": "expression",
+                    "autocomplete": []
                 },
-                "wait-for": "expression",
+                "wait-for": "Promise",
                 "timeout": "integer"
             },
             "no-output": true,
@@ -28,29 +30,57 @@
             "import-var": {
                 "dirname": "__dirname",
                 "filename": "__filename"
-            }
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko"
+                },
+                {
+                    "displayText": "lasso-page package-path=\"<path>\"",
+                    "snippet": "lasso-page package-path=\"${1:./browser.json}\"",
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko"
+                }
+            ]
         },
         "lasso-slot": {
             "renderer": "./taglib/slot-tag",
             "attributes": {
                 "name": "string",
-                "inline-style-attrs": "expression",
-                "inline-script-attrs": "expression",
-                "external-style-attrs": "expression",
-                "external-script-attrs": "expression"
-            }
+                "inline-style-attrs": "object",
+                "inline-script-attrs": "object",
+                "external-style-attrs": "object",
+                "external-script-attrs": "object"
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true
+                }
+            ]
         },
         "lasso-head": {
             "renderer": "./taglib/head-tag",
             "attributes": {
                 "external-style-attrs": "expression"
-            }
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true
+                }
+            ]
         },
         "lasso-body": {
             "renderer": "./taglib/body-tag",
             "attributes": {
                 "external-script-attrs": "expression"
-            }
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true
+                }
+            ]
         },
         "lasso-img": {
             "code-generator": "./taglib/lasso-img-tag",
@@ -59,7 +89,19 @@
                 "*": {
                     "ignore": true
                 }
-            }
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true
+                },
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true,
+                    "displayText": "lasso-img src=\"\"",
+                    "snippet": "lasso-img src=\"${1:./foo.png}\""
+                }
+            ]
         },
         "_lasso-resources-root": {
             "renderer": "./taglib/lasso-resources-root-tag",
@@ -73,7 +115,19 @@
             "attributes": {
                 "path": "path",
                 "var": "string"
-            }
+            },
+            "autocomplete": [
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true
+                },
+                {
+                    "descriptionMoreURL": "https://github.com/lasso-js/lasso#using-lassojs-taglib-with-marko",
+                    "openTagOnly": true,
+                    "displayText": "lasso-resource path=\"\" var=\"\"",
+                    "snippet": "lasso-resource path=\"${1:./favicon.ico}\" var=\"${2:favicon}\""
+                }
+            ]
         },
         "*": {
             "attributes": {
