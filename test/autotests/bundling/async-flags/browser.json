@@ -1,0 +1,15 @@
+{
+    "dependencies": [
+        "./foo.js"
+    ],
+    "async": {
+        "foo": [
+            {
+                "if-flag": "INVALID",
+                "dependencies": [
+                    "./DO_NOT_INCLUDE_ME.js"
+                ]
+            }
+        ]
+    }
+}
