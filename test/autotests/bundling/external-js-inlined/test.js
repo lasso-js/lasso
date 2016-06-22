@@ -19,7 +19,7 @@ exports.getInputs = function() {
                 ]
             },
             check(lassoPageResult, writerTracker) {
-                expect(lassoPageResult.getBodyHtml()).to.equal('<script src="/static/bundling-external-js-inlined-b66ed708.js"></script>');
+                expect(lassoPageResult.getBodyHtml()).to.equal('<script src="/static/bundling-external-js-inlined-445d8c96.js"></script>');
                 expect(lassoPageResult.getHeadHtml()).to.equal('');
             }
         }

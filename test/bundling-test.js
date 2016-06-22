@@ -9,6 +9,17 @@ var buildDir = nodePath.join(__dirname, 'build');
 
 var lasso = require('../');
 
+var Readable = require('stream').Readable;
+
+
+var urlReader = require('../lib/util/url-reader');
+urlReader.createUrlReadStream = function(url) {
+    var readable = new Readable();
+    readable.push('EXTERNAL:' + url);
+    readable.push(null);
+    return readable;
+};
+
 describe('lasso/bundling' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/bundling'),
