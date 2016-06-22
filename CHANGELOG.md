@@ -5,6 +5,21 @@ Changelog
 
 ## 2.5.x
 
+### 2.5.5
+
+- Fixes #147 - EPERM 'operation not permitted' on rename
+- Fixes #148 - css urls resolved incorrectly with multiple pages when bundling disabled
+- Testing: Don't actually read external URLs when running tests
+
+### 2.5.4
+
+- Fixes #149 - if-flag is ignored in async section of browser.json
+
+### 2.5.3
+
+- Updated taglib type and autocomplete information for tooling
+- Docs: Added [Michael Rawlings](https://github.com/mlrawlings) as a maintainer
+
 ### 2.5.2
 
 - Added `null`/`undefined` when building async loader metadata
