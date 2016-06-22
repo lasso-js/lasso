@@ -1,7 +1,7 @@
 
 var expect = require('chai').expect;
 
-exports.check = function(lasso) {
+exports.check = function(lasso, helpers, done) {
     var myLasso1 = lasso.create({
         require: {
             test: 'abc'
@@ -21,5 +21,7 @@ exports.check = function(lasso) {
     expect(requirePlugin1.config.test).to.equal('abc');
     expect(requirePlugin2.config.test).to.not.exist;
     expect(requirePlugin3.config.test).to.not.exist;
+
+    done();
 };
 
