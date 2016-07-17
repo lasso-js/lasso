@@ -1,7 +1,6 @@
 var getImageInfoHelperPath = require.resolve('./helper-getImageInfo');
 
 module.exports = function codeGenerator(el, codegen) {
-
     if (el.isFlagSet('lassoTransformed')) {
         return el;
     }
@@ -17,12 +16,21 @@ module.exports = function codeGenerator(el, codegen) {
     var imageInfoVar = builder.identifier('imageInfo' + (nextVarId++));
 
     var src = codegen.resolvePath(el.getAttributeValue('src'));
+    var retinaSrc;
 
     el.setAttributeValue('src',
         builder.memberExpression(
             imageInfoVar,
             builder.identifier('url')));
 
+    if (el.hasAttribute('srcset')) {
+        retinaSrc = codegen.resolvePath(el.getAttributeValue('srcset'));
+
+        el.setAttributeValue('srcset',
+            builder.memberExpression(
+                imageInfoVar,
+                builder.identifier('srcset')));
+    }
 
     if (!el.hasAttribute('width')) {
         el.setAttributeValue('width',
@@ -45,6 +53,7 @@ module.exports = function codeGenerator(el, codegen) {
     return builder.functionCall(getImageInfoVar, [
         builder.identifierOut(),
         src,
+        retinaSrc || src,
         builder.functionDeclaration(
             null, // Callback name
             [ // Callback params
