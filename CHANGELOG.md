@@ -29,6 +29,14 @@ Changelog
 
 ## 1.20.x
 
+### 1.20.2
+
+- Fixed #158 - Disable decoding of entities for inline slot HTML
+
+### 1.20.1
+
+- Fixed #149 - if-flag is ignored in async section of browser.json
+
 ### 1.20.0
 
 - Fixes #141 - Add support for UTF8 encoding inline images in CSS files
