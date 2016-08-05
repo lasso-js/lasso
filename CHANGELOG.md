@@ -5,6 +5,10 @@ Changelog
 
 ## 2.5.x
 
+### 2.5.6
+
+- Fixed #156 - Lasso is generating very long names in development triggering `ENAMETOOLONG` error [PR #157](https://github.com/lasso-js/lasso/pull/157) from [@mlrawlings](https://github.com/mlrawlings)
+
 ### 2.5.5
 
 - Fixes #147 - EPERM 'operation not permitted' on rename
