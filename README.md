@@ -1605,6 +1605,7 @@ __Third-party plugins__
 * [lasso-clean-css](https://github.com/yomed/lasso-clean-css): Minify CSS files using [clean-css](https://github.com/jakubpawlowicz/clean-css)
 * [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer): Autoprefix CSS with vendor prefixes using [autoprefixer-core](https://github.com/postcss/autoprefixer-core)
 * [lasso-modernizr](https://github.com/darkwebdev/lasso-modernizr): Generate custom [Modernizr](https://modernizr.com) build
+* [lasso-optimize-iife](https://github.com/austinkelleher/lasso-optimize-iife): Optimize JavaScript immediately-invoked functions using [optimize-js](https://github.com/nolanlawson/optimize-js)
 
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
