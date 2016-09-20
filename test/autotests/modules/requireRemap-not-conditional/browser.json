@@ -1,0 +1,8 @@
+{
+    "requireRemap": [
+        {
+            "from": "./foo.js",
+            "to": "./foo-browser.js"
+        }
+    ]
+}
