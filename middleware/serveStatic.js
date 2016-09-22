@@ -41,7 +41,19 @@ module.exports = function(options) {
     sendOptions.root = outputDir;
 
 
-    return function(req, res, next) {
+    return function(arg1, arg2, arg3) {
+        var req, res, next;
+        
+        if(arg3) { // express
+            req = arg1;
+            res = arg2;
+            next = arg3;
+        } else { // koa
+            req = arg1.request;
+            res = arg1.response;
+            next = arg2;
+        }
+        
         var path = req.path;
         if (!path.startsWith(routePrefix) || (req.method !== 'GET' && req.method !== 'HEAD')) {
             return next();
