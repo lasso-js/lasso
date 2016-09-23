@@ -998,7 +998,32 @@ lasso style.less \
 
 After opening `my-page.html` in your web browser you should then see the same output written to the browser's JavaScript console.
 
-## Runtime Optimization with Express
+## Middleware for Express and Koa
+
+Lasso includes optional middleware for both Express and Koa that can be used to serve up the static files that it generates.
+
+### `serveStatic(options)``
+
+The [`serveStatic` middleware]() provided by Lasso is a small wrapper around the [send](https://github.com/pillarjs/send) package.
+
+Supported options:
+
+- __lasso__ - The configured lasso instance (defaults to `require('lasso').getDefaultLasso()`)
+- __sendOptions__ - Pass through options for the `send` module. See [send » options](https://github.com/pillarjs/send#optionsd)
+
+### Using `serveStatic` with Express
+
+```javascript
+app.use(require('lasso/middleware').serveStatic(options));
+```
+
+### Using `serveStatic` with Koa
+
+```javascript
+app.use(require('lasso/middleware/koa').serveStatic(options));
+```
+
+## Runtime Optimization with Express and Koa
 
 <hr>
 
@@ -1006,7 +1031,7 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 <hr>
 
-Lasso.js has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use Lasso.js at runtime is to use the taglib and simply render the page template to the response output stream.
+Lasso.js has a smart caching layer and is fast enough so that it can be used at runtime as part of your server application. The easiest way to use Lasso.js at runtime is to use the Marko taglib and simply render the page template to the response output stream.
 
 The first time the page renders, the page will be lassoed and cached and the output of the lasso will be used to produce the final page HTML. After the first page rendering, the only work that will be done by Lasso.js is a simple cache lookup.
 
@@ -1015,13 +1040,20 @@ By default, Lasso.js writes all resource bundles into the `static/` directory at
 __server.js__
 
 ```javascript
+require('marko/node-require');
+require('marko/express');
+
 var express = require('express');
 var compression = require('compression');
 var serveStatic = require('serve-static');
 
 // Load the page template:
-var template = require('marko')
-    .load(require.resolve('./template.marko')
+var template = require('./template.marko');
+
+// Configure the default lasso
+require('lasso').configure({
+
+});
 
 var app = express();
 
@@ -1030,14 +1062,13 @@ app.use(compression());
 
 // Any URL that begins with "/static" will be served up
 // out of the "static/" directory:
-app.use('/static', serveStatic(__dirname + '/static'));
+app.use(require('lasso/middleware').serveStatic());
 
 app.get('/', function(req, res) {
     // Render the page template as normal:
-    template.render({
+    res.marko(template, {
             name: 'Frank'
-        },
-        res);
+        });
 });
 ...
 
