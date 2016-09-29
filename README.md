@@ -116,6 +116,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 	- [Default Configuration](#default-configuration)
 	- [Complete Configuration](#complete-configuration)
 - [Node.js-style Module Support](#nodejs-style-module-support)
+- [Babel Support](#babel-support)
 - [No Conflict Builds](#no-conflict-builds)
 - [Content Security Policy Support](#content-security-policy-support)
 - [Available Plugins](#available-plugins)
@@ -1385,6 +1386,10 @@ The [lasso-require](https://github.com/lasso-js/lasso-require) plugin will autom
 The `lasso-require` plugin also supports [browserify shims](https://github.com/substack/node-browserify#compatibility) and [browserify transforms](https://github.com/substack/node-browserify/wiki/list-of-transforms).
 
 For more details on how the Node.js modules are supported on the browser, please see the documentation for the [lasso-js-samples/lasso-require](https://github.com/lasso-js/lasso-require) plugin.
+
+# Babel Support
+
+The [lasso-babel-transform](https://github.com/lasso-js/lasso-babel-transform) module provides support for transpiling JavaScript/JSX code using [babel](https://babeljs.io/). Please see the [lasso-babel-transform](https://github.com/lasso-js/lasso-babel-transform) docs for information on how to use that transform.
 
 # No Conflict Builds
 
