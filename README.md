@@ -658,12 +658,12 @@ __Using the Marko taglib:__
 <hr>
 
 
-Lasso.js supports asynchronously loading dependencies using the lightweight [raptor-loader](https://github.com/raptorjs/raptor-loader/blob/master/lib/raptor-loader.js) module as shown in the following sample code:
+Lasso.js supports asynchronously loading dependencies using the lightweight [lasso-loader](https://github.com/lasso-js/lasso-loader) module as shown in the following sample code:
 
 ```javascript
-var raptorLoader = require('raptor-loader');
+var lassoLoader = require('lasso-loader');
 
-raptorLoader.async(function(err) {
+lassoLoader.async(function(err) {
     // Any modules that are required within the scope
     // of this function will be loaded asynchronously*.
     // Lasso.js ensures that modules are only
@@ -686,12 +686,12 @@ raptorLoader.async(function(err) {
 });
 ```
 
-During optimization, Lasso.js detects the call to `require('raptor-loader').async(...)` and transforms the code such that the function is not invoked until all of the required modules referenced in the body of callback function are completely loaded.
+During optimization, Lasso.js detects the call to `require('lasso-loader').async(...)` and transforms the code such that the function is not invoked until all of the required modules referenced in the body of callback function are completely loaded.
 
 You can also specify additional explicit dependencies if necessary:
 
 ```javascript
-require('raptor-loader').async(
+require('lasso-loader').async(
     [
         './style.less',
         'some/other/browser.json'
@@ -724,7 +724,7 @@ You can also choose to declare async dependencies in an `browser.json` file:
 
 The async dependencies can then be referenced in code:
 ```javascript
-require('raptor-loader').async(
+require('lasso-loader').async(
     'my-module/lazy',
     function() {
         var foo = require('foo');
