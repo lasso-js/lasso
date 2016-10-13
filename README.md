@@ -1281,7 +1281,7 @@ This could also be expressed as a percentage:
 
     "minifyInlineCSSOnly": false, // Only minify inline CSS resources
 
-    // If "resolveCssUrls" is set to try then URLs found in CSS files will be
+    // If "resolveCssUrls" is set to true then URLs found in CSS files will be
     // resolved and the original URLs will be replaced with the resolved URLs.
     // (defaults to true)
     "resolveCssUrls": true,
@@ -1438,7 +1438,7 @@ __page.marko__
         <lasso-slot name="css-slot" inline-style-attrs="{'css-custom3': true}"/>
     </head>
     <body>
-        <lasso-body external-script-attrs="{'js-custom1': true}"/>    
+        <lasso-body external-script-attrs="{'js-custom1': true}"/>
         <lasso-slot name="ext-js-slot" external-script-attrs="{'js-custom2': true}"/>
         <lasso-slot name="js-slot" inline-script-attrs="{'js-custom3': true}"/>
     </body>
@@ -1450,9 +1450,9 @@ __browser.json__
 {
     "dependencies": [
         { "path": "style-ext.css", "slot": "ext-css-slot" },
-        { "path": "test-ext.js", "slot": "ext-js-slot" },    
+        { "path": "test-ext.js", "slot": "ext-js-slot" },
         "style.css",
-        "test.js",    
+        "test.js",
         { "path": "style-inline.css", "inline": true, "slot": "css-slot" },
         { "path": "test-inline.js", "inline": true, "slot": "js-slot" }
     ]
