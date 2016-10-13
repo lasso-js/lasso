@@ -1286,6 +1286,11 @@ This could also be expressed as a percentage:
     // (defaults to true)
     "resolveCssUrls": true,
 
+    // If "relativeUrlsEnabled" is set to false then URLs found in CSS files will
+    // be absolute based on the urlPrefix. This default is false, which creates
+    // relative URLs in CSS files.
+    "relativeUrlsEnabled": true,
+
     // If "bundlingEnabled" is set to true then dependencies will be concatenated
     // together into one or more bundles. If set to false then each dependency
     // will be written to a separate file. (defaults to true)
