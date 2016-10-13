@@ -5,6 +5,24 @@ Changelog
 
 ## 2.5.x
 
+### 2.5.10
+
+- Added support for a new `relativeUrlsEnabled` configuration option ([PR #167](https://github.com/lasso-js/lasso/pull/167) by [@reid](https://github.com/reid))
+- Upgraded [glob](https://www.npmjs.com/package/glob) version ([PR #166](https://github.com/lasso-js/lasso/pull/166) by [@yomed](https://github.com/yomed))
+- Docs: various improvements to documentation by ([@yomed](https://github.com/yomed))
+
+### 2.5.9
+
+- Introduced Koa-compatible middleware ([PR #163](https://github.com/lasso-js/lasso/pull/163) by [@yomed](https://github.com/yomed))
+
+### 2.5.8
+
+- Added tests for #160 - lastSlot configuration option for the require plugin
+
+### 2.5.7
+
+- Upgraded to `raptor-util@2.0.0`
+
 ### 2.5.6
 
 - Fixed #156 - Lasso is generating very long names in development triggering `ENAMETOOLONG` error [PR #157](https://github.com/lasso-js/lasso/pull/157) from [@mlrawlings](https://github.com/mlrawlings)
