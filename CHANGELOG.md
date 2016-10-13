@@ -3,13 +3,15 @@ Changelog
 
 # 2.x
 
-## 2.5.x
+## 2.6.x
 
-### 2.5.10
+### 2.6.0
 
 - Added support for a new `relativeUrlsEnabled` configuration option ([PR #167](https://github.com/lasso-js/lasso/pull/167) by [@reid](https://github.com/reid))
 - Upgraded [glob](https://www.npmjs.com/package/glob) version ([PR #166](https://github.com/lasso-js/lasso/pull/166) by [@yomed](https://github.com/yomed))
 - Docs: various improvements to documentation by ([@yomed](https://github.com/yomed))
+
+## 2.5.x
 
 ### 2.5.9
 
