@@ -98,6 +98,7 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 	- [JSON Configuration File](#json-configuration-file)
 	- [Dependencies](#dependencies)
 		- [External Dependencies](#external-dependencies)
+		- [Dependency Attributes](#dependency-attributes)
 		- [Conditional Dependencies](#conditional-dependencies)
 		- [Enabling Flags](#enabling-flags)
 	- [Asynchronous/Lazy Loading](#asynchronouslazy-loading)
@@ -574,6 +575,34 @@ By default, Lasso.js will not bundle external resources with your application's 
 
 Setting `external` to `false` in the above example will result in jQuery being downloaded from the CDN and bundled with all of the other JS code for the app. That is, the code for jQuery will not be served up by the jQuery CDN.
 
+### Dependency Attributes
+
+Adding an `attributes` object to a dependency definition will result in those attributes being defined on the html tag for that dependency.  For bundled dependencies, these attributes will be merged with latter dependencies taking priority.
+
+The following is an example using the `integrity` and `crossorigin` attributes for [Subresource Integrity (SRI) checking](https://www.w3.org/TR/SRI/). This allows browsers to ensure that resources hosted on third-party servers have not been tampered with. Use of SRI is recommended as a best-practice, whenever libraries are loaded from a third-party source.
+
+```json
+{
+	"dependencies": [
+	    {
+        "type": "js",
+        "url": "https://code.jquery.com/jquery-3.1.1.min.js",
+        "attributes":{
+          "integrity":"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=",
+          "crossorigin":"anonymous"
+        }
+      }
+	]
+}
+```
+
+**Generated Output:**
+```html
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+```
 
 ### Conditional Dependencies
 
