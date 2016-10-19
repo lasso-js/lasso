@@ -1,0 +1,1 @@
+exports.serveStatic = require('./serveStatic');

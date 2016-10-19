@@ -1,7 +1,7 @@
 require('raptor-polyfill/string/startsWith');
 require('raptor-polyfill/string/endsWith');
 
-var lasso = require('../');
+var lasso = require('../../');
 var send = require('send');
 var extend = require('raptor-util/extend');
 
@@ -9,7 +9,7 @@ function notFound() {
     this.error(404);
 }
 
-module.exports = function(options) {
+module.exports = function (options) {
     options = options || {};
 
     var myLasso = options.lasso || lasso.getDefaultLasso();
@@ -23,7 +23,7 @@ module.exports = function(options) {
     }
 
     if (!outputDir || !urlPrefix) {
-        return function(req, res, next) {
+        return function (req, res, next) {
             return next();
         };
     }
@@ -40,31 +40,34 @@ module.exports = function(options) {
 
     sendOptions.root = outputDir;
 
+    return function* (next) {
 
-    return function(ctx, next) {
-        var req = ctx.request,
-            res = ctx.response;
+        var ctx = this;
 
-        var path = req.path;
-        if (!path.startsWith(routePrefix) || (req.method !== 'GET' && req.method !== 'HEAD')) {
-            return next();
+        var path = ctx.request.path;
+        if (!path.startsWith(routePrefix) || (ctx.request.method !== 'GET' && ctx.request.method !== 'HEAD')) {
+            return yield next;
         }
+
+        ctx.respond = false;
 
         var filePath = path.substring(routePrefix.length);
 
-        // create send stream
-        var stream = send(req, filePath, sendOptions);
-
-        // add directory handler
-        stream.on('directory', notFound);
-
-        // forward errors
-        stream.on('error', function error(err) {
-            res.statusCode = err.statusCode || 500;
-            res.end('Not found: ' + filePath);
+        yield new Promise(function (resolve, reject) {
+            send(ctx.req, filePath, sendOptions)
+                .on('error', function(err) {
+                    ctx.res.statusCode = err.statusCode || 500;
+                    ctx.res.end('Not found: ' + filePath);
+                    reject(err);
+                })
+                .on('directory', notFound)
+                .on('headers', function(req, path, stat) {
+                    ctx.status = 200;
+                })
+                .on('end', function() {
+                    resolve();
+                })
+                .pipe(ctx.res);
         });
-
-        // pipe
-        stream.pipe(res);
     };
 };

@@ -12,6 +12,9 @@
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
+  "contributors": [
+    "Karl Morrison <karl@basickarl.io>"  
+  ],
   "dependencies": {
     "app-module-path": "^1.0.0",
     "app-root-dir": "^1.0.0",
@@ -68,5 +71,5 @@
     "concat",
     "minify"
   ],
-  "version": "2.6.0"
+  "version": "2.6.2"
 }
