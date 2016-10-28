@@ -1,0 +1,8 @@
+{
+    "dependencies": [
+        "style.css",
+        "client.js",
+        { "path": "./style-inline.css", "inline": true, "slot": "css-slot" },
+        { "path": "./client-inline.js", "inline": true, "slot": "js-slot" }
+    ]
+}

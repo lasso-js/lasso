@@ -36,6 +36,7 @@
     "raptor-logging": "^1.0.1",
     "raptor-objects": "^1.0.1",
     "raptor-polyfill": "^1.0.0",
+    "raptor-promises": "^1.0.3",
     "raptor-regexp": "^1.0.0",
     "raptor-strings": "^1.0.0",
     "raptor-util": "^2.0.0",
@@ -53,6 +54,7 @@
     "fs-extra": "~0.12.0",
     "jshint": "^2.9.1",
     "lasso-marko": "^2.0.1",
+    "marko-v2": "^2.10.1",
     "mocha": "^2.4.5"
   },
   "license": "Apache-2.0",

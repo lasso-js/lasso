@@ -1,0 +1,115 @@
+{
+    "tags": {
+        "lasso-page": {
+            "renderer": "./taglib-marko2/page-tag",
+            "transformer": "./taglib-marko2/page-tag-transformer",
+            "attributes": {
+                "name": "string",
+                "cache-key": "string",
+                "package-path": "string",
+                "package-paths": "expression",
+                "base-path": "string",
+                "lasso": "expression",
+                "data": "expression",
+                "dependencies": "expression",
+                "flags": "expression",
+                "enabled-extensions": {
+                    "target-property": "flags",
+                    "type": "expression"
+                },
+                "extensions": {
+                    "target-property": "flags",
+                    "type": "expression"
+                },
+                "wait-for": "expression",
+                "timeout": "integer"
+            },
+            "body-function": "getDependencies(_dependenciesParent)",
+            "import-var": {
+                "dirname": "__dirname",
+                "filename": "__filename"
+            }
+        },
+        "lasso-dependencies": {
+            "renderer": "./taglib-marko2/dependencies-tag"
+        },
+        "lasso-dependency": {
+            "renderer": "./taglib-marko2/dependency-tag",
+            "import-var": {
+                "dependenciesParent": "_dependenciesParent"
+            },
+            "attributes": {
+                "*": "string"
+            }
+        },
+        "lasso-slot": {
+            "renderer": "./taglib-marko2/slot-tag",
+            "attributes": {
+                "name": "string",
+                "inline-style-attrs": "expression",
+                "inline-script-attrs": "expression",
+                "external-style-attrs": "expression",
+                "external-script-attrs": "expression"
+            }
+        },
+        "lasso-head": {
+            "renderer": "./taglib-marko2/head-tag",
+            "attributes": {
+                "external-style-attrs": "expression"
+            }
+        },
+        "lasso-body": {
+            "renderer": "./taglib-marko2/body-tag",
+            "attributes": {
+                "external-script-attrs": "expression"
+            }
+        },
+        "lasso-img": {
+            "attributes": {
+                "src": "path",
+                "*": {
+                    "ignore": true
+                }
+            },
+            "transformer": {
+                "path": "./taglib-marko2/lasso-img-tag-transformer"
+            }
+        },
+        "_lasso-getImageInfo": {
+            "node-class": "./taglib-marko2/getImageInfo-node",
+            "attributes": {
+                "src": "path",
+                "var": "string"
+            },
+            "import-var": {
+                "dirname": "__dirname"
+            }
+        },
+        "_lasso-resources-root": {
+            "renderer": "./taglib-marko2/lasso-resources-root-tag",
+            "attributes": {
+                "paths": "string"
+            }
+        },
+        "lasso-resource": {
+            "node-class": "./taglib-marko2/lasso-resource-tag",
+            "attributes": {
+                "path": "path",
+                "var": "string"
+            },
+            "transformer": {
+                "path": "./taglib-marko2/lasso-resource-tag-transformer"
+            }
+        },
+        "*": {
+            "attributes": {
+                "lasso-nonce": {
+                    "ignore": true
+                }
+            },
+            "transformer": {
+                "path": "./taglib-marko2/lasso-nonce-attr-transformer"
+            }
+        }
+    }
+}
