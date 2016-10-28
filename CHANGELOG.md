@@ -3,7 +3,17 @@ Changelog
 
 # 2.x
 
+## 2.7.x
+
+### 2.7.0
+
+- Restored Marko v2 compatibility
+
 ## 2.6.x
+
+### 2.6.1
+
+- Fixes #171 - Write cache key information to disk for debugging purposes
 
 ### 2.6.0
 
