@@ -1,0 +1,13 @@
+{
+    "async": {
+        "foo": [
+            "require: ./foo"
+        ],
+        "bar": [
+            "require: ./bar"
+        ],
+        "something": [
+            "./something.js"
+        ]
+    }
+}

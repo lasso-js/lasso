@@ -2,10 +2,42 @@ var lassoLoader = require('lasso-loader');
 var path = require('path');
 var loaderMeta = module.__loaderMetadata;
 
+function _handleMissingAsync(asyncId) {
+    if (asyncId.charAt(0) === '_') {
+        return;
+    } else {
+        throw new Error('No loader metadata for ' + asyncId);
+    }
+}
+
 lassoLoader.async = function(asyncId, callback) {
-    var resources = loaderMeta ? loaderMeta[asyncId] : null;
-    if (!resources) {
-        throw new Error('Loader metadata missing for "' + asyncId + '"');
+    if (!loaderMeta) {
+        return callback();
+    }
+
+    var resources;
+
+    if (Array.isArray(asyncId)) {
+        resources = {
+            js: [],
+            css: []
+        };
+        asyncId.forEach(function(asyncId) {
+            var curResources = loaderMeta[asyncId];
+            if (curResources) {
+                ['js', 'css'].forEach(function(key) {
+                    var paths = curResources[key];
+                    if (paths) {
+                        resources[key] = resources[key].concat(paths);
+                    }
+                });
+            } else {
+                _handleMissingAsync(asyncId);
+            }
+        });
+    } else if (!(resources = loaderMeta[asyncId])) {
+        _handleMissingAsync(asyncId);
+        return callback();
     }
 
     var job;

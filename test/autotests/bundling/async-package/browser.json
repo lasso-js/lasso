@@ -1,10 +1,11 @@
 {
-    "dependencies": [
-        "require: ./foo.js"
-    ],
     "async": {
-        "foo-async-package": [
-            "require: ./foo-async.js"
+        "foo": [
+            "require: ./foo.js"
+        ],
+
+        "bar": [
+            "require: ./bar.js"
         ]
     }
 }
