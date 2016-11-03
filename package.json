@@ -6,7 +6,7 @@
     "url": "https://github.com/lasso-js/lasso.git"
   },
   "scripts": {
-    "test": "rm -rf .cache && npm run mocha && npm run jshint",
+    "test": "rm -rf .cache && npm run mocha && npm run mocha && npm run jshint",
     "mocha": "node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test",
     "jshint": "node_modules/.bin/jshint lib/ taglib/"
   },
