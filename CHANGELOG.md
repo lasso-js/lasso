@@ -3,6 +3,16 @@ Changelog
 
 # 2.x
 
+## 2.8.x
+
+### 2.8.1
+
+- Fixed #178 - Cache key changes when lasso is reconfigured even if config did not change
+
+### 2.8.0
+
+- Fixed #173 - Bundle attributes
+
 ## 2.7.x
 
 ### 2.7.0
