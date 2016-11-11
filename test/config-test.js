@@ -54,4 +54,23 @@ describe('config' , function() {
         expect(requirePlugin1.config.test).to.equal('abc');
         expect(requirePlugin2.config.test).to.not.exist;
     });
+
+    it('should generate the same fingerprint when reconfigured', function() {
+        var lasso = require('../');
+
+        var config = {
+            bundles: [
+                {
+                    name: 'foo',
+                    dependencies: [
+                        "require: " + require.resolve('./fixtures/foo.js')
+                    ]
+                }
+            ]
+        };
+
+        var myLasso1 = lasso.create(config);
+        var myLasso2 = lasso.create(config);
+        expect(myLasso1.config.getConfigFingerprint()).to.equal(myLasso2.config.getConfigFingerprint());
+    });
 });
