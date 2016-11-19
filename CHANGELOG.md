@@ -5,6 +5,10 @@ Changelog
 
 ## 2.8.x
 
+### 2.8.2
+
+- Fixed #180 - Defining bundles with "intersection" does not work for "require" dependencies
+
 ### 2.8.1
 
 - Fixed #178 - Cache key changes when lasso is reconfigured even if config did not change
