@@ -56,7 +56,7 @@ function sandboxLoad(lassoPageResult, modulesRuntimeGlobal) {
 
     modulesRuntimeGlobal = modulesRuntimeGlobal || '$_mod';
 
-    vm.runInContext(`${modulesRuntimeGlobal}.ready()`, context);
+    vm.runInContext(`window.${modulesRuntimeGlobal} && ${modulesRuntimeGlobal}.ready()`, context);
 
     sandbox.$loadScript = sandbox.window.$loadScript = loadScript;
     sandbox.console = sandbox.window.console = console;
