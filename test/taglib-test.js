@@ -60,7 +60,7 @@ describe('lasso/taglib' , function() {
             templateData.$global.lasso = theLasso;
             templateData.pageName = pageName;
 
-            template.render(templateData, function(err, html) {
+            template.renderToString(templateData, function(err, html) {
                 if (err) {
                     return done(err);
                 }
