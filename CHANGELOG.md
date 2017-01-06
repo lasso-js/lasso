@@ -3,7 +3,31 @@ Changelog
 
 # 2.x
 
+## 2.9.x
+
+### 2.9.0
+
+- Fixes #186 - Allow custom require handler to implement getDependencies
+
 ## 2.8.x
+
+### 2.8.5
+
+- Use [resolve-from](https://github.com/sindresorhus/resolve-from) to first try and resolve `browser.json`
+
+### 2.8.4
+
+- Fixes #185 - DependencyRegistry has an undefined stream when using `mask-define` for AMD dependencies
+- Increasing default timeout to 10s
+- Other minor internal changes
+
+### 2.8.3
+
+- Internal: use `renderToString` instead of `renderSync` ([PR #182](https://github.com/lasso-js/lasso/pull/182) by [@yomed](https://github.com/yomed))
+
+### 2.8.2
+
+- Fixed #180 - Defining bundles with "intersection" does not work for "require" dependencies
 
 ### 2.8.2
 
