@@ -1,3 +1,5 @@
+'use strict';
+
 var expect = require('chai').expect;
 var fs = require('fs');
 
@@ -20,10 +22,12 @@ exports.getLassoConfig = function(dir) {
                             }
 
                             this.path = this.resolvePath(this.path);
+                            this.foo = true;
                             callback();
                         },
 
                         getDependencies: function(lassoContext, callback) {
+                            expect(this.foo).to.equal(true);
                             return [ require.resolve('./extra.js') ];
                         },
 
@@ -40,8 +44,8 @@ exports.getLassoConfig = function(dir) {
 exports.getLassoOptions = function(dir) {
     return {
         dependencies: [
+            './hello.foo',
             'require-run: ./main',
-            "./hello.foo"
         ]
     };
 };

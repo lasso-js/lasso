@@ -10,6 +10,8 @@ exports.getLassoOptions = function(dir) {
                     path: __dirname + '/something.foo',
                     clientPath: '/virtual-module/something.foo',
                     read(lassoContext, callback) {
+                        callback(null, 'exports.hello = "world"; exports.filename = __filename;');
+                        return;
                         setTimeout(function() {
                             callback(null, 'exports.hello = "world"; exports.filename = __filename;');
                         }, 10);
