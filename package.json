@@ -55,7 +55,8 @@
     "jshint": "^2.9.1",
     "lasso-marko": "^2.0.1",
     "marko-v2": "^2.10.1",
-    "mocha": "^2.4.5"
+    "mocha": "^2.4.5",
+    "require-self-ref": "^2.0.1"
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",
