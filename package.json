@@ -39,7 +39,7 @@
     "raptor-promises": "^1.0.3",
     "raptor-regexp": "^1.0.0",
     "raptor-strings": "^1.0.0",
-    "raptor-util": "^2.0.0",
+    "raptor-util": "^3.1.0",
     "resolve-from": "^1.0.1",
     "send": "^0.13.0",
     "strip-json-comments": "^2.0.1",
