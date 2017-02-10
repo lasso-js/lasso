@@ -65,6 +65,8 @@ describe('lasso/taglib' , function() {
                     return done(err);
                 }
 
+                html = html.replace(/\$\d+\.\d+\.\d+/g, '$*');
+
                 helpers.compare(html, '.marko');
                 done();
             });
