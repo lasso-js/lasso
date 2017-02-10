@@ -1,0 +1,1 @@
+require('marko/node-require');

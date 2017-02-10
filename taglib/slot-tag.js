@@ -1,7 +1,9 @@
 'use strict';
 
 var getLassoRenderContext = require('./getLassoRenderContext');
+var lassoPageTag = require('./page-tag');
 var extend = require('raptor-util/extend');
+var path = require('path');
 
 function isAttributePresent(attrs) {
     return !!(attrs.inlineStyleAttrs ||
@@ -46,9 +48,32 @@ module.exports = function render(input, out) {
     var lassoRenderContext = getLassoRenderContext(out);
     var lassoPageResultAsyncValue = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
+    var template = out.global.template;
 
     if (!lassoPageResultAsyncValue) {
-        throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
+        /*if(!(template || !template.getDependencies) {
+            throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
+        }*/
+
+        var pageConfig = lassoRenderContext.data.config || {};
+        var templateDependencies = (template && template.getDependencies && template.getDependencies()) || [];
+
+        if (pageConfig.dependencies) {
+            pageConfig.dependencies = templateDependencies.concat(pageConfig.dependencies);
+            pageConfig.cacheKey = pageConfig.cacheKey || (template ? template.path : '') + Math.random();
+        } else {
+            pageConfig.dependencies = templateDependencies;
+            pageConfig.cacheKey = pageConfig.cacheKey || template && template.path;
+        }
+
+        pageConfig.dirname = pageConfig.dirname || template && path.dirname(template.path);
+        pageConfig.filename = pageConfig.filename || template && template.path;
+        pageConfig.flags = pageConfig.flags || out.global.flags | [];
+
+        lassoPageTag(pageConfig, out);
+
+        lassoRenderContext = getLassoRenderContext(out);
+        lassoPageResultAsyncValue = lassoRenderContext.data.lassoPageResult;
     }
 
     lassoRenderContext.emitBeforeSlot(slotName, out);

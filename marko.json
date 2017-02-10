@@ -1,7 +1,7 @@
 {
     "tags": {
         "lasso-page": {
-            "renderer": "./taglib/page-tag",
+            "renderer": "./taglib/config-tag",
             "attributes": {
                 "name": "string",
                 "cache-key": "string",
