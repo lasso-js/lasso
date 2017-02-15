@@ -60,12 +60,11 @@ module.exports = function render(input, out) {
 
         if (pageConfig.dependencies) {
             pageConfig.dependencies = templateDependencies.concat(pageConfig.dependencies);
-            pageConfig.cacheKey = pageConfig.cacheKey || (template ? template.path : '') + Math.random();
         } else {
             pageConfig.dependencies = templateDependencies;
-            pageConfig.cacheKey = pageConfig.cacheKey || template && template.path;
         }
 
+        pageConfig.cacheKey = pageConfig.cacheKey || template && template.path;
         pageConfig.dirname = pageConfig.dirname || template && path.dirname(template.path);
         pageConfig.filename = pageConfig.filename || template && template.path;
         pageConfig.flags = pageConfig.flags || out.global.flags | [];
