@@ -49,25 +49,30 @@ module.exports = function render(input, out) {
     var lassoPageResultAsyncValue = lassoRenderContext.data.lassoPageResult;
     var timeout = lassoRenderContext.data.timeout;
     var template = out.global.template;
+    var templateHasMetaDeps = template && template.getDependencies;
 
     if (!lassoPageResultAsyncValue) {
-        /*if(!(template || !template.getDependencies) {
-            throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
-        }*/
-
         var pageConfig = lassoRenderContext.data.config || {};
-        var templateDependencies = (template && template.getDependencies && template.getDependencies()) || [];
 
-        if (pageConfig.dependencies) {
-            pageConfig.dependencies = templateDependencies.concat(pageConfig.dependencies);
-        } else {
-            pageConfig.dependencies = templateDependencies;
+        if(!templateHasMetaDeps && !pageConfig.dependencies && !pageConfig.packagePaths) {
+            throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
         }
 
+        var dependencies = templateHasMetaDeps ? template.getDependencies() : [];
+
+        if (pageConfig.packagePaths) {
+            dependencies = pageConfig.packagePaths.concat(dependencies);
+        }
+
+        if (pageConfig.dependencies) {
+            dependencies = dependencies.concat(pageConfig.dependencies);
+        }
+
+        pageConfig.dependencies = dependencies;
         pageConfig.cacheKey = pageConfig.cacheKey || template && template.path;
         pageConfig.dirname = pageConfig.dirname || template && path.dirname(template.path);
         pageConfig.filename = pageConfig.filename || template && template.path;
-        pageConfig.flags = pageConfig.flags || out.global.flags | [];
+        pageConfig.flags = pageConfig.flags || out.global.flags || [];
 
         lassoPageTag(pageConfig, out);
 

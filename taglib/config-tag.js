@@ -7,11 +7,16 @@ module.exports = function render(input, out) {
     lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
 
     if (config.packagePath) {
-        config.dependencies = [config.packagePath];
+        config.packagePaths = [{
+            type: 'package',
+            path: config.packagePath
+        }];
         delete config.packagePath;
     } else if (config.packagePaths) {
-        config.dependencies = config.packagePaths;
-        delete config.packagePaths;
+        config.packagePaths = config.packagePaths.map(packagePath => ({
+            type: 'package',
+            path: packagePath
+        }));
     }
 
     if (config.enabledExtensions) {
