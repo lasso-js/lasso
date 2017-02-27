@@ -27,7 +27,10 @@ describe('lasso/taglib' , function() {
             if (!lassoConfig) {
                 lassoConfig = {
                     bundlingEnabled: true,
-                    fingerprintsEnabled: true
+                    fingerprintsEnabled: true,
+                    plugins: [
+                        require('lasso-marko')
+                    ]
                 };
             }
 
