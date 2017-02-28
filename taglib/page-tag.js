@@ -5,6 +5,8 @@ var fs = require('fs');
 var AsyncValue = require('raptor-async/AsyncValue');
 var extend = require('raptor-util/extend');
 
+var util = require('./util');
+
 module.exports = function render(input, out) {
     var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = lassoRenderContext.lasso;
@@ -54,7 +56,7 @@ module.exports = function render(input, out) {
 
     // store lassoed page data holder in the context data (used by slot tags)
     lassoRenderContext.data.lassoPageResult = lassoPageResultAsyncValue = new AsyncValue();
-    lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
+    lassoRenderContext.data.timeout = input.timeout || util.getDefaultTimeout();
 
     function done(err, lassoPageResult) {
         if (err) {

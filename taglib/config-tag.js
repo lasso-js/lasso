@@ -1,10 +1,12 @@
 var getLassoRenderContext = require('./getLassoRenderContext');
 
+var util = require('./util');
+
 module.exports = function render(input, out) {
     var lassoRenderContext = getLassoRenderContext(out);
     var config = lassoRenderContext.data.config = Object.assign({}, input);
 
-    lassoRenderContext.data.timeout = input.timeout || 30000 /* 30s */;
+    lassoRenderContext.data.timeout = input.timeout || util.getDefaultTimeout();
 
     if (config.packagePath) {
         config.packagePaths = [{
