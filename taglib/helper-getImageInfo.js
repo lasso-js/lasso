@@ -2,17 +2,22 @@ var getLassoRenderContext = require('./getLassoRenderContext');
 var lassoImage = require('lasso-image');
 
 module.exports = function(out, path, callback) {
-    var asyncOut = out.beginAsync();
+    var targetOut = out;
+    var done = false;
 
     var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = lassoRenderContext.lasso;
 
     lassoImage.getImageInfo(path, { lasso: theLasso }, function(err, imageInfo) {
-        if (err) {
-            return asyncOut.error(err);
-        }
+        done = true;
 
-        callback(asyncOut, imageInfo);
-        asyncOut.end();
+        if (err) return targetOut.error(err);
+
+        callback(targetOut, imageInfo);
+        targetOut.end();
     });
+
+    if (!done) {
+        targetOut = out.beginAsync();
+    }
 };
