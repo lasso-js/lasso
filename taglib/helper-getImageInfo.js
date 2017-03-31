@@ -14,7 +14,10 @@ module.exports = function(out, path, callback) {
         if (err) return targetOut.error(err);
 
         callback(targetOut, imageInfo);
-        targetOut.end();
+
+        if (targetOut !== out) {
+            targetOut.end();
+        }
     });
 
     if (!done) {
