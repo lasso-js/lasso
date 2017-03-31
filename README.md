@@ -1676,6 +1676,7 @@ __Third-party plugins__
 * [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer): Autoprefix CSS with vendor prefixes using [autoprefixer-core](https://github.com/postcss/autoprefixer-core)
 * [lasso-modernizr](https://github.com/darkwebdev/lasso-modernizr): Generate custom [Modernizr](https://modernizr.com) build
 * [lasso-optimize-iife](https://github.com/austinkelleher/lasso-optimize-iife): Optimize JavaScript immediately-invoked functions using [optimize-js](https://github.com/nolanlawson/optimize-js)
+* [lasso-rtl-css](https://github.com/shadiabuhilal/lasso-rtl-css): Transform CSS from left-to-right to right-to-left using [rtlcss](https://github.com/MohammadYounes/rtlcss)
 
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
