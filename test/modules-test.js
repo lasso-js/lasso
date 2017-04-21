@@ -1,4 +1,5 @@
 'use strict';
+var series = require('raptor-async/series');
 var nodePath = require('path');
 require('chai').config.includeStack = true;
 
@@ -39,42 +40,64 @@ describe('lasso/modules' , function() {
 
             var myLasso = lasso.create(lassoConfig, dir);
 
-            var lassoOptions = main.getLassoOptions(dir);
-            lassoOptions.pageName = pageName;
-            lassoOptions.from = dir;
+            var tests = main.tests || [];
 
-            var checkError = main.checkError;
+            if (main.getLassoOptions) {
+                let lassoOptions = main.getLassoOptions(dir);
+                let checkError = main.checkError;
 
-            var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
-
-            myLasso.lassoPage(lassoOptions)
-                .then((lassoPageResult) => {
-
-                    if (checkError) {
-                        return done('Error expected');
-                    }
-
-                    writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
-                    var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
-                    sandbox.$outputDir = lassoConfig.outputDir;
-                    if (main.check.length === 2) {
-                        main.check(sandbox.window, done);
-                    } else {
-                        main.check(sandbox.window);
-                        done();
-                    }
+                tests.push({
+                    check: main.check,
+                    checkError: checkError,
+                    lassoOptions: lassoOptions
+                });
+            }
 
 
-                })
-                .catch((err) => {
-                    if (checkError) {
-                        checkError(err);
-                        done();
-                    } else {
-                        throw err;
-                    }
-                })
-                .catch(done);
+            var testTasks = tests.map((test) => {
+                return function(done) {
+
+                    var lassoOptions = test.lassoOptions;
+                    lassoOptions.pageName = pageName;
+                    lassoOptions.from = dir;
+
+                    var check = test.check;
+                    var checkError = test.checkError;
+                    var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
+
+                    myLasso.lassoPage(lassoOptions)
+                        .then((lassoPageResult) => {
+
+                            if (checkError) {
+                                return done('Error expected');
+                            }
+
+                            writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
+                            var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
+                            sandbox.$outputDir = lassoConfig.outputDir;
+                            if (check.length === 2) {
+                                check(sandbox.window, done);
+                            } else {
+                                check(sandbox.window);
+                                done();
+                            }
+
+
+                        })
+                        .catch((err) => {
+                            if (checkError) {
+                                checkError(err);
+                                done();
+                            } else {
+                                throw err;
+                            }
+                        })
+                        .catch(done);
+                };
+            });
+
+            series(testTasks, done);
+
         });
 
 });

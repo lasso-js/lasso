@@ -1,0 +1,14 @@
+{
+    "requireRemap": [
+        {
+            "from": "./foo.js",
+            "to": "./foo-mobile.js",
+            "if-flag": "mobile"
+        },
+        {
+            "from": "./bar.js",
+            "to": "./bar-desktop.js",
+            "if-flag": "desktop"
+        }
+    ]
+}
