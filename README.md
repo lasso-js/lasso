@@ -949,7 +949,7 @@ You can also configure the default page lasso used by the lasso tags:
 require('lasso').configure({...});
 ```
 
-For more details, please see following documentation: [Lasso.js Taglib for Marko](taglib-marko.md)
+For more details, please see following documentation: [Lasso.js Taglib for Marko](https://github.com/lasso-js/lasso/blob/master/taglib-marko.md)
 
 <a name="<lasso-img"></a>
 
@@ -1175,7 +1175,7 @@ Output for page "my-page":
     build/my-page.html.json
 ```
 
-For more information on working with bundles. Please see the [bundling docs](docs/bundling.md).
+For more information on working with bundles. Please see the [bundling docs](https://github.com/lasso-js/lasso/blob/master/docs/bundling.md).
 
 ## Code Splitting
 
@@ -1953,11 +1953,11 @@ module.exports = function (lasso, pluginConfig) {
 
 # JavaScript API
 
-See [JavaScript API](./docs/javascript-api.md).
+See [JavaScript API](https://github.com/lasso-js/lasso/blob/master/docs/javascript-api.md).
 
 # AMD Compatibility
 
-See [AMD Compatibility](./docs/amd.md).
+See [AMD Compatibility](https://github.com/lasso-js/lasso/blob/master/docs/amd.md).
 
 # Sample Projects
 
