@@ -1678,7 +1678,7 @@ __Third-party plugins__
 * [lasso-modernizr](https://github.com/darkwebdev/lasso-modernizr): Generate custom [Modernizr](https://modernizr.com) build
 * [lasso-optimize-iife](https://github.com/austinkelleher/lasso-optimize-iife): Optimize JavaScript immediately-invoked functions using [optimize-js](https://github.com/nolanlawson/optimize-js)
 * [lasso-rtl-css](https://github.com/shadiabuhilal/lasso-rtl-css): Transform CSS from left-to-right to right-to-left using [rtlcss](https://github.com/MohammadYounes/rtlcss)
-
+* [lasso-prepack](https://github.com/austinkelleher/lasso-prepack): Optimize JavaScript using [prepack](https://prepack.io/)
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
