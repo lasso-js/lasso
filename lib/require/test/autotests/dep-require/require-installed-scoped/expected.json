@@ -1,0 +1,35 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-installed",
+        "parentPath": "/autotest$0",
+        "childName": "@foo/bar",
+        "childVersion": "1.0.0",
+        "parentDir": "/test/autotests/dep-require/require-installed-scoped"
+    },
+    {
+        "type": "commonjs-main",
+        "dir": "/@foo/bar$1.0.0",
+        "main": "",
+        "_sourceFile": "/test/autotests/dep-require/require-installed-scoped/node_modules/@foo/bar/index.js"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/@foo/bar$1.0.0/index",
+        "file": "/test/autotests/dep-require/require-installed-scoped/node_modules/@foo/bar/index.js",
+        "inspected": {
+            "requires": [],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": []
+        },
+        "requireLastModified": -1
+    }
+]

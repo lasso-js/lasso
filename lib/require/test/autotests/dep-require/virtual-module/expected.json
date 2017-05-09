@@ -1,0 +1,22 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/virtual-module/something.foo",
+        "file": "/test/autotests/dep-require/virtual-module/something.foo",
+        "inspected": {
+            "requires": [],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": []
+        },
+        "requireLastModified": -1
+    }
+]

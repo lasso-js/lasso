@@ -1,0 +1,90 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-builtin",
+        "name": "path",
+        "target": "/path-browserify$0.0.0/index",
+        "_sourceFile": "/node_modules/path-browserify/index.js"
+    },
+    {
+        "type": "require",
+        "path": "path",
+        "from": "/test/autotests/dep-require/builtin",
+        "resolved": {
+            "path": "/node_modules/path-browserify/index.js",
+            "meta": [
+                {
+                    "type": "builtin",
+                    "name": "path",
+                    "target": "/node_modules/path-browserify/index.js"
+                }
+            ],
+            "clientPath": "/path-browserify$0.0.0/index"
+        }
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/autotest$0/foo",
+        "file": "/test/autotests/dep-require/builtin/foo.js",
+        "inspected": {
+            "requires": [
+                {
+                    "path": "path",
+                    "range": [
+                        11,
+                        26
+                    ],
+                    "argRange": [
+                        19,
+                        25
+                    ],
+                    "resolved": {
+                        "path": "/node_modules/path-browserify/index.js",
+                        "meta": [
+                            {
+                                "type": "builtin",
+                                "name": "path",
+                                "target": "/node_modules/path-browserify/index.js"
+                            }
+                        ],
+                        "clientPath": "/path-browserify$0.0.0/index"
+                    }
+                }
+            ],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": [
+                {
+                    "path": "path",
+                    "range": [
+                        11,
+                        26
+                    ],
+                    "argRange": [
+                        19,
+                        25
+                    ],
+                    "resolved": {
+                        "path": "/node_modules/path-browserify/index.js",
+                        "meta": [
+                            {
+                                "type": "builtin",
+                                "name": "path",
+                                "target": "/node_modules/path-browserify/index.js"
+                            }
+                        ],
+                        "clientPath": "/path-browserify$0.0.0/index"
+                    }
+                }
+            ]
+        },
+        "requireLastModified": -1
+    }
+]

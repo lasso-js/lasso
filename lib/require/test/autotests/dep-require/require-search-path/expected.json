@@ -1,0 +1,32 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-search-path",
+        "path": "/require-search-path$0/app-modules/"
+    },
+    {
+        "type": "commonjs-main",
+        "dir": "/installed-bar$1.2.0",
+        "main": "",
+        "_sourceFile": "/test/autotests/dep-require/require-search-path/app-modules/bar/index.js"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/installed-bar$1.2.0/index",
+        "file": "/test/autotests/dep-require/require-search-path/app-modules/bar/index.js",
+        "inspected": {
+            "requires": [],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": []
+        },
+        "requireLastModified": -1
+    }
+]

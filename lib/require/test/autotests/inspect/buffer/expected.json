@@ -1,0 +1,58 @@
+{
+    "requires": [
+        {
+            "path": "base64-js",
+            "range": [
+                211,
+                231
+            ],
+            "argRange": [
+                219,
+                230
+            ]
+        },
+        {
+            "path": "ieee754",
+            "range": [
+                246,
+                264
+            ],
+            "argRange": [
+                254,
+                263
+            ]
+        },
+        {
+            "path": "isarray",
+            "range": [
+                279,
+                297
+            ],
+            "argRange": [
+                287,
+                296
+            ]
+        }
+    ],
+    "foundGlobals": {
+        "global": true,
+        "undefined": true,
+        "Uint8Array": true,
+        "e": true,
+        "TypeError": true,
+        "ArrayBuffer": true,
+        "Symbol": true,
+        "Object": true,
+        "RangeError": true,
+        "Math": true,
+        "String": true,
+        "Infinity": true,
+        "Number": true,
+        "Error": true,
+        "parseInt": true,
+        "isNaN": true,
+        "isFinite": true,
+        "Array": true
+    },
+    "asyncBlocks": []
+}

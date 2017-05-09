@@ -1,0 +1,90 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-main",
+        "dir": "/autotest$0/bar",
+        "main": "",
+        "_sourceFile": "/test/autotests/dep-require/main-index/bar/index.js"
+    },
+    {
+        "type": "require",
+        "path": "./bar",
+        "from": "/test/autotests/dep-require/main-index",
+        "resolved": {
+            "path": "/test/autotests/dep-require/main-index/bar/index.js",
+            "meta": [
+                {
+                    "type": "main",
+                    "dir": "/test/autotests/dep-require/main-index/bar",
+                    "main": "/test/autotests/dep-require/main-index/bar/index.js"
+                }
+            ],
+            "clientPath": "/autotest$0/bar/index"
+        }
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/autotest$0/foo",
+        "file": "/test/autotests/dep-require/main-index/foo.js",
+        "inspected": {
+            "requires": [
+                {
+                    "path": "./bar",
+                    "range": [
+                        0,
+                        17
+                    ],
+                    "argRange": [
+                        8,
+                        15
+                    ],
+                    "resolved": {
+                        "path": "/test/autotests/dep-require/main-index/bar/index.js",
+                        "meta": [
+                            {
+                                "type": "main",
+                                "dir": "/test/autotests/dep-require/main-index/bar",
+                                "main": "/test/autotests/dep-require/main-index/bar/index.js"
+                            }
+                        ],
+                        "clientPath": "/autotest$0/bar/index"
+                    }
+                }
+            ],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": [
+                {
+                    "path": "./bar",
+                    "range": [
+                        0,
+                        17
+                    ],
+                    "argRange": [
+                        8,
+                        15
+                    ],
+                    "resolved": {
+                        "path": "/test/autotests/dep-require/main-index/bar/index.js",
+                        "meta": [
+                            {
+                                "type": "main",
+                                "dir": "/test/autotests/dep-require/main-index/bar",
+                                "main": "/test/autotests/dep-require/main-index/bar/index.js"
+                            }
+                        ],
+                        "clientPath": "/autotest$0/bar/index"
+                    }
+                }
+            ]
+        },
+        "requireLastModified": -1
+    }
+]
