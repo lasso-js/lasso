@@ -1460,7 +1460,7 @@ require('lasso').create({
 See [Configuration](#configuration) for full list of configuration options.
 
 # Custom attributes for Script & Style tags
-It is also possible to add custome attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
+It is also possible to add custom attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
 
 __page.marko__
 ```html
