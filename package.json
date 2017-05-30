@@ -23,7 +23,7 @@
     "lasso-minify-css": "^1.1.4",
     "lasso-minify-js": "^1.4.0",
     "lasso-package-root": "^1.0.1",
-    "lasso-require": "^3.4.3",
+    "lasso-require": "^3.4.4",
     "lasso-resolve-css-urls": "^2.0.2",
     "lasso-resolve-from": "^1.2.0",
     "marko": "^4.2.8",
