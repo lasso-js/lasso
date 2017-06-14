@@ -22,7 +22,7 @@ exports.getInputs = function() {
                 ]);
 
                 expect(writerTracker.getCodeForFilename('bundling-async-dependencies.js')).to.contain("console.log('foo')");
-                expect(writerTracker.getCodeForFilename('bundling-async-dependencies.js')).to.contain('.async("_0"');
+                expect(writerTracker.getCodeForFilename('bundling-async-dependencies.js')).to.contain('.async("');
 
 
                 expect(writerTracker.getCodeForFilename('bundling-async-dependencies-async.js')).to.contain("a.js");

@@ -1460,7 +1460,7 @@ require('lasso').create({
 See [Configuration](#configuration) for full list of configuration options.
 
 # Custom attributes for Script & Style tags
-It is also possible to add custome attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
+It is also possible to add custom attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
 
 __page.marko__
 ```html
@@ -1678,7 +1678,7 @@ __Third-party plugins__
 * [lasso-modernizr](https://github.com/darkwebdev/lasso-modernizr): Generate custom [Modernizr](https://modernizr.com) build
 * [lasso-optimize-iife](https://github.com/austinkelleher/lasso-optimize-iife): Optimize JavaScript immediately-invoked functions using [optimize-js](https://github.com/nolanlawson/optimize-js)
 * [lasso-rtl-css](https://github.com/shadiabuhilal/lasso-rtl-css): Transform CSS from left-to-right to right-to-left using [rtlcss](https://github.com/MohammadYounes/rtlcss)
-
+* [lasso-prepack](https://github.com/austinkelleher/lasso-prepack): Optimize JavaScript using [prepack](https://prepack.io/)
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 

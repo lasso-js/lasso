@@ -20,7 +20,7 @@ describe('lasso/modules' , function() {
             var testName = nodePath.basename(dir);
             var pageName = 'modules-' + testName;
 
-            var lassoConfig = main.getLassoConfig && main.getLassoConfig();
+            var lassoConfig = main.lassoConfig || (main.getLassoConfig && main.getLassoConfig());
             if (!lassoConfig) {
                 lassoConfig = {
                     bundlingEnabled: false,
@@ -51,6 +51,10 @@ describe('lasso/modules' , function() {
                     checkError: checkError,
                     lassoOptions: lassoOptions
                 });
+            } else if (main.tests) {
+                tests = main.tests;
+            } else {
+                throw Error('Illegal state');
             }
 
 
@@ -58,7 +62,10 @@ describe('lasso/modules' , function() {
                 return function(done) {
 
                     var lassoOptions = test.lassoOptions;
-                    lassoOptions.pageName = pageName;
+                    if (!lassoOptions.pageName) {
+                        lassoOptions.pageName = pageName;                        
+                    }
+
                     lassoOptions.from = dir;
 
                     var check = test.check;
