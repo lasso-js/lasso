@@ -24,8 +24,9 @@ function normalizeOutput(o, dir, options) {
         } else if (typeof o === 'string') {
             o = o.split(dir).join('');
             o = o.split(parentDir).join('');
-            o = o.replace(/\/node_modules\/lasso-require\/node_modules\/lasso-loader/g, '/node_modules/lasso-loader');
-            o = o.replace(/\/lasso-require\/node_modules\/lasso-loader/g, '/node_modules/lasso-loader');
+            o = o.split(process.cwd()).join('');
+            o = o.replace(/lasso-loader\$[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/g, 'lasso-loader$x.x.x');
+
             if (replaceVersions) {
                 o = o.replace(/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/g, 'x.x.x');
             }

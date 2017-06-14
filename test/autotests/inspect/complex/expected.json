@@ -1,0 +1,119 @@
+{
+    "requires": [
+        {
+            "path": "lasso-loader",
+            "range": [
+                19,
+                42
+            ],
+            "argRange": [
+                27,
+                41
+            ]
+        },
+        {
+            "path": "foo",
+            "range": [
+                151,
+                165
+            ],
+            "argRange": [
+                159,
+                164
+            ]
+        },
+        {
+            "path": "bar",
+            "range": [
+                188,
+                202
+            ],
+            "argRange": [
+                196,
+                201
+            ]
+        },
+        {
+            "path": "lasso-loader",
+            "range": [
+                473,
+                496
+            ],
+            "argRange": [
+                481,
+                495
+            ]
+        }
+    ],
+    "foundGlobals": {},
+    "asyncBlocks": [
+        {
+            "requires": [
+                {
+                    "path": "baz",
+                    "range": [
+                        272,
+                        286
+                    ],
+                    "argRange": [
+                        280,
+                        285
+                    ]
+                }
+            ],
+            "dependencies": [
+                "./browser.json",
+                {
+                    "type": "require",
+                    "path": "baz"
+                }
+            ],
+            "firstArgRange": [
+                228,
+                246
+            ],
+            "hasInlineDependencies": true,
+            "hasFunctionBody": true
+        },
+        {
+            "requires": [
+                {
+                    "path": "cat",
+                    "range": [
+                        355,
+                        369
+                    ],
+                    "argRange": [
+                        363,
+                        368
+                    ]
+                }
+            ],
+            "dependencies": [
+                {
+                    "type": "require",
+                    "path": "cat"
+                }
+            ],
+            "firstArgRange": [
+                327,
+                380
+            ],
+            "hasInlineDependencies": false,
+            "hasFunctionBody": true
+        },
+        {
+            "requires": [],
+            "dependencies": [
+                "require: avatar",
+                "require: address"
+            ],
+            "firstArgRange": [
+                520,
+                617
+            ],
+            "hasInlineDependencies": true,
+            "hasFunctionBody": false
+        }
+    ]
+}

@@ -1,0 +1,39 @@
+{
+    "requires": [
+        {
+            "path": "foo",
+            "range": [
+                0,
+                14
+            ],
+            "argRange": [
+                8,
+                13
+            ]
+        },
+        {
+            "path": "bar",
+            "range": [
+                21,
+                35
+            ],
+            "argRange": [
+                29,
+                34
+            ]
+        },
+        {
+            "path": "baz",
+            "range": [
+                43,
+                57
+            ],
+            "argRange": [
+                51,
+                56
+            ]
+        }
+    ],
+    "foundGlobals": {},
+    "asyncBlocks": []
+}
