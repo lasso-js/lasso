@@ -25,7 +25,6 @@
     "estraverse": "^4.2.0",
     "events": "^1.0.2",
     "glob": "^7.1.1",
-    "ignore": "^3.1.1",
     "lasso-caching-fs": "^1.0.2",
     "lasso-image": "^1.0.11",
     "lasso-loader": "^3.0.2",
