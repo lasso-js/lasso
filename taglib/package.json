@@ -1,5 +1,10 @@
 {
     "browser": {
-        "./getLassoRenderContext.js": "./getLassoRenderContext-browser.js"
+        "./getLassoRenderContext.js": "./getLassoRenderContext-browser.js",
+        "./body-tag.js": "./noop-render.js",
+        "./config-tag.js": "./noop-render.js",
+        "./head-tag.js": "./noop-render.js",
+        "./page-tag.js": "./noop-render.js",
+        "./slot-tag.js": "./noop-render.js"
     }
 }
