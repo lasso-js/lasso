@@ -1035,7 +1035,7 @@ Lasso includes optional middleware for both Express and Koa that can be used to 
 
 ### `serveStatic(options)``
 
-The [`serveStatic` middleware]() provided by Lasso is a small wrapper around the [send](https://github.com/pillarjs/send) package.
+The `serveStatic` middleware provided by Lasso is a small wrapper around the [send](https://github.com/pillarjs/send) package.
 
 Supported options:
 
