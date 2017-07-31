@@ -19,7 +19,7 @@
     "browser-refresh-client": "^1.1.4",
     "glob": "^7.1.1",
     "lasso-caching-fs": "^1.0.2",
-    "lasso-image": "^1.0.11",
+    "lasso-image": "^1.0.12",
     "lasso-minify-css": "^1.1.4",
     "lasso-minify-js": "^1.4.0",
     "lasso-package-root": "^1.0.1",
