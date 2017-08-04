@@ -91,7 +91,7 @@
                         ],
                         "hasInlineDependencies": false,
                         "hasFunctionBody": true,
-                        "name": "_531871"
+                        "name": "_HASH"
                     }
                 ],
                 "lastModified": -1,
@@ -168,14 +168,14 @@
                     ],
                     "hasInlineDependencies": false,
                     "hasFunctionBody": true,
-                    "name": "_531871"
+                    "name": "_HASH"
                 }
             ],
             "requireLastModified": -1
         }
     ],
     "async": {
-        "_531871": [
+        "_HASH": [
             {
                 "type": "require",
                 "path": "./bar"
