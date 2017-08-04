@@ -91,7 +91,7 @@
                         ],
                         "hasInlineDependencies": false,
                         "hasFunctionBody": true,
-                        "name": "531871"
+                        "name": "_531871"
                     }
                 ],
                 "lastModified": -1,
@@ -168,14 +168,14 @@
                     ],
                     "hasInlineDependencies": false,
                     "hasFunctionBody": true,
-                    "name": "531871"
+                    "name": "_531871"
                 }
             ],
             "requireLastModified": -1
         }
     ],
     "async": {
-        "531871": [
+        "_531871": [
             {
                 "type": "require",
                 "path": "./bar"
