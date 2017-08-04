@@ -27,8 +27,24 @@ describe('lasso-require/builtins' , function() {
     it('should allow custom builtins', function() {
         var fromDir = __dirname;
         var lassoContext = createLassoContext({
-            builtins: {
-                foo: require.resolve('./fixtures/builtin-foo')
+            resolver: {
+                builtins: {
+                    foo: require.resolve('./fixtures/builtin-foo')
+                }
+            }
+        });
+
+        expect(lassoContext.resolve('foo', fromDir) != null).to.equal(true);
+        expect(() => lassoContext.resolve('bar', fromDir)).to.throw();
+    });
+
+    it('should allow custom builtins (legacy)', function() {
+        var fromDir = __dirname;
+        var lassoContext = createLassoContext({
+            require: {
+                builtins: {
+                    foo: require.resolve('./fixtures/builtin-foo')
+                }
             }
         });
 
