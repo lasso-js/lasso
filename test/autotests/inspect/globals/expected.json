@@ -1,0 +1,11 @@
+{
+    "requires": [],
+    "foundGlobals": {
+        "propertyValue": true,
+        "async": true,
+        "process": true,
+        "arrayEl": true,
+        "callArg": true
+    },
+    "asyncBlocks": []
+}

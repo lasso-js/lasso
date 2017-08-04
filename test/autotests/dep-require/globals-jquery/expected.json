@@ -1,0 +1,39 @@
+[
+    {
+        "type": "commonjs-runtime"
+    },
+    {
+        "type": "commonjs-installed",
+        "parentPath": "/autotest$0",
+        "childName": "jquery",
+        "childVersion": "1.2.0",
+        "parentDir": "/test/autotests/dep-require/globals-jquery"
+    },
+    {
+        "type": "commonjs-main",
+        "dir": "/jquery$1.2.0",
+        "main": "",
+        "_sourceFile": "/test/autotests/dep-require/globals-jquery/node_modules/jquery/index.js"
+    },
+    {
+        "type": "commonjs-ready",
+        "inline": "end"
+    },
+    {
+        "type": "commonjs-def",
+        "path": "/jquery$1.2.0/index",
+        "file": "/test/autotests/dep-require/globals-jquery/node_modules/jquery/index.js",
+        "globals": [
+            "$",
+            "jQuery"
+        ],
+        "inspected": {
+            "requires": [],
+            "foundGlobals": {},
+            "asyncBlocks": [],
+            "lastModified": -1,
+            "allRequires": []
+        },
+        "requireLastModified": -1
+    }
+]

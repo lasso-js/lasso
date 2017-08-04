@@ -1,0 +1,6 @@
+{
+    "name": "autotest",
+    "browser": {
+        "./foo.js": "./foo-browser.js"
+    }
+}

@@ -1,0 +1,1 @@
+$_mod.remap("/foo", "/foo-browser");

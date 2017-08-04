@@ -1,0 +1,8 @@
+{
+    "requires": [],
+    "foundGlobals": {
+        "async": true,
+        "process": true
+    },
+    "asyncBlocks": []
+}

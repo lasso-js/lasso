@@ -1,0 +1,6 @@
+{
+    "name": "autotest",
+    "browser": {
+        "./bar.js": false
+    }
+}

@@ -12,4 +12,5 @@ coverage
 *.actual.html
 .lasso-cache
 .cache
+package-lock.json
 ~*

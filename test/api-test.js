@@ -5,6 +5,8 @@ var rmdirRecursive = require('./util').rmdirRecursive;
 var lasso = require('../');
 var buildDir = nodePath.join(__dirname, 'build');
 
+let _log = console.log;
+
 describe('lasso/api' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/api'),
