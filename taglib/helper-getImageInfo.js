@@ -8,7 +8,7 @@ module.exports = function(out, path, callback) {
     var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = lassoRenderContext.lasso;
 
-    lassoImage.getImageInfo(path, { lasso: theLasso }, function(err, imageInfo) {
+    lassoImage.getImageInfo(path, { lasso: theLasso, renderContext: out }, function(err, imageInfo) {
         done = true;
 
         if (err) return targetOut.error(err);

@@ -1,0 +1,14 @@
+static {
+  let happy = require.resolve('./happy.svg');
+  let sad = require.resolve('./sad.svg');
+
+  function getResourcePath(isHappy) {
+    return isHappy ? happy : sad;
+  }
+}
+
+$ let isHappy = true;
+
+<lasso-resource path=getResourcePath(isHappy) var="faceImg">
+  <img src=faceImg.url />
+</lasso-resource>

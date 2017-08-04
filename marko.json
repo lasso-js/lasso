@@ -110,7 +110,7 @@
             }
         },
         "lasso-resource": {
-            "transformer": "./taglib/lasso-resource-tag",
+            "transformer": "./taglib/lasso-resource-tag-transform",
             "no-output": true,
             "attributes": {
                 "path": "path",
