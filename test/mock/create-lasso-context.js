@@ -1,3 +1,5 @@
+"use strict";
+
 var LassoContext = require('../../lib/LassoContext');
 var dependencies = require('../../lib/dependencies');
 var MockMemoryCache = require('./MockMemoryCache');
