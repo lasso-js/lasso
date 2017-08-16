@@ -1,18 +1,14 @@
 'use strict';
-var nodePath = require('path');
+const nodePath = require('path');
 require('chai').config.includeStack = true;
-var series = require('raptor-async/series');
 
-var WriterTracker = require('./util/WriterTracker');
-var rmdirRecursive = require('./util').rmdirRecursive;
-var buildDir = nodePath.join(__dirname, 'build');
+const WriterTracker = require('./util/WriterTracker');
+const rmdirRecursive = require('./util').rmdirRecursive;
+const buildDir = nodePath.join(__dirname, 'build');
+const lasso = require('../');
+const Readable = require('stream').Readable;
+const urlReader = require('../lib/util/url-reader');
 
-var lasso = require('../');
-
-var Readable = require('stream').Readable;
-
-
-var urlReader = require('../lib/util/url-reader');
 urlReader.createUrlReadStream = function(url) {
     var readable = new Readable();
     readable.push('EXTERNAL:' + url);
@@ -23,8 +19,7 @@ urlReader.createUrlReadStream = function(url) {
 describe('lasso/bundling' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/bundling'),
-        function (dir, helpers, done) {
-
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
             var pageName = 'bundling-' + testName;
@@ -40,7 +35,6 @@ describe('lasso/bundling' , function() {
             if (!lassoConfig.outputDir) {
                 lassoConfig.outputDir = nodePath.join(buildDir, pageName);
             }
-
 
             rmdirRecursive(lassoConfig.outputDir);
 
@@ -62,52 +56,38 @@ describe('lasso/bundling' , function() {
                 ];
             }
 
+            for (const input of inputs) {
+                var writerTracker = WriterTracker.create(myLasso.writer);
 
-            var asyncTasks = inputs.map((input) => {
-                return (callback) => {
-                    var writerTracker = WriterTracker.create(myLasso.writer);
+                var lassoOptions = input.lassoOptions;
+                var check = input.check;
+                var checkError = input.checkError;
 
-                    var lassoOptions = input.lassoOptions;
-                    var check = input.check;
-                    var checkError = input.checkError;
-
-                    if (!lassoOptions.pageName) {
-                        lassoOptions.pageName = pageName;
-                    }
-
-                    if (!lassoOptions.from) {
-                        lassoOptions.from = dir;
-                    }
-
-                    myLasso.lassoPage(lassoOptions)
-                        .then((lassoPageResult) => {
-                            if (checkError) {
-                                return done('Error expected');
-                            }
-                            check(lassoPageResult, writerTracker, helpers);
-                            lasso.flushAllCaches(callback);
-                        })
-                        .catch((err) => {
-                            if (checkError) {
-                                checkError(err);
-                                done();
-                            } else {
-                                throw err;
-                            }
-                        })
-                        .catch(done);
-                };
-            });
-
-            series(asyncTasks, (err) => {
-                if (err) {
-                    return done(err);
+                if (!lassoOptions.pageName) {
+                    lassoOptions.pageName = pageName;
                 }
 
-                done();
-            });
+                if (!lassoOptions.from) {
+                    lassoOptions.from = dir;
+                }
 
+                let lassoPageResult;
+                try {
+                    lassoPageResult = await myLasso.lassoPage(lassoOptions);
+                } catch (err) {
+                    if (checkError) {
+                        checkError(err);
+                    } else {
+                        throw err;
+                    }
+                }
 
+                if (checkError) {
+                    throw new Error('Error expected');
+                }
+
+                check(lassoPageResult, writerTracker, helpers);
+                await lasso.flushAllCaches();
+            }
         });
-
 });

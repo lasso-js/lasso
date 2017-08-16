@@ -1,17 +1,17 @@
 'use strict';
 
-var nodePath = require('path');
-var chai = require('chai');
+const nodePath = require('path');
+const chai = require('chai');
 chai.config.includeStack = true;
 require('chai').should();
-var createLassoContext = require('./mock/create-lasso-context');
-var moduleSearchPath = require('./util/module-search-path');
-var normalizeOutput = require('./util/normalizeOutput');
+const createLassoContext = require('./mock/create-lasso-context');
+const moduleSearchPath = require('./util/module-search-path');
+const normalizeOutput = require('./util/normalizeOutput');
 
 describe('lasso-require/dep-transport-define' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/dep-transport-define'),
-        function (dir, helpers, done) {
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
             var dependencyProps = main.createDependency(dir);
 
@@ -31,39 +31,39 @@ describe('lasso-require/dep-transport-define' , function() {
 
             dependency.init(lassoContext);
 
-            return Promise.resolve()
-                .then(() => {
-                    return dependency.getDependencies(lassoContext);
-                })
-                .then((dependencies) => {
-                    if (dependencies.dependencies) {
-                        dependencies = dependencies.dependencies;
-                    }
+            let dependencies = await dependency.getDependencies(lassoContext);
 
-                    for (var i=0; i<dependencies.length; i++) {
-                        var d = dependencies[i];
-                        if (d.type === 'commonjs-def') {
-                            var defDependency = dependencyFactory.depTransportDefine(d);
-                            return defDependency.read(lassoContext);
-                        }
+            if (dependencies.dependencies) {
+                dependencies = dependencies.dependencies;
+            }
+
+            let src;
+
+            try {
+                for (var i=0; i<dependencies.length; i++) {
+                    var d = dependencies[i];
+                    if (d.type === 'commonjs-def') {
+                        var defDependency = dependencyFactory.depTransportDefine(d);
+                        src = await defDependency.read(lassoContext);
+                        break;
                     }
+                }
+
+                if (!src) {
                     throw new Error('commonjs-def dependency not found');
-                })
-                .then((src) => {
-                    if (patchedSearchPath) {
-                        patchedSearchPath.restore();
-                    }
-                    src = normalizeOutput(src, dir);
+                }
 
-                    helpers.compare(src, '.js');
-                    done();
-                })
-                .catch((err) => {
-                    if (patchedSearchPath) {
-                        patchedSearchPath.restore();
-                    }
-                    done(err);
-                });
+                if (patchedSearchPath) {
+                    patchedSearchPath.restore();
+                }
+
+                src = normalizeOutput(src, dir);
+                helpers.compare(src, '.js');
+            } catch (err) {
+                if (patchedSearchPath) {
+                    patchedSearchPath.restore();
+                }
+                throw err;
+            }
         });
-
 });

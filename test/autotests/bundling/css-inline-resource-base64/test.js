@@ -18,8 +18,8 @@ exports.getInputs = function() {
             },
             check(lassoPageResult, writerTracker, helpers) {
                 expect(writerTracker.getOutputFilenames()).to.deep.equal([
-                        'bundling-css-inline-resource-base64-head.css'
-                    ]);
+                    'bundling-css-inline-resource-base64-head.css'
+                ]);
 
                 var actualCSS = writerTracker.getCodeForFilename('bundling-css-inline-resource-base64-head.css');
                 helpers.compare(actualCSS, '.css');

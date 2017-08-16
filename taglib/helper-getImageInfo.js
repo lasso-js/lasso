@@ -10,7 +10,6 @@ module.exports = function(out, path, callback) {
 
     lassoImage.getImageInfo(path, { lasso: theLasso, renderContext: out }, function(err, imageInfo) {
         done = true;
-
         if (err) return targetOut.error(err);
 
         callback(targetOut, imageInfo);

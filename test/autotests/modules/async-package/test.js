@@ -34,40 +34,42 @@ exports.getLassoOptions = function(dir) {
     };
 };
 
-exports.check = function(window, done) {
+exports.check = async function (window) {
     expect(window.fooLoaded).to.equal(undefined);
     expect(window.main.filename).to.contain('main');
 
-    window.main.loadFoo(function(err, foo) {
-        if (err) {
-            return done(err);
-        }
-
-        expect(foo.isFoo).to.equal(true);
-        expect(window.fooLoaded).to.equal(true);
-        expect(window.barLoaded).to.equal(undefined);
-        expect(window.somethingLoaded).to.equal(undefined);
-
-        window.main.loadBar(function(err, bar) {
+    return new Promise((resolve, reject) => {
+        window.main.loadFoo(function(err, foo) {
             if (err) {
-                return done(err);
+                return reject(err);
             }
 
-            expect(bar.isBar).to.equal(true);
+            expect(foo.isFoo).to.equal(true);
             expect(window.fooLoaded).to.equal(true);
-            expect(window.barLoaded).to.equal(true);
+            expect(window.barLoaded).to.equal(undefined);
             expect(window.somethingLoaded).to.equal(undefined);
 
-            window.main.loadSomething(function(err) {
+            window.main.loadBar(function(err, bar) {
                 if (err) {
-                    return done(err);
+                    return reject(err);
                 }
 
+                expect(bar.isBar).to.equal(true);
                 expect(window.fooLoaded).to.equal(true);
                 expect(window.barLoaded).to.equal(true);
-                expect(window.somethingLoaded).to.equal(true);
+                expect(window.somethingLoaded).to.equal(undefined);
 
-                done();
+                window.main.loadSomething(function(err) {
+                    if (err) {
+                        return reject(err);
+                    }
+
+                    expect(window.fooLoaded).to.equal(true);
+                    expect(window.barLoaded).to.equal(true);
+                    expect(window.somethingLoaded).to.equal(true);
+
+                    resolve();
+                });
             });
         });
     });

@@ -7,7 +7,7 @@ var extend = require('raptor-util/extend');
 
 var util = require('./util');
 
-module.exports = function render(input, out) {
+module.exports = function render (input, out) {
     var lassoRenderContext = getLassoRenderContext(out);
     var theLasso = lassoRenderContext.lasso;
     if (input.lasso) {
@@ -66,9 +66,9 @@ module.exports = function render(input, out) {
         }
     }
 
-    function doLassoPage() {
-
-        theLasso.lassoPage({
+    async function doLassoPage() {
+        try {
+            const lassoPageResult = await theLasso.lassoPage({
                 // Make sure the page is cached (should be the default)
                 cache: true,
 
@@ -89,7 +89,7 @@ module.exports = function render(input, out) {
                 // extensions to be enabled at time of rendering
                 flags: input.flags || input.enabledExtensions || input.extensions,
 
-                dependencies: function(callback) {
+                async dependencies () {
                     var dependencies = input.dependencies;
                     var packagePath = input.packagePath;
                     var packagePaths = input.packagePaths;
@@ -109,15 +109,17 @@ module.exports = function render(input, out) {
 
                     } else if (packagePaths) {
                         dependencies = packagePaths.map(function(path) {
-                                return {
-                                    type: 'package',
-                                    path: path
-                                };
-                            });
+                            return {
+                                type: 'package',
+                                path: path
+                            };
+                        });
                     } else {
                         // Look for an browser.json in the same directory
                         if (input.dirname) {
                             packagePath = nodePath.join(input.dirname, 'browser.json');
+                            // TODO: Since this is an async function, is there
+                            // any reason why this is sync?
                             if (fs.existsSync(packagePath)) {
                                 dependencies = [
                                     {
@@ -133,10 +135,14 @@ module.exports = function render(input, out) {
                         dependencies = [];
                     }
 
-                    callback(null, dependencies);
+                    return dependencies;
                 }
-            },
-            done);
+            });
+
+            done(null, lassoPageResult);
+        } catch (err) {
+            done(err);
+        }
     }
 
     var waitFor = lassoRenderContext.getWaitFor();
@@ -154,8 +160,7 @@ module.exports = function render(input, out) {
         Promise.all(waitFor)
             .then(doLassoPage)
             .catch(done);
-    }
-    else {
+    } else {
         doLassoPage();
     }
 };

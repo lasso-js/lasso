@@ -1763,14 +1763,13 @@ module.exports = function myPlugin(lasso, config) {
             },
 
             // Validation checks and initialization based on properties:
-            init: function(context, callback) {
+            async init (context) {
                 if (!this.path) {
-                    return callback(new Error('"path" is required'));
+                    throw new Error('"path" is required');
                 }
 
                 // NOTE: resolvePath can be used to resolve a provided relative path to a full path
                 this.path = this.resolvePath(this.path);
-                callback();
             },
 
             // Read the resource:
@@ -1842,16 +1841,20 @@ The `handler` argument for a CSS dependency has the exact same interface as a ha
 A custom package dependency can be used to dynamically resolve additional dependencies at optimization time. The sample package dependency handler below illustrates how a package dependency can be used to automatically include every file in a directory as a dependency:
 
 ```javascript
-var fs = require('fs');
-var path = require('path');
+const fs = require('fs');
+const path = require('path');
+const { promisify } = require('util');
+
+promisify(fs.stat);
+promisify(fs.readdir);
 
 lasso.dependencies.registerPackageType('dir', {
     properties: {
         'path': 'string'
     },
 
-    init: function(context, callback) {
-        var path = this.path;
+    async init (context) {
+        let path = this.path;
 
         if (!path) {
             callback(new Error('"path" is required'));
@@ -1859,34 +1862,22 @@ lasso.dependencies.registerPackageType('dir', {
 
         this.path = path = this.resolvePath(path); // Convert the relative path to an absolute path
 
-        fs.stat(path, function(err, stat) {
-            if (err) {
-                return callback(err);
-            }
-
-            if (!stat.isDirectory()) {
-                return callback(new Error('Directory expected: ' + path));
-            }
-
-            callback();
-        });
+        const stat = await fs.stat(path);
+        if (!stat.isDirectory()) {
+            throw new Error('Directory expected: ' + path);
+        }
     },
 
-    getDependencies: function(context, callback) {
-        var dir = this.path;
+    async getDependencies (context) {
+        const dir = this.path;
+        const filenames = await fs.readdir(dir);
 
-        fs.readdir(dir, function(err, filenames) {
-            if (err) {
-                return callback(err);
-            }
-
-            // Convert the filenames to full paths
-            var dependencies = filenames.map(function(filename) {
-                return path.join(dir, filename);
-            });
-
-            callback(null, dependencies);
+        // Convert the filenames to full paths
+        var dependencies = filenames.map(function(filename) {
+            return path.join(dir, filename);
         });
+
+        return dependencies;
     },
 
     getDir: function() {

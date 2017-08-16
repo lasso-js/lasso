@@ -14,17 +14,16 @@ exports.getLassoConfig = function(dir) {
                             'path': 'string'
                         },
 
-                        init: function(lassoContext, callback) {
+                        async init (lassoContext) {
                             if (!this.path) {
-                                return callback(new Error('"path" is required for a Marko dependency'));
+                                throw new Error('"path" is required for a Marko dependency');
                             }
 
                             this.path = this.resolvePath(this.path);
-                            callback();
                         },
 
-                        getDependencies: function(lassoContext, callback) {
-                            return Promise.resolve([ require.resolve('./extra.js') ]);
+                        async getDependencies (lassoContext) {
+                            return [ require.resolve('./extra.js') ];
                         },
 
                         read: function(lassoContext, callback) {

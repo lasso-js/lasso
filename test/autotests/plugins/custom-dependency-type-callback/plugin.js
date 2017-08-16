@@ -8,7 +8,7 @@ module.exports = exports = function(lasso, config) {
                 'path': 'string'
             },
 
-            init: function() {
+            async init () {
                 if (!this.path) {
                     throw new Error('"path" is required for a less dependency');
                 }
@@ -35,8 +35,8 @@ module.exports = exports = function(lasso, config) {
                 return this.path;
             },
 
-            lastModified: function(lassoContext, callback) {
-                return callback(null, -1);
+            async lastModified (lassoContext) {
+                return -1;
             }
         });
 
@@ -47,7 +47,7 @@ module.exports = exports = function(lasso, config) {
                 'path': 'string'
             },
 
-            init: function() {
+            async init () {
                 if (!this.path) {
                     throw new Error('"path" is required for a less dependency');
                 }
@@ -76,8 +76,8 @@ module.exports = exports = function(lasso, config) {
                 return this.path;
             },
 
-            lastModified: function(lassoContext, callback) {
-                return callback(null, -1);
+            async lastModified (lassoContext) {
+                return -1;
             }
         });
 };

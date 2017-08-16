@@ -26,10 +26,9 @@ class RequireHandler {
         };
         this.lastModified = null;
         this.object = userOptions.object === true;
-
     }
 
-    init() {
+    async init() {
         var lassoContext = this.lassoContext;
         var userInit = this.userOptions.init;
 
@@ -77,7 +76,7 @@ class RequireHandler {
         }
     }
 
-    getLastModified() {
+    async getLastModified() {
         var lassoContext = this.lassoContext;
         var path = this.path;
         var lastModifiedPromise = this.lastModified;
@@ -121,19 +120,8 @@ class RequireHandler {
             return EMPTY_ARRAY_PROMISE;
         }
 
-        return new Promise((resolve, reject) => {
-            var userPromise = userGetDependencies.call(this.userThisObject, lassoContext, (err, dependencies) => {
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(dependencies);
-                }
-            });
-
-            if (userPromise !== undefined) {
-                resolve(userPromise);
-            }
-        });
+        console.log('THIS USER GETDEP: ', userGetDependencies);
+        return userGetDependencies.call(this.userThisObject, lassoContext);
     }
 
     getDefaultBundleName(pageBundleName, lassoContext) {

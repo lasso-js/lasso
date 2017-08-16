@@ -9,17 +9,10 @@ exports.getLassoConfig = function() {
         plugins: [
             function myPlugin(myLasso, pluginConfig) {
                 myLasso.addTransform({
-                    filter: function(lassoContext, callback) {
+                    async filter (lassoContext) {
                         var path = lassoContext.path;
-                        if (!path) {
-                            return callback(null, false);
-                        }
-
-                        if (/\.bar$/.test(path)) {
-                            callback(null, true);
-                        } else {
-                            callback(null, false);
-                        }
+                        if (!path) return false;
+                        return /\.bar$/.test(path);
                     },
 
                     name: 'testTransformer',

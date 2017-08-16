@@ -15,8 +15,8 @@ module.exports = exports = function(lasso, config) {
                 });
             },
 
-            lastModified: function(path, lassoContext, callback) {
-                lassoContext.getFileLastModified(path, callback);
+            async lastModified (path, lassoContext) {
+                return lassoContext.getFileLastModified(path);
             }
         });
 };

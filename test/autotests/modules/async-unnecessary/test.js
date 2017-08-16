@@ -8,16 +8,18 @@ exports.getLassoOptions = function(dir) {
     };
 };
 
-exports.check = function(window, done) {
+exports.check = function (window) {
     expect(window.fooLoaded).to.equal(true);
     expect(window.main.filename).to.contain('main');
 
-    window.main.loadFoo(function(err, foo) {
-        if (err) {
-            return done(err);
-        }
+    return new Promise((resolve, reject) => {
+        window.main.loadFoo(function(err, foo) {
+            if (err) {
+                return reject(err);
+            }
 
-        expect(foo.isFoo).to.equal(true);
-        done();
+            expect(foo.isFoo).to.equal(true);
+            resolve();
+        });
     });
 };

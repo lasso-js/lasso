@@ -2,7 +2,7 @@ var expect = require('chai').expect;
 var fs = require('fs');
 var nodePath = require('path');
 
-exports.check = function(util, done) {
+exports.check = function (util) {
     var cachingStream = util.createCachingStream();
 
     var outputDir = nodePath.join(__dirname, 'build');
@@ -18,20 +18,21 @@ exports.check = function(util, done) {
     var readStream = fs.createReadStream(inFile);
     var outStream = fs.createWriteStream(outFile1);
 
-    outStream.on('close', function() {
-
-        outStream = fs.createWriteStream(outFile2);
+    return new Promise((resolve, reject) => {
         outStream.on('close', function() {
-            var inTxt = fs.readFileSync(inFile, {encoding: 'utf8'});
-            var outFile1Txt = fs.readFileSync(outFile1, {encoding: 'utf8'});
-            var outFile2Txt = fs.readFileSync(outFile2, {encoding: 'utf8'});
-            expect(inTxt).to.equal(outFile1Txt);
-            expect(inTxt).to.equal(outFile2Txt);
-            done();
+            outStream = fs.createWriteStream(outFile2);
+            outStream.on('close', function() {
+                var inTxt = fs.readFileSync(inFile, {encoding: 'utf8'});
+                var outFile1Txt = fs.readFileSync(outFile1, {encoding: 'utf8'});
+                var outFile2Txt = fs.readFileSync(outFile2, {encoding: 'utf8'});
+                expect(inTxt).to.equal(outFile1Txt);
+                expect(inTxt).to.equal(outFile2Txt);
+                resolve();
+            });
+
+            cachingStream.createReplayStream().pipe(outStream);
         });
 
-        cachingStream.createReplayStream().pipe(outStream);
+        readStream.pipe(cachingStream).pipe(outStream);
     });
-
-    readStream.pipe(cachingStream).pipe(outStream);
 };

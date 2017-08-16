@@ -14,9 +14,8 @@ exports.getLassoConfig = function() {
                             'path': 'string'
                         },
 
-                        init: function(lassoContext, callback) {
+                        async init (lassoContext) {
                             this.path = this.resolvePath(this.path);
-                            callback();
                         },
 
                         read: function(lassoContext, callback) {
@@ -35,8 +34,8 @@ exports.getLassoConfig = function() {
                             return this.path;
                         },
 
-                        getLastModified: function(lassoContext, callback) {
-                            return callback(null, -1);
+                        async getLastModified (lassoContext) {
+                            return -1;
                         }
                     });
                 }

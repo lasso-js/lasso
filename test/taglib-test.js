@@ -1,16 +1,17 @@
 'use strict';
-var nodePath = require('path');
-require('chai').config.includeStack = true;
-var marko = require('marko');
-var lasso = require('../');
-var rmdirRecursive = require('./util').rmdirRecursive;
-var buildDir = nodePath.join(__dirname, 'build');
-var fs = require('fs');
 
-describe('lasso/taglib' , function() {
+const nodePath = require('path');
+require('chai').config.includeStack = true;
+const marko = require('marko');
+const lasso = require('../');
+const rmdirRecursive = require('./util').rmdirRecursive;
+const buildDir = nodePath.join(__dirname, 'build');
+const fs = require('fs');
+
+describe('lasso/taglib', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/taglib'),
-        function (dir, helpers, done) {
+        function (dir, helpers) {
             var testName = nodePath.basename(dir);
             var pageName = 'taglib-' + testName;
 
@@ -63,19 +64,22 @@ describe('lasso/taglib' , function() {
             templateData.$global.lasso = theLasso;
             templateData.pageName = pageName;
 
-            template.renderToString(templateData, function(err, html) {
-                if (err) {
-                    return done(err);
-                }
+            return new Promise((resolve, reject) => {
+                template.renderToString(templateData, function(err, html) {
+                    if (err) {
+                        return reject(err);
+                    }
 
-                html = html.replace(/\$\d+\.\d+\.\d+/g, '$*');
+                    html = html.replace(/\$\d+\.\d+\.\d+/g, '$*');
 
-                if (main.check) {
-                    main.check(html);
-                } else {
-                    helpers.compare(html, '.marko');
-                }
-                done();
+                    if (main.check) {
+                        main.check(html);
+                    } else {
+                        helpers.compare(html, '.marko');
+                    }
+
+                    resolve();
+                });
             });
         });
 

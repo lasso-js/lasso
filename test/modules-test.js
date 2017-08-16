@@ -1,21 +1,18 @@
 'use strict';
-var series = require('raptor-async/series');
-var nodePath = require('path');
+
+const nodePath = require('path');
 require('chai').config.includeStack = true;
 
-var sandboxLoad = require('./util').sandboxLoad;
-var rmdirRecursive = require('./util').rmdirRecursive;
-var writeTestHtmlPage = require('./util').writeTestHtmlPage;
+const sandboxLoad = require('./util').sandboxLoad;
+const rmdirRecursive = require('./util').rmdirRecursive;
+const writeTestHtmlPage = require('./util').writeTestHtmlPage;
+const buildDir = nodePath.join(__dirname, 'build');
+const lasso = require('../');
 
-var buildDir = nodePath.join(__dirname, 'build');
-
-var lasso = require('../');
-
-describe('lasso/modules' , function() {
+describe('lasso/modules', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/modules'),
-        function (dir, helpers, done) {
-
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
             var pageName = 'modules-' + testName;
@@ -57,54 +54,39 @@ describe('lasso/modules' , function() {
                 throw Error('Illegal state');
             }
 
+            for (const test of tests) {
+                var lassoOptions = test.lassoOptions;
+                if (!lassoOptions.pageName) {
+                    lassoOptions.pageName = pageName;
+                }
 
-            var testTasks = tests.map((test) => {
-                return function(done) {
+                lassoOptions.from = dir;
 
-                    var lassoOptions = test.lassoOptions;
-                    if (!lassoOptions.pageName) {
-                        lassoOptions.pageName = pageName;                        
+                var check = test.check;
+                var checkError = test.checkError;
+                var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
+
+                let lassoPageResult;
+                try {
+                    lassoPageResult = await myLasso.lassoPage(lassoOptions);
+                } catch (err) {
+                    if (checkError) {
+                        checkError(err);
+                        return;
+                    } else {
+                        throw err;
                     }
+                }
 
-                    lassoOptions.from = dir;
+                if (checkError) {
+                    throw new Error('Error expected');
+                }
 
-                    var check = test.check;
-                    var checkError = test.checkError;
-                    var modulesRuntimeGlobal = myLasso.config.modulesRuntimeGlobal;
+                writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
+                var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
+                sandbox.$outputDir = lassoConfig.outputDir;
 
-                    myLasso.lassoPage(lassoOptions)
-                        .then((lassoPageResult) => {
-
-                            if (checkError) {
-                                return done('Error expected');
-                            }
-
-                            writeTestHtmlPage(lassoPageResult, nodePath.join(buildDir, pageName + '/test.html'));
-                            var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
-                            sandbox.$outputDir = lassoConfig.outputDir;
-                            if (check.length === 2) {
-                                check(sandbox.window, done);
-                            } else {
-                                check(sandbox.window);
-                                done();
-                            }
-
-
-                        })
-                        .catch((err) => {
-                            if (checkError) {
-                                checkError(err);
-                                done();
-                            } else {
-                                throw err;
-                            }
-                        })
-                        .catch(done);
-                };
-            });
-
-            series(testTasks, done);
-
+                await check(sandbox.window);
+            }
         });
-
 });

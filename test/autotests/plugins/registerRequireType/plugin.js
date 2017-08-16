@@ -6,13 +6,12 @@ module.exports = exports = function(lasso, config) {
                 'path': 'string'
             },
 
-            init: function(lassoContext, callback) {
+            async init (lassoContext) {
                 if (!this.path) {
-                    return callback(new Error('"path" is required for a Marko dependency'));
+                    throw new Error('"path" is required for a Marko dependency');
                 }
 
                 this.path = this.resolvePath(this.path);
-                callback();
             },
 
             object: true, // We are exporting a simple JavaScript object
@@ -23,8 +22,8 @@ module.exports = exports = function(lasso, config) {
                 });
             },
 
-            getLastModified: function(lassoContext, callback) {
-                lassoContext.getFileLastModified(this.path, callback);
+            async getLastModified (lassoContext) {
+                return lassoContext.getFileLastModified(this.path);
             }
         });
 };

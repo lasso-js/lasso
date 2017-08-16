@@ -14,13 +14,12 @@ exports.getLassoConfig = function(dir) {
                             'path': 'string'
                         },
 
-                        init: function(lassoContext, callback) {
+                        async init (lassoContext) {
                             if (!this.path) {
-                                return callback(new Error('"path" is required for a Marko dependency'));
+                                throw new Error('"path" is required for a Marko dependency');
                             }
 
                             this.path = this.resolvePath(this.path);
-                            callback();
                         },
 
                         read: function(lassoContext, callback) {
@@ -44,7 +43,7 @@ exports.getLassoOptions = function(dir) {
 
 exports.check = function(window) {
     expect(window.main.filename).to.contain('main');
-    
+
     expect(window.main.hello.FOO).to.equal('hello');
     expect(window.main.hello.filename).to.contain('hello.foo');
 

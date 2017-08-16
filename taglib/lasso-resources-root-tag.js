@@ -1,8 +1,7 @@
-var async = require('async');
+const async = require('async');
+const getLassoRenderContext = require('./getLassoRenderContext');
 
-var getLassoRenderContext = require('./getLassoRenderContext');
-
-module.exports = function render(input, out) {
+module.exports = function render (input, out) {
     var renderBody = input.renderBody;
 
     if (!renderBody) {
@@ -16,7 +15,6 @@ module.exports = function render(input, out) {
         throw new Error('Page lasso not configured for application. Use require("lasso").configureDefault(config) to configure the default page lasso or provide an lasso as input using the "lasso" attribute.');
     }
 
-
     var lassoContext = lassoRenderContext.data.lassoContext;
 
     if (!lassoContext) {
@@ -28,7 +26,7 @@ module.exports = function render(input, out) {
     var asyncOut = null;
     var done = false;
 
-    function doRenderBody(err, bundledResources) {
+    function doRenderBody (err, bundledResources) {
         done = true;
         // When invoking the body we are going to either render to the async out (if
         // one or more bundles needed to be asynchronously loaded) or the original
@@ -53,11 +51,16 @@ module.exports = function render(input, out) {
         }
     }
 
-
+    // TODO: Change to fully use async/await
     async.map(
         paths,
-        function(path, callback) {
-            theLasso.lassoResource(path, lassoContext, callback);
+        async function (path, callback) {
+            try {
+                const lassoResourceResult = await theLasso.lassoResource(path, lassoContext);
+                callback(null, lassoResourceResult);
+            } catch (err) {
+                callback(err);
+            }
         },
         doRenderBody);
 

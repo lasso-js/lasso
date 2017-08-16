@@ -51,7 +51,12 @@ function sandboxLoad(lassoPageResult, modulesRuntimeGlobal) {
         }
 
         var path = file.path;
-        loadScript(path);
+        try {
+            loadScript(path);
+        } catch (err) {
+            console.error(`Error loading file ${JSON.stringify(file)}`, err);
+            throw err;
+        }
     });
 
     modulesRuntimeGlobal = modulesRuntimeGlobal || '$_mod';

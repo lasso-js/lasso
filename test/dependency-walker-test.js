@@ -1,17 +1,17 @@
 'use strict';
-var nodePath = require('path');
+
+const nodePath = require('path');
 require('chai').config.includeStack = true;
-var ok = require('assert').ok;
-var normalizeOutput = require('./util/normalizeOutput');
+const ok = require('assert').ok;
+const normalizeOutput = require('./util/normalizeOutput');
 
-var DependencyTree = require('../lib/DependencyTree');
-var lasso = require('../');
+const DependencyTree = require('../lib/DependencyTree');
+const lasso = require('../');
 
-describe('lasso/dependency-walker' , function() {
+describe('lasso/dependency-walker', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/dependency-walker'),
-        function (dir, helpers, done) {
-
+        async function (dir, helpers) {
             var dependencyWalker = require('../lib/dependency-walker');
             var LassoManifest = require('../lib/LassoManifest');
 
@@ -34,7 +34,7 @@ describe('lasso/dependency-walker' , function() {
 
             var lassoManifest = new LassoManifest({
                 manifest: {
-                    dependencies:dependencies
+                    dependencies
                 },
                 dependencyRegistry: dependencyRegistry,
                 dirname: dir
@@ -49,17 +49,11 @@ describe('lasso/dependency-walker' , function() {
                 }
             };
 
-            dependencyWalker.walk(walkOptions, function(err) {
-                    if (err) {
-                        return done(err);
-                    }
+            await dependencyWalker.walk(walkOptions);
 
-                    var output = tree.toString();
-                    output = normalizeOutput(output, dir);
+            var output = tree.toString();
+            output = normalizeOutput(output, dir);
 
-                    helpers.compare(output, '.txt');
-                    done();
-                });
+            helpers.compare(output, '.txt');
         });
-
 });

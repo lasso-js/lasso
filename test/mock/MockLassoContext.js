@@ -101,12 +101,12 @@ class MockLassoContext {
                 return {
                     object: requireExt.object === true,
 
-                    init() {
+                    async init () {
                         return Promise.resolve();
                     },
 
-                    getDependencies() {
-                        return Promise.resolve([]);
+                    async getDependencies() {
+                        return [];
                     },
 
                     createReadStream: requireExt.createReadStream(path, lassoContext),
@@ -222,7 +222,7 @@ class MockLassoContext {
         return this.nextId++;
     }
 
-    getFileLastModified(path) {
+    async getFileLastModified(path) {
         return Promise.resolve(-1);
     }
 

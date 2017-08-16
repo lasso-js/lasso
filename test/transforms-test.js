@@ -1,19 +1,16 @@
 'use strict';
-var nodePath = require('path');
+const nodePath = require('path');
 require('chai').config.includeStack = true;
 
-var WriterTracker = require('./util/WriterTracker');
-var rmdirRecursive = require('./util').rmdirRecursive;
+const WriterTracker = require('./util/WriterTracker');
+const rmdirRecursive = require('./util').rmdirRecursive;
+const buildDir = nodePath.join(__dirname, 'build');
+const lasso = require('../');
 
-var buildDir = nodePath.join(__dirname, 'build');
-
-var lasso = require('../');
-
-describe('lasso/transforms' , function() {
+describe('lasso/transforms', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/transforms'),
-        function (dir, helpers, done) {
-
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
             var pageName = 'transforms-' + testName;
@@ -44,12 +41,8 @@ describe('lasso/transforms' , function() {
 
             var writerTracker = WriterTracker.create(myLasso.writer);
 
-            myLasso.lassoPage(lassoOptions)
-                .then((lassoPageResult) => {
-                    main.check(lassoPageResult, writerTracker);
-                    lasso.flushAllCaches(done);
-                })
-                .catch(done);
+            const lassoPageResult = await myLasso.lassoPage(lassoOptions);
+            main.check(lassoPageResult, writerTracker);
+            await lasso.flushAllCaches();
         });
-
 });

@@ -3,9 +3,7 @@ var chai = require('chai');
 chai.config.includeStack = true;
 require('chai').should();
 var expect = require('chai').expect;
-var buildPluginConfig = require('../lib/require/build-plugin-config');
 var createLassoContext = require('./mock/create-lasso-context');
-var MockLassoContext = require('./mock/MockLassoContext');
 
 describe('lasso-require/builtins' , function() {
     it('should correctly resolve default builtins', function() {
