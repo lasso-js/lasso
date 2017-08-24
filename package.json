@@ -6,9 +6,9 @@
     "url": "https://github.com/lasso-js/lasso.git"
   },
   "scripts": {
-    "test": "rm -rf .cache && npm run mocha && npm run mocha && npm run jshint",
+    "test": "rm -rf .cache && npm run mocha && npm run mocha && npm run eslint",
     "mocha": "node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test",
-    "jshint": "node_modules/.bin/jshint lib/ taglib/"
+    "eslint": "node_modules/.bin/eslint lib/ taglib/"
   },
   "author": "Patrick Steele-Idem <pnidem@gmail.com>",
   "maintainers": "Patrick Steele-Idem <pnidem@gmail.com>",
@@ -72,7 +72,6 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-standard": "^3.0.1",
     "fs-extra": "~0.12.0",
-    "jshint": "^2.9.1",
     "lasso-marko": "^2.2.2",
     "marko-v2": "^2.10.1",
     "mocha": "^3.4.2",

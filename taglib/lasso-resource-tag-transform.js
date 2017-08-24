@@ -13,16 +13,38 @@
 'use strict';
 
 module.exports = function transform(el, context) {
-  let builder = context.builder;
+    let builder = context.builder;
 
-  let resourcesRootNode;
+    let resourcesRootNode;
 
+    if (el.childCount === 0) {
+        resourcesRootNode = context.data.lassoResourcesNode;
 
-  if (el.childCount === 0) {
-    resourcesRootNode = context.data.lassoResourcesNode;
+        if (!resourcesRootNode) {
+            resourcesRootNode = context.data.lassoResourcesNode = builder.containerNode(function lassoResourcesCodeGenerator() {
+                let resources = resourcesRootNode.data.resources;
+                let resourcesCustomTag = context.createNodeForEl({
+                    tagName: '_lasso-resources-root',
+                    body: resourcesRootNode.body
+                });
 
-    if (!resourcesRootNode) {
-        resourcesRootNode = context.data.lassoResourcesNode = builder.containerNode(function lassoResourcesCodeGenerator() {
+                let paths = [];
+
+                resources.forEach((resource) => {
+                    paths.push(resource.path);
+                    resourcesCustomTag.addNestedVariable(resource.varName);
+                });
+
+                resourcesCustomTag.setAttributeValue('paths', builder.literal(paths));
+
+                return resourcesCustomTag;
+            });
+
+            context.root.moveChildrenTo(resourcesRootNode);
+            context.root.appendChild(resourcesRootNode);
+        }
+    } else {
+        resourcesRootNode = builder.containerNode(function lassoResourcesCodeGenerator() {
             let resources = resourcesRootNode.data.resources;
             let resourcesCustomTag = context.createNodeForEl({
                 tagName: '_lasso-resources-root',
@@ -41,57 +63,32 @@ module.exports = function transform(el, context) {
             return resourcesCustomTag;
         });
 
-
-
-        context.root.moveChildrenTo(resourcesRootNode);
-        context.root.appendChild(resourcesRootNode);
+        el.replaceWith(resourcesRootNode);
+        el.moveChildrenTo(resourcesRootNode);
     }
-  } else {
-    resourcesRootNode = builder.containerNode(function lassoResourcesCodeGenerator() {
-        let resources = resourcesRootNode.data.resources;
-        let resourcesCustomTag = context.createNodeForEl({
-            tagName: '_lasso-resources-root',
-            body: resourcesRootNode.body
-        });
 
-        let paths = [];
+    if (!resourcesRootNode.data.resources) {
+        resourcesRootNode.data.resources = [];
+    }
 
-        resources.forEach((resource) => {
-            paths.push(resource.path);
-            resourcesCustomTag.addNestedVariable(resource.varName);
-        });
+    let resources = resourcesRootNode.data.resources;
 
-        resourcesCustomTag.setAttributeValue('paths', builder.literal(paths));
+    let varName = el.getAttributeValue('var');
+    if (varName.type === 'Literal' && typeof varName.value === 'string') {
+        varName = varName.value;
+    } else {
+        context.addError(el, 'Invalid "var". String literal expected');
+        return;
+    }
 
-        return resourcesCustomTag;
+    let pathExpression = el.getAttributeValue('path');
+
+    pathExpression = context.resolvePath(pathExpression);
+
+    resources.push({
+        varName: varName,
+        path: pathExpression
     });
 
-    el.replaceWith(resourcesRootNode);
-    el.moveChildrenTo(resourcesRootNode);
-  }
-
-  if (!resourcesRootNode.data.resources) {
-    resourcesRootNode.data.resources = [];
-  }
-
-  let resources = resourcesRootNode.data.resources;
-
-  let varName = el.getAttributeValue('var');
-  if (varName.type === 'Literal' && typeof varName.value === 'string') {
-      varName = varName.value;
-  } else {
-      context.addError(el, 'Invalid "var". String literal expected');
-      return;
-  }
-
-  let pathExpression = el.getAttributeValue('path');
-
-  pathExpression = context.resolvePath(pathExpression);
-
-  resources.push({
-      varName: varName,
-      path: pathExpression
-  });
-
-  el.detach();
+    el.detach();
 };

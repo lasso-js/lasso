@@ -6,7 +6,6 @@ if (DEFAULT_TIMEOUT) {
     DEFAULT_TIMEOUT = 30000; /* 30s */
 }
 
-
 function getDefaultTimeout() {
     return DEFAULT_TIMEOUT;
 }

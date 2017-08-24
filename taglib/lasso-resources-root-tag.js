@@ -65,6 +65,8 @@ module.exports = function render (input, out) {
         doRenderBody);
 
     if (!done) {
-        asyncOut = out.beginAsync({ name: 'lasso-resources:' + paths.join(',')});
+        asyncOut = out.beginAsync({
+            name: 'lasso-resources:' + paths.join(',')
+        });
     }
 };
