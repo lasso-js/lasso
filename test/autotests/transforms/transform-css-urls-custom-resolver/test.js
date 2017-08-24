@@ -5,10 +5,10 @@ exports.getLassoConfig = function() {
         fingerprintsEnabled: true,
         bundlingEnabled: true,
         resolveCssUrls: {
-            urlResolver: function(url, lassoContext, callback) {
+            async urlResolver (url, lassoContext) {
                 url = url.replace('SOME_DIR', __dirname);
                 url = url.replace('MYCOMPANY', 'ebay');
-                callback(null, url);
+                return url;
             }
         }
     };
