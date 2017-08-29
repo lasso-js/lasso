@@ -27,7 +27,7 @@ npm install lasso --save
 
 # Example Template
 
-```html
+```marko
 <lasso-page name="my-page" package-path="./browser.json"/>
 
 <!doctype html>
@@ -85,26 +85,26 @@ Examples:
 
 _With a path to an `browser.json` file:_
 
-```html
+```marko
 <lasso-page package-path="./browser.json"/>
 ```
 
 _With an explicit page name flags:_
 
-```html
+```marko
 <lasso-page name="home" package-path="./browser.json"/>
 ```
 
 _With enabled flags:_
 
-```html
-<lasso-page package-path="./browser.json" flags="['foo', 'bar']"/>
+```marko
+<lasso-page package-path="./browser.json" flags=['foo', 'bar']/>
 ```
 
 _With dependencies:_
 
-```html
-<lasso-page dependencies="['foo.js', 'bar.css']"/>
+```marko
+<lasso-page dependencies=['foo.js', 'bar.css']/>
 ```
 
 ## `<lasso-head>`
@@ -126,8 +126,8 @@ Supported attributes:
 
 Example:
 
-```html
-<lasso-img src="./foo.png" width="32" height="32" class="foo">
+```marko
+<lasso-img src="./foo.png" width=32 height=32 class="foo">
 ```
 
 The output will be similar to the following:
@@ -147,9 +147,9 @@ Supported attributes:
 
 Example:
 
-```html
+```marko
 <lasso-resource path="./favicon.ico" var="favicon"/>
-<link rel="shortcut icon" href="${favicon.url}">
+<link rel="shortcut icon" href=favicon.url>
 ```
 
 The output will be similar to the following:
