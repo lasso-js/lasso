@@ -673,8 +673,8 @@ myLasso.lassoPage({
 
 __Using the Marko taglib:__
 
-```html
-<lasso-page ... flags="['mobile', 'foo', 'bar']">
+```marko
+<lasso-page ... flags=['mobile', 'foo', 'bar']>
     ...
 </lasso-page>
 ```
@@ -882,7 +882,7 @@ If you are using [Marko](https://github.com/marko-js/marko) you can utilize the 
 
 You can now add the lasso tags to your page templates. For example:
 
-```html
+```marko
 <lasso-page package-path="./browser.json"/>
 
 <!doctype html>
@@ -959,7 +959,7 @@ The `<lasso-img>` tag can be used to render `<img>` tags while also having the i
 
 Example:
 
-```xml
+```marko
 <lasso-img src="./foo.jpg"/>
 ```
 
@@ -981,8 +981,8 @@ To demonstrate rendering of the same template on the server and the client we wi
 
 __template.marko__
 
-```html
-Hello ${data.name}!
+```marko
+-- Hello ${data.name}!
 ```
 
 _NOTE: The sample app includes sample code that illustrates how to also render both a Dust template and a Handlebars template on both the client and server._
@@ -1463,19 +1463,19 @@ See [Configuration](#configuration) for full list of configuration options.
 It is also possible to add custom attributes to script and style tags for both inline and external resources. It is done using the attributes `inline-script-attrs`, `inline-style-attrs`, `external-style-attrs` and `external-script-attrs` as shown below.
 
 __page.marko__
-```html
+```marko
 <lasso-page name="page" package-path="./browser.json"/>
 
 <html>
     <head>
-        <lasso-head external-style-attrs="{'css-custom1': true}"/>
-        <lasso-slot name="ext-css-slot" external-style-attrs="{'css-custom2': true}"/>
-        <lasso-slot name="css-slot" inline-style-attrs="{'css-custom3': true}"/>
+        <lasso-head external-style-attrs={'css-custom1': true}/>
+        <lasso-slot name="ext-css-slot" external-style-attrs={'css-custom2': true}/>
+        <lasso-slot name="css-slot" inline-style-attrs={'css-custom3': true}/>
     </head>
     <body>
-        <lasso-body external-script-attrs="{'js-custom1': true}"/>
-        <lasso-slot name="ext-js-slot" external-script-attrs="{'js-custom2': true}"/>
-        <lasso-slot name="js-slot" inline-script-attrs="{'js-custom3': true}"/>
+        <lasso-body external-script-attrs={'js-custom1': true}/>
+        <lasso-slot name="ext-js-slot" external-script-attrs={'js-custom2': true}/>
+        <lasso-slot name="js-slot" inline-script-attrs={'js-custom3': true}/>
     </body>
 </html>
 
