@@ -39,7 +39,7 @@
     "process": "^0.6.0",
     "property-handlers": "^1.1.1",
     "raptor-async": "^1.1.3",
-    "raptor-cache": "^1.2.3",
+    "raptor-cache": "github:raptorjs/raptor-cache#10-add-nyc",
     "raptor-css-parser": "^1.1.5",
     "raptor-detect": "^1.0.1",
     "raptor-logging": "^1.1.2",
