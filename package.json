@@ -6,6 +6,7 @@
     "url": "https://github.com/lasso-js/lasso.git"
   },
   "scripts": {
+    "test-coverage": "rm -rf .cache && nyc npm run mocha && nyc report --reporter=html && open ./coverage/index.html && npm run mocha && npm run eslint",
     "test": "rm -rf .cache && nyc npm run mocha && npm run mocha && npm run eslint",
     "mocha": "node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test",
     "eslint": "node_modules/.bin/eslint lib/ taglib/"
@@ -77,6 +78,13 @@
     "mocha": "^3.4.2",
     "nyc": "^11.2.1",
     "require-self-ref": "^2.0.1"
+  },
+  "nyc": {
+    "exclude": [
+      "**/coverage/**",
+      "**/test/**",
+      "**/cache/**"
+    ]
   },
   "license": "Apache-2.0",
   "main": "lib/index.js",

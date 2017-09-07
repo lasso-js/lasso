@@ -86,7 +86,7 @@ describe('lasso/modules', function() {
                 var sandbox = sandboxLoad(lassoPageResult, modulesRuntimeGlobal);
                 sandbox.$outputDir = lassoConfig.outputDir;
 
-                await check(sandbox.window);
+                await check(sandbox.window, lassoPageResult);
             }
         });
 });
