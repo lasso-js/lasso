@@ -1841,12 +1841,9 @@ The `handler` argument for a CSS dependency has the exact same interface as a ha
 A custom package dependency can be used to dynamically resolve additional dependencies at optimization time. The sample package dependency handler below illustrates how a package dependency can be used to automatically include every file in a directory as a dependency:
 
 ```javascript
-const fs = require('fs');
-const path = require('path');
 const { promisify } = require('util');
-
-promisify(fs.stat);
-promisify(fs.readdir);
+const fs = promisify(require('fs'));
+const path = promisify(require('path'));
 
 lasso.dependencies.registerPackageType('dir', {
     properties: {
