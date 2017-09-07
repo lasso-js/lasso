@@ -10,6 +10,17 @@ describe('lasso/config', function() {
         nodePath.join(__dirname, 'autotests/require-no-op'),
         async function (dir, helpers) {
             const main = require(nodePath.join(dir, 'test.js'));
-            main.check(nodeRequireNoOp);
+            const checkError = main.checkError;
+
+            try {
+                main.check(nodeRequireNoOp);
+            } catch (err) {
+                if (checkError) {
+                    checkError(err);
+                    return;
+                }
+
+                throw err;
+            }
         });
 });
