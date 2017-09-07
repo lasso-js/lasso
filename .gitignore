@@ -8,6 +8,7 @@
 .DS_Store
 coverage
 /test/build
+/test/static
 *.actual.js
 *.actual.html
 .lasso-cache
