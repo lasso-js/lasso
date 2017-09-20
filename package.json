@@ -21,7 +21,7 @@
     "buffer": "^4.5.1",
     "clone": "^0.1.19",
     "escodegen": "^1.6.0",
-    "esprima": "^2.7.2",
+    "esprima": "^4.0.0",
     "estraverse": "^4.2.0",
     "events": "^1.0.2",
     "glob": "^7.1.1",
