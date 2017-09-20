@@ -8,6 +8,7 @@
   "scripts": {
     "test-coverage": "rm -rf .cache && nyc npm run mocha && nyc report --reporter=html && open ./coverage/index.html && npm run mocha && npm run eslint",
     "test": "rm -rf .cache && nyc npm run mocha && npm run mocha && npm run eslint",
+    "test:unit": "rm -rf .cache && nyc node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test/unit",
     "mocha": "node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test ./test/unit",
     "eslint": "node_modules/.bin/eslint lib/ taglib/"
   },

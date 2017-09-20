@@ -33,17 +33,40 @@ describe('AsyncPackage test', function () {
         });
 
         sinon.stub(bundle, 'getUrl').callsFake(() => {
-            hasContentCalled = true;
+            getUrlCalled = true;
             return true;
         });
 
         bundle.setUrl('./hello');
         asyncPkg.addBundle(bundle);
 
-        expect(asyncPkg.getMeta()).to.equal({
-            css: [],
-            js: []
+        expect(asyncPkg.getMeta()).to.deep.equal({});
+        expect(hasContentCalled).to.equal(true);
+        expect(getUrlCalled).to.equal(false);
+    });
+
+    it('should skip adding meta if url is not defined', () => {
+        let asyncPkg = new AsyncPackage();
+        const bundle = new Bundle();
+        let hasContentCalled = false;
+        let getUrlCalled = false;
+
+        sinon.stub(bundle, 'hasContent').callsFake(() => {
+            hasContentCalled = true;
+            return true;
         });
+
+        sinon.stub(bundle, 'getUrl').callsFake(() => {
+            getUrlCalled = true;
+            return false;
+        });
+
+        bundle.setUrl('./hello');
+        asyncPkg.addBundle(bundle);
+
+        expect(asyncPkg.getMeta()).to.deep.equal({});
+        expect(hasContentCalled).to.equal(true);
+        expect(getUrlCalled).to.equal(true);
     });
 
     it('should skip adding meta if url is not defined', () => {
@@ -52,9 +75,6 @@ describe('AsyncPackage test', function () {
         bundle.setContentType('js');
         asyncPkg.addBundle(bundle);
 
-        expect(asyncPkg.getMeta()).to.equal({
-            css: [],
-            js: []
-        });
+        expect(asyncPkg.getMeta()).to.deep.equal({});
     });
 });
