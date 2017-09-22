@@ -10,13 +10,13 @@ exports.getLassoConfig = function(dir) {
                 lasso.dependencies.registerRequireExtension(
                     'foo',
                     {
-                        getDependencies: function(lassoContext, callback) {
+                        async getDependencies (lassoContext) {
                             return [ require.resolve('./extra.js') ];
                         },
 
-                        read: function(path, lassoContext, callback) {
+                        async read (path, lassoContext) {
                             var src = fs.readFileSync(path, { encoding: 'utf8' });
-                            callback(null, 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;');
+                            return 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;';
                         }
                     });
             }

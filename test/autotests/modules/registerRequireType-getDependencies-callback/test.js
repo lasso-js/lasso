@@ -14,24 +14,21 @@ exports.getLassoConfig = function(dir) {
                             'path': 'string'
                         },
 
-                        init: function(lassoContext, callback) {
+                        async init (lassoContext) {
                             if (!this.path) {
-                                return callback(new Error('"path" is required for a Marko dependency'));
+                                throw new Error('"path" is required for a Marko dependency');
                             }
 
                             this.path = this.resolvePath(this.path);
-                            callback();
                         },
 
-                        getDependencies: function(lassoContext, callback) {
-                            callback(null, [
-                                require.resolve('./extra.js')
-                            ]);
+                        async getDependencies (lassoContext) {
+                            return [require.resolve('./extra.js')];
                         },
 
-                        read: function(lassoContext, callback) {
+                        read (lassoContext) {
                             var src = fs.readFileSync(this.path, { encoding: 'utf8' });
-                            callback(null, 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;');
+                            return 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;';
                         }
                     });
             }

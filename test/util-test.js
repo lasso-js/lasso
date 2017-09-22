@@ -1,14 +1,13 @@
 'use strict';
-var nodePath = require('path');
+const nodePath = require('path');
 require('chai').config.includeStack = true;
-var util = require('../lib/util');
+const util = require('../lib/util');
 
-describe('lasso/util' , function() {
+describe('lasso/util', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/util'),
-        function (dir, helpers, done) {
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
-            main.check(util, done);
+            return main.check(util);
         });
-
 });

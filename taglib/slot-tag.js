@@ -54,7 +54,7 @@ module.exports = function render(input, out) {
     if (!lassoPageResultAsyncValue) {
         var pageConfig = lassoRenderContext.data.config || {};
 
-        if(!templateHasMetaDeps && !pageConfig.dependencies && !pageConfig.packagePaths) {
+        if (!templateHasMetaDeps && !pageConfig.dependencies && !pageConfig.packagePaths) {
             throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
         }
 
@@ -69,9 +69,9 @@ module.exports = function render(input, out) {
         }
 
         pageConfig.dependencies = dependencies;
-        pageConfig.cacheKey = pageConfig.cacheKey || template && template.path;
-        pageConfig.dirname = pageConfig.dirname || template && path.dirname(template.path);
-        pageConfig.filename = pageConfig.filename || template && template.path;
+        pageConfig.cacheKey = (pageConfig.cacheKey || template) && template.path;
+        pageConfig.dirname = (pageConfig.dirname || template) && path.dirname(template.path);
+        pageConfig.filename = (pageConfig.filename || template) && template.path;
         pageConfig.flags = pageConfig.flags || out.global.flags || [];
 
         lassoPageTag(pageConfig, out);

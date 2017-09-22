@@ -1,8 +1,6 @@
+const expect = require('chai').expect;
 
-var expect = require('chai').expect;
-
-exports.check = function(lasso, helpers, done) {
-
+exports.check = function (lasso, helpers) {
     var config = {
         bundles: [
             {
@@ -17,6 +15,4 @@ exports.check = function(lasso, helpers, done) {
     var myLasso1 = lasso.create(config);
     var myLasso2 = lasso.create(config);
     expect(myLasso1.config.getConfigFingerprint()).to.equal(myLasso2.config.getConfigFingerprint());
-    done();
 };
-

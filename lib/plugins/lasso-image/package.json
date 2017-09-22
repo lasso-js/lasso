@@ -1,0 +1,5 @@
+{
+  "browser": {
+    "./index.js": "./lasso-image-browser.js"
+  }
+}

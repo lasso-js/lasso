@@ -1,7 +1,6 @@
 var getImageInfoHelperPath = require.resolve('./helper-getImageInfo');
 
 module.exports = function codeGenerator(el, codegen) {
-
     if (el.isFlagSet('lassoTransformed')) {
         return el;
     }
@@ -22,7 +21,6 @@ module.exports = function codeGenerator(el, codegen) {
         builder.memberExpression(
             imageInfoVar,
             builder.identifier('url')));
-
 
     if (!el.hasAttribute('width')) {
         el.setAttributeValue('width',

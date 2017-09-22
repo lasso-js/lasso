@@ -80,12 +80,12 @@ module.exports = function createLassoContext(config) {
             return {
                 object: requireExt.object === true,
 
-                init() {
+                async init() {
                     return Promise.resolve();
                 },
 
-                getDependencies() {
-                    return Promise.resolve([]);
+                async getDependencies() {
+                    return [];
                 },
 
                 createReadStream: requireExt.createReadStream(path, lassoContext),

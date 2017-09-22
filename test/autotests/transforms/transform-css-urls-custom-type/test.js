@@ -1,5 +1,9 @@
-var expect = require('chai').expect;
-var path = require('path');
+const { promisify } = require('util');
+const fs = require('fs');
+const expect = require('chai').expect;
+const path = require('path');
+
+const readFileAsync = promisify(fs.readFile);
 
 exports.getLassoConfig = function() {
     return {
@@ -14,29 +18,21 @@ exports.getLassoConfig = function() {
                             'path': 'string'
                         },
 
-                        init: function(lassoContext, callback) {
+                        async init (lassoContext) {
                             this.path = this.resolvePath(this.path);
-                            callback();
                         },
 
-                        read: function(lassoContext, callback) {
-                            var path = this.path;
-
-                            require('fs').readFile(path, {encoding: 'utf8'}, function(err, css) {
-                                if (err) {
-                                    return callback(err);
-                                }
-
-                                callback(null, css);
-                            });
+                        async read (lassoContext) {
+                            const css = await readFileAsync(this.path, {encoding: 'utf8'});
+                            return css;
                         },
 
                         getSourceFile: function() {
                             return this.path;
                         },
 
-                        getLastModified: function(lassoContext, callback) {
-                            return callback(null, -1);
+                        async getLastModified (lassoContext) {
+                            return -1;
                         }
                     });
                 }

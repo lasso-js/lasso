@@ -1,22 +1,19 @@
-var fs = require('fs');
+const { promisify } = require('util');
+const fs = require('fs');
+const readFileAsync = promisify(fs.readFile);
 
 module.exports = exports = function(lasso, config) {
     lasso.dependencies.registerRequireExtension(
         'foo',
         {
-            read: function(path, lassoContext, callback) {
-                fs.readFile(path, {encoding: 'utf8'}, function(err, src) {
-                    if (err) {
-                        return callback(err);
-                    }
-
-                    src = src.replace(/FOO/g, 'BAR');
-                    callback(null, src);
-                });
+            async read (path, lassoContext) {
+                let src = await readFileAsync(path, {encoding: 'utf8'});
+                src = src.replace(/FOO/g, 'BAR');
+                return src;
             },
 
-            lastModified: function(path, lassoContext, callback) {
-                lassoContext.getFileLastModified(path, callback);
+            async lastModified (path, lassoContext) {
+                return lassoContext.getFileLastModified(path);
             }
         });
 };

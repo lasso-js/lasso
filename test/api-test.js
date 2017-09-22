@@ -10,7 +10,7 @@ let _log = console.log;
 describe('lasso/api' , function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/api'),
-        function (dir, helpers, done) {
+        async function (dir, helpers) {
             var name = nodePath.basename(dir);
             var outputDir = nodePath.join(buildDir, name);
             rmdirRecursive(outputDir);
@@ -22,7 +22,6 @@ describe('lasso/api' , function() {
             };
 
             var main = require(nodePath.join(dir, 'test.js'));
-            main.check(lasso, helpers, done);
+            return main.check(lasso, helpers);
         });
-
 });

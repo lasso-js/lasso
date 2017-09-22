@@ -21,7 +21,6 @@ var enabledTest = process.env.TEST;
 var path = require('path');
 var assert = require('assert');
 
-
 function compareHelper(dir, actual, suffix) {
     var actualPath = path.join(dir, 'actual' + suffix);
     var expectedPath = path.join(dir, 'expected' + suffix);
@@ -47,7 +46,7 @@ function compareHelper(dir, actual, suffix) {
     assert.deepEqual(actual, expected);
 }
 
-function autoTest(name, dir, run, options, done) {
+function autoTest (name, dir, run, options) {
     options = options || {};
 
     var helpers = {
@@ -56,7 +55,7 @@ function autoTest(name, dir, run, options, done) {
         }
     };
 
-    run(dir, helpers, done);
+    return run(dir, helpers);
 }
 
 exports.scanDir = function(autoTestDir, run, options) {
@@ -79,10 +78,9 @@ exports.scanDir = function(autoTestDir, run, options) {
 
                 var dir = path.join(autoTestDir, name);
 
-                itFunc(`[${name}] `, function(done) {
-                    autoTest(name, dir, run, options, done);
+                itFunc(`[${name}] `, function () {
+                    return autoTest(name, dir, run, options);
                 });
-
             });
     });
 };

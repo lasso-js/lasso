@@ -8,15 +8,17 @@ exports.getLassoOptions = function(dir) {
     };
 };
 
-exports.check = function(window, done) {
+exports.check = function (window) {
     expect(window.fooLoaded).to.equal(undefined);
     expect(window.main.filename).to.contain('main');
 
-    window.main.loadFoo(function(err) {
-        if (err) {
-            return done(err);
-        }
+    return new Promise((resolve, reject) => {
+        window.main.loadFoo(function(err) {
+            if (err) {
+                return reject(err);
+            }
 
-        done();
+            resolve();
+        });
     });
 };

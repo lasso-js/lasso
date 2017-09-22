@@ -12,12 +12,10 @@ exports.getLassoConfig = function() {
                         properties: {
                         },
 
-                        init: function(lassoContext, callback) {
-                            callback();
-                        },
+                        async init (lassoContext) {},
 
-                        read: function(lassoContext, callback) {
-                            callback(null, 'FOO');
+                        read: function(lassoContext) {
+                            return 'FOO';
                         }
                     });
                 }

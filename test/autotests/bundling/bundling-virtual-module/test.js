@@ -15,8 +15,8 @@ exports.getLassoOptions = function() {
                 virtualModule: {
                     path: __dirname + '/x/y/z',
                     clientPath: '/x/y/z',
-                    read: function(lassoContext, callback) {
-                        callback(null, 'abc');
+                    read (lassoContext) {
+                        return 'abc';
                     },
                     getDefaultBundleName: function(pageBundleName, lassoContext) {
                         return 'xyz';

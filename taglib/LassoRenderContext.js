@@ -38,8 +38,7 @@ LassoRenderContext.prototype = {
 
         if (Array.isArray(promise)) {
             this._waitFor = this._waitFor.concat(promise);
-        }
-        else {
+        } else {
             this._waitFor.push(promise);
         }
     },

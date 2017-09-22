@@ -1,19 +1,15 @@
 'use strict';
-var nodePath = require('path');
+const nodePath = require('path');
 require('chai').config.includeStack = true;
-var series = require('raptor-async/series');
 
-var rmdirRecursive = require('./util').rmdirRecursive;
+const rmdirRecursive = require('./util').rmdirRecursive;
+const buildDir = nodePath.join(__dirname, 'build');
+const lasso = require('../');
 
-var buildDir = nodePath.join(__dirname, 'build');
-
-var lasso = require('../');
-
-describe('lasso/resource-transforms' , function() {
+describe('lasso/resource-transforms', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/resource-transforms'),
-        function (dir, helpers, done) {
-
+        async function (dir, helpers) {
             var main = require(nodePath.join(dir, 'test.js'));
             var testName = nodePath.basename(dir);
             var pageName = 'resource-transforms-' + testName;
@@ -37,38 +33,21 @@ describe('lasso/resource-transforms' , function() {
             rmdirRecursive(lassoConfig.outputDir);
 
             var myLasso = lasso.create(lassoConfig, dir);
-
             var inputs = main.getInputs();
 
-            var asyncTasks = inputs.map((input, i) => {
-                return (callback) => {
-                    var path = input.path;
-                    var options = input.options;
+            let i = 0;
+            for (const input of inputs) {
+                var path = input.path;
+                var options = input.options;
 
-                    myLasso.lassoResource(path, options, function(err, result) {
-                        if (err) {
-                            callback(err);
-                        }
-
-                        process.nextTick(() => {
-                            try {
-                                input.check(result);
-                            } catch(e) {
-                                return callback(`The inputs at index ${i} failed: ${e.stack}`);
-                            }
-
-                            callback();
-                        });
-                    });
-                };
-            });
-
-            series(asyncTasks, function(err) {
-                if (err) {
-                    return done(err);
+                const result = await myLasso.lassoResource(path, options);
+                try {
+                    input.check(result);
+                } catch (e) {
+                    throw new Error(`The inputs at index ${i} failed: ${e.stack}`, e);
                 }
-                done();
-            });
-        });
 
+                i++;
+            }
+        });
 });
