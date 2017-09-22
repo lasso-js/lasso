@@ -26,9 +26,9 @@ exports.getLassoConfig = function(dir) {
                             return [require.resolve('./extra.js')];
                         },
 
-                        read: function(lassoContext, callback) {
+                        read (lassoContext) {
                             var src = fs.readFileSync(this.path, { encoding: 'utf8' });
-                            callback(null, 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;');
+                            return 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;';
                         }
                     });
             }

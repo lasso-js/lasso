@@ -14,8 +14,8 @@ exports.getLassoConfig = function() {
 
                         async init (lassoContext) {},
 
-                        read: function(lassoContext, callback) {
-                            callback(null, 'FOO');
+                        read: function(lassoContext) {
+                            return 'FOO';
                         }
                     });
                 }

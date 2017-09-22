@@ -16,9 +16,11 @@ module.exports = exports = function(lasso, config) {
 
             object: true, // We are exporting a simple JavaScript object
 
-            read: function(lassoContext, callback) {
-                setTimeout(function() {
-                    callback(null, JSON.stringify({foo: 'bar'}));
+            read (lassoContext) {
+                return new Promise((resolve) => {
+                    setTimeout(function() {
+                        resolve(JSON.stringify({foo: 'bar'}));
+                    });
                 });
             },
 

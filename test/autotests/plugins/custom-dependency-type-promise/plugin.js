@@ -1,4 +1,7 @@
-var fs = require('fs');
+const { promisify } = require('util');
+const fs = require('fs');
+
+const readFileAsync = promisify(fs.readFile);
 
 module.exports = exports = function(lasso, config) {
     lasso.dependencies.registerJavaScriptType(
@@ -16,21 +19,10 @@ module.exports = exports = function(lasso, config) {
                 this.path = this.resolvePath(this.path);
             },
 
-            read: function(lassoContext, callback) {
-                // console.log(module.id, 'READ: ', this.path);
+            async read (lassoContext) {
                 module.exports.jsCounter++;
-
-                var path = this.path;
-
-                return new Promise(function(resolve, reject) {
-                    fs.readFile(path, {encoding: 'utf8'}, function(err, src) {
-                        if (err) {
-                            return reject(err);
-                        }
-
-                        resolve(src.toUpperCase());
-                    });
-                });
+                const src = await readFileAsync(this.path, {encoding: 'utf8'});
+                return src.toUpperCase();
             },
 
             getSourceFile: function() {
@@ -57,23 +49,11 @@ module.exports = exports = function(lasso, config) {
                 this.path = this.resolvePath(this.path);
             },
 
-            read: function(lassoContext, callback) {
-                // console.log(module.id, 'READ: ', this.path);
+            async read (lassoContext) {
                 module.exports.cssCounter++;
-
-                var path = this.path;
-
-                return new Promise(function(resolve, reject) {
-                    fs.readFile(path, {encoding: 'utf8'}, function(err, src) {
-                        if (err) {
-                            return reject(err);
-                        }
-
-                        src = src.split('').reverse().join('');
-
-                        resolve(src);
-                    });
-                });
+                let src = await readFileAsync(this.path, {encoding: 'utf8'});
+                src = src.split('').reverse().join('');
+                return src;
             },
 
             getSourceFile: function() {

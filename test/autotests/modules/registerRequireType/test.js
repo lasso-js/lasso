@@ -22,9 +22,9 @@ exports.getLassoConfig = function(dir) {
                             this.path = this.resolvePath(this.path);
                         },
 
-                        read: function(lassoContext, callback) {
+                        read (lassoContext) {
                             var src = fs.readFileSync(this.path, { encoding: 'utf8' });
-                            callback(null, 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;');
+                            return 'exports.FOO = ' + JSON.stringify(src) + '; exports.filename = __filename;';
                         }
                     });
             }

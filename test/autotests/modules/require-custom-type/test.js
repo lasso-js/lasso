@@ -15,8 +15,8 @@ function fooPlugins(lasso, config) {
         },
 
         // Read the resource:
-        read: function(context, callback) {
-            return callback(null, 'var foo = true;');
+        read (context) {
+            return 'var foo = true;';
         }
     });
 }
