@@ -353,7 +353,7 @@ The updated `my-page.html` file should be similar to the following:
     <script src="static/raptor-modules-meta.js"></script>
     <script src="static/node_modules/jquery/dist/jquery.js"></script>
     <script src="static/main.js"></script>
-    <script>$rmod.ready();</script>
+    <script>$_mod.ready();</script>
     <!-- </lasso-body> -->
 </body>
 </html>
@@ -398,7 +398,7 @@ The updated `my-page.html` file should be similar to the following:
     <h1>Lasso.js Demo</h1>
     <!-- <lasso-body> -->
     <script src="static/my-page-2e3e9936.js"></script>
-    <script>$rmod.ready();</script>
+    <script>$_mod.ready();</script>
     <!-- </lasso-body> -->
 </body>
 </html>
@@ -1350,7 +1350,7 @@ This could also be expressed as a percentage:
     ],
 
     // The default name of the modules runtime variable is
-    // ""$rmod" but you can change that with the noConflict option.
+    // ""$_mod" but you can change that with the noConflict option.
     // This is necessary if you have a webpage that loads
     // multiple JavaScript bundles that were
     // built at different times with Lasso.
@@ -1429,11 +1429,11 @@ The [lasso-babel-transform](https://github.com/lasso-js/lasso-babel-transform) m
 
 If you're using CommonJS modules in your project then this will cause the
 CommonJS runtime to be included in your build. The CommonJS runtime utilizes
-a global variable (`$rmod` by default). If your build output files need to
+a global variable (`$_mod` by default). If your build output files need to
 co-exist with other JavaScript files that were built by Lasso separately
 then you need to make sure that your build produces a CommonJS runtime
 that is isolated from other builds. That is, you should not use the default
-`$rmod` global.
+`$_mod` global.
 
 To enable no-conflict build, you need to configure Lasso to use a unique
 CommonJS runtime global name. This can be done by setting the `noConflict`
