@@ -68,10 +68,14 @@ module.exports = function render(input, out) {
             dependencies = dependencies.concat(pageConfig.dependencies);
         }
 
+        if (out.global.dependencies) {
+            dependencies = dependencies.concat(out.global.dependencies);
+        }
+
         pageConfig.dependencies = dependencies;
-        pageConfig.cacheKey = (pageConfig.cacheKey || template) && template.path;
-        pageConfig.dirname = (pageConfig.dirname || template) && path.dirname(template.path);
-        pageConfig.filename = (pageConfig.filename || template) && template.path;
+        pageConfig.cacheKey = pageConfig.cacheKey || (template && template.path);
+        pageConfig.dirname = pageConfig.dirname || (template && path.dirname(template.path));
+        pageConfig.filename = pageConfig.filename || (template && template.path);
         pageConfig.flags = pageConfig.flags || out.global.flags || [];
 
         lassoPageTag(pageConfig, out);

@@ -72,15 +72,18 @@ describe('lasso/taglib', function() {
 
                     html = html.replace(/\$\d+\.\d+\.\d+/g, '$*');
 
-                    if (main.check) {
-                        main.check(html);
-                    } else {
-                        helpers.compare(html, '.marko');
+                    try {
+                        if (main.check) {
+                            main.check(html);
+                        } else {
+                            helpers.compare(html, '.marko');
+                        }
+                    } catch (err) {
+                        return reject(err);
                     }
 
                     resolve();
                 });
             });
         });
-
 });
