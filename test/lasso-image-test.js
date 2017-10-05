@@ -38,12 +38,6 @@ describe('lasso-image', function () {
                     config: {
 
                     }
-                },
-                {
-                    plugin: 'lasso-require',
-                    config: {
-                        includeClient: false
-                    }
                 }
             ]
         });
@@ -74,15 +68,7 @@ describe('lasso-image', function () {
             plugins: [
                 {
                     plugin: lassoImagePlugin,
-                    config: {
-
-                    }
-                },
-                {
-                    plugin: 'lasso-require',
-                    config: {
-                        includeClient: false
-                    }
+                    config: {}
                 }
             ]
         });
