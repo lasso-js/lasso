@@ -1,6 +1,0 @@
-{
-    "dependencies": [
-        "./style.css",
-        "./foo.js"
-    ]
-}

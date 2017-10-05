@@ -1,9 +1,0 @@
-{
-    "dependencies": [
-        {
-            "path": "./style.css",
-            "inline": true            
-        }
-
-    ]
-}

@@ -1012,10 +1012,14 @@ Running `node main.js` on the server will produce the following output in the co
 Template output: Hello Frank!
 ```
 
-In order to automatically detect and compile required `*.marko` templates we will need to install the [lasso-marko](https://github.com/lasso-js/lasso-marko) plugin using the following command:
+In order to automatically detect and compile required `*.marko` templates we
+will need to install the [lasso-marko](https://github.com/lasso-js/lasso-marko)
+plugin and [lasso-marko-taglib](https://github.com/lasso-js/lasso-marko-taglib)
+taglib using the following commands:
 
 ```bash
 npm install lasso-marko
+npm install lasso-marko-taglib
 ```
 
 We can then lasso the page using the following command:

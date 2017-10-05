@@ -76,6 +76,10 @@ exports.scanDir = function(autoTestDir, run, options) {
                     itFunc = it.only;
                 }
 
+                if (name.endsWith('-skip')) {
+                    itFunc = it.skip;
+                }
+
                 var dir = path.join(autoTestDir, name);
 
                 itFunc(`[${name}] `, function () {
