@@ -67,7 +67,7 @@
     "babel-register": "^6.5.2",
     "chai": "^3.5.0",
     "deamdify": "^0.1.1",
-    "eslint": "^4.4.1",
+    "eslint": "^4.8.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",

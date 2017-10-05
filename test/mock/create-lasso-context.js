@@ -1,5 +1,6 @@
 "use strict";
 
+const configLoader = require('../../lib/config-loader');
 var LassoContext = require('../../lib/LassoContext');
 var dependencies = require('../../lib/dependencies');
 var MockMemoryCache = require('./MockMemoryCache');
@@ -71,7 +72,12 @@ module.exports = function createLassoContext(config) {
     var syncCaches = {};
     var uniqueId = 0;
     lassoContext.isMockLassoContext = true;
-    lassoContext.config = config;
+
+    if (config) {
+        const baseDir = process.cwd();
+        lassoContext.config = configLoader.load(config, baseDir, null);
+    }
+
     lassoContext.dependencyRegistry = {
         __DependencyRegistry: true,
         getRequireHandler: function(path, lassoContext) {
