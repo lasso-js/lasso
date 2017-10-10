@@ -1,6 +1,6 @@
 'use strict';
 var mockLasso = require('./mock-lasso');
-var buildPluginConfig = require('../../lib/require/build-plugin-config');
+var buildPluginConfig = require('../../src/require/build-plugin-config');
 var MockDependency = require('./MockDependency');
 var extend = require('raptor-util/extend');
 var fs = require('fs');
@@ -31,7 +31,7 @@ exports.create = function(pluginConfig) {
     }
 
     var factories = {};
-    var srcDir = path.join(__dirname, '../../lib/require');
+    var srcDir = path.join(__dirname, '../../src/require');
     fs.readdirSync(srcDir)
         .forEach(function(child) {
             if (child.startsWith('dep-')) {

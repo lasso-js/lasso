@@ -1,7 +1,7 @@
 const sinon = require('sinon');
 const expect = require('chai').expect;
-const AsyncPackage = require('../../lib/AsyncPackage');
-const Bundle = require('../../lib/Bundle');
+const AsyncPackage = require('../../src/AsyncPackage');
+const Bundle = require('../../src/Bundle');
 
 describe('AsyncPackage test', function () {
     it('should return name from getName', () => {

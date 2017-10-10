@@ -5,15 +5,15 @@ require('chai').config.includeStack = true;
 const ok = require('assert').ok;
 const normalizeOutput = require('./util/normalizeOutput');
 
-const DependencyTree = require('../lib/DependencyTree');
+const DependencyTree = require('../src/DependencyTree');
 const lasso = require('../');
 
 describe('lasso/dependency-walker', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/dependency-walker'),
         async function (dir, helpers) {
-            var dependencyWalker = require('../lib/dependency-walker');
-            var LassoManifest = require('../lib/LassoManifest');
+            var dependencyWalker = require('../src/dependency-walker');
+            var LassoManifest = require('../src/LassoManifest');
 
             var tree = new DependencyTree();
 

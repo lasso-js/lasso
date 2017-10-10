@@ -240,7 +240,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
      * Calculate the output file for  a given bundle given
      * the configuration for the file writer.
      *
-     * @param  {lasso/lib/Bundle} bundle The lasso Bundle
+     * @param  {lasso/src/Bundle} bundle The lasso Bundle
      * @return {String} The output file path for the bundle
      */
     function getOutputFileForBundle(bundle) {
@@ -380,7 +380,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
          * This method is used to determine if writing a bundle
          * should be bypassed.
          *
-         * @param  {lasso/lib/Bundle} The bundle instance
+         * @param  {lasso/src/Bundle} The bundle instance
          * @param  {Object} Contextual information
          * @return {[type]}            [description]
          */

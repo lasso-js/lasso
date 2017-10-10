@@ -7,7 +7,7 @@ const rmdirRecursive = require('./util').rmdirRecursive;
 const buildDir = nodePath.join(__dirname, 'build');
 const lasso = require('../');
 const Readable = require('stream').Readable;
-const urlReader = require('../lib/util/url-reader');
+const urlReader = require('../src/util/url-reader');
 
 urlReader.createUrlReadStream = function(url) {
     var readable = new Readable();

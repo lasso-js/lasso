@@ -5,8 +5,8 @@ const chai = require('chai');
 chai.config.includeStack = true;
 const expect = require('chai').expect;
 const fs = require('fs');
-const inspectCache = require('../lib/require/inspect-cache');
-const buildPluginConfig = require('../lib/require/build-plugin-config');
+const inspectCache = require('../src/require/inspect-cache');
+const buildPluginConfig = require('../src/require/build-plugin-config');
 const MockLassoContext = require('./mock/MockLassoContext');
 
 describe('lasso-require/util/inspect', function() {

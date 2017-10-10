@@ -237,9 +237,7 @@ DependencyRegistry.prototype = {
      * - { "type": "foo", "path": "hello.foo", "hello": "world" }
      *
      * For an example, please see:
-     * https://github.com/lasso-js/lasso-marko/blob/master/lib/lasso-marko-plugin.js
-     *
-     *
+     * https://github.com/lasso-js/lasso-marko/blob/master/lasso-marko-plugin.js     *
      *
      * dependency that can be required. Howev
      * @param {String} type   The extension/type to register

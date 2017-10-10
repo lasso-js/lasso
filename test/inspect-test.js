@@ -4,7 +4,7 @@ const nodePath = require('path');
 const chai = require('chai');
 chai.config.includeStack = true;
 const fs = require('fs');
-const inspect = require('../lib/require/util/inspect');
+const inspect = require('../src/require/util/inspect');
 
 describe('lasso-require/util/inspect', function() {
     require('./autotest').scanDir(

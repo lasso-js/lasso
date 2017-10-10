@@ -1,8 +1,8 @@
 "use strict";
 
-const configLoader = require('../../lib/config-loader');
-var LassoContext = require('../../lib/LassoContext');
-var dependencies = require('../../lib/dependencies');
+const configLoader = require('../../src/config-loader');
+var LassoContext = require('../../src/LassoContext');
+var dependencies = require('../../src/dependencies');
 var MockMemoryCache = require('./MockMemoryCache');
 
 var fs = require('fs');

@@ -6,7 +6,7 @@ const expect = require('chai').expect;
 const nodePath = require('path');
 const fs = require('fs');
 
-const lassoImagePlugin = require('../lib/plugins/lasso-image'); // Load this module just to make sure it works
+const lassoImagePlugin = require('../src/plugins/lasso-image'); // Load this module just to make sure it works
 const lasso = require('../');
 
 describe('lasso-image', function () {
