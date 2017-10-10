@@ -1,5 +1,3 @@
-'use strict';
-
 var esprima = require('esprima');
 var estraverse = require('estraverse');
 var ok = require('assert').ok;

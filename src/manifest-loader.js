@@ -1,5 +1,3 @@
-'use strict';
-
 require('raptor-polyfill/string/endsWith');
 
 var ok = require('assert').ok;

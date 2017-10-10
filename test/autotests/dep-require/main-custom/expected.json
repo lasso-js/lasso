@@ -10,19 +10,19 @@
         "type": "commonjs-main",
         "dir": "/autotest$0/bar",
         "main": "bar",
-        "_sourceFile": "/test/autotests/dep-require/main-custom/bar/bar.js"
+        "_sourceFile": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js"
     },
     {
         "type": "require",
         "path": "./bar",
-        "from": "/test/autotests/dep-require/main-custom",
+        "from": "/test-dist-compat/autotests/dep-require/main-custom",
         "resolved": {
-            "path": "/test/autotests/dep-require/main-custom/bar/bar.js",
+            "path": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js",
             "meta": [
                 {
                     "type": "main",
-                    "dir": "/test/autotests/dep-require/main-custom/bar",
-                    "main": "/test/autotests/dep-require/main-custom/bar/bar.js"
+                    "dir": "/test-dist-compat/autotests/dep-require/main-custom/bar",
+                    "main": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js"
                 }
             ],
             "clientPath": "/autotest$0/bar/bar"
@@ -31,7 +31,7 @@
     {
         "type": "commonjs-def",
         "path": "/autotest$0/foo",
-        "file": "/test/autotests/dep-require/main-custom/foo.js",
+        "file": "/test-dist-compat/autotests/dep-require/main-custom/foo.js",
         "inspected": {
             "requires": [
                 {
@@ -45,12 +45,12 @@
                         15
                     ],
                     "resolved": {
-                        "path": "/test/autotests/dep-require/main-custom/bar/bar.js",
+                        "path": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js",
                         "meta": [
                             {
                                 "type": "main",
-                                "dir": "/test/autotests/dep-require/main-custom/bar",
-                                "main": "/test/autotests/dep-require/main-custom/bar/bar.js"
+                                "dir": "/test-dist-compat/autotests/dep-require/main-custom/bar",
+                                "main": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js"
                             }
                         ],
                         "clientPath": "/autotest$0/bar/bar"
@@ -72,12 +72,12 @@
                         15
                     ],
                     "resolved": {
-                        "path": "/test/autotests/dep-require/main-custom/bar/bar.js",
+                        "path": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js",
                         "meta": [
                             {
                                 "type": "main",
-                                "dir": "/test/autotests/dep-require/main-custom/bar",
-                                "main": "/test/autotests/dep-require/main-custom/bar/bar.js"
+                                "dir": "/test-dist-compat/autotests/dep-require/main-custom/bar",
+                                "main": "/test-dist-compat/autotests/dep-require/main-custom/bar/bar.js"
                             }
                         ],
                         "clientPath": "/autotest$0/bar/bar"

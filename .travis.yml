@@ -1,5 +1,7 @@
 node_js:
-- "8"
+- 8
+- 6
+
 sudo: false
 language: node_js
 # Use latest version of npm

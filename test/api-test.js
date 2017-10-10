@@ -1,8 +1,10 @@
 'use strict';
+require('./util/test-init');
+
 var nodePath = require('path');
 require('chai').config.includeStack = true;
 var rmdirRecursive = require('./util').rmdirRecursive;
-var lasso = require('../');
+var lasso = require('lasso');
 var buildDir = nodePath.join(__dirname, 'build');
 
 let _log = console.log;

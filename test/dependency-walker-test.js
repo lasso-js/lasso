@@ -1,19 +1,20 @@
 'use strict';
+require('./util/test-init');
 
 const nodePath = require('path');
 require('chai').config.includeStack = true;
 const ok = require('assert').ok;
 const normalizeOutput = require('./util/normalizeOutput');
 
-const DependencyTree = require('../src/DependencyTree');
-const lasso = require('../');
+const DependencyTree = require('lasso/DependencyTree');
+const lasso = require('lasso');
 
 describe('lasso/dependency-walker', function() {
     require('./autotest').scanDir(
         nodePath.join(__dirname, 'autotests/dependency-walker'),
         async function (dir, helpers) {
-            var dependencyWalker = require('../src/dependency-walker');
-            var LassoManifest = require('../src/LassoManifest');
+            var dependencyWalker = require('lasso/dependency-walker');
+            var LassoManifest = require('lasso/LassoManifest');
 
             var tree = new DependencyTree();
 

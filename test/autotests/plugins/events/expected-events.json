@@ -11,5 +11,5 @@
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/events$x.x.x/events\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/lasso-loader$x.x.x/src/index\"]",
     "beforeAddDependencyToSyncPageBundle:[commonjs-def: path=\"/autotest$x.x.x/foo\"]",
-    "beforeAddDependencyToAsyncPageBundle:[js: path=\"/test/autotests/plugins/events/async-foo.js\"]"
+    "beforeAddDependencyToAsyncPageBundle:[js: path=\"/test-dist-compat/autotests/plugins/events/async-foo.js\"]"
 ]

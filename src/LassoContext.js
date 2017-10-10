@@ -1,5 +1,3 @@
-'use strict';
-
 var EventEmitter = require('events').EventEmitter;
 var lastModified = require('./last-modified');
 var cachingFs = require('./caching-fs');

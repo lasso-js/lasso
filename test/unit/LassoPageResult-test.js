@@ -1,8 +1,10 @@
-const { promisify } = require('util');
+require('../util/test-init');
+
+const promisify = require('pify');
 const fs = require('fs');
 const path = require('path');
 const expect = require('chai').expect;
-const LassoPageResult = require('../../src/LassoPageResult');
+const LassoPageResult = require('lasso/LassoPageResult');
 
 const readFileAsync = promisify(fs.readFile);
 

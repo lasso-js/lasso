@@ -1,4 +1,6 @@
 'use strict';
+require('./util/test-init');
+
 const chai = require('chai');
 chai.Assertion.includeStack = true;
 require('chai').should();
@@ -6,8 +8,8 @@ const expect = require('chai').expect;
 const nodePath = require('path');
 const fs = require('fs');
 
-const lassoImagePlugin = require('../src/plugins/lasso-image'); // Load this module just to make sure it works
-const lasso = require('../');
+const lassoImagePlugin = require('lasso/plugins/lasso-image'); // Load this module just to make sure it works
+const lasso = require('lasso');
 
 describe('lasso-image', function () {
 

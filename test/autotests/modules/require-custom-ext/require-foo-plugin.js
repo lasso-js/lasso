@@ -1,4 +1,4 @@
-const { promisify } = require('util');
+const promisify = require('pify');
 const fs = require('fs');
 const readFileAsync = promisify(fs.readFile);
 

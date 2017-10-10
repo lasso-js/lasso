@@ -15,7 +15,7 @@
     {
         "type": "require",
         "path": "path",
-        "from": "/test/autotests/dep-require/builtin",
+        "from": "/test-dist-compat/autotests/dep-require/builtin",
         "resolved": {
             "path": "/node_modules/path-browserify/index.js",
             "meta": [
@@ -31,7 +31,7 @@
     {
         "type": "commonjs-def",
         "path": "/autotest$0/foo",
-        "file": "/test/autotests/dep-require/builtin/foo.js",
+        "file": "/test-dist-compat/autotests/dep-require/builtin/foo.js",
         "inspected": {
             "requires": [
                 {

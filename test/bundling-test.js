@@ -1,13 +1,15 @@
 'use strict';
+require('./util/test-init');
+
 const nodePath = require('path');
 require('chai').config.includeStack = true;
 
 const WriterTracker = require('./util/WriterTracker');
 const rmdirRecursive = require('./util').rmdirRecursive;
 const buildDir = nodePath.join(__dirname, 'build');
-const lasso = require('../');
+const lasso = require('lasso');
 const Readable = require('stream').Readable;
-const urlReader = require('../src/util/url-reader');
+const urlReader = require('lasso/util/url-reader');
 
 urlReader.createUrlReadStream = function(url) {
     var readable = new Readable();

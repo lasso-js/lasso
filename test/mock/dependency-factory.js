@@ -1,6 +1,8 @@
 'use strict';
+require('../util/test-init');
+
 var mockLasso = require('./mock-lasso');
-var buildPluginConfig = require('../../src/require/build-plugin-config');
+var buildPluginConfig = require('lasso/require/build-plugin-config');
 var MockDependency = require('./MockDependency');
 var extend = require('raptor-util/extend');
 var fs = require('fs');
@@ -36,7 +38,7 @@ exports.create = function(pluginConfig) {
         .forEach(function(child) {
             if (child.startsWith('dep-')) {
                 var name = removeDashes(removeExt(child));
-                factories[name] = createDependencyFactory(require(path.join(srcDir, child)));
+                factories[name] = createDependencyFactory(require(`lasso/require/${child}`));
             }
         });
 

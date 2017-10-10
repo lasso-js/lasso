@@ -1,4 +1,5 @@
 'use strict';
+require('./util/test-init');
 
 const nodePath = require('path');
 require('chai').config.includeStack = true;
@@ -7,7 +8,7 @@ const sandboxLoad = require('./util').sandboxLoad;
 const rmdirRecursive = require('./util').rmdirRecursive;
 const writeTestHtmlPage = require('./util').writeTestHtmlPage;
 const buildDir = nodePath.join(__dirname, 'build');
-const lasso = require('../');
+const lasso = require('lasso');
 
 describe('lasso/modules', function() {
     require('./autotest').scanDir(

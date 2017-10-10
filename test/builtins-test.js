@@ -1,4 +1,6 @@
 'use strict';
+require('./util/test-init');
+
 var chai = require('chai');
 chai.config.includeStack = true;
 require('chai').should();

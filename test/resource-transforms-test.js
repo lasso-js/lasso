@@ -1,10 +1,12 @@
 'use strict';
+require('./util/test-init');
+
 const nodePath = require('path');
 require('chai').config.includeStack = true;
 
 const rmdirRecursive = require('./util').rmdirRecursive;
 const buildDir = nodePath.join(__dirname, 'build');
-const lasso = require('../');
+const lasso = require('lasso');
 
 describe('lasso/resource-transforms', function() {
     require('./autotest').scanDir(

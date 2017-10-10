@@ -1,5 +1,3 @@
-'use strict';
-
 var logger = require('raptor-logging').logger(module);
 var crypto = require('crypto');
 var ok = require('assert').ok;

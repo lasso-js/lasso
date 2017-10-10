@@ -1,4 +1,4 @@
-const { promisify } = require('util');
+const promisify = require('pify');
 const imageSize = promisify(require('image-size'));
 const nodePath = require('path');
 
