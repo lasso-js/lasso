@@ -1,5 +1,3 @@
-'use strict';
-
 class DeduperContext {
     constructor() {
         this.lookups = {

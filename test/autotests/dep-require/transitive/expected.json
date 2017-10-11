@@ -9,9 +9,9 @@
     {
         "type": "require",
         "path": "./bar",
-        "from": "/test/autotests/dep-require/transitive",
+        "from": "/test-dist-compat/autotests/dep-require/transitive",
         "resolved": {
-            "path": "/test/autotests/dep-require/transitive/bar.js",
+            "path": "/test-dist-compat/autotests/dep-require/transitive/bar.js",
             "meta": [],
             "clientPath": "/autotest$0/bar"
         }
@@ -19,7 +19,7 @@
     {
         "type": "commonjs-def",
         "path": "/autotest$0/foo",
-        "file": "/test/autotests/dep-require/transitive/foo.js",
+        "file": "/test-dist-compat/autotests/dep-require/transitive/foo.js",
         "inspected": {
             "requires": [
                 {
@@ -33,7 +33,7 @@
                         15
                     ],
                     "resolved": {
-                        "path": "/test/autotests/dep-require/transitive/bar.js",
+                        "path": "/test-dist-compat/autotests/dep-require/transitive/bar.js",
                         "meta": [],
                         "clientPath": "/autotest$0/bar"
                     }
@@ -54,7 +54,7 @@
                         15
                     ],
                     "resolved": {
-                        "path": "/test/autotests/dep-require/transitive/bar.js",
+                        "path": "/test-dist-compat/autotests/dep-require/transitive/bar.js",
                         "meta": [],
                         "clientPath": "/autotest$0/bar"
                     }

@@ -1,5 +1,3 @@
-'use strict';
-
 var raptorCache = require('raptor-cache');
 var nodePath = require('path');
 var LassoPageResult = require('./LassoPageResult');

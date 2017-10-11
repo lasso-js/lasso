@@ -1,7 +1,9 @@
+require('../util/test-init');
+
 const sinon = require('sinon');
 const expect = require('chai').expect;
-const AsyncPackage = require('../../src/AsyncPackage');
-const Bundle = require('../../src/Bundle');
+const AsyncPackage = require('lasso/AsyncPackage');
+const Bundle = require('lasso/Bundle');
 
 describe('AsyncPackage test', function () {
     it('should return name from getName', () => {

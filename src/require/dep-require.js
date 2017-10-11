@@ -1,5 +1,3 @@
-'use strict';
-
 var nodePath = require('path');
 var ok = require('assert').ok;
 var equal = require('assert').equal;

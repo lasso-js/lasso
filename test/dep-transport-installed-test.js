@@ -1,4 +1,5 @@
 'use strict';
+require('./util/test-init');
 
 const nodePath = require('path');
 const chai = require('chai');

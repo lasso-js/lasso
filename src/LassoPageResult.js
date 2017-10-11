@@ -1,5 +1,3 @@
-'use strict';
-
 var extend = require('raptor-util/extend');
 var marko = require('marko');
 var nodePath = require('path');

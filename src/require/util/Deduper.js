@@ -1,5 +1,3 @@
-'use strict';
-
 var DeduperContext = require('./DeduperContext');
 var ok = require('assert').ok;
 

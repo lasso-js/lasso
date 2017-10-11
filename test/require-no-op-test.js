@@ -1,9 +1,10 @@
 'use strict';
+require('./util/test-init');
 
 const nodePath = require('path');
 require('chai').config.includeStack = true;
 
-const nodeRequireNoOp = require('../node-require-no-op');
+const nodeRequireNoOp = require('lasso/node-require-no-op');
 
 describe('lasso/config', function() {
     require('./autotest').scanDir(

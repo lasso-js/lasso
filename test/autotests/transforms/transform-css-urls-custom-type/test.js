@@ -1,4 +1,4 @@
-const { promisify } = require('util');
+const promisify = require('pify');
 const fs = require('fs');
 const expect = require('chai').expect;
 const path = require('path');

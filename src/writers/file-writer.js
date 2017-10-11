@@ -1,12 +1,10 @@
-'use strict';
-
 require('raptor-polyfill/string/endsWith');
 require('raptor-polyfill/string/startsWith');
 
 const MAX_FILE_LENGTH = 255;
 const HASH_OVERFLOW_LENGTH = 8;
 
-const { promisify } = require('util');
+const promisify = require('pify');
 var util = require('../util');
 var nodePath = require('path');
 var fs = require('fs');

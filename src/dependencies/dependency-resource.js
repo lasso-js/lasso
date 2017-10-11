@@ -1,4 +1,4 @@
-const { promisify } = require('util');
+const promisify = require('pify');
 
 var nodePath = require('path');
 

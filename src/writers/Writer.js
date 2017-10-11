@@ -1,5 +1,3 @@
-'use strict';
-
 require('raptor-polyfill/string/startsWith');
 
 var nodePath = require('path');

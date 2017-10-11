@@ -1,7 +1,9 @@
 'use strict';
+require('./util/test-init');
+
 const nodePath = require('path');
 require('chai').config.includeStack = true;
-const util = require('../src/util');
+const util = require('lasso/util');
 
 describe('lasso/util', function() {
     require('./autotest').scanDir(

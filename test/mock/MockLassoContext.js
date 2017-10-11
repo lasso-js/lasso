@@ -1,4 +1,5 @@
 'use strict';
+require('../util/test-init');
 
 var fs = require('fs');
 var nodePath = require('path');
@@ -11,7 +12,7 @@ var MockMemoryCache = require('./MockMemoryCache');
 var MockRequireHandler = require('./MockRequireHandler');
 var LassoManifest = require('./LassoManifest');
 var manifestLoader = require('./manifest-loader');
-var resolve = require('../../src/resolve');
+var resolve = require('lasso/resolve');
 var getClientPath = require('lasso-modules-client/transport').getClientPath;
 
 function noop() {}

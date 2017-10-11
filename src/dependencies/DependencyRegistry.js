@@ -1,5 +1,3 @@
-'use strict';
-
 var nodePath = require('path');
 var extend = require('raptor-util').extend;
 var inherit = require('raptor-util').inherit;

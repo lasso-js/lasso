@@ -1,5 +1,3 @@
-'use strict';
-
 var Bundle = require('./Bundle');
 var InlinePos = require('./InlinePos');
 var EventEmitter = require('events').EventEmitter;
