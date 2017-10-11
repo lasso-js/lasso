@@ -4,6 +4,7 @@ require('raptor-polyfill/string/endsWith');
 var lasso = require('../');
 var send = require('send');
 var extend = require('raptor-util/extend');
+var url = require('url');
 
 function notFound() {
     this.error(404);
@@ -17,7 +18,7 @@ module.exports = function(options) {
 
     var outputDir = config.outputDir;
     var urlPrefix = config.urlPrefix;
-    var routePrefix = urlPrefix;
+    var routePrefix = url.parse(urlPrefix).pathname;
     if (!routePrefix.endsWith('/')) {
         routePrefix += '/';
     }
