@@ -17,7 +17,7 @@ module.exports = function(options) {
 
     var outputDir = config.outputDir;
     var urlPrefix = config.urlPrefix;
-    var routePrefix = urlPrefix;
+    var routePrefix = urlPrefix.match('//') ? urlPrefix.replace(/^.*\/\/.*?\//, '/') : urlPrefix;
     if (!routePrefix.endsWith('/')) {
         routePrefix += '/';
     }
