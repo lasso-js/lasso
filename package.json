@@ -12,7 +12,7 @@
     "test": "node scripts/run-tests.js",
     "test:unit": "npm run build && rm -rf .cache && node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test-dist-compat/unit",
     "mocha": "node_modules/.bin/mocha --timeout 4000 --ui bdd --reporter spec ./test-dist-compat ./test-dist-compat/unit",
-    "eslint": "node_modules/.bin/eslint lib/ taglib/",
+    "eslint": "node_modules/.bin/eslint src/ browser-refresh/ middleware/ scripts/",
     "build": "node scripts/build.js",
     "build-src": "node scripts/build.js src",
     "prepublish": "npm run build-src"

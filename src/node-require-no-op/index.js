@@ -18,11 +18,11 @@ function enableForExtension(extension) {
         extension = '.' + extension;
     }
 
-    require.extensions[extension] = requireNoOp;
+    require.extensions[extension] = requireNoOp; // eslint-disable-line node/no-deprecated-api
 }
 
 exports.enable = function(extensions) {
-    for (var i=0; i<arguments.length; i++) {
+    for (var i = 0; i < arguments.length; i++) {
         enableForExtension(arguments[i]);
     }
 };

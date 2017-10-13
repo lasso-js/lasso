@@ -1,0 +1,9 @@
+{
+  "globals": {
+    "it": 1,
+    "describe": 1,
+    "context": 1,
+    "beforeEach": 1,
+    "afterEach": 1
+  }
+}
