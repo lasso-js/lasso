@@ -1,0 +1,8 @@
+{
+    "dependencies": [
+        {
+            "type": "js",
+            "path": "./foo.js"
+        }
+    ]
+}

@@ -10,9 +10,20 @@ var reader = require('../reader');
 var ok = require('assert').ok;
 var equal = require('assert').equal;
 
+async function initWriter (writer, lassoContext) {
+    if (!writer._initialized && writer.impl.init) {
+        await writer.impl.init(lassoContext);
+        writer._initialized = true;
+    }
+}
+
 function Writer(impl) {
     Writer.$super.call(this);
     this.impl = impl || {};
+
+    // Lasso writer `init` function should only be called once. We call it the
+    // first time that either writing a resource or bundle is attempted.
+    this._initialized = false;
 }
 
 Writer.prototype = {
@@ -193,6 +204,7 @@ Writer.prototype = {
         const resourceReader = reader.createResourceReader(path, lassoContext);
 
         try {
+            await initWriter(this, lassoContext);
             const writeResult = await this.impl.writeResource(resourceReader, lassoContext);
             return done(writeResult);
         } catch (err) {
@@ -245,6 +257,7 @@ Writer.prototype = {
     async writeBundles (iteratorFunc, onBundleWrittenCallback, lassoContext) {
         ok(lassoContext, 'lassoContext is required');
 
+        await initWriter(this, lassoContext);
         let promise = Promise.resolve();
 
         iteratorFunc((bundle) => {
