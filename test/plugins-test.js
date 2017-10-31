@@ -43,10 +43,21 @@ describe('lasso/plugins' , function() {
 
             myLasso.lassoPage(lassoOptions)
                 .then((lassoPageResult) => {
+                    if (main.checkError) {
+                        return done('Error expected');
+                    }
+
                     main.check(lassoPageResult, writerTracker, helpers);
                     lasso.flushAllCaches(done);
                 })
+                .catch((err) => {
+                    if (main.checkError) {
+                        main.checkError(err);
+                        done();
+                    } else {
+                        throw err;
+                    }
+                })
                 .catch(done);
         });
-
 });
