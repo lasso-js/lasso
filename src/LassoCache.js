@@ -150,7 +150,7 @@ LassoCache.prototype = {
         return raptorCache.flushAll();
     },
 
-    async getLassoPageResult(cacheKey, options) {
+    async getLassoPageResult (cacheKey, options) {
         return this.lassoPageResultCache.get(cacheKey, options);
     },
 

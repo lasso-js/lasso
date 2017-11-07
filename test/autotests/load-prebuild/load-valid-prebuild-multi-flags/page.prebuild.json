@@ -1,0 +1,28 @@
+[
+  {
+    "slots": {
+      "body": "<script src=\"./test.js\"></script>",
+      "head": "<link rel=\"stylesheet\" href=\"./style.css\">"
+    },
+    "assets": [],
+    "name": "page"
+  },
+  {
+    "slots": {
+      "body": "<script src=\"./test1.js\"></script>",
+      "head": "<link rel=\"stylesheet\" href=\"./style.css\">"
+    },
+    "flags": ["mobile", "test"],
+    "assets": [],
+    "name": "page"
+  },
+  {
+    "slots": {
+      "body": "<script src=\"./test2.js\"></script>",
+      "head": "<link rel=\"stylesheet\" href=\"./style.css\">"
+    },
+    "flags": [],
+    "assets": [],
+    "name": "page"
+  }
+]

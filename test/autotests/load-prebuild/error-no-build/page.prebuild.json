@@ -1,0 +1,11 @@
+[
+  {
+    "slots": {
+      "body": "<script src=\"./test.js\"></script>",
+      "head": "<link rel=\"stylesheet\" href=\"./style.css\">"
+    },
+    "assets": [],
+    "name": "page",
+    "flags": ["mobile"]
+  }
+]
