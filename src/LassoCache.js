@@ -106,8 +106,14 @@ function LassoCache(key, options) {
     if (keyParts) {
         var keyDir = nodePath.join(this.baseCacheDir, this.baseCacheName);
         mkdirp.sync(keyDir);
-        var keyFile = nodePath.join(keyDir, 'key');
-        fs.writeFileSync(keyFile, JSON.stringify(keyParts), { encoding: 'utf8' });
+        const keyFile = nodePath.join(keyDir, 'key');
+
+        try {
+            fs.writeFileSync(keyFile, JSON.stringify(keyParts), { encoding: 'utf8' });
+        } catch (e) {
+            // We only write the key for debugging purposes. On machines with
+            // read only disks this will fail but that is okay
+        }
     }
 
     // Merge in the lasso defaults (the user profiles, if any, have already been merged)
