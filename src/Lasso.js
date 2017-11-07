@@ -591,7 +591,7 @@ Lasso.prototype = {
             cacheKeyAdd('flags:' + flags.getKey());
         }
 
-        cacheKeyAdd('config:' + lassoContext.config.getConfigFingerprint());
+        cacheKeyAdd('config:' + (lassoContext.config.cacheKey || lassoContext.config.getConfigFingerprint()));
 
         if (hash < 0) {
             hash = 0 - hash;

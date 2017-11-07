@@ -373,6 +373,10 @@ function load(options, baseDir, filename, configDefaults) {
             }
 
             config.setFingerprintInlineCode(value);
+        },
+
+        cacheKey (value) {
+            config.setCacheKey(value);
         }
     };
 

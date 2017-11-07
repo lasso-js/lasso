@@ -120,6 +120,7 @@ function Config(params) {
     this._imagePluginConfig = {};
     this.cspNonceProvider = null;
     this.fingerprintInlineCode = null;
+    this.cacheKey = null; // The unique key to uniquely identify this lasso for caching purposes
     this.resolver = null;
 
     if (params) {
@@ -378,6 +379,10 @@ Config.prototype = {
 
     setFingerprintInlineCode: function(func) {
         this.fingerprintInlineCode = func;
+    },
+
+    setCacheKey (value) {
+        this.cacheKey = value;
     }
 };
 
