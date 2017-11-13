@@ -800,11 +800,6 @@ Lasso.prototype = {
     }
 };
 
-// TODO: Deprecate this
-Lasso.prototype.optimizePage = Lasso.prototype.lassoPage;
-// TODO: Deprecate this
-Lasso.prototype.optimizeResource = Lasso.prototype.lassoResource;
-
 raptorUtil.inherit(Lasso, EventEmitter);
 
 module.exports = Lasso;

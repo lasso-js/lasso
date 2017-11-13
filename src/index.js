@@ -150,9 +150,6 @@ exports.setDevelopmentMode = setDevelopmentMode;
 exports.createFlagSet = flags.createFlagSet;
 exports.isFlagSet = flags.isFlagSet;
 
-exports.createExtensionSet = flags.createFlagSet; // Deprecated
-exports.isExtensionSet = flags.isFlagSet; // Deprecated
-
 exports.transforms = transforms;
 exports.writers = require('./writers');
 
@@ -168,14 +165,6 @@ exports.getClientPath = getClientPath;
 
 Object.defineProperty(exports, 'defaultLasso', {
     get: getDefaultLasso,
-    enumerable: true,
-    configurable: false
-});
-
-Object.defineProperty(exports, 'pageOptimizer', {
-    get: function() {
-        throw new Error('Property "pageOptimizer" has been removed. Use property "defaultLasso" instead.');
-    },
     enumerable: true,
     configurable: false
 });

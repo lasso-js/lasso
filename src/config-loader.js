@@ -11,6 +11,7 @@ var minifyCSSPlugin = require('./plugins/lasso-minify-css');
 var resolveCssUrlsPlugin = require('./plugins/lasso-resolve-css-urls');
 var extend = require('raptor-util/extend');
 var resolveFrom = require('resolve-from');
+const complain = require('complain');
 
 function findRootDir(dirname) {
     if (dirname === '' || dirname === '/') {
@@ -184,11 +185,6 @@ function load(options, baseDir, filename, configDefaults) {
             fileWriterConfig.fingerprintsEnabled = value === true;
         },
 
-        checksumsEnabled: function(value) {
-            console.error('"checksumsEnabled" property is deprecated. Use "fingerprintsEnabled" instead. Trace: ' + new Error().stack);
-            fileWriterConfig.fingerprintsEnabled = value === true;
-        },
-
         outputDir: function(value) {
             value = nodePath.resolve(baseDir, value);
             fileWriterConfig.outputDir = value;
@@ -213,14 +209,16 @@ function load(options, baseDir, filename, configDefaults) {
         /**
          * @deprecated
          */
-        extensions: function(flags) {
+        extensions (flags) {
+            complain('"configLoader.extensions(...)" is deprecated. Please use "configLoader.flags(...)" instead.');
             config.setFlags(flags);
         },
 
         /**
          * @deprecated
          */
-        enabledExtensions: function(flags) {
+        enabledExtensions (flags) {
+            complain('"configLoader.enabledExtensions(...)" is deprecated. Please use "configLoader.flags(...)" instead.');
             config.setFlags(flags);
         },
 

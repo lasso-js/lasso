@@ -28,6 +28,7 @@
     "buffer": "^4.5.1",
     "clean-css": "^3.4.28",
     "clone": "^0.1.19",
+    "complain": "^1.2.0",
     "escodegen": "^1.6.0",
     "esprima": "^4.0.0",
     "estraverse": "^4.2.0",

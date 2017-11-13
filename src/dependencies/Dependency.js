@@ -202,17 +202,6 @@ Dependency.prototype = {
         return result && result.path;
     },
 
-    /**
-     * @deprecated use resolvePath instead which has the same implementation
-     * (this is here for backward compatibility)
-     */
-    requireResolvePath: function(path, from) {
-        var result = this._context.resolve(path, from || this.__dirname, {
-            moduleFallbackToRelative: true
-        });
-        return result && result.path;
-    },
-
     getParentManifestDir: function() {
         return this.__dirname;
     },
