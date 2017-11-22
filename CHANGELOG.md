@@ -1,6 +1,57 @@
 Changelog
 =========
 
+# 3.0.0
+
+- **BREAKING**: Remove support for Node 4
+    - Significant refactors. Move to async/await internally.
+    - Traspile for Node 4 support using Babel
+- **BREAKING**: API methods no longer expose callbacks.
+    - Plugins should no longer expect a callback
+    - Plugins should return promises for async tasks
+- **BREAKING**: Marko taglib and taglib-v2 removed
+    - Use `@lasso/marko-taglib` instead
+- Support for passing `cacheKey` property to lasso config
+- Merge `lasso-require` into Lasso
+    - Lasso config `lassoConfig.require.resolver` property has been split out
+    into its own property `lassoConfig.resolver`
+
+```js
+const lassoConfig: {
+    require: {
+        transforms: ...
+    },
+    resolver: {
+        builtins: {
+            ...
+        }
+    }
+}
+
+const lasso = lasso.create(lassoConfig);
+```
+
+- Lasso writers now support async `init` functions
+
+```js
+module.exports = function(lasso, config) {
+    lasso.config.writer = {
+        async init (lassoContext) {
+            await Promise.resolve();
+        },
+
+        async writeBundle (reader, lassoContext) {
+            const bundle = lassoContext.bundle;
+            bundle.url = 'test.com';
+        },
+
+        async writeResource (reader, lassoContext) {
+            return { url: 'test.com' };
+        }
+    };
+};
+```
+
 # 2.x
 
 ## 2.9.x
