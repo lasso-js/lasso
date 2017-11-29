@@ -335,6 +335,13 @@ function load(options, baseDir, filename, configDefaults) {
             config.setBundleReadTimeout(value);
         },
 
+        /**
+        * Whether Lasso should load from a prebuild configuration or not
+        */
+        loadPrebuild (value) {
+            config.setLoadPrebuild(value);
+        },
+
         resolver (value) {
             config.setResolver(value);
         },

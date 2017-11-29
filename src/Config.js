@@ -122,6 +122,7 @@ function Config(params) {
     this.fingerprintInlineCode = null;
     this.cacheKey = null; // The unique key to uniquely identify this lasso for caching purposes
     this.resolver = null;
+    this.loadPrebuild = false; // Whether Lasso should load from a prebuild configuration or not
 
     if (params) {
         extend(this.params, params);
@@ -383,6 +384,17 @@ Config.prototype = {
 
     setCacheKey (value) {
         this.cacheKey = value;
+    },
+
+    /**
+    * Whether Lasso should load from a prebuild configuration or not
+    */
+    setLoadPrebuild (value) {
+        this.loadPrebuild = value;
+    },
+
+    getLoadPrebuild () {
+        return this.loadPrebuild;
     }
 };
 
