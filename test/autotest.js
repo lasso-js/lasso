@@ -4,7 +4,7 @@ var fs = require('fs');
 var enabledTest = process.env.TEST;
 var path = require('path');
 var assert = require('assert');
-
+var updateExpectations = process.env.hasOwnProperty('UPDATE_EXPECTATIONS');
 var enabledTestNames = enabledTest && enabledTest.split(/[\s*,\s*/]/);
 var enabledTests = null;
 
@@ -20,7 +20,6 @@ var fs = require('fs');
 var enabledTest = process.env.TEST;
 var path = require('path');
 var assert = require('assert');
-
 
 function compareHelper(dir, actual, suffix) {
     var actualPath = path.join(dir, 'actual' + suffix);
@@ -44,7 +43,16 @@ function compareHelper(dir, actual, suffix) {
     }
 
     var expected = isObject ? JSON.parse(expectedString) : expectedString;
-    assert.deepEqual(actual, expected);
+
+    try {
+        assert.deepEqual(actual, expected);
+    } catch (e) {
+        if (updateExpectations) {
+            fs.writeFileSync(expectedPath, actualString, { encoding: 'utf8' });
+        } else {
+            throw e;
+        }
+    }
 }
 
 function autoTest(name, dir, run, options, done) {
