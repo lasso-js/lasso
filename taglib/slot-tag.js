@@ -58,7 +58,13 @@ module.exports = function render(input, out) {
             throw new Error('Lasso page result not found for slot "' + slotName + '". The <lasso-page> tag should be used to lasso the page.');
         }
 
-        var dependencies = templateHasMetaDeps ? template.getDependencies() : [];
+        var dependencies;
+
+        if (lassoRenderContext.lasso.dependencies.getType('marko-hydrate')) {
+            dependencies = ['marko-hydrate: ' + template.path.replace('.marko.js', '.marko')];
+        } else {
+            dependencies = templateHasMetaDeps ? template.getDependencies() : [];
+        }
 
         if (pageConfig.packagePaths) {
             dependencies = pageConfig.packagePaths.concat(dependencies);
