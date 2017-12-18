@@ -26,8 +26,43 @@ var cachingFs = require('./caching-fs');
 var createError = require('raptor-util/createError');
 var resolveFrom = require('resolve-from');
 const readFileAsync = promisify(fs.readFile);
+const hashUtil = require('./util/hash');
 
 var urlRegExp = /^[^:\/]{0,5}[:]?\/\//;
+
+const resourceHandlersByType = {
+    'string': {
+        resource: doLassoResourceString,
+        calculateKey (data, theLasso, lassoContext, options) {
+            if (!isAbsolute(data)) {
+                data += lassoContext.dir;
+            }
+
+            return _buildResourceCacheKey(data, theLasso, lassoContext);
+        }
+    },
+    'object': {
+        resource: doLassoResourceBuffer,
+        hashPath: true,
+        calculateKey (data, theLasso, lassoContext, options) {
+            let hash = hashUtil.generate(
+                data.toString(), hashUtil.HASH_OVERFLOW_LENGTH);
+
+            let name;
+            let ext;
+
+            if ((name = options.name)) {
+                hash = `${name}-${hash}`;
+            }
+
+            if ((ext = options.extension)) {
+                hash += `.${ext}`;
+            }
+
+            return hash;
+        }
+    }
+};
 
 function isExternalUrl(path) {
     return urlRegExp.test(path);
@@ -354,7 +389,7 @@ function resolvePath(path, from) {
     }
 }
 
-async function doLassoResource (theLasso, path, options, lassoContext) {
+async function doLassoResourceString (theLasso, path, cacheKey, options, lassoContext) {
     var inputPath = path;
 
     function done (err, result) {
@@ -445,6 +480,34 @@ async function doLassoResource (theLasso, path, options, lassoContext) {
             return done(null, writeResult);
         }
     }
+}
+
+async function doLassoResourceBuffer (theLasso, buff, cacheKey, options, lassoContext) {
+    const writer = theLasso.writer;
+
+    try {
+        const result = writer.writeResourceBuffer(buff, cacheKey, lassoContext);
+        const url = result.url;
+
+        if (logger.isDebugEnabled()) {
+            logger.debug('Resolved URL for buffered resource: ', url);
+        }
+
+        return result;
+    } catch (err) {
+        throw createError('Error while resolving buffered resource URL', err);
+    }
+}
+
+function _buildResourceCacheKey (cacheKey, theLasso, lassoContext) {
+    var writer = theLasso.writer;
+    var buildResourceCacheKey = writer.buildResourceCacheKey;
+
+    if (buildResourceCacheKey) {
+        cacheKey = buildResourceCacheKey.call(writer, cacheKey, lassoContext);
+    }
+
+    return cacheKey;
 }
 
 function Lasso(config) {
@@ -735,13 +798,10 @@ Lasso.prototype = {
     },
 
     /**
-     *
-     *
      * @param  {String} path The file path of the resource to bundle
      * @param  {Object} options (see below for supported options)
-     *
      */
-    async lassoResource (path, options) {
+    async lassoResource (data, options) {
         let lassoContext;
         options = options || {};
 
@@ -766,26 +826,31 @@ Lasso.prototype = {
 
         let lassoResourceResult;
 
-        if (options.cache !== false) {
-            var cache = this.getLassoCache(lassoContext);
-            var cacheKey = path;
+        const dataType = typeof data;
+        const resourceHandlers = resourceHandlersByType[dataType];
 
-            if (!isAbsolute(path)) {
-                cacheKey += lassoContext.dir;
-            }
+        if (!resourceHandlers) {
+            throw new Error(`Unsupported data type "${dataType}" passed to "lassoResource"`);
+        }
 
-            var writer = this.writer;
-            var buildResourceCacheKey = writer.buildResourceCacheKey;
+        const useCache = options.cache !== false;
 
-            if (buildResourceCacheKey) {
-                cacheKey = buildResourceCacheKey.call(writer, cacheKey, lassoContext);
-            }
+        // If the resource type has the `hashPath` property set, we have to
+        // calculate the cache key to use it for the file path even if the
+        // the `cache` option is not set.
+        let cacheKey = null;
+        if (resourceHandlers.hashPath || useCache) {
+            cacheKey = resourceHandlers.calculateKey(data, this, lassoContext, options);
+        }
+
+        if (useCache) {
+            const cache = this.getLassoCache(lassoContext);
 
             lassoResourceResult = await cache.getLassoedResource(cacheKey, async () => {
-                return doLassoResource(this, path, options, lassoContext);
+                return resourceHandlers.resource(this, data, cacheKey, options, lassoContext);
             });
         } else {
-            lassoResourceResult = await doLassoResource(this, path, options, lassoContext);
+            lassoResourceResult = await resourceHandlers.resource(this, data, cacheKey, options, lassoContext);
         }
 
         return done(lassoResourceResult);

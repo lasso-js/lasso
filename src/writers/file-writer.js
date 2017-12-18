@@ -2,7 +2,6 @@ require('raptor-polyfill/string/endsWith');
 require('raptor-polyfill/string/startsWith');
 
 const MAX_FILE_LENGTH = 255;
-const HASH_OVERFLOW_LENGTH = 8;
 
 const promisify = require('pify');
 var util = require('../util');
@@ -13,6 +12,8 @@ var logger = require('raptor-logging').logger(module);
 var mkdirp = promisify(require('mkdirp'));
 var crypto = require('crypto');
 var raptorAsync = require('raptor-async');
+const Duplex = require('stream').Duplex;
+const hashUtil = require('../util/hash');
 
 function filePathToUrlWindows(path) {
     return path.replace(/[\\]/g, '/');
@@ -25,9 +26,9 @@ function filePathToUrlUnix(path) {
 function enforceFileLengthLimits(path) {
     return path.split(nodePath.sep).map(part => {
         if (part.length < MAX_FILE_LENGTH) return part;
-        var overflow = part.slice(MAX_FILE_LENGTH - HASH_OVERFLOW_LENGTH);
-        var hash = crypto.createHash('sha1').update(overflow).digest('hex');
-        return part.slice(0, MAX_FILE_LENGTH - HASH_OVERFLOW_LENGTH) + hash.slice(0, HASH_OVERFLOW_LENGTH);
+        var overflow = part.slice(MAX_FILE_LENGTH - hashUtil.HASH_OVERFLOW_LENGTH);
+        var hash = hashUtil.generate(overflow);
+        return part.slice(0, MAX_FILE_LENGTH - hashUtil.HASH_OVERFLOW_LENGTH) + hash.slice(0, hashUtil.HASH_OVERFLOW_LENGTH);
     }).join(nodePath.sep);
 }
 
@@ -264,6 +265,14 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
             bundle.getSlot());
     }
 
+    function getOutputFileFromFileName (path, relativePath) {
+        const filename = nodePath.basename(path);
+
+        return getOutputFile(
+            relativePath,
+            filename);
+    }
+
     function getOutputFileForResource(path, fingerprintsEnabled, lassoContext) {
         var relativePath;
 
@@ -287,11 +296,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
             }
         }
 
-        var filename = nodePath.basename(path);
-
-        return getOutputFile(
-            relativePath,
-            filename);
+        return getOutputFileFromFileName(path, relativePath);
     }
 
     function buildResourceCacheKey(cacheKey, lassoContext) {
@@ -347,10 +352,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
         return enforceFileLengthLimits(nodePath.join(dirname, basename));
     }
 
-    function getResourceUrl(path, lassoContext) {
-        ok(path, 'path is required');
-        ok(path.startsWith(outputDir), 'resource expected to be in the output directory. path=' + path + ', outputDir=' + outputDir);
-
+    function getResourceUrlForHashed (path, lassoContext) {
         var basePath;
 
         if (lassoContext && lassoContext.bundle && lassoContext.bundle.isStyleSheet() && relativeUrlsEnabled !== false) {
@@ -369,6 +371,12 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
             basePath = lassoContext.basePath ? nodePath.resolve(process.cwd(), lassoContext.basePath) : process.cwd();
             return filePathToUrl(nodePath.relative(basePath, path));
         }
+    }
+
+    function getResourceUrl (path, lassoContext) {
+        ok(path, 'path is required');
+        ok(path.startsWith(outputDir), 'resource expected to be in the output directory. path=' + path + ', outputDir=' + outputDir);
+        return getResourceUrlForHashed(path, lassoContext);
     }
 
     return {
@@ -498,6 +506,46 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
                     .then((result) => {
                         const outputFile = result.outputFile;
                         const url = getResourceUrl(outputFile, lassoContext);
+                        resolve({ url, outputFile });
+                    }).catch(handleError);
+            });
+        },
+
+        async writeResourceBuffer (buff, lassoContext) {
+            let done = false;
+
+            const input = new Duplex();
+            input.push(buff);
+            input.push(null);
+
+            const path = lassoContext.path;
+
+            ok(input, '"input" is required');
+            ok(path, '"path" is required');
+
+            return new Promise((resolve, reject) => {
+                function handleError (err) {
+                    if (done) {
+                        return;
+                    }
+
+                    done = true;
+                    reject(err);
+                }
+
+                input.on('error', handleError);
+
+                const calculateFingerprint = false;
+                const outputFileForResource = getOutputFileFromFileName(path, null);
+
+                writeFile(
+                    input,
+                    outputFileForResource,
+                    calculateFingerprint,
+                    fingerprintLength)
+                    .then((result) => {
+                        const outputFile = result.outputFile;
+                        const url = getResourceUrlForHashed(outputFile, lassoContext);
                         resolve({ url, outputFile });
                     }).catch(handleError);
             });
