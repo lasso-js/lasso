@@ -70,20 +70,48 @@ Supported options:
 
 <a name="Lasso-lassoResource"></a>
 
-#### lassoResource(path[, options]) : Promise
+#### lassoResource(path|buffer[, options]) : Promise
 
-Sends any type of resource through the Lasso.js asset pipeline and returns a `Promise` that eventually resolves to a result object with the URL. If Lasso is configured to use the default file writer then the resource referenced by the path will be copied to the static output directory. The callback will be invoked when the resource is fully written and the URL to the output resource will be part of the object that the returned promise eventually resolves to. In addition, if Lasso is configured with fingerprints enabled then a fingerprint will be added to the output resource URL. Example usage:
+Sends any type of resource through the Lasso.js asset pipeline and returns a `Promise` that eventually resolves to a result object with the URL. If Lasso is configured to use the default file writer then the resource referenced by the path will be copied to the static output directory. The callback will be invoked when the resource is fully written and the URL to the output resource will be part of the object that the returned promise eventually resolves to. In addition, if Lasso is configured with fingerprints enabled then a fingerprint will be added to the output resource URL.
+
+Example usage passing an asset path:
 
 ```javascript
-var myLasso = require('lasso').getDefaultLasso();
+const myLasso = require('lasso').getDefaultLasso();
+
 myLasso.lassoResource('path/to/foo.png')
     .then(function(result) {
         var url = result.url; // URL for the output resource
     });
 ```
+
+Example usage passing a buffer:
+
+```javascript
+const { promisify } = require('util');
+const myLasso = require('lasso').getDefaultLasso();
+const readFileAsync = promisify(require('fs').readFile);
+
+const imgPath = nodePath.join(__dirname, 'ebay.png');
+
+;(async function() {
+  const buffer = await readFileAsync(imgPath);
+
+  const result = await lasso.lassoResource(buffer, {
+      name: 'test',
+      extension: 'png'
+  });
+
+   // URL for the output resource (e.g. /static/test-02827b0c.png)
+  const { url } = await myLasso.lassoResource(buffer)
+})();
+```
+
 Supported options:
 
 - __cache__ (boolean) - Whether or not the result should be cached (the resource path will be used as the cache key). The default value is `true`.
+- __name__ (string) - Name to prefix the buffer path
+- __extension__ (string) - File extension to append to the end of a buffer path
 
 #### lassoResource(path[, options], callback)
 
