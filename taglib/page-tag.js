@@ -70,7 +70,7 @@ module.exports = function render(input, out) {
 
         theLasso.lassoPage({
                 // Make sure the page is cached (should be the default)
-                cache: true,
+                cache: input.cache !== undefined ? input.cache : true,
 
                 cacheKey: cacheKey,
 
