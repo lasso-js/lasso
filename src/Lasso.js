@@ -339,7 +339,8 @@ async function doLassoPage (theLasso, options, lassoContext) {
     perfLogger.info('Built page "' + pageName + '" in ' + (Date.now() - startTime) + 'ms');
 
     if (lassoContext.cache) {
-        await lassoContext.cache.flushAll();
+        // Do not wait for the flush to complete
+        lassoContext.cache.flushAll();
     }
 
     return lassoPageResult;
