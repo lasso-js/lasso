@@ -339,8 +339,13 @@ async function doLassoPage (theLasso, options, lassoContext) {
     perfLogger.info('Built page "' + pageName + '" in ' + (Date.now() - startTime) + 'ms');
 
     if (lassoContext.cache) {
-        // Do not wait for the flush to complete
-        lassoContext.cache.flushAll();
+        try {
+            await lassoContext.cache.flushAll();
+        } catch (err) {
+            // The directory may have been manually purged. Do not throw an error
+            // if one is missing.
+            if (err.code !== 'ENOENT') throw err;
+        }
     }
 
     return lassoPageResult;

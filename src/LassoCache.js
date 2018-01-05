@@ -146,7 +146,7 @@ LassoCache.prototype = {
         return this.syncCaches[name] || (this.syncCaches[name] = new SyncCache());
     },
 
-    async flushAll () {
+    flushAll () {
         return raptorCache.flushAll();
     },
 
