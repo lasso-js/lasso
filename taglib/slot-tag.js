@@ -79,7 +79,8 @@ module.exports = function render(input, out) {
         pageConfig.dirname = pageConfig.dirname || template && path.dirname(template.path);
         pageConfig.filename = pageConfig.filename || template && template.path;
         pageConfig.flags = pageConfig.flags || out.global.flags || [];
-
+        pageConfig.cache = input.cache !== undefined ? input.cache : true;
+        
         lassoPageTag(pageConfig, out);
 
         lassoRenderContext = getLassoRenderContext(out);

@@ -1,0 +1,5 @@
+{
+    "dependencies": [
+        { "path": "style-ext.css", "slot": "ext-css-slot" }
+    ]
+}
