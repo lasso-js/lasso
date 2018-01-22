@@ -9,13 +9,14 @@ const lasso = require('lasso');
 const expect = require('chai').expect;
 
 function replaceLassoVersion (str) {
-    return str.replace(/lasso[^?=\\\/]*/, 'lasso');
+    return str.replace(/lasso[^?=\\\/]*/g, 'lasso');
 }
 
 function replaceLassoSlotVersion (prebuild) {
     for (let i = 0; i < prebuild.length; i++) {
         for (let slot in prebuild[i].slots) {
-            prebuild[i].slots[slot] = replaceLassoVersion(prebuild[i].slots[slot]);
+            const replaced = replaceLassoVersion(prebuild[i].slots[slot]);
+            prebuild[i].slots[slot] = replaced;
         }
     }
 
