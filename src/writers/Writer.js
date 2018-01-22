@@ -224,6 +224,33 @@ Writer.prototype = {
         // });
     },
 
+    async writeResourceBuffer (buff, path, lassoContext) {
+        ok(lassoContext, 'lassoContext is required');
+
+        const done = (writeResult) => {
+            ok(writeResult, 'writeResult expected');
+            ok(writeResult.url, 'writeResult.url expected');
+
+            writeResult = writeResult || {};
+
+            this.emit('resourceWritten', writeResult);
+            lassoContext.emit('resourceWritten', writeResult);
+
+            return writeResult;
+        };
+
+        lassoContext = Object.create(lassoContext);
+        lassoContext.path = path;
+
+        try {
+            await initWriter(this, lassoContext);
+            const writeResult = await this.impl.writeResourceBuffer(buff, lassoContext);
+            return done(writeResult);
+        } catch (err) {
+            throw createError('Error while writing resource buffer: ', err);
+        }
+    },
+
     async checkBundleUpToDate (bundle, lassoContext) {
         ok(lassoContext, 'lassoContext is required');
 
