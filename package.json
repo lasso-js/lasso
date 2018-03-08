@@ -40,7 +40,7 @@
     "lasso-modules-client": "^2.0.5",
     "lasso-package-root": "^1.0.1",
     "lasso-resolve-from": "^1.2.0",
-    "marko": "^4.2.8",
+    "marko": "^4.9.0",
     "mime": "^1.2.11",
     "mkdirp": "^0.5.1",
     "path-browserify": "0.0.0",
