@@ -36,9 +36,9 @@ Slot.prototype = {
             var content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<script ${data.inlineScriptAttrs} marko-body="static-text">' + content.code + '</script>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script>'); // eslint-disable-line no-template-curly-in-string
                 } else if (this.contentType === 'css') {
-                    output.push('<style ${data.inlineStyleAttrs} marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
                 }
             } else {
                 output.push(content.code);
