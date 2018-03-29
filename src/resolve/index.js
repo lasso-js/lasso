@@ -121,6 +121,10 @@ exports.createResolver = function(lassoContext, getClientPath) {
     }
 
     function resolveCached(targetModule, fromDir, options) {
+        if (!lassoContext.cache) {
+            return resolve(targetModule, fromDir, options);
+        }
+
         var key = targetModule + '@' + fromDir;
         var cache = lassoContext.cache.getSyncCache('resolve');
 
