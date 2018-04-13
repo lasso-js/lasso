@@ -77,6 +77,24 @@ function isExternalUrl(path) {
     return urlRegExp.test(path);
 }
 
+function stringifyAttributes (obj) {
+    var str = '';
+    for (var key in obj) {
+        var val = obj[key];
+        if (val === false || val == null) {
+            continue;
+        }
+
+        str += ' ' + key;
+
+        if (val !== true) {
+            str += '=' + JSON.stringify(val);
+        }
+    }
+
+    return str;
+}
+
 async function getLassoManifestFromOptions (options, dependencyRegistry) {
     var lassoManifest;
     var from = options.from;
@@ -726,11 +744,11 @@ Lasso.prototype = {
     },
 
     getJavaScriptDependencyHtml: function(url, attributes) {
-        return '<script src=' + JSON.stringify(url) + ' ${Object.assign(' + JSON.stringify(attributes || null) + ' || {}, data.externalScriptAttrs)}></script>';
+        return '<script ...data.externalScriptAttrs' + stringifyAttributes(Object.assign({ src: url }, attributes)) + '></script>';
     },
 
     getCSSDependencyHtml: function(url, attributes) {
-        return '<link rel="stylesheet" href=' + JSON.stringify(url) + ' ${Object.assign(' + JSON.stringify(attributes || null) + ' || {}, data.externalStyleAttrs)}>';
+        return '<link ...data.externalStyleAttrs' + stringifyAttributes(Object.assign({ rel: 'stylesheet', href: url }, attributes)) + '>';
     },
 
     _resolveflags: function(options) {

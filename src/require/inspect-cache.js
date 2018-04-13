@@ -56,7 +56,7 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
     // Get or create the required caches
     var transformsId = config.transforms ? '/' + config.transforms.id : '';
     var inspectCache = lassoContext.data['lasso-require/inspect'];
-    if (!inspectCache) {
+    if (!inspectCache && lassoContext.cache) {
         inspectCache = lassoContext.data['lasso-require/inspect'] = lassoContext.cache.getCache(
             // Unique cache name based on the set of enabled require transforms:
             'lasso-require/inspect' + (transformsId ? '-' + transformsId : ''), // NOTE: ".1" is just needed for cache busting old versions
@@ -84,6 +84,46 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
 
     var fromCache = true;
 
+    function cacheBuilder () {
+        fromCache = false;
+        return readSource()
+            .then((src) => {
+                return inspect(src);
+            });
+    }
+
+    function afterInspect (inspectResult) {
+        if (debugEnabled) {
+            logger.debug('Inspection result for ' + path + ': ' + JSON.stringify(inspect));
+        }
+
+        // Do a shallow clonse so that we don't modify the object stored in the cache
+        inspectResult = extend({}, inspectResult);
+        inspectResult.lastModified = lastModified || -1;
+        if (fromCache) {
+            inspectResult.fromCache = fromCache;
+        }
+
+        resolveInspectedRequires(inspectResult);
+
+        if (src) {
+            // If src is non-null then that means that the builder needed to be invoked to read
+            // the require dependency to inspect the source. Since we had to read the dependency let's
+            // also provide the src so that we don't need to re-read it to generate the final
+            // output bundle
+            inspectResult.createReadStream = function() {
+                return lassoContext.deferredStream(function() {
+                    this.push(src);
+                    this.push(null);
+                });
+            };
+        } else {
+            inspectResult.createReadStream = requireHandler.createReadStream.bind(requireHandler);
+        }
+
+        return inspectResult;
+    }
+
     // Inspecting a JavaScript file is expensive since it requires parsing the JavaScript to find all of the
     // requires. We really don't want to do that every time so we *always* calculate a cache key for the
     // the dependency. In the normal case we use the "lastModiifed" time for the require, but in case where
@@ -98,50 +138,18 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
     function doInspect(cacheKey) {
         ok(cacheKey);
 
+        if (!inspectCache) {
+            return cacheBuilder().then(afterInspect);
+        }
+
         // try to read the inspect result from the cache
         return inspectCache.get(
             cacheKey,
             {
                 lastModified: lastModified && lastModified > 0 ? lastModified : undefined,
-                builder: function() {
-                    fromCache = false;
-                    return readSource()
-                        .then((src) => {
-                            return inspect(src);
-                        });
-                }
+                builder: cacheBuilder
             })
-            .then((inspectResult) => {
-                if (debugEnabled) {
-                    logger.debug('Inspection result for ' + path + ': ' + JSON.stringify(inspect));
-                }
-
-                // Do a shallow clonse so that we don't modify the object stored in the cache
-                inspectResult = extend({}, inspectResult);
-                inspectResult.lastModified = lastModified || -1;
-                if (fromCache) {
-                    inspectResult.fromCache = fromCache;
-                }
-
-                resolveInspectedRequires(inspectResult);
-
-                if (src) {
-                    // If src is non-null then that means that the builder needed to be invoked to read
-                    // the require dependency to inspect the source. Since we had to read the dependency let's
-                    // also provide the src so that we don't need to re-read it to generate the final
-                    // output bundle
-                    inspectResult.createReadStream = function() {
-                        return lassoContext.deferredStream(function() {
-                            this.push(src);
-                            this.push(null);
-                        });
-                    };
-                } else {
-                    inspectResult.createReadStream = requireHandler.createReadStream.bind(requireHandler);
-                }
-
-                return inspectResult;
-            });
+            .then(afterInspect);
     }
 
     function buildCacheKeyFromFingerprint() {
