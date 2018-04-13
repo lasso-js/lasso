@@ -1,4 +1,5 @@
 const promisify = require('pify');
+const assert = require('assert');
 var nodePath = require('path');
 var LassoCache = require('./LassoCache');
 var LassoPageResult = require('./LassoPageResult');
@@ -25,8 +26,16 @@ var extend = require('raptor-util/extend');
 var cachingFs = require('./caching-fs');
 var createError = require('raptor-util/createError');
 var resolveFrom = require('resolve-from');
+const LassoPrebuildResult = require('./LassoPrebuildResult');
 const readFileAsync = promisify(fs.readFile);
+const { buildPrebuildName, buildPrebuildFileName } = require('./util/prebuild.js');
 const hashUtil = require('./util/hash');
+
+/**
+* Cache of prebuilds by path. If there are multiple slots for the same
+* path, we do not need to load the prebuild more than once.
+*/
+const prebuildToPath = {};
 
 var urlRegExp = /^[^:\/]{0,5}[:]?\/\//;
 
@@ -817,6 +826,93 @@ Lasso.prototype = {
             lasso: this,
             result: lassoPageResult
         });
+
+        return lassoPageResult;
+    },
+
+    async prebuildPage (pageConfig, { writeToDisk = true } = {}) {
+        ok(pageConfig, '"pageConfig" is required by "lasso.prebuildPage(...)"');
+
+        let pageConfigs;
+        if (Array.isArray(pageConfig)) {
+            pageConfigs = pageConfig;
+        } else if (typeof pageConfig === 'object') {
+            pageConfigs = [pageConfig];
+        } else {
+            throw new Error('"pageConfig" should either be an array or object passed to "lasso.prebuildPage(...)"');
+        }
+
+        const lassoPrebuildResult = new LassoPrebuildResult();
+
+        for (let i = 0; i < pageConfigs.length; i++) {
+            const pageConfig = pageConfigs[i];
+            ok(typeof pageConfig === 'object', 'All pages passed to "lasso.prebuildPage(...)" should be an object');
+
+            const cwd = process.cwd();
+            const lassoPageResult = await this.lassoPage(pageConfig);
+            const name = buildPrebuildName(pageConfig.pageName);
+
+            const lassoPrebuild = lassoPageResult.toLassoPrebuild(name || cwd, pageConfig.flags);
+
+            const pageDir = pageConfig.pageDir || cwd;
+            const fileName = buildPrebuildFileName(name);
+            const buildPath = nodePath.resolve(pageDir, fileName);
+
+            lassoPrebuildResult.addBuild(buildPath, lassoPrebuild);
+        }
+
+        if (writeToDisk) await lassoPrebuildResult.write();
+        return lassoPrebuildResult;
+    },
+
+    async loadPrebuild (options = {}) {
+        let { path, flags } = options;
+        // TODO: If the prebuild does not exist, we should just use the lassoPage flow
+
+        // If we've already found the prebuild at this path, we can just return it
+        let lassoPageResult;
+        if ((lassoPageResult = prebuildToPath[path])) {
+            return lassoPageResult;
+        }
+
+        let prebuildFile;
+        try {
+            prebuildFile = require(path);
+        } catch (err) {
+            throw new Error(`Error loading prebuild. No prebuild with path "${path}" exists. Error: ${err.toString()}`);
+        }
+
+        // TODO: Consider changing this to just the dash separated cache key for flags
+        let build;
+        if (flags) {
+            for (const prebuild of prebuildFile) {
+                try {
+                    assert.deepEqual(prebuild.flags, flags);
+                    build = prebuild;
+                    break;
+                } catch (err) {}
+            }
+        } else {
+            // Try to find a prebuild that does not require flags
+            for (const prebuild of prebuildFile) {
+                if (!prebuild.flags || !prebuild.flags.length) {
+                    build = prebuild;
+                    break;
+                }
+            }
+        }
+
+        if (!build) {
+            const flagsStr = (flags && flags.join(',')) || flags;
+            throw new Error(`No build could be found using flags: "${flagsStr}" for file at path "${path}"`);
+        }
+
+        lassoPageResult = new LassoPageResult({
+            htmlBySlot: build.slots,
+            resources: build.assets
+        });
+
+        prebuildToPath[path] = lassoPageResult;
 
         return lassoPageResult;
     },

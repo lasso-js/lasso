@@ -1,6 +1,7 @@
 var extend = require('raptor-util/extend');
 var marko = require('marko');
 var nodePath = require('path');
+const LassoPrebuild = require('./LassoPrebuild');
 var EMPTY_OBJECT = {};
 
 function generateTempFilename(slotName) {
@@ -16,14 +17,16 @@ function generateTempFilename(slotName) {
     ].join('-') + '.marko';
 }
 
-function LassoPageResult() {
+function LassoPageResult (options = {}) {
+    const { htmlBySlot, resources } = options;
+
     this.urlsBySlot = {};
     this.urlsByContentType = {};
     this.files = [];
     this.infoByBundleName = {};
     this.infoByAsyncBundleName = {};
-    this._htmlBySlot = {};
-    this.resources = [];
+    this._htmlBySlot = htmlBySlot || {};
+    this.resources = resources || [];
 
     this._htmlTemplatesBySlot = {};
 
@@ -299,6 +302,15 @@ LassoPageResult.prototype = {
 
     setInlineCodeFingerprints: function(inlineCodeFingerprints) {
         this._inlineCodeFingerprints = inlineCodeFingerprints;
+    },
+
+    toLassoPrebuild (name, flags) {
+        return new LassoPrebuild({
+            slots: this.htmlBySlot,
+            assets: this.resources,
+            name,
+            flags
+        });
     }
 };
 
