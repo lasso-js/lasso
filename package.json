@@ -89,6 +89,9 @@
     "shelljs": "^0.7.8",
     "sinon": "^3.2.1"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "nyc": {
     "exclude": [
       "**/coverage/**",
