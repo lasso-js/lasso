@@ -1,1 +1,1 @@
-exports.compatible = process.version >= 'v8.0.0';
+exports.compatible = require('semver').satisfies(process.version, '>=8.0.0');
