@@ -59,6 +59,7 @@
     "raptor-strings": "^1.0.2",
     "raptor-util": "^3.2.0",
     "resolve-from": "^1.0.1",
+    "semver": "^5.5.0",
     "send": "^0.13.2",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
