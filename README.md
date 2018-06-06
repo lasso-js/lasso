@@ -1683,6 +1683,8 @@ __Third-party plugins__
 * [lasso-optimize-iife](https://github.com/austinkelleher/lasso-optimize-iife): Optimize JavaScript immediately-invoked functions using [optimize-js](https://github.com/nolanlawson/optimize-js)
 * [lasso-rtl-css](https://github.com/shadiabuhilal/lasso-rtl-css): Transform CSS from left-to-right to right-to-left using [rtlcss](https://github.com/MohammadYounes/rtlcss)
 * [lasso-prepack](https://github.com/austinkelleher/lasso-prepack): Optimize JavaScript using [prepack](https://prepack.io/)
+* [lasso-typescript](https://github.com/ajay2507/lasso-typescript): compile [Typescript](https://www.typescriptlang.org/) in to Javascript.
+* [grunt-lasso](https://github.com/ajay2507/grunt-lasso): [Grunt](https://gruntjs.com/) plugin for Lasso js.
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
@@ -1971,7 +1973,7 @@ Please join us in the [Gitter chat room for Lasso.js](https://gitter.im/lasso-js
 # Contributors
 
 * Vinod Kumar (Twitter: [@vinodl](https://twitter.com/vinodl))
-    - [gulp-lasso](https://github.com/marko-js/gulp-lasso)
+    - [gulp-lasso](https://github.com/lasso-js/gulp-lasso)
     - [lasso-jsx](https://github.com/lasso-js/lasso-jsx)
 * Merwan Rodriguez (Twitter: [@uno7](https://twitter.com/uno7))
     - [lasso-autoprefixer](https://github.com/lasso-js/lasso-autoprefixer)
