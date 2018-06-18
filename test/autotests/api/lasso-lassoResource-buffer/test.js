@@ -20,5 +20,5 @@ exports.check = async function(lasso, helpers) {
         extension: 'png'
     });
 
-    expect(result.url).to.equal('/static/02827b0c.png');
+    expect(result.url).to.equal('/static/cf6691ad.png');
 };

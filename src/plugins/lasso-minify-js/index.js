@@ -2,8 +2,6 @@ var UglifyJS = require('uglify-js');
 
 function minify(src, options) {
     options = options || {};
-    options.fromString = true;
-
     return UglifyJS.minify(src, options).code;
 }
 

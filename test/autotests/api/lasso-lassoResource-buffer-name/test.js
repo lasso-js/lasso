@@ -21,5 +21,5 @@ exports.check = async function(lasso, helpers) {
         extension: 'png'
     });
 
-    expect(result.url).to.equal('/static/test-02827b0c.png');
+    expect(result.url).to.equal('/static/test-cf6691ad.png');
 };
