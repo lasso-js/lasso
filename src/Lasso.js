@@ -494,7 +494,7 @@ async function doLassoResourceString (theLasso, path, cacheKey, options, lassoCo
         if (dataURIEncoding) {
             try {
                 const fileData = await readFileAsync(path, null);
-                const dataUrl = 'data:' + mime.lookup(path) + ';' + dataURIEncoding + ',' + fileData.toString(dataURIEncoding);
+                const dataUrl = 'data:' + mime.getType(path) + ';' + dataURIEncoding + ',' + fileData.toString(dataURIEncoding);
 
                 return done(null, {
                     url: dataUrl

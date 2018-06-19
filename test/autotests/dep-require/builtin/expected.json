@@ -9,7 +9,7 @@
     {
         "type": "commonjs-builtin",
         "name": "path",
-        "target": "/path-browserify$0.0.0/index",
+        "target": "/path-browserify$1.0.0/index",
         "_sourceFile": "/node_modules/path-browserify/index.js"
     },
     {
@@ -25,7 +25,7 @@
                     "target": "/node_modules/path-browserify/index.js"
                 }
             ],
-            "clientPath": "/path-browserify$0.0.0/index"
+            "clientPath": "/path-browserify$1.0.0/index"
         }
     },
     {
@@ -53,7 +53,7 @@
                                 "target": "/node_modules/path-browserify/index.js"
                             }
                         ],
-                        "clientPath": "/path-browserify$0.0.0/index"
+                        "clientPath": "/path-browserify$1.0.0/index"
                     }
                 }
             ],
@@ -80,7 +80,7 @@
                                 "target": "/node_modules/path-browserify/index.js"
                             }
                         ],
-                        "clientPath": "/path-browserify$0.0.0/index"
+                        "clientPath": "/path-browserify$1.0.0/index"
                     }
                 }
             ]
