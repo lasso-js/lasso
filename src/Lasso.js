@@ -797,8 +797,11 @@ Lasso.prototype = {
         lassoContext.config = this.config;
         lassoContext.writer = writer;
         lassoContext.lasso = this;
-        lassoContext.cache = this.getLassoCache(lassoContext);
         lassoContext.options = options;
+        // cache must come last so that all of the data above will
+        // be available on the lassoContext that will be part of the subsequent
+        // payload of the event that will be emitted after the cache is fetched.
+        lassoContext.cache = this.getLassoCache(lassoContext);
 
         return lassoContext;
     },
