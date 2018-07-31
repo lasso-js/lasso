@@ -150,22 +150,43 @@ LassoCache.prototype = {
         return raptorCache.flushAll();
     },
 
-    async getLassoPageResult (cacheKey, options) {
+    async getLassoPageResult(cacheKey, options) {
         return this.lassoPageResultCache.get(cacheKey, options);
     },
 
     async getBundleMappings (id, builder) {
-        return this.bundleMappingsCache.get(id.toString(), { builder });
+        return new Promise(resolve => {
+            setImmediate(() => {
+                while (process.domain) {
+                    process.domain.exit();
+                }
+                resolve(this.bundleMappingsCache.get(id.toString(), { builder }));
+            });
+        });
     },
 
     async getLassoedResource (path, builder) {
-        return this.lassoedResourcesCache.get(path, { builder });
+        return new Promise(resolve => {
+            setImmediate(() => {
+                while (process.domain) {
+                    process.domain.exit();
+                }
+                resolve(this.lassoedResourcesCache.get(path, { builder }));
+            });
+        });
     },
 
     async getDependencyFingerprint (cacheKey, lastModified, builder) {
-        return this.dependencyFingerprintsCache.get(cacheKey, {
-            lastModified,
-            builder
+        return new Promise(resolve => {
+            setImmediate(() => {
+                while (process.domain) {
+                    process.domain.exit();
+                }
+                resolve(this.dependencyFingerprintsCache.get(cacheKey, {
+                    lastModified,
+                    builder
+                }));
+            });
         });
     }
 };
