@@ -2,7 +2,7 @@ var UglifyJS = require('uglify-js');
 
 function minify(src, options) {
     options = options || {};
-    return UglifyJS.minify(src, options).code;
+    return UglifyJS.minify(src, {}).code;
 }
 
 function isInline(lassoContext) {
