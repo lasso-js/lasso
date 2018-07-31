@@ -1,8 +1,16 @@
 var UglifyJS = require('uglify-js');
+var internalOptions = ['inlineOnly'];
+var hasOwn = Object.prototype.hasOwnProperty;
 
-function minify(src, options) {
-    options = options || {};
-    return UglifyJS.minify(src, options).code;
+function minify(src, pluginOptions) {
+    var minifyOptions = {};
+    for (var key in pluginOptions) {
+        if (hasOwn.call(pluginOptions, key) && internalOptions.indexOf(key) === -1) {
+            minifyOptions[key] = pluginOptions[key];
+        }
+    }
+
+    return UglifyJS.minify(src, minifyOptions).code;
 }
 
 function isInline(lassoContext) {
