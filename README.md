@@ -495,13 +495,19 @@ Browser dependencies can be described as shown in the following sample `browser.
 
 ```json
 {
-	"dependencies": [
-	    "./style.less",
-	    "../third-party/jquery.js",
-	    "**/*.css",
-	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" },
-	    { "type": "css", "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" }
-	]
+    "dependencies": [
+        "./style.less",
+        "../third-party/jquery.js",
+        "**/*.css",
+        {
+            "type": "js",
+            "url": "https://code.jquery.com/jquery-2.1.4.min.js"
+        },
+        {
+            "type": "css",
+            "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+        }
+    ]
 }
 ```
 
@@ -558,10 +564,16 @@ Lasso.js does allow referencing external JS/CSS files in your `browser.json` fil
 
 ```json
 {
-	"dependencies": [
-	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js" },
-	    { "type": "css", "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" }
-	]
+    "dependencies": [
+        {
+            "type": "js",
+            "url": "https://code.jquery.com/jquery-2.1.4.min.js"
+        },
+        {
+            "type": "css",
+            "url": "https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"
+        }
+    ]
 }
 ```
 
@@ -569,9 +581,13 @@ By default, Lasso.js will not bundle external resources with your application's 
 
 ```json
 {
-	"dependencies": [
-	    { "type": "js", "url": "https://code.jquery.com/jquery-2.1.4.min.js", "external": false }
-	]
+    "dependencies": [
+        {
+            "type": "js",
+            "url": "https://code.jquery.com/jquery-2.1.4.min.js",
+            "external": false
+        }
+    ]
 }
 ```
 
@@ -585,16 +601,14 @@ The following is an example using the `integrity` and `crossorigin` attributes f
 
 ```json
 {
-	"dependencies": [
-	    {
+    "dependencies": [{
         "type": "js",
         "url": "https://code.jquery.com/jquery-3.1.1.min.js",
         "attributes":{
-          "integrity":"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=",
-          "crossorigin":"anonymous"
+            "integrity":"sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8=",
+            "crossorigin":"anonymous"
         }
-      }
-	]
+    }]
 }
 ```
 
@@ -1037,7 +1051,7 @@ After opening `my-page.html` in your web browser you should then see the same ou
 
 Lasso includes optional middleware for both Express and Koa that can be used to serve up the static files that it generates.
 
-### `serveStatic(options)``
+### `serveStatic(options)`
 
 The `serveStatic` middleware provided by Lasso is a small wrapper around the [send](https://github.com/pillarjs/send) package.
 
@@ -1260,13 +1274,13 @@ This could also be expressed as a percentage:
 ```javascript
 {
     // Write all bundles into the "static" directory
-	"outputDir": "static",
+    "outputDir": "static",
 
-	// URL prefix for all bundles
-	"urlPrefix": "/static",
+    // URL prefix for all bundles
+    "urlPrefix": "/static",
 
-	// Include fingerprint in output files
-	"fingerprintsEnabled": true
+    // Include fingerprint in output files
+    "fingerprintsEnabled": true
 }
 ```
 
