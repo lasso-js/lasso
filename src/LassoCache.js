@@ -11,6 +11,10 @@ function safeFilename(name) {
     return name.replace(/[^A-Za-z0-9_\-\.\/]/g, '-');
 }
 
+function waitImmediate() {
+    return new Promise(resolve => setImmediate(resolve));
+}
+
 var CACHE_DEFAULTS = {
     '*': { // Any profile
         '*': { // Any cache
@@ -155,38 +159,35 @@ LassoCache.prototype = {
     },
 
     async getBundleMappings (id, builder) {
-        return new Promise(resolve => {
-            setImmediate(() => {
-                while (process.domain) {
-                    process.domain.exit();
-                }
-                resolve(this.bundleMappingsCache.get(id.toString(), { builder }));
-            });
-        });
+        await waitImmediate();
+
+        while (process.domain) {
+            process.domain.exit();
+        }
+
+        return this.bundleMappingsCache.get(id.toString(), { builder });
     },
 
     async getLassoedResource (path, builder) {
-        return new Promise(resolve => {
-            setImmediate(() => {
-                while (process.domain) {
-                    process.domain.exit();
-                }
-                resolve(this.lassoedResourcesCache.get(path, { builder }));
-            });
-        });
+        await waitImmediate();
+
+        while (process.domain) {
+            process.domain.exit();
+        }
+
+        return this.lassoedResourcesCache.get(path, { builder });
     },
 
     async getDependencyFingerprint (cacheKey, lastModified, builder) {
-        return new Promise(resolve => {
-            setImmediate(() => {
-                while (process.domain) {
-                    process.domain.exit();
-                }
-                resolve(this.dependencyFingerprintsCache.get(cacheKey, {
-                    lastModified,
-                    builder
-                }));
-            });
+        await waitImmediate();
+
+        while (process.domain) {
+            process.domain.exit();
+        }
+
+        return this.dependencyFingerprintsCache.get(cacheKey, {
+            lastModified,
+            builder
         });
     }
 };
