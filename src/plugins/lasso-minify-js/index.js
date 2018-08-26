@@ -41,7 +41,7 @@ module.exports = function (lasso, pluginConfig) {
 
             try {
                 var minified = minify(code, pluginConfig);
-                if (minified.length && !minified.endsWith(';')) {
+                if (minified && !minified.endsWith(';')) {
                     minified += ';';
                 }
                 return minified;
