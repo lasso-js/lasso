@@ -1,6 +1,9 @@
+var path = require('path');
 var esprima = require('esprima');
+var codeFrame = require('babel-code-frame');
 var estraverse = require('estraverse');
 var ok = require('assert').ok;
+var cwd = process.cwd();
 
 var parseOpts = {
     range: true
@@ -216,7 +219,18 @@ module.exports = function inspect(src, options) {
     try {
         parsedAst = esprima.parse(src, parseOpts);
     } catch (err) {
-        return new Error(err.toString());
+        if (!err.description) {
+            throw err;
+        }
+
+        var filename = options && options.filename;
+        var errorLoc = '(' + err.lineNumber + ',' + err.column + '): ';
+        if (filename) {
+            errorLoc = path.relative(cwd, filename) + errorLoc;
+        }
+
+        var frame = codeFrame(src, err.lineNumber, err.column, { highlightCode: true });
+        throw new SyntaxError(errorLoc + err.description + '\n' + frame);
     }
 
     estraverse.traverse(parsedAst, {

@@ -88,13 +88,13 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
         fromCache = false;
         return readSource()
             .then((src) => {
-                return inspect(src);
+                return inspect(src, { filename: path });
             });
     }
 
     function afterInspect (inspectResult) {
         if (debugEnabled) {
-            logger.debug('Inspection result for ' + path + ': ' + JSON.stringify(inspect));
+            logger.debug('Inspection result for ' + path + ': ' + JSON.stringify(inspectResult));
         }
 
         // Do a shallow clonse so that we don't modify the object stored in the cache
