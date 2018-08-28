@@ -1,0 +1,4 @@
+{
+    "name": "SyntaxError",
+    "message": "Unexpected token ...\n> 1 | const thing = { ...stuff };\n    |                 ^\n  2 | require('foo');\n  3 | \n  4 | if (require('bar')) {"
+}

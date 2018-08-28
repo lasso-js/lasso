@@ -87,7 +87,8 @@
     "nyc": "^12.0.2",
     "require-self-ref": "^2.0.1",
     "shelljs": "^0.8.2",
-    "sinon": "^6.0.0"
+    "sinon": "^6.0.0",
+    "strip-ansi": "^4.0.0"
   },
   "engines": {
     "node": ">=6"
