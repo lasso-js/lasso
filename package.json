@@ -22,6 +22,7 @@
   "dependencies": {
     "app-root-dir": "^1.0.2",
     "assert": "^1.4.1",
+    "babel-code-frame": "^6.26.0",
     "browser-refresh-client": "^1.1.4",
     "buffer": "^5.1.0",
     "clean-css": "^4.1.11",
