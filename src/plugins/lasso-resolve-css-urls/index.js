@@ -62,7 +62,7 @@ function replaceUrls (code, lassoContext, urlResolver) {
             async function (url, start, end, callback) {
                 try {
                     // add exception for css properies with hash e.g. behavior: url(#default#VML);
-                    if(url.startsWith('#')) {
+                    if (url.startsWith('#')) {
                         return callback(null, url);
                     }
 
