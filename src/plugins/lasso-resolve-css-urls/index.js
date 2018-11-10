@@ -61,6 +61,11 @@ function replaceUrls (code, lassoContext, urlResolver) {
             // the replacer function
             async function (url, start, end, callback) {
                 try {
+                    // add exception for css properies with hash e.g. behavior: url(#default#VML);
+                    if(url.startsWith('#')) {
+                        return callback(null, url);
+                    }
+
                     const resolvedUrl = await urlResolver(url, lassoContext);
                     const bundledResource = await lasso.lassoResource(resolvedUrl, { lassoContext });
                     callback(null, bundledResource && bundledResource.url);
