@@ -809,20 +809,22 @@ Lasso.prototype = {
     async lassoPage (options) {
         const lassoContext = options.lassoContext || this.createLassoContext(options);
 
+        let lassoPageResult;
+
         if (options.cache === false) {
-            return doLassoPage(this, options, lassoContext);
+            lassoPageResult = await doLassoPage(this, options, lassoContext);
+        } else {
+            const lassoCache = this.getLassoCache(lassoContext);
+            const cacheKey = options.cacheKey || options.pageName || options.name;
+
+            lassoPageResult = await lassoCache.getLassoPageResult(cacheKey, {
+                builder: async () => {
+                    // Reuse the same lasso context
+                    options = extend({ lassoContext }, options);
+                    return doLassoPage(this, options, lassoContext);
+                }
+            });
         }
-
-        const lassoCache = this.getLassoCache(lassoContext);
-        const cacheKey = options.cacheKey || options.pageName || options.name;
-
-        const lassoPageResult = await lassoCache.getLassoPageResult(cacheKey, {
-            builder: async () => {
-                // Reuse the same lasso context
-                options = extend({ lassoContext }, options);
-                return doLassoPage(this, options, lassoContext);
-            }
-        });
 
         this.emit('afterLassoPage', {
             context: lassoContext,
@@ -852,15 +854,18 @@ Lasso.prototype = {
             ok(typeof pageConfig === 'object', 'All pages passed to "lasso.prebuildPage(...)" should be an object');
 
             const cwd = process.cwd();
-            const lassoPageResult = await this.lassoPage(pageConfig);
             const name = buildPrebuildName(pageConfig.pageName);
-
-            const lassoPrebuild = lassoPageResult.toLassoPrebuild(name || cwd, pageConfig.flags);
-
             const pageDir = pageConfig.pageDir || cwd;
             const fileName = buildPrebuildFileName(name);
             const buildPath = nodePath.resolve(pageDir, fileName);
-
+            const lassoPageResult = await this.lassoPage(Object.assign({
+                cache: false,
+                prebuild: {
+                    name,
+                    buildPath: nodePath.relative(cwd, buildPath)
+                }
+            }, pageConfig));
+            const lassoPrebuild = lassoPageResult.toLassoPrebuild(name || cwd, pageConfig.flags);
             lassoPrebuildResult.addBuild(buildPath, lassoPrebuild);
         }
 
@@ -890,7 +895,7 @@ Lasso.prototype = {
         if (flags) {
             for (const prebuild of prebuildFile) {
                 try {
-                    assert.deepEqual(prebuild.flags, flags);
+                    assert.deepEqual(prebuild.flags || [], flags || []);
                     build = prebuild;
                     break;
                 } catch (err) {}
