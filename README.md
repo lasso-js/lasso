@@ -1537,7 +1537,7 @@ __Output HTML__
 
 ## Use of defer/async with script tags
 
-If you add `async` or `defer` to a slot for external script attrs and Lasso encounters an inline script in that slot, it will wrap the code in a listener for `DOMContentLoaded` to ensure that the script does not execute until the rest of the deferred scripts in that slot are loaded.
+If you add `async` or `defer` to a slot for external script attrs and Lasso encounters an inline script in that slot, it will wrap the code in a listener for `DOMContentLoaded` (for defer) or `load` (for async) to ensure that the script does not execute until the rest of the deferred scripts in that slot are loaded.
 
 __page.marko__
 ```marko

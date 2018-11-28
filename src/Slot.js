@@ -30,8 +30,8 @@ Slot.prototype = {
         });
     },
 
-    wrapInDocumentLoaded: function(code) {
-        return '(function() { var run = function() { ' + code + ' }; if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", run); } else { run(); } })();';
+    wrapInDocumentLoaded: function(code, isAsync) {
+        return '(function() { var run = function() { ' + code + ' }; if (document.readyState ' + (isAsync ? '!== "complete"' : '=== "loading"') + ') { ' + (isAsync ? 'window.addEventListener("load"' : 'document.addEventListener("DOMContentLoaded"') + ', run); } else { run(); } })();';
     },
 
     buildHtml: function() {
@@ -40,7 +40,7 @@ Slot.prototype = {
             var content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<if(data.externalScriptAttrs && (data.externalScriptAttrs.async || data.externalScriptAttrs.defer))><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<if(data.externalScriptAttrs)><if(data.externalScriptAttrs.async)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code, true) + '</script></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></else></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
                 } else if (this.contentType === 'css') {
                     output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
                 }

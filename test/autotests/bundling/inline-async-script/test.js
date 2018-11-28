@@ -33,7 +33,7 @@ exports.getInputs = function() {
 
                     expect(body).to.equal(
                         '<script src="/static/bundling-inline-async-script.js" async></script>\n' +
-                        '<script>(function() { var run = function() { var a; }; if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", run); } else { run(); } })();</script>');
+                        '<script>(function() { var run = function() { var a; }; if (document.readyState !== "complete") { window.addEventListener("load", run); } else { run(); } })();</script>');
             }
         }
     ];
