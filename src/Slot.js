@@ -40,7 +40,7 @@ Slot.prototype = {
             var content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<if(data.externalScriptAttrs && data.externalScriptAttrs.defer)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<if(data.externalScriptAttrs && (data.externalScriptAttrs.async || data.externalScriptAttrs.defer))><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
                 } else if (this.contentType === 'css') {
                     output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
                 }
