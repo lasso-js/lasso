@@ -30,13 +30,17 @@ Slot.prototype = {
         });
     },
 
+    wrapInDocumentLoaded: function(code, isAsync) {
+        return '(function() { var run = function() { ' + code + ' }; if (document.readyState ' + (isAsync ? '!== "complete"' : '=== "loading"') + ') { ' + (isAsync ? 'window.addEventListener("load"' : 'document.addEventListener("DOMContentLoaded"') + ', run); } else { run(); } })();';
+    },
+
     buildHtml: function() {
         var output = [];
         for (var i = 0, len = this.content.length; i < len; i++) {
             var content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<if(data.externalScriptAttrs)><if(data.externalScriptAttrs.async)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code, true) + '</script></if><else-if((data.externalScriptAttrs.defer))><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></else-if></if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
                 } else if (this.contentType === 'css') {
                     output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
                 }
