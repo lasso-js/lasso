@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 3.2.7
+
+- Improve support for `defer` and `async` attributes on inline bundles.
+
 # 3.0.0
 
 - **BREAKING**: Remove support for Node 4
