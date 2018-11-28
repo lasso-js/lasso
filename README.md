@@ -120,6 +120,8 @@ There's also a JavaScript API, taglib and a collection of plugins to make your j
 - [Node.js-style Module Support](#nodejs-style-module-support)
 - [Babel Support](#babel-support)
 - [No Conflict Builds](#no-conflict-builds)
+- [Custom attributes for Script & Style tags](#custom-attributes-for-script--style-tags)
+    - [Use of defer/async with script tags](#use-of-deferasync-with-script-tags)
 - [Content Security Policy Support](#content-security-policy-support)
 - [Available Plugins](#available-plugins)
 - [Extending Lasso.js](#extending-lassojs)
@@ -1532,6 +1534,45 @@ __Output HTML__
     </body>
 </html>
 ```
+
+## Use of defer/async with script tags
+
+If you add `async` or `defer` to a slot for external script attrs and Lasso encounters an inline script in that slot, it will wrap the code in a listener for `DOMContentLoaded` to ensure that the script does not execute until the rest of the deferred scripts in that slot are loaded.
+
+__page.marko__
+```marko
+<lasso-page name="page" package-path="./browser.json"/>
+
+<html>
+    <body>
+        <lasso-body external-script-attrs={defer: true}/>
+    </body>
+</html>
+
+```
+
+__browser.json__
+```json
+{
+    "dependencies": [
+        "test.js",
+        { "path": "test-inline.js", "inline": true }
+    ]
+}
+```
+
+__Output HTML__
+```html
+<html>
+    <body>
+        <script src="/static/page-ce0ad224.js" defer></script>
+        <script>
+            (function() { var run = function() { console.log('hello-inline'); }; if (document.readyState === "loading") { document.addEventListener("DOMContentLoaded", run); } else { run(); } })();
+        </script>
+    </body>
+</html>
+```
+
 # Content Security Policy Support
 
 Newer browsers support a web standard called Content Security Policy that
