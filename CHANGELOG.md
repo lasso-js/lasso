@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 3.2.8
+
+- Fix regression with inline scripts with `externalScriptAttrs`.
+
 # 3.2.7
 
 - Improve support for `defer` and `async` attributes on inline bundles.
