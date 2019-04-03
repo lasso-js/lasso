@@ -1,4 +1,4 @@
-var UglifyJS = require('uglify-js');
+var Terser = require('terser');
 var codeFrame = require('babel-code-frame');
 var internalOptions = ['inlineOnly'];
 var hasOwn = Object.prototype.hasOwnProperty;
@@ -11,7 +11,7 @@ function minify(src, pluginOptions) {
         }
     }
 
-    var result = UglifyJS.minify(src, minifyOptions);
+    var result = Terser.minify(src, minifyOptions);
 
     if (result.error) {
         throw result.error;

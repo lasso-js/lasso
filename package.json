@@ -63,8 +63,8 @@
     "stream-browserify": "^2.0.1",
     "string_decoder": "^1.1.1",
     "strip-json-comments": "^2.0.1",
+    "terser": "^3.17.0",
     "through": "^2.3.8",
-    "uglify-js": "^3.4.0",
     "url": "^0.11.0",
     "util": "^0.11.0"
   },
