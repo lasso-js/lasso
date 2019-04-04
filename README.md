@@ -1716,7 +1716,7 @@ __Core plugins:__
 
 * [lasso-require](https://github.com/lasso-js/lasso-require): Node.js-style require for the browser (similar to [browserify](https://github.com/substack/node-browserify))
 * [lasso-minify-css](https://github.com/lasso-js/lasso-minify-css): Minify CSS files using [sqwish](https://github.com/ded/sqwish)
-* [lasso-minify-js](https://github.com/lasso-js/lasso-minify-js): Minify JavaScript files using [uglify-js](https://www.npmjs.org/package/uglify-js)
+* [lasso-minify-js](https://github.com/lasso-js/lasso-minify-js): Minify JavaScript files using [terser](https://github.com/terser-js/terser)
 * [lasso-resolve-css-urls](https://github.com/lasso-js/lasso-resolve-css-urls): Replace each resource URL in a CSS file with an lassoed resource URL
 
 __Third-party plugins__
