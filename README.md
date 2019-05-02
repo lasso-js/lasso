@@ -1742,6 +1742,8 @@ __Third-party plugins__
 * [grunt-lasso](https://github.com/ajay2507/grunt-lasso): [Grunt](https://gruntjs.com/) plugin for Lasso js.
 * [lasso-analyzer](https://github.com/ajay2507/lasso-analyzer): Bundle Analyzer plugin for Lasso js.
 * [lasso-unpack](https://github.com/ajay2507/lasso-unpack): Generating an asset manifest for all source files .
+* [lasso-minify-transpile-inline](https://github.com/dsathyakumar/lasso-minify-transpile-inline): Lasso JS plugin to minify & transpile `inline` single file dependency assets that are not of `type: require`.
+* [rollup-plugin-lasso](https://github.com/dsathyakumar/rollup-plugin-lasso/): Bundles with Rollup (in cases where Lasso cannot be used) and pipes the output to Lasso - to be a part of Lasso's lifecycle.
 
 To use a third-party plugin, you must first install it using `npm install`. For example:
 
