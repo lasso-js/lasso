@@ -7,7 +7,8 @@ var styleExtensions = {
     styl: true,
     stylus: true,
     scss: true,
-    sass: true
+    sass: true,
+    webp: true
 };
 
 var imageExtensions = {
