@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 3.3.1
+
+- Adds `.webp` to the list of browser-refresh extensions.
+
 # 3.3.0
 
 - use [terser](https://github.com/terser-js/terser) instead uglify-js because it's [no longer maintained](https://github.com/mishoo/UglifyJS2/issues/3156#issuecomment-392943058).
