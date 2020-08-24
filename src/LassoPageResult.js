@@ -18,8 +18,9 @@ function generateTempFilename(slotName) {
 }
 
 function LassoPageResult (options = {}) {
-    const { htmlBySlot, resources } = options;
+    const { htmlBySlot, resources, isPrebuild } = options;
 
+    this._isPrebuild = isPrebuild;
     this.urlsBySlot = {};
     this.urlsByContentType = {};
     this.files = [];
@@ -125,17 +126,25 @@ LassoPageResult.prototype = {
                 return null;
             }
 
-            // In order to compile the HTML for the slot into a Marko template, we need to provide a faux
-            // template path. The path doesn't really matter unless the compiled template needs to import
-            // external tags or templates.
-            var templatePath = nodePath.resolve(__dirname, '..', generateTempFilename(slotName));
-            template = marko.load(templatePath, templateSrc, { preserveWhitespace: true, writeToDisk: false });
-            // Cache the loaded template:
-            this._htmlTemplatesBySlot[slotName] = template;
+            if (this._isPrebuild) {
+                template = this._htmlTemplatesBySlot = {
+                    renderToString() {
+                        return templateSrc;
+                    }
+                };
+            } else {
+                // In order to compile the HTML for the slot into a Marko template, we need to provide a faux
+                // template path. The path doesn't really matter unless the compiled template needs to import
+                // external tags or templates.
+                var templatePath = nodePath.resolve(__dirname, '..', generateTempFilename(slotName));
+                template = marko.load(templatePath, templateSrc, { preserveWhitespace: true, writeToDisk: false });
+                // Cache the loaded template:
+                this._htmlTemplatesBySlot[slotName] = template;
 
-            // The Marko template compiled to JS and required. Let's delete it out of the require cache
-            // to avoid a memory leak
-            delete require.cache[templatePath + '.js'];
+                // The Marko template compiled to JS and required. Let's delete it out of the require cache
+                // to avoid a memory leak
+                delete require.cache[templatePath + '.js'];
+            }
         }
 
         return template;
