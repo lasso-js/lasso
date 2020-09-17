@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 3.4.0
+
+- Switches from esprima to espree to parse JavaScript (supports more modern JavaScript).
+
 # 3.3.1
 
 - Adds `.webp` to the list of browser-refresh extensions.
