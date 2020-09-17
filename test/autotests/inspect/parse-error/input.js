@@ -1,4 +1,4 @@
-const thing = { ...stuff };
+const thing = {;
 require('foo');
 
 if (require('bar')) {

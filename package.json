@@ -29,7 +29,7 @@
     "clone": "^2.1.1",
     "complain": "^1.2.0",
     "escodegen": "^1.10.0",
-    "esprima": "^4.0.0",
+    "espree": "^7.3.0",
     "estraverse": "^4.2.0",
     "events": "^3.0.0",
     "glob": "^7.1.2",

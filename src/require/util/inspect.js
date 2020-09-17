@@ -1,12 +1,14 @@
 var path = require('path');
-var esprima = require('esprima');
+var espree = require('espree');
 var codeFrame = require('babel-code-frame');
 var estraverse = require('estraverse');
 var ok = require('assert').ok;
 var cwd = process.cwd();
 
 var parseOpts = {
-    range: true
+    range: true,
+    sourceType: 'script',
+    ecmaVersion: espree.latestEcmaVersion
 };
 
 var shortCircuitRegExp = /require\(|require\.resolve\(|.async\(|#async|process|Buffer/;
@@ -217,9 +219,9 @@ module.exports = function inspect(src, options) {
 
     var parsedAst;
     try {
-        parsedAst = esprima.parse(src, parseOpts);
+        parsedAst = espree.parse(src, parseOpts);
     } catch (err) {
-        if (!err.description) {
+        if (!err.lineNumber) {
             throw err;
         }
 
@@ -230,7 +232,7 @@ module.exports = function inspect(src, options) {
         }
 
         var frame = codeFrame(src, err.lineNumber, err.column, { highlightCode: true });
-        throw new SyntaxError(errorLoc + err.description + '\n' + frame);
+        throw new SyntaxError(errorLoc + err.message + '\n' + frame);
     }
 
     estraverse.traverse(parsedAst, {
