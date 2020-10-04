@@ -166,7 +166,7 @@ function createReadBundleStream(bundle, lassoContext, transformerAsyncValue) {
 
     function onTimeout() {
         var dependency = dependencies[curIndex];
-        var message = 'Reading dependency timed out after ' + timeout + 'ms: ' + dependency.toString();
+        var message = 'Reading dependency timed out after ' + timeout + 'ms: ' + dependency.toString() + '. The timeout value can be set via the bundleReadTimeout configuration option (defaults to ' + exports.DEFAULT_READ_TIMEOUT + ').';
         combinedStream.emit('error', new Error(message));
 
         combinedStream.forEachStream(function(stream) {
