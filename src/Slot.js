@@ -40,9 +40,9 @@ Slot.prototype = {
             var content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<if(data.externalScriptAttrs && data.externalScriptAttrs.async)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code, true) + '</script></if><else-if(data.externalScriptAttrs && data.externalScriptAttrs.defer)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></else-if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<script%LASSO_ATTRS inlineScriptAttrs%>%LASSO_CONDITION isAsync%' + this.wrapInDocumentLoaded(content.code, true) + '%LASSO_CONDITION_END%%LASSO_CONDITION isDeferred%' + this.wrapInDocumentLoaded(content.code) + '%LASSO_CONDITION_END%%LASSO_CONDITION isSync%' + content.code + '%LASSO_CONDITION_END%</script>'); // eslint-disable-line no-template-curly-in-string
                 } else if (this.contentType === 'css') {
-                    output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
+                    output.push('<style%LASSO_ATTRS inlineStyleAttrs%>' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
                 }
             } else {
                 output.push(content.code);
