@@ -40,10 +40,15 @@ SlotTracker.prototype = {
             }
 
             var html = htmlBySlot[slotName];
+            var newHtml = slot.buildHtml();
             if (html == null) {
-                htmlBySlot[slotName] = slot.buildHtml();
+                htmlBySlot[slotName] = newHtml;
             } else {
-                htmlBySlot[slotName] = html + '\n' + slot.buildHtml();
+                const isPrevFn = typeof html === 'function';
+                const isNewFn = typeof newHtml === 'function';
+                htmlBySlot[slotName] = isPrevFn || isNewFn
+                    ? input => `${isPrevFn ? html(input) : html}\n${isNewFn ? newHtml(input) : newHtml}`
+                    : `${html}\n${newHtml}`;
             }
         }
 

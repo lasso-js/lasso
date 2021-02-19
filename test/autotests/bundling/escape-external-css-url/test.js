@@ -21,7 +21,7 @@ exports.getInputs = function() {
             },
             check(lassoPageResult, writerTracker) {
                 expect(lassoPageResult.getBodyHtml()).to.equal('');
-                expect(lassoPageResult.getHeadHtml()).to.equal('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&amp;subset=latin">');
+                expect(lassoPageResult.getHeadHtml()).to.equal('<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&subset=latin">');
             }
         }
     ];

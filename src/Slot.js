@@ -1,4 +1,5 @@
 var ok = require('assert').ok;
+var stringifyAttrs = require('./util/stringify-attrs');
 
 function Slot(contentType) {
     ok(contentType, 'contentType is required');
@@ -35,18 +36,61 @@ Slot.prototype = {
     },
 
     buildHtml: function() {
-        var output = [];
-        for (var i = 0, len = this.content.length; i < len; i++) {
-            var content = this.content[i];
+        const output = [];
+        let isTemplate = false;
+        for (let i = 0, len = this.content.length; i < len; i++) {
+            const content = this.content[i];
             if (content.inline) {
                 if (this.contentType === 'js') {
-                    output.push('<if(data.externalScriptAttrs && data.externalScriptAttrs.async)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code, true) + '</script></if><else-if(data.externalScriptAttrs && data.externalScriptAttrs.defer)><script ...data.inlineScriptAttrs marko-body="static-text">' + this.wrapInDocumentLoaded(content.code) + '</script></else-if><else><script ...data.inlineScriptAttrs marko-body="static-text">' + content.code + '</script></else>'); // eslint-disable-line no-template-curly-in-string
+                    isTemplate = true;
+                    output.push(input => {
+                        const scriptAttrs = input.externalScriptAttrs;
+                        const code = typeof content.code === 'function' ? content.code(input) : content.code;
+                        let result = `<script${stringifyAttrs(input.inlineScriptAttrs)}>`;
+
+                        if (scriptAttrs) {
+                            if (scriptAttrs.async) {
+                                result += this.wrapInDocumentLoaded(code, true);
+                            } else if (scriptAttrs.defer) {
+                                result += this.wrapInDocumentLoaded(code);
+                            } else {
+                                result += code;
+                            }
+                        } else {
+                            result += code;
+                        }
+
+                        return `${result}</script>`;
+                    });
                 } else if (this.contentType === 'css') {
-                    output.push('<style ...data.inlineStyleAttrs marko-body="static-text">' + content.code + '</style>'); // eslint-disable-line no-template-curly-in-string
+                    isTemplate = true;
+                    output.push(input => {
+                        const code = typeof content.code === 'function'
+                            ? content.code(input)
+                            : content.code;
+                        return `<style${stringifyAttrs(input.inlineScriptAttrs)}>${code}</style>`;
+                    });
                 }
             } else {
+                isTemplate = isTemplate || typeof content.code === 'function';
                 output.push(content.code);
             }
+        }
+
+        if (isTemplate) {
+            return input => {
+                let result = '';
+                for (let i = 0; i < output.length; i++) {
+                    if (i !== 0) {
+                        result += '\n';
+                    }
+
+                    const part = output[i];
+                    result += typeof part === 'function' ? part(input) : part;
+                }
+
+                return result;
+            };
         }
 
         return output.join('\n');

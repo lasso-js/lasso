@@ -1,21 +1,6 @@
 var extend = require('raptor-util/extend');
-var marko = require('marko');
-var nodePath = require('path');
 const LassoPrebuild = require('./LassoPrebuild');
 var EMPTY_OBJECT = {};
-
-function generateTempFilename(slotName) {
-    // Generates a unique filename based on date/time and, process ID and a random number
-    var now = new Date();
-    return [
-        slotName,
-        now.getYear(),
-        now.getMonth(),
-        now.getDate(),
-        process.pid,
-        (Math.random() * 0x100000000 + 1).toString(36)
-    ].join('-') + '.marko';
-}
 
 function LassoPageResult (options = {}) {
     const { htmlBySlot, resources, isPrebuild } = options;
@@ -126,24 +111,16 @@ LassoPageResult.prototype = {
                 return null;
             }
 
-            if (this._isPrebuild) {
+            if (this._isPrebuild || typeof templateSrc !== 'function') {
                 template = this._htmlTemplatesBySlot = {
                     renderToString() {
                         return templateSrc;
                     }
                 };
             } else {
-                // In order to compile the HTML for the slot into a Marko template, we need to provide a faux
-                // template path. The path doesn't really matter unless the compiled template needs to import
-                // external tags or templates.
-                var templatePath = nodePath.resolve(__dirname, '..', generateTempFilename(slotName));
-                template = marko.load(templatePath, templateSrc, { preserveWhitespace: true, writeToDisk: false });
-                // Cache the loaded template:
-                this._htmlTemplatesBySlot[slotName] = template;
-
-                // The Marko template compiled to JS and required. Let's delete it out of the require cache
-                // to avoid a memory leak
-                delete require.cache[templatePath + '.js'];
+                template = this._htmlTemplatesBySlot[slotName] = {
+                    renderToString: templateSrc
+                };
             }
         }
 
