@@ -30,6 +30,7 @@ const LassoPrebuildResult = require('./LassoPrebuildResult');
 const readFileAsync = promisify(fs.readFile);
 const { buildPrebuildName, buildPrebuildFileName } = require('./util/prebuild.js');
 const hashUtil = require('./util/hash');
+const stringifyAttrs = require('./util/stringify-attrs');
 
 /**
 * Cache of prebuilds by path. If there are multiple slots for the same
@@ -75,24 +76,6 @@ const resourceHandlersByType = {
 
 function isExternalUrl(path) {
     return urlRegExp.test(path);
-}
-
-function stringifyAttributes (obj) {
-    var str = '';
-    for (var key in obj) {
-        var val = obj[key];
-        if (val === false || val == null) {
-            continue;
-        }
-
-        str += ' ' + key;
-
-        if (val !== true) {
-            str += '=' + JSON.stringify(val);
-        }
-    }
-
-    return str;
 }
 
 async function getLassoManifestFromOptions (options, dependencyRegistry) {
@@ -744,11 +727,11 @@ Lasso.prototype = {
     },
 
     getJavaScriptDependencyHtml: function(url, attributes) {
-        return '<script ...data.externalScriptAttrs' + stringifyAttributes(Object.assign({ src: url }, attributes)) + '></script>';
+        return input => `<script${stringifyAttrs(Object.assign({ src: url }, attributes, input.externalScriptAttrs))}></script>`;
     },
 
     getCSSDependencyHtml: function(url, attributes) {
-        return '<link ...data.externalStyleAttrs' + stringifyAttributes(Object.assign({ rel: 'stylesheet', href: url }, attributes)) + '>';
+        return input => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, input.externalScriptAttrs))}>`;
     },
 
     _resolveflags: function(options) {

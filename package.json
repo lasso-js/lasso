@@ -39,7 +39,6 @@
     "lasso-modules-client": "^2.0.5",
     "lasso-package-root": "^1.0.1",
     "lasso-resolve-from": "^1.2.0",
-    "marko": "^4.10.0",
     "mime": "^2.3.1",
     "mkdirp": "^0.5.1",
     "path-browserify": "1.0.0",
