@@ -3,9 +3,8 @@ const LassoPrebuild = require('./LassoPrebuild');
 var EMPTY_OBJECT = {};
 
 function LassoPageResult (options = {}) {
-    const { htmlBySlot, resources, isPrebuild } = options;
+    const { htmlBySlot, resources } = options;
 
-    this._isPrebuild = isPrebuild;
     this.urlsBySlot = {};
     this.urlsByContentType = {};
     this.files = [];
@@ -112,9 +111,9 @@ LassoPageResult.prototype = {
             }
 
             template = this._htmlTemplatesBySlot[slotName] = {
-                renderToString: this._isPrebuild || typeof templateSrc !== 'function'
-                    ? () => templateSrc
-                    : templateSrc
+                renderToString: typeof templateSrc === 'function'
+                    ? templateSrc
+                    : () => templateSrc
             };
         }
 

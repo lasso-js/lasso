@@ -894,7 +894,6 @@ Lasso.prototype = {
         }
 
         lassoPageResult = new LassoPageResult({
-            isPrebuild: true,
             htmlBySlot: build.slots,
             resources: build.assets
         });
