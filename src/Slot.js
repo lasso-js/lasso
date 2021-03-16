@@ -68,7 +68,7 @@ Slot.prototype = {
                         const code = typeof content.code === 'function'
                             ? content.code(input)
                             : content.code;
-                        return `<style${stringifyAttrs(input.inlineScriptAttrs)}>${code}</style>`;
+                        return `<style${stringifyAttrs(input.inlineStyleAttrs)}>${code}</style>`;
                     });
                 }
             } else {

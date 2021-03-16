@@ -111,17 +111,11 @@ LassoPageResult.prototype = {
                 return null;
             }
 
-            if (this._isPrebuild || typeof templateSrc !== 'function') {
-                template = this._htmlTemplatesBySlot = {
-                    renderToString() {
-                        return templateSrc;
-                    }
-                };
-            } else {
-                template = this._htmlTemplatesBySlot[slotName] = {
-                    renderToString: templateSrc
-                };
-            }
+            template = this._htmlTemplatesBySlot[slotName] = {
+                renderToString: this._isPrebuild || typeof templateSrc !== 'function'
+                    ? () => templateSrc
+                    : templateSrc
+            };
         }
 
         return template;

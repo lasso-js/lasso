@@ -731,7 +731,7 @@ Lasso.prototype = {
     },
 
     getCSSDependencyHtml: function(url, attributes) {
-        return input => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, input.externalScriptAttrs))}>`;
+        return input => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, input.externalStyleAttrs))}>`;
     },
 
     _resolveflags: function(options) {
