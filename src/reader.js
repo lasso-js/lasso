@@ -80,9 +80,9 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
                         cacheKey,
                         {
                             lastModified: lastModified,
-                            builder: function (callback) {
+                            builder: function () {
                                 // The read dependency has not been cached
-                                callback(null, createReadStream);
+                                return Promise.resolve(createReadStream);
                             }
                         });
 

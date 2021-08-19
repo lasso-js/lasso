@@ -317,7 +317,7 @@ Dependency.prototype = {
      * it is flattened to single level and shared by multiple lasso instances.
      */
     getReadCacheKey: function() {
-        return undefined;
+        return this.getPropsKey();
     },
 
     getPropsKey: function() {
