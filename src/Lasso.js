@@ -727,11 +727,11 @@ Lasso.prototype = {
     },
 
     getJavaScriptDependencyHtml: function(url, attributes) {
-        return input => `<script${stringifyAttrs(Object.assign({ src: url }, attributes, input.externalScriptAttrs))}></script>`;
+        return data => `<script${stringifyAttrs(Object.assign({ src: url }, attributes, data.externalScriptAttrs))}></script>`;
     },
 
     getCSSDependencyHtml: function(url, attributes) {
-        return input => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, input.externalStyleAttrs))}>`;
+        return data => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, data.externalStyleAttrs))}>`;
     },
 
     _resolveflags: function(options) {

@@ -1,5 +1,33 @@
 var ok = require('assert').ok;
+var toString = require('./util/to-string');
 var stringifyAttrs = require('./util/stringify-attrs');
+var inlineBuilders = {
+    js: (source) => (data) => {
+        const scriptAttrs = data.externalScriptAttrs;
+        const code = toString(source, data);
+        let result = `<script${stringifyAttrs(data.inlineScriptAttrs)}>`;
+
+        if (scriptAttrs) {
+            if (scriptAttrs.async) {
+                result += wrapInDocumentLoaded(code, true);
+            } else if (scriptAttrs.defer) {
+                result += wrapInDocumentLoaded(code);
+            } else {
+                result += code;
+            }
+        } else {
+            result += code;
+        }
+
+        return `${result}</script>`;
+    },
+    css: (source) => (data) => {
+        return `<style${stringifyAttrs(data.inlineStyleAttrs)}>${toString(
+            source,
+            data
+        )}</style>`;
+    }
+};
 
 function Slot(contentType) {
     ok(contentType, 'contentType is required');
@@ -31,45 +59,17 @@ Slot.prototype = {
         });
     },
 
-    wrapInDocumentLoaded: function(code, isAsync) {
-        return '(function() { var run = function() { ' + code + ' }; if (document.readyState ' + (isAsync ? '!== "complete"' : '=== "loading"') + ') { ' + (isAsync ? 'window.addEventListener("load"' : 'document.addEventListener("DOMContentLoaded"') + ', run); } else { run(); } })();';
-    },
-
     buildHtml: function() {
         const output = [];
         let isTemplate = false;
         for (let i = 0, len = this.content.length; i < len; i++) {
             const content = this.content[i];
             if (content.inline) {
-                if (this.contentType === 'js') {
-                    isTemplate = true;
-                    output.push(input => {
-                        const scriptAttrs = input.externalScriptAttrs;
-                        const code = typeof content.code === 'function' ? content.code(input) : content.code;
-                        let result = `<script${stringifyAttrs(input.inlineScriptAttrs)}>`;
+                const builder = inlineBuilders[this.contentType];
 
-                        if (scriptAttrs) {
-                            if (scriptAttrs.async) {
-                                result += this.wrapInDocumentLoaded(code, true);
-                            } else if (scriptAttrs.defer) {
-                                result += this.wrapInDocumentLoaded(code);
-                            } else {
-                                result += code;
-                            }
-                        } else {
-                            result += code;
-                        }
-
-                        return `${result}</script>`;
-                    });
-                } else if (this.contentType === 'css') {
+                if (builder) {
                     isTemplate = true;
-                    output.push(input => {
-                        const code = typeof content.code === 'function'
-                            ? content.code(input)
-                            : content.code;
-                        return `<style${stringifyAttrs(input.inlineStyleAttrs)}>${code}</style>`;
-                    });
+                    output.push(builder(content.code));
                 }
             } else {
                 isTemplate = isTemplate || typeof content.code === 'function';
@@ -78,15 +78,14 @@ Slot.prototype = {
         }
 
         if (isTemplate) {
-            return input => {
+            return data => {
                 let result = '';
                 for (let i = 0; i < output.length; i++) {
                     if (i !== 0) {
                         result += '\n';
                     }
 
-                    const part = output[i];
-                    result += typeof part === 'function' ? part(input) : part;
+                    result += toString(output[i], data);
                 }
 
                 return result;
@@ -96,5 +95,19 @@ Slot.prototype = {
         return output.join('\n');
     }
 };
+
+function wrapInDocumentLoaded(code, isAsync) {
+    return (
+        '(function() { var run = function() { ' +
+        code +
+        ' }; if (document.readyState ' +
+        (isAsync ? '!== "complete"' : '=== "loading"') +
+        ') { ' +
+        (isAsync
+            ? 'window.addEventListener("load"'
+            : 'document.addEventListener("DOMContentLoaded"') +
+        ', run); } else { run(); } })();'
+    );
+}
 
 module.exports = Slot;

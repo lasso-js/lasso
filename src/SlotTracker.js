@@ -1,5 +1,6 @@
 var Slot = require('./Slot');
 var InlinePos = require('./InlinePos');
+var toString = require('./util/to-string');
 
 function SlotTracker() {
     this.slots = {};
@@ -41,15 +42,11 @@ SlotTracker.prototype = {
 
             var html = htmlBySlot[slotName];
             var newHtml = slot.buildHtml();
-            if (html == null) {
-                htmlBySlot[slotName] = newHtml;
-            } else {
-                const isPrevFn = typeof html === 'function';
-                const isNewFn = typeof newHtml === 'function';
-                htmlBySlot[slotName] = isPrevFn || isNewFn
-                    ? input => `${isPrevFn ? html(input) : html}\n${isNewFn ? newHtml(input) : newHtml}`
-                    : `${html}\n${newHtml}`;
-            }
+            htmlBySlot[slotName] =
+                html == null
+                    ? newHtml
+                    : (data) =>
+                        `${toString(html, data)}\n${toString(newHtml, data)}`;
         }
 
         var slotNames = Object.keys(this.slotNames);

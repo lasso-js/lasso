@@ -1,6 +1,6 @@
 var extend = require('raptor-util/extend');
+var toString = require('./util/to-string');
 const LassoPrebuild = require('./LassoPrebuild');
-var EMPTY_OBJECT = {};
 
 function LassoPageResult (options = {}) {
     const { htmlBySlot, resources } = options;
@@ -12,8 +12,6 @@ function LassoPageResult (options = {}) {
     this.infoByAsyncBundleName = {};
     this._htmlBySlot = htmlBySlot || {};
     this.resources = resources || [];
-
-    this._htmlTemplatesBySlot = {};
 
     /**
      * If Lasso is configured to fingerprint inline code for
@@ -95,29 +93,7 @@ LassoPageResult.prototype = {
      * @return {String} The HTML for the slot or an empty string if there is no HTML defined for the slot.
      */
     getHtmlForSlot: function(slotName, data) {
-        var template = this._getSlotTemplate(slotName);
-        if (!template) {
-            return '';
-        }
-        return template.renderToString(data || EMPTY_OBJECT);
-    },
-
-    _getSlotTemplate: function(slotName) {
-        var template = this._htmlTemplatesBySlot[slotName];
-        if (!template) {
-            var templateSrc = this._htmlBySlot[slotName];
-            if (!templateSrc) {
-                return null;
-            }
-
-            template = this._htmlTemplatesBySlot[slotName] = {
-                renderToString: typeof templateSrc === 'function'
-                    ? templateSrc
-                    : () => templateSrc
-            };
-        }
-
-        return template;
+        return toString(this._htmlBySlot[slotName], data);
     },
 
     getHeadHtml: function(data) {
