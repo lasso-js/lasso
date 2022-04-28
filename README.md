@@ -1729,7 +1729,7 @@ __Third-party plugins__
 * [lasso-jsx](https://github.com/lasso-js/lasso-jsx): Compile [JSX](http://facebook.github.io/react/docs/jsx-in-depth.html) files to JavaScript
 * [lasso-less](https://github.com/lasso-js/lasso-less): Compile [Less](http://lesscss.org/) files to CSS
 * [lasso-lodash](https://github.com/lasso-js/lasso-lodash): Compile [Lo-Dash](https://lodash.com/) files to JavaScript
-* [lasso-marko](https://github.com/lasso-js/lasso-require): Compile [Marko template](https://github.com/marko-js/marko) files to JavaScript
+* [lasso-marko](https://github.com/lasso-js/lasso-marko): Compile [Marko template](https://github.com/marko-js/marko) files to JavaScript
 * [lasso-sass](https://github.com/lasso-js/lasso-sass): Compile [Sass](https://github.com/sass/node-sass) files to CSS
 * [lasso-stylus](https://github.com/lasso-js/lasso-stylus): Compile [Stylus](http://learnboost.github.io/stylus/) files to CSS
 * [lasso-clean-css](https://github.com/yomed/lasso-clean-css): Minify CSS files using [clean-css](https://github.com/jakubpawlowicz/clean-css)
