@@ -1,5 +1,3 @@
-require('raptor-polyfill/string/endsWith');
-
 var ok = require('assert').ok;
 var nodePath = require('path');
 var Module = require('module').Module;

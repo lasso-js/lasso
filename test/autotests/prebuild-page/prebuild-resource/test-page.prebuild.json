@@ -1,0 +1,9 @@
+[
+  {
+    "slots": {
+      "body": "<script src=\"/static/test-page/lasso-modules-client$2.0.7/src/index.js\"></script>\n<script src=\"/static/test-page/lasso$3.4.3/test/autotests/prebuild-page/prebuild-resource/ebay.png.js\"></script>\n<script>$_mod.ready();</script>"
+    },
+    "assets": [],
+    "name": "test-page"
+  }
+]

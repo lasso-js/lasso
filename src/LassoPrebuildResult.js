@@ -1,6 +1,4 @@
-const promisify = require('pify');
 const fs = require('fs');
-const writeFileAsync = promisify(fs.writeFile);
 
 /**
 * We may want to store the prebuild in the same directory as the page
@@ -27,7 +25,7 @@ class LassoPrebuildResult {
 
     async write () {
         for (const buildPath in this._buildsByPath) {
-            await writeFileAsync(
+            await fs.promises.writeFile(
                 buildPath,
                 this.serializeBuild(buildPath),
                 'utf8');

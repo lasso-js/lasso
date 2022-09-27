@@ -1,7 +1,4 @@
-const promisify = require('pify');
 const fs = require('fs');
-
-const readFileAsync = promisify(fs.readFile);
 
 module.exports = exports = function(lasso, config) {
     lasso.dependencies.registerJavaScriptType(
@@ -21,7 +18,7 @@ module.exports = exports = function(lasso, config) {
 
             async read (lassoContext) {
                 module.exports.jsCounter++;
-                const src = await readFileAsync(this.path, {encoding: 'utf8'});
+                const src = await fs.promises.readFile(this.path, 'utf8');
                 return src.toUpperCase();
             },
 
@@ -51,7 +48,7 @@ module.exports = exports = function(lasso, config) {
 
             async read (lassoContext) {
                 module.exports.cssCounter++;
-                let src = await readFileAsync(this.path, {encoding: 'utf8'});
+                let src = await fs.promises.readFile(this.path, 'utf8');
                 src = src.split('').reverse().join('');
                 return src;
             },

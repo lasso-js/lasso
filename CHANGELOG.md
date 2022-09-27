@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 4.0.0
+- **BREAKING**: Requires a minimum of node 16
+- Upgrades internal dependencies (biggest user facing change being JS/CSS parsing and minification of newer features).
+
 # 3.4.0
 
 - Switches from esprima to espree to parse JavaScript (supports more modern JavaScript).

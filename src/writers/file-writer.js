@@ -1,15 +1,11 @@
-require('raptor-polyfill/string/endsWith');
-require('raptor-polyfill/string/startsWith');
-
 const MAX_FILE_LENGTH = 255;
 
-const promisify = require('pify');
 var util = require('../util');
 var nodePath = require('path');
 var fs = require('fs');
 var ok = require('assert').ok;
 var logger = require('raptor-logging').logger(module);
-var mkdirp = promisify(require('mkdirp'));
+var mkdirp = require('mkdirp');
 var crypto = require('crypto');
 var raptorAsync = require('raptor-async');
 const Duplex = require('stream').Duplex;

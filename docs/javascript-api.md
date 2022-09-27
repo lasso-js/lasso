@@ -88,14 +88,13 @@ myLasso.lassoResource('path/to/foo.png')
 Example usage passing a buffer:
 
 ```javascript
-const { promisify } = require('util');
+const fs = require('fs');
 const myLasso = require('lasso').getDefaultLasso();
-const readFileAsync = promisify(require('fs').readFile);
 
 const imgPath = nodePath.join(__dirname, 'ebay.png');
 
 ;(async function() {
-  const buffer = await readFileAsync(imgPath);
+  const buffer = await fs.promises.readFile(imgPath);
 
   const result = await lasso.lassoResource(buffer, {
       name: 'test',

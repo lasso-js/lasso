@@ -6,7 +6,7 @@
         "type": "commonjs-remap",
         "from": "/autotest$0/foo",
         "to": "/autotest$0/foo-browser",
-        "fromFile": "/test-dist-compat/autotests/dep-require/remap-browser-override/foo.js"
+        "fromFile": "/test/autotests/dep-require/remap-browser-override/foo.js"
     },
     {
         "type": "commonjs-ready",
@@ -15,7 +15,7 @@
     {
         "type": "commonjs-def",
         "path": "/autotest$0/foo-browser",
-        "file": "/test-dist-compat/autotests/dep-require/remap-browser-override/foo-browser.js",
+        "file": "/test/autotests/dep-require/remap-browser-override/foo-browser.js",
         "inspected": {
             "requires": [],
             "foundGlobals": {},

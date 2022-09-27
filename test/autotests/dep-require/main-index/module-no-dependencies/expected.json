@@ -9,7 +9,7 @@
     {
         "type": "commonjs-def",
         "path": "/autotest$0/foo",
-        "file": "/test-dist-compat/fixtures/dep-require/autotest/module-no-dependencies/foo.js",
+        "file": "/test/fixtures/dep-require/autotest/module-no-dependencies/foo.js",
         "inspected": {
             "requires": [],
             "foundGlobals": {},

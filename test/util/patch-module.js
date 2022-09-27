@@ -1,4 +1,3 @@
-const compatible = require('../../env').compatible;
 const fs = require('fs');
 const nodePath = require('path');
 
@@ -6,10 +5,7 @@ const Module = require('module').Module;
 const oldResolveFilename = Module._resolveFilename;
 
 const rootDir = nodePath.join(__dirname, '../../');
-const lassoDir = compatible
-    ? nodePath.join(rootDir, 'src')
-    : nodePath.join(rootDir, 'dist-compat');
-
+const lassoDir = nodePath.join(rootDir, 'src');
 const lassoInstalledDir = nodePath.join(rootDir, 'node_modules/lasso');
 
 if (fs.existsSync(lassoInstalledDir)) {

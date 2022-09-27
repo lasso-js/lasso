@@ -1,5 +1,4 @@
-const promisify = require('pify');
-const imageSize = promisify(require('image-size'));
+const imageSize = require('util').promisify(require('image-size'));
 const nodePath = require('path');
 
 var IMAGE_SIZE_WHITELIST = {

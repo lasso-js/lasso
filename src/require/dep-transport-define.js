@@ -1,5 +1,3 @@
-require('raptor-polyfill/string/startsWith');
-
 var ok = require('assert').ok;
 var nodePath = require('path');
 var streamToString = require('./util/streamToString');

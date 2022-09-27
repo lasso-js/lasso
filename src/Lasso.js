@@ -1,4 +1,3 @@
-const promisify = require('pify');
 const assert = require('assert');
 var nodePath = require('path');
 var LassoCache = require('./LassoCache');
@@ -27,7 +26,6 @@ var cachingFs = require('./caching-fs');
 var createError = require('raptor-util/createError');
 var resolveFrom = require('resolve-from');
 const LassoPrebuildResult = require('./LassoPrebuildResult');
-const readFileAsync = promisify(fs.readFile);
 const { buildPrebuildName, buildPrebuildFileName } = require('./util/prebuild.js');
 const hashUtil = require('./util/hash');
 const stringifyAttrs = require('./util/stringify-attrs');
@@ -476,7 +474,7 @@ async function doLassoResourceString (theLasso, path, cacheKey, options, lassoCo
 
         if (dataURIEncoding) {
             try {
-                const fileData = await readFileAsync(path, null);
+                const fileData = await fs.promises.readFile(path);
                 const dataUrl = 'data:' + mime.getType(path) + ';' + dataURIEncoding + ',' + fileData.toString(dataURIEncoding);
 
                 return done(null, {

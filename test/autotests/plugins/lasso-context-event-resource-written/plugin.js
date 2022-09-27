@@ -7,8 +7,8 @@ module.exports = exports = function(lasso, config) {
         var context = event.context;
 
         context.on('resourceWritten', event => {
-            const correctSourceFile = event.sourceFile.endsWith('/test-dist-compat/autotests/plugins/lasso-context-event-resource-written/fonts/Aleo-Regular.woff');
-            const correctOutputFile = event.outputFile.endsWith('/test-dist-compat/build/plugins-lasso-context-event-resource-written/plugins-lasso-context-event-resource-written/autotest$0.0.0/fonts/Aleo-Regular.woff');
+            const correctSourceFile = event.sourceFile.endsWith('/test/autotests/plugins/lasso-context-event-resource-written/fonts/Aleo-Regular.woff');
+            const correctOutputFile = event.outputFile.endsWith('/test/build/plugins-lasso-context-event-resource-written/plugins-lasso-context-event-resource-written/autotest$0.0.0/fonts/Aleo-Regular.woff');
 
             events.push({
                 url: event.url,

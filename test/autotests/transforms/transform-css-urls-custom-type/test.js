@@ -1,9 +1,6 @@
-const promisify = require('pify');
 const fs = require('fs');
 const expect = require('chai').expect;
 const path = require('path');
-
-const readFileAsync = promisify(fs.readFile);
 
 exports.getLassoConfig = function() {
     return {
@@ -23,7 +20,7 @@ exports.getLassoConfig = function() {
                         },
 
                         async read (lassoContext) {
-                            const css = await readFileAsync(this.path, {encoding: 'utf8'});
+                            const css = await fs.promises.readFile(this.path, 'utf8');
                             return css;
                         },
 
