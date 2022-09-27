@@ -1,6 +1,7 @@
 var extend = require('raptor-util/extend');
 var toString = require('./util/to-string');
 const LassoPrebuild = require('./LassoPrebuild');
+var EMPTY_OBJECT = {};
 
 function LassoPageResult (options = {}) {
     const { htmlBySlot, resources } = options;
@@ -93,7 +94,7 @@ LassoPageResult.prototype = {
      * @return {String} The HTML for the slot or an empty string if there is no HTML defined for the slot.
      */
     getHtmlForSlot: function(slotName, data) {
-        return toString(this._htmlBySlot[slotName], data);
+        return toString(this._htmlBySlot[slotName], data || EMPTY_OBJECT);
     },
 
     getHeadHtml: function(data) {
