@@ -1,10 +1,8 @@
 'use strict';
 
-const promisify = require('pify');
 const fs = require('fs');
 const nodePath = require('path');
 const expect = require('chai').expect;
-const readFileAsync = promisify(fs.readFile);
 
 exports.check = async function(lasso, helpers) {
     lasso.configure({
@@ -15,7 +13,7 @@ exports.check = async function(lasso, helpers) {
 
     const imgPath = nodePath.join(__dirname, 'ebay.png');
 
-    const buffer = await readFileAsync(imgPath);
+    const buffer = await fs.promises.readFile(imgPath);
     const result = await lasso.lassoResource(buffer, {
         extension: 'png'
     });

@@ -1,6 +1,6 @@
 var path = require('path');
 var espree = require('espree');
-var codeFrame = require('babel-code-frame');
+var codeFrame = require('@babel/code-frame').default;
 var estraverse = require('estraverse');
 var ok = require('assert').ok;
 var cwd = process.cwd();

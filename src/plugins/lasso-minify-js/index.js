@@ -1,5 +1,5 @@
 var Terser = require('terser');
-var codeFrame = require('babel-code-frame');
+var codeFrame = require('@babel/code-frame');
 var hasOwn = Object.prototype.hasOwnProperty;
 
 function isInline(lassoContext) {

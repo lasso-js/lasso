@@ -9,7 +9,7 @@
     {
         "type": "commonjs-def",
         "path": "/virtual-module/something.foo",
-        "file": "/test-dist-compat/autotests/dep-require/virtual-module/something.foo",
+        "file": "/test/autotests/dep-require/virtual-module/something.foo",
         "inspected": {
             "requires": [],
             "foundGlobals": {},

@@ -1,6 +1,5 @@
 const nodePath = require('path');
-const promisify = require('pify');
-const glob = promisify(require('glob'));
+const glob = require('util').promisify(require('glob'));
 
 const globRegExp = /[*?+{}]/;
 

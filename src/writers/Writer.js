@@ -1,5 +1,3 @@
-require('raptor-polyfill/string/startsWith');
-
 var nodePath = require('path');
 var fileSep = nodePath.sep;
 var logger = require('raptor-logging').logger(module);

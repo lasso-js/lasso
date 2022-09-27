@@ -1,10 +1,9 @@
 'use strict';
 require('./util/test-init');
 
-const promisify = require('pify');
 const nodePath = require('path');
 require('chai').config.includeStack = true;
-const glob = promisify(require('glob'));
+const glob = require('util').promisify(require('glob'));
 const lasso = require('lasso');
 const expect = require('chai').expect;
 

@@ -1,12 +1,7 @@
-const promisify = require('pify');
-
 var nodePath = require('path');
 var fs = require('fs');
 
-const readFileAsync = promisify(fs.readFile);
-
 var lassoModulesClientMainPath = require.resolve('lasso-modules-client');
-var FS_READ_OPTIONS = {encoding: 'utf8'};
 var modGlobalVarRegex = /\$_mod/g;
 
 exports.create = function(config, lasso) {
@@ -18,7 +13,7 @@ exports.create = function(config, lasso) {
         },
 
         async read (lassoContext) {
-            let contents = await readFileAsync(lassoModulesClientMainPath, FS_READ_OPTIONS);
+            let contents = await fs.promises.readFile(lassoModulesClientMainPath, 'utf8');
 
             if (modulesRuntimeGlobal) {
                 contents = contents.replace(modGlobalVarRegex, modulesRuntimeGlobal);

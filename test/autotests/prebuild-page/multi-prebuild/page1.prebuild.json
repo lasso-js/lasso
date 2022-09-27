@@ -1,0 +1,9 @@
+[
+  {
+    "slots": {
+      "body": "<script src=\"/static/page1/lasso$3.4.3/test/autotests/prebuild-page/multi-prebuild/b.js\"></script>"
+    },
+    "assets": [],
+    "name": "page1"
+  }
+]

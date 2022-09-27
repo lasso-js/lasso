@@ -1,13 +1,9 @@
-const promisify = require('pify');
-
 var nodePath = require('path');
 
 var urlReader = require('../util/url-reader');
 var urlRegExp = /^(http:|https:)?\/\//;
 
 var fs = require('fs');
-
-const readFileAsync = promisify(fs.readFile);
 
 function maskDefine(code) {
     return '(function(define) { /* mask define */ ' + code + '\n}()); // END: mask define wrapper';
@@ -59,7 +55,7 @@ module.exports = {
 
         // if mask-define, use callback to wrap the resource
         if (this['mask-define'] === true) {
-            const code = await readFileAsync(this.path, {encoding: 'utf8'});
+            const code = await fs.promises.readFile(this.path, 'utf8');
             return maskDefine(code);
         // otherwise return a stream
         } else {

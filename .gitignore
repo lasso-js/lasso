@@ -15,6 +15,4 @@ coverage
 .cache
 ~*
 .nyc_output/
-dist-compat/
-test-dist-compat/
 .vscode

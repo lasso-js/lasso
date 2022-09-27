@@ -15,6 +15,5 @@ coverage
 /test
 *.marko.js
 *.dust.js
-test-dist-compat/
 .nyc_output/
 coverage/

@@ -1,7 +1,7 @@
 [
   {
     "slots": {
-      "body": "<script src=\"/static/test-page-1/lasso$3.0.0-beta.10/test-dist-compat/autotests/prebuild-page/valid-prebuild/a.js\"></script>"
+      "body": "<script src=\"/static/test-page-1/lasso$3.0.0-beta.10/test/autotests/prebuild-page/valid-prebuild/a.js\"></script>"
     },
     "assets": [],
     "name": "test-page-1"

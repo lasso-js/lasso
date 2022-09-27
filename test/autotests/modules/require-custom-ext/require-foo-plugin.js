@@ -1,13 +1,11 @@
-const promisify = require('pify');
 const fs = require('fs');
-const readFileAsync = promisify(fs.readFile);
 
 module.exports = exports = function(lasso, config) {
     lasso.dependencies.registerRequireExtension(
         'foo',
         {
             async read (path, lassoContext) {
-                let src = await readFileAsync(path, {encoding: 'utf8'});
+                let src = await fs.promises.readFile(path, 'utf8');
                 src = src.replace(/FOO/g, 'BAR');
                 return src;
             },

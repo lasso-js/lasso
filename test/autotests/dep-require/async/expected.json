@@ -16,7 +16,7 @@
         {
             "type": "require",
             "path": "lasso-loader",
-            "from": "/test-dist-compat/autotests/dep-require/async",
+            "from": "/test/autotests/dep-require/async",
             "resolved": {
                 "path": "/node_modules/lasso-loader/src/index.js",
                 "meta": [
@@ -32,7 +32,7 @@
         {
             "type": "commonjs-def",
             "path": "/autotest$0/foo",
-            "file": "/test-dist-compat/autotests/dep-require/async/foo.js",
+            "file": "/test/autotests/dep-require/async/foo.js",
             "inspected": {
                 "requires": [
                     {
@@ -73,7 +73,7 @@
                                     72
                                 ],
                                 "resolved": {
-                                    "path": "/test-dist-compat/autotests/dep-require/async/bar.js",
+                                    "path": "/test/autotests/dep-require/async/bar.js",
                                     "meta": [],
                                     "clientPath": "/autotest$0/bar"
                                 }
@@ -129,7 +129,7 @@
                             72
                         ],
                         "resolved": {
-                            "path": "/test-dist-compat/autotests/dep-require/async/bar.js",
+                            "path": "/test/autotests/dep-require/async/bar.js",
                             "meta": [],
                             "clientPath": "/autotest$0/bar"
                         }
@@ -150,7 +150,7 @@
                                 72
                             ],
                             "resolved": {
-                                "path": "/test-dist-compat/autotests/dep-require/async/bar.js",
+                                "path": "/test/autotests/dep-require/async/bar.js",
                                 "meta": [],
                                 "clientPath": "/autotest$0/bar"
                             }
@@ -182,6 +182,6 @@
             }
         ]
     },
-    "dirname": "/test-dist-compat/autotests/dep-require/async",
-    "filename": "/test-dist-compat/autotests/dep-require/async/foo.js"
+    "dirname": "/test/autotests/dep-require/async",
+    "filename": "/test/autotests/dep-require/async/foo.js"
 }

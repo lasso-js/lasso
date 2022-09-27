@@ -1818,9 +1818,7 @@ Each of these dependencies is described in the next few sections. However, it is
 If you would like to introduce your own custom dependency types then you will need to have your plugin register a dependency handler. This is illustrated in the following sample code:
 
 ```javascript
-const { promisify } = require('util');
 const fs = require('fs');
-const readFileAsync = promisify(fs.readFile);
 
 module.exports = function myPlugin(lasso, config) {
     lasso.dependencies.registerJavaScriptType(
@@ -1843,7 +1841,7 @@ module.exports = function myPlugin(lasso, config) {
 
             // Read the resource:
             async read (context) {
-                const src = await readFileAsync(this.path, {encoding: 'utf8'});
+                const src = await fs.promises.readFile(this.path, {encoding: 'utf8'});
                 return myCompiler.compile(src);
                 // NOTE: A stream can also be returned
             },

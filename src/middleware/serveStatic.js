@@ -1,6 +1,3 @@
-require('raptor-polyfill/string/startsWith');
-require('raptor-polyfill/string/endsWith');
-
 var lasso = require('../');
 var send = require('send');
 var extend = require('raptor-util/extend');
