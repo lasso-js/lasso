@@ -1,12 +1,12 @@
-var EventEmitter = require('events').EventEmitter;
-var lastModified = require('./last-modified');
-var cachingFs = require('./caching-fs');
-var DeferredReadable = require('./util/DeferredReadable');
-var manifestLoader = require('./manifest-loader');
-var LassoManifest = require('./LassoManifest');
-var util = require('./util');
-var getClientPath = require('lasso-modules-client/transport').getClientPath;
-var resolve = require('./resolve');
+const EventEmitter = require('events').EventEmitter;
+const lastModified = require('./last-modified');
+const cachingFs = require('./caching-fs');
+const DeferredReadable = require('./util/DeferredReadable');
+const manifestLoader = require('./manifest-loader');
+const LassoManifest = require('./LassoManifest');
+const util = require('./util');
+const getClientPath = require('lasso-modules-client/transport').getClientPath;
+const resolve = require('./resolve');
 
 class LassoContext extends EventEmitter {
     constructor() {
@@ -17,7 +17,7 @@ class LassoContext extends EventEmitter {
         this._phase = null;
         this.cachingFs = cachingFs;
 
-        var nextId = 0;
+        let nextId = 0;
 
         this.uniqueId = function() {
             return nextId++;
@@ -71,7 +71,7 @@ class LassoContext extends EventEmitter {
     }
 
     readPackageFile(path) {
-        var rawManifest = manifestLoader.load(path);
+        const rawManifest = manifestLoader.load(path);
         return new LassoManifest({
             manifest: rawManifest,
             dependencyRegistry: this.dependencyRegistry

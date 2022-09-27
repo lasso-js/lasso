@@ -1,12 +1,12 @@
-var transport = require('lasso-modules-client/transport');
+const transport = require('lasso-modules-client/transport');
 
 exports.create = function(config, lasso) {
     return {
         properties: {
-            'parentPath': 'string',
-            'childName': 'string',
-            'childVersion': 'string',
-            'parentDir': 'string'
+            parentPath: 'string',
+            childName: 'string',
+            childVersion: 'string',
+            parentDir: 'string'
         },
 
         async init(lassoContext) {},

@@ -1,4 +1,4 @@
-var nextId = 0;
+let nextId = 0;
 
 function BundleSetConfig(name) {
     this._id = nextId++;

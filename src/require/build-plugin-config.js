@@ -1,19 +1,19 @@
-var ok = require('assert').ok;
-var Transforms = require('./util/Transforms');
-var extend = require('raptor-util').extend;
-var defaultGlobals = {
-    'jquery': ['$', 'jQuery']
+const ok = require('assert').ok;
+const Transforms = require('./util/Transforms');
+const extend = require('raptor-util').extend;
+const defaultGlobals = {
+    jquery: ['$', 'jQuery']
 };
-var lassoModulesClientTransport = require('lasso-modules-client/transport');
-var getClientPath = lassoModulesClientTransport.getClientPath;
-var lassoResolveFrom = require('lasso-resolve-from');
+const lassoModulesClientTransport = require('lasso-modules-client/transport');
+const getClientPath = lassoModulesClientTransport.getClientPath;
+const lassoResolveFrom = require('lasso-resolve-from');
 
 function resolveGlobals(config) {
-    var globals = {};
+    const globals = {};
 
     Object.keys(defaultGlobals).forEach(function(moduleName) {
-        var varNames = defaultGlobals[moduleName];
-        var resolved = lassoResolveFrom(config.rootDir, moduleName);
+        let varNames = defaultGlobals[moduleName];
+        const resolved = lassoResolveFrom(config.rootDir, moduleName);
 
         if (resolved) {
             if (!Array.isArray(varNames)) {
@@ -31,7 +31,7 @@ function resolveGlobals(config) {
 }
 
 function buildPluginConfig(userConfig, defaultProjectRoot) {
-    var config = userConfig ? extend({}, userConfig) : {};
+    const config = userConfig ? extend({}, userConfig) : {};
 
     config.rootDir = config.rootDir || defaultProjectRoot || process.cwd();
 
@@ -67,7 +67,7 @@ function buildPluginConfig(userConfig, defaultProjectRoot) {
         config.modulesRuntimeGlobal = '';
     }
 
-    var prefix;
+    let prefix;
     if ((prefix = config.unbundledTargetPrefix)) {
         // Build a friendly looking prefix which is used to create
         // nested directories when module output files are not bundled.

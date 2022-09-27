@@ -1,7 +1,7 @@
 module.exports = function stringifyAttributes (obj) {
-    var str = '';
-    for (var key in obj) {
-        var val = obj[key];
+    let str = '';
+    for (const key in obj) {
+        const val = obj[key];
         if (val === false || val == null) {
             continue;
         }

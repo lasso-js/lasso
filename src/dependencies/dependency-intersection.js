@@ -1,7 +1,8 @@
-var dependencyWalker = require('../dependency-walker');
-var DependencyList = require('../DependencyList');
+const dependencyWalker = require('../dependency-walker');
+const DependencyList = require('../DependencyList');
 
-var thresholdRegex = /^(\d+)([%]*)$/;
+const thresholdRegex = /^(\d+)([%]*)$/;
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function onDependency (tracking, strictIntersection, firstSet, i) {
     return function (dependency, context) {
@@ -9,12 +10,12 @@ function onDependency (tracking, strictIntersection, firstSet, i) {
             return;
         }
 
-        var key = dependency.getKey();
+        const key = dependency.getKey();
 
-        var info = tracking[key];
+        const info = tracking[key];
         if (info === undefined) {
             tracking[key] = {
-                dependency: dependency,
+                dependency,
                 count: 1
             };
         } else {
@@ -53,8 +54,8 @@ module.exports = {
 
         if (this.threshold) {
             if (typeof this.threshold === 'string') {
-                var match = thresholdRegex.exec(this.threshold);
-                var units;
+                const match = thresholdRegex.exec(this.threshold);
+                let units;
 
                 if (!match || ((units = match[2]) && (units !== '%'))) {
                     throw new Error('Invalid threshold: ' + this.threshold);
@@ -62,7 +63,7 @@ module.exports = {
 
                 this.threshold = {
                     value: parseInt(match[1], 10),
-                    units: units
+                    units
                 };
             } else {
                 this.threshold = {
@@ -77,14 +78,14 @@ module.exports = {
     },
 
     async getDependencies (lassoContext) {
-        var tracking = {};
-        var flags = lassoContext.flags;
-        var firstSet = [];
+        const tracking = {};
+        const flags = lassoContext.flags;
+        const firstSet = [];
 
-        let dependencies = await this.dependencies.normalize();
+        const dependencies = await this.dependencies.normalize();
 
-        var numDependencies = dependencies.length;
-        var thresholdValue;
+        const numDependencies = dependencies.length;
+        let thresholdValue;
         if (this.threshold) {
             thresholdValue = this.threshold.value;
             if (this.threshold.units === '%') {
@@ -99,7 +100,7 @@ module.exports = {
             thresholdValue = numDependencies;
         }
 
-        var strictIntersection = (thresholdValue >= numDependencies);
+        const strictIntersection = (thresholdValue >= numDependencies);
 
         for (const [i, dependency] of dependencies.entries()) {
             // HACK: The built-in `dep-require` dependency type
@@ -115,13 +116,13 @@ module.exports = {
             //
             // We reset the `phaseData` property to remove this
             // cache before we walk each starting dependency.
-            let oldPhaseData = lassoContext.phaseData;
+            const oldPhaseData = lassoContext.phaseData;
             lassoContext.phaseData = {};
 
             await dependencyWalker.walk({
-                lassoContext: lassoContext,
-                dependency: dependency,
-                flags: flags,
+                lassoContext,
+                dependency,
+                flags,
                 on: {
                     dependency: onDependency(tracking, strictIntersection, firstSet, i)
                 }
@@ -130,7 +131,7 @@ module.exports = {
             lassoContext.phaseData = oldPhaseData;
         }
 
-        var intersection = [];
+        const intersection = [];
 
         function checkDependency(info) {
             if (info.count >= thresholdValue) {
@@ -140,14 +141,14 @@ module.exports = {
 
         if (strictIntersection) {
             // strict intersection
-            for (var i = 0, len = firstSet.length; i < len; i++) {
-                var dependency = firstSet[i];
+            for (let i = 0, len = firstSet.length; i < len; i++) {
+                const dependency = firstSet[i];
                 checkDependency(tracking[dependency.getKey()]);
             }
         } else {
             // not a strict intersection so we need to check counts for all dependencies
-            for (var key in tracking) {
-                if (tracking.hasOwnProperty(key)) {
+            for (const key in tracking) {
+                if (hasOwn.call(tracking, key)) {
                     checkDependency(tracking[key]);
                 }
             }

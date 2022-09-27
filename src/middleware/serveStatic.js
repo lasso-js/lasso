@@ -1,7 +1,6 @@
-var lasso = require('../');
-var send = require('send');
-var extend = require('raptor-util/extend');
-var url = require('url');
+const lasso = require('../');
+const send = require('send');
+const extend = require('raptor-util/extend');
 
 function notFound() {
     this.error(404);
@@ -10,12 +9,12 @@ function notFound() {
 module.exports = function(options) {
     options = options || {};
 
-    var myLasso = options.lasso || lasso.getDefaultLasso();
-    var config = myLasso.config;
+    const myLasso = options.lasso || lasso.getDefaultLasso();
+    const config = myLasso.config;
 
-    var outputDir = config.outputDir;
-    var urlPrefix = config.urlPrefix;
-    var routePrefix = url.parse(urlPrefix).pathname;
+    const outputDir = config.outputDir;
+    const urlPrefix = config.urlPrefix;
+    let routePrefix = new URL(urlPrefix, 'file:').pathname;
     if (!routePrefix.endsWith('/')) {
         routePrefix += '/';
     }
@@ -26,7 +25,7 @@ module.exports = function(options) {
         };
     }
 
-    var sendOptions = {
+    const sendOptions = {
         fallthrough: false,
         redirect: false,
         index: false
@@ -39,15 +38,15 @@ module.exports = function(options) {
     sendOptions.root = outputDir;
 
     return function(req, res, next) {
-        var path = req.path;
+        const path = req.path;
         if (!path.startsWith(routePrefix) || (req.method !== 'GET' && req.method !== 'HEAD')) {
             return next();
         }
 
-        var filePath = path.substring(routePrefix.length);
+        const filePath = path.substring(routePrefix.length);
 
         // create send stream
-        var stream = send(req, filePath, sendOptions);
+        const stream = send(req, filePath, sendOptions);
 
         // add directory handler
         stream.on('directory', notFound);

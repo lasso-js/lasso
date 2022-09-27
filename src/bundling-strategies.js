@@ -1,17 +1,17 @@
-var logger = require('raptor-logging').logger(module);
+const logger = require('raptor-logging').logger(module);
 
 module.exports = {
-    'default': function(options, config, bundleMappings, pageBundles) {
-        var pageName = options.name || options.pageName;
-        var pageBundleName = pageName;
-        var asyncPageBundleName = pageBundleName + '-async';
+    default: function(options, config, bundleMappings, pageBundles) {
+        const pageName = options.name || options.pageName;
+        const pageBundleName = pageName;
+        const asyncPageBundleName = pageBundleName + '-async';
 
         return {
             getBundleForSyncDependency: function(dependency, walkContext, debugTree) {
-                var lassoContext = walkContext.lassoContext;
+                const lassoContext = walkContext.lassoContext;
 
-                var infoEnabled = logger.isInfoEnabled();
-                var bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
+                const infoEnabled = logger.isInfoEnabled();
+                let bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
 
                 if (bundleMapping && bundleMapping.bundle.isAsyncOnly()) {
                     if (infoEnabled) {
@@ -24,7 +24,7 @@ module.exports = {
                     bundleMapping = null;
                 }
 
-                var bundle;
+                let bundle;
 
                 // Has this dependency been mapped into a bundle and is the bundle willing to accept
                 // non-asynchronous dependencies?
@@ -60,9 +60,9 @@ module.exports = {
             },
 
             getBundleForAsyncDependency: function(dependency, walkContext, debugTree) {
-                var lassoContext = walkContext.lassoContext;
+                const lassoContext = walkContext.lassoContext;
 
-                var bundle = bundleMappings.getBundleForDependency(dependency);
+                let bundle = bundleMappings.getBundleForDependency(dependency);
                 if (bundle) {
                     if (pageBundles.lookupSyncBundle(bundle)) {
                         // This dependency has already been bundled with the page synchronously
@@ -90,21 +90,21 @@ module.exports = {
         };
     },
 
-    'lean': function(options, config, bundleMappings, pageBundles) {
-        var BundleMappings = require('./BundleMappings');
-        var pageName = options.name || options.pageName;
-        var pageBundleName = pageName;
-        var asyncPageBundleName = pageBundleName + '-async';
-        var pageBundleMappings = new BundleMappings(config, pageName);
+    lean: function(options, config, bundleMappings, pageBundles) {
+        const BundleMappings = require('./BundleMappings');
+        const pageName = options.name || options.pageName;
+        const pageBundleName = pageName;
+        const asyncPageBundleName = pageBundleName + '-async';
+        const pageBundleMappings = new BundleMappings(config, pageName);
 
         return {
             getBundleForSyncDependency: function(dependency, walkContext, debugTree) {
-                var lassoContext = walkContext.lassoContext;
+                const lassoContext = walkContext.lassoContext;
 
                 // find the bundle that was configured for dependency
-                var bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
+                const bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
 
-                var bundle;
+                let bundle;
 
                 if (bundleMapping && !bundleMapping.bundle.isAsyncOnly()) {
                     bundle = pageBundleMappings.addDependencyToPageBundle(
@@ -130,8 +130,8 @@ module.exports = {
             },
 
             getBundleForAsyncDependency: function(dependency, walkContext, debugTree) {
-                var lassoContext = walkContext.lassoContext;
-                var bundle = pageBundleMappings.getBundleForDependency(dependency);
+                const lassoContext = walkContext.lassoContext;
+                let bundle = pageBundleMappings.getBundleForDependency(dependency);
                 if (bundle) {
                     if (pageBundles.lookupSyncBundle(bundle)) {
                         // This dependency has already been bundled with the page synchronously
@@ -142,10 +142,10 @@ module.exports = {
                     }
                 } else {
                     // this dependency has not been bundled yet
-                    var bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
+                    const bundleMapping = bundleMappings.getBundleMappingForDependency(dependency);
                     if (bundleMapping) {
                         // this dependency has been mapped into a bundle
-                        var bundleName = bundleMapping.bundle.isAsyncOnly() ? bundleMapping.bundle.getName() : bundleMapping.bundle.getName() + '-async';
+                        const bundleName = bundleMapping.bundle.isAsyncOnly() ? bundleMapping.bundle.getName() : bundleMapping.bundle.getName() + '-async';
                         bundle = pageBundleMappings.addDependencyToPageBundle(
                             dependency,
                             bundleName,

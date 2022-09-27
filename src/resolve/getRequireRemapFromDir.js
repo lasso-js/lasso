@@ -1,11 +1,11 @@
-var nodePath = require('path');
+const nodePath = require('path');
 
 module.exports = function(fromDir, lassoContext) {
-    var lassoJsonPath = nodePath.join(fromDir, 'browser.json');
-    var remap;
+    const lassoJsonPath = nodePath.join(fromDir, 'browser.json');
+    let remap;
 
     if (lassoContext.cachingFs.existsSync(lassoJsonPath)) {
-        var lassoPackage = lassoContext.readPackageFile(lassoJsonPath);
+        const lassoPackage = lassoContext.readPackageFile(lassoJsonPath);
         remap = lassoPackage.getRequireRemap(lassoContext);
     }
 

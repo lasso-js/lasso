@@ -1,4 +1,4 @@
-var Writer = require('./Writer');
+const Writer = require('./Writer');
 
 function createWriter(writerImpl) {
     return new Writer(writerImpl);

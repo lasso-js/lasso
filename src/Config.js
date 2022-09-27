@@ -1,24 +1,24 @@
-var extend = require('raptor-util').extend;
-var BundleSetConfig = require('./BundleSetConfig');
-var flags = require('./flags');
-var ok = require('assert').ok;
-var lassoRequirePlugin = require('./require');
-var lassoImagePlugin = require('./plugins/lasso-image');
-var crypto = require('crypto');
+const extend = require('raptor-util').extend;
+const BundleSetConfig = require('./BundleSetConfig');
+const flags = require('./flags');
+const ok = require('assert').ok;
+const lassoRequirePlugin = require('./require');
+const lassoImagePlugin = require('./plugins/lasso-image');
+const crypto = require('crypto');
 
 function createFilterFromContentType(contentType) {
-    var contentTypeMap = {};
+    const contentTypeMap = {};
 
     if (Array.isArray(contentType)) {
         // Include this array if the actual content type is in the array of supported content types
-        var contentTypeArray = contentType;
+        const contentTypeArray = contentType;
         if (contentTypeArray.length === 0) {
             return async function (lassoContext) {
                 return true;
             };
         }
 
-        for (var i = 0, len = contentTypeArray.length; i < len; i++) {
+        for (let i = 0, len = contentTypeArray.length; i < len; i++) {
             contentTypeMap[contentTypeArray[i]] = true;
         }
     } else {
@@ -26,29 +26,29 @@ function createFilterFromContentType(contentType) {
     }
 
     return async function(lassoContext) {
-        var contentType = lassoContext.contentType;
+        const contentType = lassoContext.contentType;
         return contentTypeMap[contentType] === true;
     };
 }
 
-var MAX_FINGERPRINT_DEPTH = 4;
+const MAX_FINGERPRINT_DEPTH = 4;
 
 function calculateConfigFingerprint(config) {
     // Instead of trying to be clever we we just going to hard code
     // handling of each support configuration for now...
-    var hash = crypto.createHash('sha1');
+    const hash = crypto.createHash('sha1');
 
     function hashObject(o, depth) {
         if (depth > MAX_FINGERPRINT_DEPTH) {
             return;
         }
 
-        var keys = Object.keys(o);
+        const keys = Object.keys(o);
         keys.sort();
 
-        for (var i = 0; i < keys.length; i++) {
-            var k = keys[i];
-            var v = o[k];
+        for (let i = 0; i < keys.length; i++) {
+            const k = keys[i];
+            const v = o[k];
             update(k, depth + 1);
             update(v, depth + 1);
         }
@@ -59,9 +59,9 @@ function calculateConfigFingerprint(config) {
             return;
         }
 
-        var len = o.length;
+        const len = o.length;
 
-        for (var i = 0; i < len; i++) {
+        for (let i = 0; i < len; i++) {
             update(o[i], depth + 1);
         }
     }
@@ -170,8 +170,8 @@ Config.prototype = {
 
     addPlugin: function(func, config) {
         // Don't add if this is a duplicate plugin
-        for (var i = 0; i < this._plugins.length; i++) {
-            var curPlugin = this._plugins[i];
+        for (let i = 0; i < this._plugins.length; i++) {
+            const curPlugin = this._plugins[i];
             if (curPlugin.func === func && curPlugin.config === config) {
                 return;
             }
@@ -179,7 +179,7 @@ Config.prototype = {
 
         ok(typeof func === 'function', 'Plugin should be a function. Actual: ' + func);
         this._plugins.push({
-            func: func,
+            func,
             config: config || {}
         });
     },
@@ -196,7 +196,7 @@ Config.prototype = {
 
         if (typeof transform === 'function') {
             transform = {
-                transform: transform
+                transform
             };
         }
 
@@ -270,7 +270,7 @@ Config.prototype = {
     },
 
     getPageBundleSetConfig: function(pageName) {
-        var bundleSetConfig = this.getBundleSetConfig('default');
+        let bundleSetConfig = this.getBundleSetConfig('default');
 
         if (!bundleSetConfig) {
             bundleSetConfig = this.addBundleSetConfig(new BundleSetConfig('default'));
@@ -317,7 +317,7 @@ Config.prototype = {
 
     setProjectRoot: function(projectRoot) {
         if (projectRoot != null) {
-            var len = projectRoot.length;
+            const len = projectRoot.length;
             // chop off trailing slash so that our path operations are consistent
             if (projectRoot.charAt(len - 1) === '/' || projectRoot.charAt(len - 1) === '\\') {
                 projectRoot = projectRoot.substring(0, len - 1);

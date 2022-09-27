@@ -1,5 +1,5 @@
-var Dependency = require('./Dependency');
-var DependencyRegistry = require('./DependencyRegistry');
+const Dependency = require('./Dependency');
+const DependencyRegistry = require('./DependencyRegistry');
 
 exports.Dependency = Dependency;
 exports.DependencyRegistry = DependencyRegistry;

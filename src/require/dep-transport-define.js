@@ -1,8 +1,8 @@
-var ok = require('assert').ok;
-var nodePath = require('path');
-var streamToString = require('./util/streamToString');
-var transport = require('lasso-modules-client/transport');
-var StringTransformer = require('./util/StringTransformer');
+const ok = require('assert').ok;
+const nodePath = require('path');
+const streamToString = require('./util/streamToString');
+const transport = require('lasso-modules-client/transport');
+const StringTransformer = require('./util/StringTransformer');
 
 function shouldPreresolvePath(path) {
     return true;
@@ -33,7 +33,7 @@ function preresolvePath(require, stringTransformer) {
         return;
     }
 
-    var resolved = require.resolved;
+    const resolved = require.resolved;
 
     if (shouldPreresolvePath(require.path)) {
         stringTransformer.comment(require.argRange);
@@ -49,7 +49,7 @@ function transformRequires(code, inspected, asyncBlocks, lassoContext) {
     //
     // In addition, we want to *maintain line numbers* for the transformed code to be nice!
 
-    var stringTransformer = new StringTransformer();
+    const stringTransformer = new StringTransformer();
 
     function transformRequire(require) {
         ok(require.resolved, '"require.resolved" expected');
@@ -62,7 +62,7 @@ function transformRequires(code, inspected, asyncBlocks, lassoContext) {
             return;
         }
 
-        var resolved = require.resolved;
+        const resolved = require.resolved;
 
         if (!resolved.isDir && (resolved.type || !lassoContext.dependencyRegistry.getRequireHandler(resolved.path, lassoContext))) {
             if (require.range) {
@@ -75,15 +75,15 @@ function transformRequires(code, inspected, asyncBlocks, lassoContext) {
     }
 
     function transformAsyncCall(asyncBlock) {
-        var name = asyncBlock.name;
+        const name = asyncBlock.name;
 
-        var firstArgRange = asyncBlock.firstArgRange;
+        const firstArgRange = asyncBlock.firstArgRange;
 
         if (asyncBlock.packageIdProvided) {
             // If `name` is not provided then it means that there was no
             // function body so there is no auto-generated async meta name.
             if (name) {
-                var packageIdExpression = code.substring(asyncBlock.firstArgRange[0], asyncBlock.firstArgRange[1]);
+                const packageIdExpression = code.substring(asyncBlock.firstArgRange[0], asyncBlock.firstArgRange[1]);
 
                 // This path is taken when when async is called no arguments:
                 // For example:
@@ -121,15 +121,15 @@ function transformRequires(code, inspected, asyncBlocks, lassoContext) {
 exports.create = function(config, lasso) {
     return {
         properties: {
-            'path': 'string',
-            'file': 'file',
-            'globals': 'string',
-            'wait': 'boolean',
-            'object': 'boolean',
-            'inspected': 'object',
-            'requireCreateReadStream': 'function',
-            'requireLastModified': 'function',
-            'asyncBlocks': 'array'
+            path: 'string',
+            file: 'file',
+            globals: 'string',
+            wait: 'boolean',
+            object: 'boolean',
+            inspected: 'object',
+            requireCreateReadStream: 'function',
+            requireLastModified: 'function',
+            asyncBlocks: 'array'
         },
 
         getDir: function() {
@@ -141,19 +141,19 @@ exports.create = function(config, lasso) {
         },
 
         read: function(lassoContext) {
-            var requireCreateReadStream = this.requireCreateReadStream;
-            var requireInspected = this.inspected;
-            var asyncBlocks = this.asyncBlocks;
-            var isObject = this.object;
-            var globals = this.globals;
-            var path = this.path;
-            var additionalVars = this._additionalVars;
+            const requireCreateReadStream = this.requireCreateReadStream;
+            const requireInspected = this.inspected;
+            const asyncBlocks = this.asyncBlocks;
+            const isObject = this.object;
+            const globals = this.globals;
+            const path = this.path;
+            const additionalVars = this._additionalVars;
 
             ok(requireCreateReadStream, '"requireCreateReadStream" is required');
             ok(requireInspected, '"requireInspected" is required');
             ok(path, '"path" is required');
 
-            var stream = requireCreateReadStream();
+            const stream = requireCreateReadStream();
 
             return streamToString(stream)
                 .then((code) => {
@@ -163,14 +163,14 @@ exports.create = function(config, lasso) {
                             modulesRuntimeGlobal: config.modulesRuntimeGlobal
                         });
                     } else {
-                        var transformedCode = transformRequires(code, requireInspected, asyncBlocks, lassoContext);
+                        const transformedCode = transformRequires(code, requireInspected, asyncBlocks, lassoContext);
 
-                        var defCode = transport.codeGenerators.define(
+                        const defCode = transport.codeGenerators.define(
                             path,
                             transformedCode,
                             {
-                                additionalVars: additionalVars,
-                                globals: globals,
+                                additionalVars,
+                                globals,
                                 modulesRuntimeGlobal: config.modulesRuntimeGlobal
                             });
 

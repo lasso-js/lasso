@@ -1,5 +1,5 @@
-var nodePath = require('path');
-var transport = require('lasso-modules-client/transport');
+const nodePath = require('path');
+const transport = require('lasso-modules-client/transport');
 
 exports.create = function(config, lasso) {
     return {
@@ -18,7 +18,7 @@ exports.create = function(config, lasso) {
         read: function(lassoContext) {
             // the default is to wait so only output options
             // if the wait value is not equal to the default value
-            var runOptions = (this.wait === false) ? {wait: false} : undefined;
+            const runOptions = (this.wait === false) ? { wait: false } : undefined;
 
             return transport.codeGenerators.run(
                 // the path to the resource
@@ -42,9 +42,9 @@ exports.create = function(config, lasso) {
         },
 
         getUnbundledTarget: function() {
-            var bundleName = this.path;
+            let bundleName = this.path;
 
-            var ext = nodePath.extname(bundleName);
+            const ext = nodePath.extname(bundleName);
 
             if (ext) {
                 bundleName = bundleName.substring(0, bundleName.length - ext.length);

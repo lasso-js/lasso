@@ -1,6 +1,6 @@
 module.exports = function(stream) {
     return new Promise((resolve, reject) => {
-        var str = '';
+        let str = '';
         stream
             .on('data', function(data) {
                 str += data;

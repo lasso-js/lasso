@@ -1,30 +1,30 @@
 const assert = require('assert');
-var nodePath = require('path');
-var LassoCache = require('./LassoCache');
-var LassoPageResult = require('./LassoPageResult');
-var LassoContext = require('./LassoContext');
-var SlotTracker = require('./SlotTracker');
-var logger = require('raptor-logging').logger(module);
-var EventEmitter = require('events').EventEmitter;
-var mime = require('mime');
-var raptorUtil = require('raptor-util');
-var pageBundlesBuilder = require('./page-bundles-builder');
-var BundleMappings = require('./BundleMappings');
-var manifestLoader = require('./manifest-loader');
-var LassoManifest = require('./LassoManifest');
-var flags = require('./flags');
-var dependencies = require('./dependencies');
-var fs = require('fs');
-var commaSeparatedRegExp = /\s*,\s*/;
-var ok = require('assert').ok;
-var bundleBuilder = require('./bundle-builder');
-var isAbsolute = require('./path').isAbsolute;
-var createWriter = require('./writers').createWriter;
-var perfLogger = require('raptor-logging').logger('lasso/perf');
-var extend = require('raptor-util/extend');
-var cachingFs = require('./caching-fs');
-var createError = require('raptor-util/createError');
-var resolveFrom = require('resolve-from');
+const nodePath = require('path');
+const LassoCache = require('./LassoCache');
+const LassoPageResult = require('./LassoPageResult');
+const LassoContext = require('./LassoContext');
+const SlotTracker = require('./SlotTracker');
+const logger = require('raptor-logging').logger(module);
+const EventEmitter = require('events').EventEmitter;
+const mime = require('mime');
+const raptorUtil = require('raptor-util');
+const pageBundlesBuilder = require('./page-bundles-builder');
+const BundleMappings = require('./BundleMappings');
+const manifestLoader = require('./manifest-loader');
+const LassoManifest = require('./LassoManifest');
+const flags = require('./flags');
+const dependencies = require('./dependencies');
+const fs = require('fs');
+const commaSeparatedRegExp = /\s*,\s*/;
+const ok = require('assert').ok;
+const bundleBuilder = require('./bundle-builder');
+const isAbsolute = require('./path').isAbsolute;
+const createWriter = require('./writers').createWriter;
+const perfLogger = require('raptor-logging').logger('lasso/perf');
+const extend = require('raptor-util/extend');
+const cachingFs = require('./caching-fs');
+const createError = require('raptor-util/createError');
+const resolveFrom = require('resolve-from');
 const LassoPrebuildResult = require('./LassoPrebuildResult');
 const { buildPrebuildName, buildPrebuildFileName } = require('./util/prebuild.js');
 const hashUtil = require('./util/hash');
@@ -36,10 +36,10 @@ const stringifyAttrs = require('./util/stringify-attrs');
 */
 const prebuildToPath = {};
 
-var urlRegExp = /^[^:\/]{0,5}[:]?\/\//;
+const urlRegExp = /^[^:\/]{0,5}[:]?\/\//;
 
 const resourceHandlersByType = {
-    'string': {
+    string: {
         resource: doLassoResourceString,
         calculateKey (data, theLasso, lassoContext, options) {
             if (!isAbsolute(data)) {
@@ -49,7 +49,7 @@ const resourceHandlersByType = {
             return _buildResourceCacheKey(data, theLasso, lassoContext);
         }
     },
-    'object': {
+    object: {
         resource: doLassoResourceBuffer,
         hashPath: true,
         calculateKey (data, theLasso, lassoContext, options) {
@@ -77,10 +77,10 @@ function isExternalUrl(path) {
 }
 
 async function getLassoManifestFromOptions (options, dependencyRegistry) {
-    var lassoManifest;
-    var from = options.from;
-    var fromFilename;
-    var fromDirname;
+    let lassoManifest;
+    const from = options.from;
+    let fromFilename;
+    let fromDirname;
 
     if (from) {
         if (typeof from === 'object') {
@@ -90,7 +90,7 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
             fromFilename = from.filename;
             fromDirname = nodePath.dirname(fromFilename);
         } else if (typeof from === 'string') {
-            var stat = cachingFs.statSync(from);
+            const stat = cachingFs.statSync(from);
             if (!stat.exists()) {
                 throw new Error('No directory exists at given "from" path ("' + from + '")');
             }
@@ -104,10 +104,10 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
         }
     }
 
-    var lassoManifestOptions;
+    let lassoManifestOptions;
 
     if (options.packagePath) {
-        var packagePath = options.packagePath;
+        const packagePath = options.packagePath;
 
         if (typeof packagePath !== 'string') {
             throw new Error('"packagePath" option should be a string');
@@ -121,13 +121,13 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
         if (lassoManifest) {
             lassoManifestOptions = {
                 manifest: lassoManifest,
-                dependencyRegistry: dependencyRegistry,
+                dependencyRegistry,
                 dirname: lassoManifest.dirname,
                 filename: lassoManifest.filename
             };
         }
     } else if (options.dependencies) {
-        var dependencies = options.dependencies;
+        let dependencies = options.dependencies;
 
         if (!fromDirname) {
             fromDirname = process.cwd();
@@ -149,16 +149,16 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
 
         lassoManifestOptions = {
             manifest: {
-                dependencies: dependencies
+                dependencies
             },
-            dependencyRegistry: dependencyRegistry,
+            dependencyRegistry,
             dirname: fromDirname,
             filename: fromFilename
         };
     } else if (options.lassoManifest) {
         lassoManifestOptions = {
             manifest: options.lassoManifest,
-            dependencyRegistry: dependencyRegistry,
+            dependencyRegistry,
             dirname: options.lassoManifest.dirname || process.cwd(),
             filename: options.lassoManifest.filename
         };
@@ -167,7 +167,7 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
             manifest: {
                 dependencies: options.packagePaths
             },
-            dependencyRegistry: dependencyRegistry,
+            dependencyRegistry,
             dirname: process.cwd(),
             filename: undefined
         };
@@ -181,18 +181,18 @@ async function getLassoManifestFromOptions (options, dependencyRegistry) {
 }
 
 async function doLassoPage (theLasso, options, lassoContext) {
-    var logInfoEnabled = logger.isInfoEnabled();
-    var perfLogInfoEnabled = perfLogger.isInfoEnabled();
+    const logInfoEnabled = logger.isInfoEnabled();
+    const perfLogInfoEnabled = perfLogger.isInfoEnabled();
 
-    var startTime = Date.now();
+    const startTime = Date.now();
 
     // if we create a new context then make sure we put it
     // back into the options object for reference later
-    var pageName = lassoContext.pageName = options.pageName || options.name;
+    const pageName = lassoContext.pageName = options.pageName || options.name;
 
     lassoContext.pageName = pageName;
 
-    var config = theLasso.config;
+    const config = theLasso.config;
 
     const lassoManifest = await getLassoManifestFromOptions(options, theLasso.dependencies);
 
@@ -204,10 +204,10 @@ async function doLassoPage (theLasso, options, lassoContext) {
 
     options.lassoManifest = lassoManifest;
 
-    var pluginContext = {
+    const pluginContext = {
         context: lassoContext,
-        config: config,
-        options: options,
+        config,
+        options,
         lasso: theLasso
     };
 
@@ -216,20 +216,20 @@ async function doLassoPage (theLasso, options, lassoContext) {
     theLasso.emit('beforeLassoPage', pluginContext);
     theLasso.emit('beforeBuildPage', pluginContext);
 
-    var lassoPageResult = new LassoPageResult();
-    var slotTracker = new SlotTracker();
+    const lassoPageResult = new LassoPageResult();
+    const slotTracker = new SlotTracker();
 
     lassoContext.lassoPageResult = lassoPageResult;
 
-    var writer = lassoContext.writer;
+    const writer = lassoContext.writer;
 
     // Inline code fingerprinting is useful for building a Single Page App
     // that is using a Content Security Policy (CSP) that prevents
     // untrusted script blocks. By keeping track of inline code
     // fingerprints, a build tool could provide these as part of the CSP
     // so that inline code blocks created at build time will be trusted.
-    var fingerprintInlineCode = config.fingerprintInlineCode;
-    var inlineCodeFingerprints;
+    const fingerprintInlineCode = config.fingerprintInlineCode;
+    let inlineCodeFingerprints;
 
     if (fingerprintInlineCode) {
         inlineCodeFingerprints = [];
@@ -251,14 +251,14 @@ async function doLassoPage (theLasso, options, lassoContext) {
 
     function buildHtmlSlots (pageBundles) {
         pageBundles.forEachBundle(function (bundle) {
-            var html,
+            let html,
                 url;
 
-            var htmlAttributes = bundle.getHtmlAttributes();
+            const htmlAttributes = bundle.getHtmlAttributes();
 
             if (bundle.isInline()) {
                 if (fingerprintInlineCode) {
-                    var fingerprint = config.fingerprintInlineCode(bundle.getCode());
+                    const fingerprint = config.fingerprintInlineCode(bundle.getCode());
                     if (fingerprint) {
                         inlineCodeFingerprints.push(fingerprint);
                     }
@@ -291,9 +291,9 @@ async function doLassoPage (theLasso, options, lassoContext) {
         lassoPageResult.setInlineCodeFingerprints(inlineCodeFingerprints);
     }
 
-    var pageBundles;
+    let pageBundles;
 
-    var prevStartTime = startTime;
+    let prevStartTime = startTime;
 
     async function buildPageBundles () {
         logger.debug('buildPageBundles BEGIN');
@@ -360,7 +360,7 @@ async function doLassoPage (theLasso, options, lassoContext) {
 }
 
 function resolvePath(path, from) {
-    var firstChar = path.charAt(0);
+    const firstChar = path.charAt(0);
     if (firstChar === '.') {
         // path is relative to dependency directory
         return nodePath.resolve(from, path);
@@ -378,7 +378,7 @@ function resolvePath(path, from) {
             // if (e.code === 'MODULE_NOT_FOUND') {
             //
             // }
-            var resolvedPath = nodePath.resolve(from, path);
+            const resolvedPath = nodePath.resolve(from, path);
 
             // Since the path looked like it was for a module we should check
             // to see if the fallback technique actually found a file. If file
@@ -404,14 +404,14 @@ function resolvePath(path, from) {
 }
 
 async function doLassoResourceString (theLasso, path, cacheKey, options, lassoContext) {
-    var inputPath = path;
+    const inputPath = path;
 
     function done (err, result) {
         if (err) {
             throw createError('Error while resolving resource URL for path "' + path + '". Error: ' + err, err);
         }
 
-        var url = result.url;
+        const url = result.url;
 
         if (logger.isDebugEnabled()) {
             logger.debug('Resolved URL: ', inputPath, ' --> ', url);
@@ -423,16 +423,16 @@ async function doLassoResourceString (theLasso, path, cacheKey, options, lassoCo
     if (isExternalUrl(path)) {
         return done(null, { url: path });
     } else {
-        var writer = theLasso.writer;
+        const writer = theLasso.writer;
 
-        var hashStart = path.indexOf('#');
+        const hashStart = path.indexOf('#');
 
         if (hashStart !== -1) {
             path = path.substring(0, hashStart);
         }
 
-        var queryString = '';
-        var queryStart = path.indexOf('?');
+        let queryString = '';
+        const queryStart = path.indexOf('?');
 
         if (queryStart !== -1) {
             queryString = path.substring(queryStart);
@@ -440,7 +440,7 @@ async function doLassoResourceString (theLasso, path, cacheKey, options, lassoCo
         }
 
         if (!isAbsolute(path)) {
-            var dir = lassoContext.dir;
+            let dir = lassoContext.dir;
 
             if (!dir) {
                 if (lassoContext.dependency) {
@@ -459,8 +459,8 @@ async function doLassoResourceString (theLasso, path, cacheKey, options, lassoCo
             throw new Error('File with path "' + path + '" does not exist');
         }
 
-        var dataURIEncoding;
-        var base64Requested = false;
+        let dataURIEncoding;
+        let base64Requested = false;
 
         if (queryString === '?base64') {
             base64Requested = true;
@@ -514,8 +514,8 @@ async function doLassoResourceBuffer (theLasso, buff, cacheKey, options, lassoCo
 }
 
 function _buildResourceCacheKey (cacheKey, theLasso, lassoContext) {
-    var writer = theLasso.writer;
-    var buildResourceCacheKey = writer.buildResourceCacheKey;
+    const writer = theLasso.writer;
+    const buildResourceCacheKey = writer.buildResourceCacheKey;
 
     if (buildResourceCacheKey) {
         cacheKey = buildResourceCacheKey.call(writer, cacheKey, lassoContext);
@@ -538,7 +538,7 @@ function Lasso(config) {
 
     this.initPlugins();
 
-    var writer = this.writer;
+    let writer = this.writer;
     if (!writer) {
         if (!config.writer) {
             throw new Error('Writer not configured for page lasso config');
@@ -561,9 +561,9 @@ function Lasso(config) {
 Lasso.prototype = {
 
     initPlugins: function() {
-        var plugins = this.config.getPlugins();
-        for (var i = 0; i < plugins.length; i++) {
-            var plugin = plugins[i];
+        const plugins = this.config.getPlugins();
+        for (let i = 0; i < plugins.length; i++) {
+            const plugin = plugins[i];
             plugin.func(this, plugin.config || {});
         }
     },
@@ -571,12 +571,12 @@ Lasso.prototype = {
     async createAppBundleMappings (bundleSetConfig, lassoContext) {
         ok(bundleSetConfig, '"bundleSetConfig" is required');
 
-        var dependencyRegistry = this.dependencies;
+        const dependencyRegistry = this.dependencies;
         ok(dependencyRegistry, '"this.dependencies" is required');
 
         logger.debug('createAppBundleMappings() begin');
 
-        var bundleMappings = new BundleMappings(this.config);
+        const bundleMappings = new BundleMappings(this.config);
 
         for (const bundleConfig of bundleSetConfig.bundleConfigs) {
             const bundleName = bundleConfig.name;
@@ -595,17 +595,17 @@ Lasso.prototype = {
     },
 
     async buildPageBundles (options, lassoContext) {
-        var pageName = options.pageName;
-        var config = this.getConfig();
-        var bundleSetConfig = config.getPageBundleSetConfig(pageName);
-        var startTime = Date.now();
+        const pageName = options.pageName;
+        const config = this.getConfig();
+        const bundleSetConfig = config.getPageBundleSetConfig(pageName);
+        const startTime = Date.now();
 
         logger.debug('buildPageBundles() BEGIN');
 
         async function buildPageBundleMappings(appBundleMappings) {
             logger.debug('buildPageBundles() - buildPageBundleMappings() BEGIN');
 
-            var bundleMappings = new BundleMappings(config, lassoContext.pageName);
+            const bundleMappings = new BundleMappings(config, lassoContext.pageName);
 
             if (appBundleMappings) {
                 bundleMappings.setParentBundleMappings(appBundleMappings);
@@ -633,7 +633,7 @@ Lasso.prototype = {
 
         logger.debug('getAppBundleMappingsCached()');
 
-        var builder = () => {
+        const builder = () => {
             logger.debug('getAppBundleMappingsCached - BUILDER');
             return this.createAppBundleMappings(bundleSetConfig, lassoContext);
         };
@@ -642,13 +642,13 @@ Lasso.prototype = {
     },
 
     buildLassoCacheKey: function(lassoContext) {
-        var hash = 5381;
-        var keyParts = [];
+        let hash = 5381;
+        const keyParts = [];
 
         function cacheKeyAdd (str) {
             keyParts.push(str);
 
-            var i = str.length;
+            let i = str.length;
             while (i) {
                 hash = (hash * 33) ^ str.charCodeAt(--i);
             }
@@ -663,7 +663,7 @@ Lasso.prototype = {
             }
         });
 
-        var flags = lassoContext.flags;
+        const flags = lassoContext.flags;
         if (flags && !flags.isEmpty()) {
             cacheKeyAdd('flags:' + flags.getKey());
         }
@@ -688,12 +688,12 @@ Lasso.prototype = {
      * @return {LassoCache} the lasso cache associated with this page lasso
      */
     getLassoCache: function(lassoContext) {
-        var cache = lassoContext.cache;
+        let cache = lassoContext.cache;
         if (!cache) {
-            var config = this.getConfig();
+            const config = this.getConfig();
 
-            var keyInfo = this.buildLassoCacheKey(lassoContext);
-            var key = keyInfo.value;
+            const keyInfo = this.buildLassoCacheKey(lassoContext);
+            const key = keyInfo.value;
             cache = this.lassoCacheLookup[key];
             if (!cache) {
                 cache = this.lassoCacheLookup[key] = new LassoCache(key, {
@@ -703,9 +703,9 @@ Lasso.prototype = {
                     profiles: config.getCacheProfiles()
                 });
 
-                var pluginContext = {
+                const pluginContext = {
                     context: lassoContext,
-                    config: config,
+                    config,
                     options: lassoContext.options,
                     lasso: this,
                     cacheKey: key,
@@ -733,10 +733,10 @@ Lasso.prototype = {
     },
 
     _resolveflags: function(options) {
-        var flagSet = flags.createFlagSet();
+        const flagSet = flags.createFlagSet();
 
         if (options) {
-            var additionalFlags = options.flags || options.extensions || options.enabledExtensions;
+            let additionalFlags = options.flags || options.extensions || options.enabledExtensions;
             if (additionalFlags) {
                 if (typeof additionalFlags === 'string') {
                     additionalFlags = additionalFlags.split(commaSeparatedRegExp);
@@ -759,8 +759,8 @@ Lasso.prototype = {
      * - cache: Lasso.jsC
      */
     createLassoContext: function(options) {
-        var writer = this.writer;
-        var lassoContext = new LassoContext();
+        const writer = this.writer;
+        const lassoContext = new LassoContext();
 
         options = options || {};
 
@@ -850,7 +850,7 @@ Lasso.prototype = {
     },
 
     async loadPrebuild (options = {}) {
-        let { path, flags } = options;
+        const { path, flags } = options;
         // TODO: If the prebuild does not exist, we should just use the lassoPage flow
 
         // If we've already found the prebuild at this path, we can just return it

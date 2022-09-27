@@ -1,28 +1,28 @@
-var fs = require('fs');
-var depRequire = require('./dep-require');
-var depRequireRemap = require('./dep-require-remap');
-var depTransportDef = require('./dep-transport-define');
-var depTransportRun = require('./dep-transport-run');
-var depTransportInstalled = require('./dep-transport-installed');
-var depTransportMain = require('./dep-transport-main');
-var depTransportRemap = require('./dep-transport-remap');
-var depTransportReady = require('./dep-transport-ready');
-var depTransportBuiltin = require('./dep-transport-builtin');
-var depTransportSearchPath = require('./dep-transport-search-path');
-var depLoaderMetadata = require('./dep-transport-loader-metadata');
-var depRuntime = require('./dep-runtime');
-var buildPluginConfig = require('./build-plugin-config');
-var extend = require('raptor-util').extend;
+const fs = require('fs');
+const depRequire = require('./dep-require');
+const depRequireRemap = require('./dep-require-remap');
+const depTransportDef = require('./dep-transport-define');
+const depTransportRun = require('./dep-transport-run');
+const depTransportInstalled = require('./dep-transport-installed');
+const depTransportMain = require('./dep-transport-main');
+const depTransportRemap = require('./dep-transport-remap');
+const depTransportReady = require('./dep-transport-ready');
+const depTransportBuiltin = require('./dep-transport-builtin');
+const depTransportSearchPath = require('./dep-transport-search-path');
+const depLoaderMetadata = require('./dep-transport-loader-metadata');
+const depRuntime = require('./dep-runtime');
+const buildPluginConfig = require('./build-plugin-config');
+const extend = require('raptor-util').extend;
 
-var requireRegExp = /^require\s+(.*)$/;
-var requireRunRegExp = /^require-run\s*:\s*(.*)$/;
+const requireRegExp = /^require\s+(.*)$/;
+const requireRunRegExp = /^require-run\s*:\s*(.*)$/;
 
 module.exports = exports = function plugin(lasso, userConfig) {
-    var defaultProjectRoot = lasso.config.getProjectRoot();
-    var config = buildPluginConfig(userConfig, defaultProjectRoot);
+    const defaultProjectRoot = lasso.config.getProjectRoot();
+    const config = buildPluginConfig(userConfig, defaultProjectRoot);
 
     lasso.on('lassoCacheCreated', function(cacheInfo) {
-        var lassoCache = cacheInfo.lassoCache;
+        const lassoCache = cacheInfo.lassoCache;
 
         lassoCache.configureCacheDefaults({
             '*': { // Any profile
@@ -43,7 +43,7 @@ module.exports = exports = function plugin(lasso, userConfig) {
     function registerExtension(ext) {
         lasso.dependencies.registerRequireExtension(ext, {
             read: function(path) {
-                return fs.createReadStream(path, {encoding: 'utf8'});
+                return fs.createReadStream(path, { encoding: 'utf8' });
             },
 
             async getLastModified (path, lassoContext) {
@@ -58,7 +58,7 @@ module.exports = exports = function plugin(lasso, userConfig) {
         object: true,
 
         read: function(path) {
-            return fs.createReadStream(path, {encoding: 'utf8'});
+            return fs.createReadStream(path, { encoding: 'utf8' });
         },
 
         getLastModified (path, lassoContext) {
@@ -82,7 +82,7 @@ module.exports = exports = function plugin(lasso, userConfig) {
 
     lasso.dependencies.addNormalizer(function(dependency) {
         if (typeof dependency === 'string') {
-            var matches;
+            let matches;
 
             if ((matches = requireRegExp.exec(dependency))) {
                 return {
@@ -98,7 +98,7 @@ module.exports = exports = function plugin(lasso, userConfig) {
             }
         } else if (!dependency.type) {
             if (dependency.require) {
-                var reqDep = {
+                const reqDep = {
                     type: 'require',
                     path: dependency.require
                 };
@@ -108,7 +108,7 @@ module.exports = exports = function plugin(lasso, userConfig) {
 
                 return reqDep;
             } else if (dependency['require-run']) {
-                var reqRunDep = {
+                const reqRunDep = {
                     type: 'require',
                     run: true,
                     path: dependency['require-run']

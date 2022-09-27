@@ -23,8 +23,8 @@
  * key that uniquely identifies the set of
  * enabled flags.
  */
-var forEachEntry = require('raptor-util').forEachEntry;
-var raptorRegexp = require('raptor-regexp');
+const forEachEntry = require('raptor-util').forEachEntry;
+const raptorRegexp = require('raptor-regexp');
 
 function FlagSet(flags) {
     this.flagMap = {};
@@ -124,7 +124,7 @@ FlagSet.prototype = {
      * @returns {Boolean}
      */
     containsMatch: function(ext) {
-        var regExp;
+        let regExp;
 
         if (ext instanceof RegExp) {
             regExp = ext;
@@ -134,8 +134,8 @@ FlagSet.prototype = {
             regExp = raptorRegexp.simple(ext);
         }
 
-        var flags = this.flagList;
-        for (var i = 0, len = flags.length; i < len; i++) {
+        const flags = this.flagList;
+        for (let i = 0, len = flags.length; i < len; i++) {
             if (regExp.test(flags[i])) {
                 return true;
             }

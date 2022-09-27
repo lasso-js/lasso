@@ -9,7 +9,7 @@ StringTransformer.prototype = {
         }
 
         this.modifications.sort(function(a, b) {
-            var compare = b.index - a.index;
+            const compare = b.index - a.index;
             if (compare === 0) {
                 return a.precedence - b.precedence;
             } else {
@@ -17,7 +17,7 @@ StringTransformer.prototype = {
             }
         });
 
-        for (var i = 0, len = this.modifications.length; i < len; i++) {
+        for (let i = 0, len = this.modifications.length; i < len; i++) {
             str = this.modifications[i].transform(str);
         }
 
@@ -26,7 +26,7 @@ StringTransformer.prototype = {
 
     insert: function(index, newStr) {
         this.modifications.push({
-            index: index,
+            index,
             precedence: 3,
             toString: function() {
                 return 'insert ' + index + ' --> ' + newStr;
@@ -58,7 +58,7 @@ StringTransformer.prototype = {
                 return 'comment ' + range;
             },
             transform: function(str) {
-                var code = str.substring(range[0], range[1]);
+                const code = str.substring(range[0], range[1]);
                 return str.substring(0, range[0]) + '/*' + code + '*/' + str.substring(range[1]);
             }
         });

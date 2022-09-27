@@ -1,7 +1,7 @@
 exports.ifCondition = function(condition) {
     // This is a hack because we moved from "flags" to "extensions"
     // We create a function that introduces two scoped variables: flags, extensions
-    var conditionFunc = eval('(function(flags, extensions) { return ' + condition + ';})');
+    const conditionFunc = eval('(function(flags, extensions) { return ' + condition + ';})');
 
     return function(flags) {
         return conditionFunc(flags, flags);
@@ -21,9 +21,9 @@ exports.ifNotFlag = function(flag) {
 };
 
 exports.fromObject = function(o) {
-    var condition;
+    let condition;
 
-    if ((condition = o['if'])) {
+    if ((condition = o.if)) {
         return exports.ifCondition(condition);
     } else if ((condition = o['if-flag'] || o['if-extension'])) {
         return exports.ifFlag(condition);

@@ -10,7 +10,7 @@ AsyncPackage.prototype = {
     },
 
     addBundle: function(bundle) {
-        var bundleKey = bundle.getKey();
+        const bundleKey = bundle.getKey();
 
         if (!this.bundlesByKey[bundleKey]) {
             this.bundlesByKey[bundleKey] = true;
@@ -19,16 +19,16 @@ AsyncPackage.prototype = {
     },
 
     getMeta: function(context) {
-        var meta = {
+        const meta = {
             css: [],
             js: []
         };
 
-        var bundles = this.bundles;
+        const bundles = this.bundles;
 
-        for (var i = 0, len = bundles.length; i < len; i++) {
-            var bundle = bundles[i];
-            var url;
+        for (let i = 0, len = bundles.length; i < len; i++) {
+            const bundle = bundles[i];
+            let url;
             if (!bundle.hasContent() || !(url = bundle.getUrl(context))) {
                 // skip bundles without content or bundles that don't have a URL.
                 // TODO: Figure out what to do with inline dependencies that belong to an async bundle

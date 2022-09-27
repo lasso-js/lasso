@@ -1,4 +1,4 @@
-var FlagSet = require('./FlagSet');
+const FlagSet = require('./FlagSet');
 
 function isFlagSet(o) {
     return o && o.__FlagSet;

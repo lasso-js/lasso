@@ -1,7 +1,7 @@
 const imageSize = require('util').promisify(require('image-size'));
 const nodePath = require('path');
 
-var IMAGE_SIZE_WHITELIST = {
+const IMAGE_SIZE_WHITELIST = {
     '.png': true,
     '.jpeg': true,
     '.jpg': true,
@@ -9,10 +9,10 @@ var IMAGE_SIZE_WHITELIST = {
     '.webp': true
 };
 
-var plugin = function(lasso, config) {
-    var handler = {
+function plugin(lasso, config) {
+    const handler = {
         properties: {
-            'path': 'string'
+            path: 'string'
         },
 
         async init (lassoContext) {
@@ -56,9 +56,9 @@ plugin.getImageInfo = function(path, options, callback) {
         options = null;
     }
 
-    var theLasso;
-    var lassoContext;
-    var renderContext;
+    let theLasso;
+    let lassoContext;
+    let renderContext;
 
     if (options) {
         theLasso = options.lasso;
@@ -87,7 +87,7 @@ plugin.getImageInfo = function(path, options, callback) {
                     const resourceInfo = await theLasso.lassoResource(path, lassoContext);
                     imageInfo.url = resourceInfo.url;
 
-                    var ext = nodePath.extname(path);
+                    const ext = nodePath.extname(path);
                     if (IMAGE_SIZE_WHITELIST[ext]) {
                         const dimensions = await imageSize(path);
                         imageInfo.width = dimensions.width;

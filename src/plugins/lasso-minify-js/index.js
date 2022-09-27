@@ -1,6 +1,6 @@
-var Terser = require('terser');
-var codeFrame = require('@babel/code-frame');
-var hasOwn = Object.prototype.hasOwnProperty;
+const Terser = require('terser');
+const codeFrame = require('@babel/code-frame');
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function isInline(lassoContext) {
     if (lassoContext.inline === true) {
@@ -28,23 +28,23 @@ module.exports = function (lasso, pluginConfig) {
                 return code;
             }
 
-            var minifyOptions = {};
-            for (var key in pluginConfig) {
+            const minifyOptions = {};
+            for (const key in pluginConfig) {
                 if (key !== 'inlineOnly' && hasOwn.call(pluginConfig, key)) {
                     minifyOptions[key] = pluginConfig[key];
                 }
             }
 
             try {
-                var minified = (await Terser.minify(code, minifyOptions)).code;
+                const minified = (await Terser.minify(code, minifyOptions)).code;
                 if (minified && !minified.endsWith(';')) {
                     return minified + ';';
                 }
                 return minified;
             } catch (e) {
                 if (e.line) {
-                    var dependency = lassoContext.dependency;
-                    var frame = codeFrame(code, e.line, e.col, { highlightCode: true });
+                    const dependency = lassoContext.dependency;
+                    const frame = codeFrame(code, e.line, e.col, { highlightCode: true });
                     console.error(e.message + ' in ' + dependency + ' at line ' + e.line + ' column ' + e.col + ':\n' + frame);
                     return code;
                 } else {

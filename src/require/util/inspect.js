@@ -1,17 +1,17 @@
-var path = require('path');
-var espree = require('espree');
-var codeFrame = require('@babel/code-frame').default;
-var estraverse = require('estraverse');
-var ok = require('assert').ok;
-var cwd = process.cwd();
+const path = require('path');
+const espree = require('espree');
+const codeFrame = require('@babel/code-frame').default;
+const estraverse = require('estraverse');
+const ok = require('assert').ok;
+const cwd = process.cwd();
 
-var parseOpts = {
+const parseOpts = {
     range: true,
     sourceType: 'script',
     ecmaVersion: espree.latestEcmaVersion
 };
 
-var shortCircuitRegExp = /require\(|require\.resolve\(|.async\(|#async|process|Buffer/;
+const shortCircuitRegExp = /require\(|require\.resolve\(|.async\(|#async|process|Buffer/;
 
 function isRequire(node) {
     return node.type === 'CallExpression' &&
@@ -76,16 +76,16 @@ function parseAsyncNode(node, scope) {
         return;
     }
 
-    var args = node.arguments;
-    var numArguments = args.length;
+    const args = node.arguments;
+    const numArguments = args.length;
     if ((numArguments < 1) || (numArguments > 2)) {
         return;
     }
 
-    var dependencies = [];
-    var hasInlineDependencies = false;
-    var packageIdProvided;
-    var firstArg = args[0];
+    const dependencies = [];
+    let hasInlineDependencies = false;
+    let packageIdProvided;
+    const firstArg = args[0];
 
     // We only care if about the async calls if the first argument is an array
     if (numArguments === 2) {
@@ -93,8 +93,8 @@ function parseAsyncNode(node, scope) {
             hasInlineDependencies = true;
             // call is something like:
             //     require('lasso-loader').async(['./dep1.js', './dep2.js'], callback)
-            var elems = firstArg.elements;
-            for (var i = 0; i < elems.length; i++) {
+            const elems = firstArg.elements;
+            for (let i = 0; i < elems.length; i++) {
                 dependencies.push(elems[i].value);
             }
         } else {
@@ -105,22 +105,22 @@ function parseAsyncNode(node, scope) {
         }
     }
 
-    var callbackNode = args[numArguments - 1];
+    const callbackNode = args[numArguments - 1];
 
-    var hasFunctionBody =
+    const hasFunctionBody =
         (callbackNode.type === 'FunctionExpression') ||
         (callbackNode.type === 'FunctionDeclaration');
 
     return {
-        node: node,
+        node,
         requires: [],
-        dependencies: dependencies,
-        args: args,
-        callbackNode: callbackNode,
+        dependencies,
+        args,
+        callbackNode,
 
         // require('lasso-loader').async(packageId, function() {}) is used
         // then `packageIdProvided` will be `true`
-        packageIdProvided: packageIdProvided,
+        packageIdProvided,
 
         // Store the range of the first arg in case we need to replace
         // or add to it.
@@ -128,12 +128,12 @@ function parseAsyncNode(node, scope) {
 
         // If the first argument to require('lasso-loader').async([...], callback) is
         // is used then `hasInlineDependencies` will be `true`
-        hasInlineDependencies: hasInlineDependencies,
+        hasInlineDependencies,
 
         // If the last argument to require('lasso-loader').async(...)
         // is a `FunctionDeclaration` or `FunctionExpression` then
         // `hasFunctionBody` will be `true`.
-        hasFunctionBody: hasFunctionBody,
+        hasFunctionBody,
 
         toString: function() {
             return '[async: ' + this.name + ', dependencies=' + JSON.stringify(dependencies) + ']';
@@ -142,13 +142,11 @@ function parseAsyncNode(node, scope) {
 }
 
 function recordGlobalsHelper(node, scope, foundGlobals) {
-    var id;
-
     if (!node || node.type !== 'Identifier') {
         return;
     }
 
-    id = node.name;
+    const id = node.name;
 
     if (id === 'require' ||
         id === 'exports' ||
@@ -198,7 +196,7 @@ function recordGlobals(node, parentNode, scope, foundGlobals) {
 module.exports = function inspect(src, options) {
     ok(src != null, 'src is requried');
 
-    var allowShortcircuit = !options || options.allowShortcircuit !== false;
+    const allowShortcircuit = !options || options.allowShortcircuit !== false;
 
     if (allowShortcircuit && shortCircuitRegExp.test(src) === false) {
         // Nothing of interest so nothing to do
@@ -209,15 +207,15 @@ module.exports = function inspect(src, options) {
         };
     }
 
-    var requires = [];
-    var scopeStack = [{}];
-    var asyncScopeStack = [];
-    var asyncStack = [];
-    var curAsyncInfo = null;
-    var asyncBlocks = [];
-    var foundGlobals = {};
+    const requires = [];
+    const scopeStack = [{}];
+    const asyncScopeStack = [];
+    const asyncStack = [];
+    let curAsyncInfo = null;
+    let asyncBlocks = [];
+    const foundGlobals = {};
 
-    var parsedAst;
+    let parsedAst;
     try {
         parsedAst = espree.parse(src, parseOpts);
     } catch (err) {
@@ -225,19 +223,19 @@ module.exports = function inspect(src, options) {
             throw err;
         }
 
-        var filename = options && options.filename;
-        var errorLoc = '(' + err.lineNumber + ',' + err.column + '): ';
+        const filename = options && options.filename;
+        let errorLoc = '(' + err.lineNumber + ',' + err.column + '): ';
         if (filename) {
             errorLoc = path.relative(cwd, filename) + errorLoc;
         }
 
-        var frame = codeFrame(src, err.lineNumber, err.column, { highlightCode: true });
+        const frame = codeFrame(src, err.lineNumber, err.column, { highlightCode: true });
         throw new SyntaxError(errorLoc + err.message + '\n' + frame);
     }
 
     estraverse.traverse(parsedAst, {
         enter: function(node, parentNode) {
-            var scope = scopeStack[scopeStack.length - 1];
+            let scope = scopeStack[scopeStack.length - 1];
 
             if (node.type === 'VariableDeclaration') {
                 node.declarations.forEach(function(varDecl) {
@@ -262,24 +260,24 @@ module.exports = function inspect(src, options) {
 
             recordGlobals(node, parentNode, scope, foundGlobals);
 
-            var requirePath;
+            let requirePath;
 
             if (!scope.require && (isRequire(node) || isRequireResolve(node))) {
                 requirePath = node.arguments[0].value;
 
-                var range = node.range;
+                const range = node.range;
 
-                var firstArgRange = node.arguments[0].range;
+                const firstArgRange = node.arguments[0].range;
 
                 if (asyncScopeStack.length) {
                     // We are in the scope of an async callback function so this
                     // is a dependency that will be lazily loaded
                     if (requirePath !== 'lasso-loader' && requirePath !== 'raptor-loader') {
-                        var lastAsyncInfo = asyncScopeStack[asyncScopeStack.length - 1];
+                        const lastAsyncInfo = asyncScopeStack[asyncScopeStack.length - 1];
 
                         lastAsyncInfo.requires.push({
                             path: requirePath,
-                            range: range,
+                            range,
                             argRange: firstArgRange
                         });
 
@@ -291,13 +289,13 @@ module.exports = function inspect(src, options) {
                 } else {
                     requires.push({
                         path: requirePath,
-                        range: range,
+                        range,
                         argRange: firstArgRange
                     });
                 }
             }
 
-            var asyncInfo;
+            let asyncInfo;
             if ((asyncInfo = parseAsyncNode(node, scopeStack[scopeStack.length - 1]))) {
                 curAsyncInfo = asyncInfo;
                 asyncBlocks.push(asyncInfo);
@@ -331,8 +329,8 @@ module.exports = function inspect(src, options) {
     });
 
     return {
-        requires: requires,
-        foundGlobals: foundGlobals,
-        asyncBlocks: asyncBlocks
+        requires,
+        foundGlobals,
+        asyncBlocks
     };
 };

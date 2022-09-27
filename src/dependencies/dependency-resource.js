@@ -1,9 +1,9 @@
-var nodePath = require('path');
+const nodePath = require('path');
 
-var urlReader = require('../util/url-reader');
-var urlRegExp = /^(http:|https:)?\/\//;
+const urlReader = require('../util/url-reader');
+const urlRegExp = /^(http:|https:)?\/\//;
 
-var fs = require('fs');
+const fs = require('fs');
 
 function maskDefine(code) {
     return '(function(define) { /* mask define */ ' + code + '\n}()); // END: mask define wrapper';
@@ -11,17 +11,17 @@ function maskDefine(code) {
 
 module.exports = {
     properties: {
-        'path': 'string',
-        'dir': 'string',
-        'virtualPath': 'string',
-        'url': 'string',
-        'code': 'string',
-        'external': 'boolean',
+        path: 'string',
+        dir: 'string',
+        virtualPath: 'string',
+        url: 'string',
+        code: 'string',
+        external: 'boolean',
         'mask-define': 'boolean'
     },
 
     async init (lassoContext) {
-        var path = this.path;
+        let path = this.path;
 
         if (!this.path && !this.url && !this.code && !this.virtualPath) {
             throw new Error('"path", "virtualPath", "url" or "code" is required for a resource dependency');
@@ -62,7 +62,7 @@ module.exports = {
             if (this.url) {
                 return urlReader.createUrlReadStream(this.url);
             } else {
-                return fs.createReadStream(this.path, {encoding: 'utf8'});
+                return fs.createReadStream(this.path, { encoding: 'utf8' });
             }
         }
     },

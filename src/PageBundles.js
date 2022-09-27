@@ -1,9 +1,9 @@
-var forEachEntry = require('raptor-util').forEachEntry;
+const forEachEntry = require('raptor-util').forEachEntry;
 
 /**
  *
  */
-var PageBundles = function() {
+const PageBundles = function() {
     this.bundles = [];
     this.bundleLookup = {};
     this.asyncBundleLookup = {};
@@ -14,7 +14,7 @@ PageBundles.prototype = {
         /*
          * Add the bundle to a page slot if it has not already been added
          */
-        var bundleLookupKey = bundle.getKey();
+        const bundleLookupKey = bundle.getKey();
 
         if (!this.bundleLookup[bundleLookupKey]) {
             this.bundleLookup[bundleLookupKey] = bundle;

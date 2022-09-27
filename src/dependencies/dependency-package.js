@@ -1,6 +1,6 @@
-var ok = require('assert').ok;
-var manifestLoader = require('../manifest-loader');
-var nodePath = require('path');
+const ok = require('assert').ok;
+const manifestLoader = require('../manifest-loader');
+const nodePath = require('path');
 
 module.exports = {
     properties: {
@@ -11,7 +11,7 @@ module.exports = {
     async init (lassoContext) {
         this._alias = this.path; // Store a reference to the unresolved path
 
-        var from = this.from || this.getParentManifestDir();
+        const from = this.from || this.getParentManifestDir();
         delete this.from;
 
         try {
@@ -21,7 +21,7 @@ module.exports = {
                     from));
         } catch (e) {
             if (e.fileNotFound) {
-                var inFile = this.getParentManifestPath();
+                const inFile = this.getParentManifestPath();
                 throw new Error('Lasso manifest not found for path "' + this.path + '" referenced in "' + (inFile || this.getParentManifestDir()) + '"');
             } else {
                 throw new Error('Unable to load lasso manifest for path "' + this.path + '". Dependency: ' + this.toString() + '. Exception: ' + (e.stack || e));

@@ -1,6 +1,6 @@
-var crypto = require('crypto');
-var inherit = require('raptor-util/inherit');
-var Transform = require('stream').Transform;
+const crypto = require('crypto');
+const inherit = require('raptor-util/inherit');
+const Transform = require('stream').Transform;
 
 function FingerprintStream(options) {
     FingerprintStream.$super.call(this, options);

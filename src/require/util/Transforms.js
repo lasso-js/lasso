@@ -1,10 +1,10 @@
-var logger = require('raptor-logging').logger(module);
-var crypto = require('crypto');
-var ok = require('assert').ok;
-var PassThrough = require('stream').PassThrough;
-var inspect = require('util').inspect;
-var util = require('util');
-var stream = require('stream');
+const logger = require('raptor-logging').logger(module);
+const crypto = require('crypto');
+const ok = require('assert').ok;
+const PassThrough = require('stream').PassThrough;
+const inspect = require('util').inspect;
+const util = require('util');
+const stream = require('stream');
 const resolveFrom = require('resolve-from');
 
 class TransformAdaptorStream extends stream.Transform {
@@ -26,8 +26,8 @@ class TransformAdaptorStream extends stream.Transform {
     _flush(callback) {
         // On the last flush we apply the transform by calling the transform function on the
         // data string that was collected from all input chunks
-        var transformFunc = this.transformFunc;
-        var result = transformFunc(this.data, this.lassoContext);
+        const transformFunc = this.transformFunc;
+        let result = transformFunc(this.data, this.lassoContext);
         if (result == null) {
             result = '';
         }
@@ -61,7 +61,7 @@ class TransformAdaptorStream extends stream.Transform {
 }
 
 function resolvePath(path, projectRoot) {
-    var resolvedPath;
+    let resolvedPath;
 
     if (projectRoot) {
         resolvedPath = resolveFrom(projectRoot, path);
@@ -82,7 +82,7 @@ class Transforms {
     constructor(transforms, projectRoot) {
         this._transforms = new Array(transforms.length);
 
-        let shasum = crypto.createHash('sha1');
+        const shasum = crypto.createHash('sha1');
 
         transforms.forEach((curTransform, i) => {
             if (!curTransform) {
@@ -109,7 +109,7 @@ class Transforms {
 
                 if (transform) {
                     if (typeof transform === 'string') {
-                        let transformPath = resolvePath(transform, projectRoot);
+                        const transformPath = resolvePath(transform, projectRoot);
                         transform = require(transformPath);
                         transformId = transform.id || transformPath;
                     }
@@ -117,7 +117,7 @@ class Transforms {
                     transform = curTransform;
                 }
 
-                let transformConfig = curTransform.config;
+                const transformConfig = curTransform.config;
 
                 if (typeof transform === 'function') {
                     stream = true;
@@ -151,7 +151,7 @@ class Transforms {
                 func: transformFunc,
                 id: transformId,
                 name: transformName || transformFunc.name,
-                stream: stream
+                stream
             };
 
             shasum.update(transformId);
@@ -162,12 +162,12 @@ class Transforms {
 
     apply(path, inStream, lassoContext) {
         ok(inStream, 'inStream is required');
-        var transforms = this._transforms;
+        const transforms = this._transforms;
 
         lassoContext = Object.create(lassoContext);
         lassoContext.filename = path;
 
-        var len = transforms.length;
+        const len = transforms.length;
         if (!len) {
             // If there are no transforms then just return the input stream
             return inStream;
@@ -184,9 +184,9 @@ class Transforms {
         }
 
         return lassoContext.deferredStream(function() {
-            var deferredStream = this;
+            const deferredStream = this;
 
-            var finished = false;
+            let finished = false;
 
             function handleError(e) {
                 if (finished) {
@@ -200,16 +200,16 @@ class Transforms {
 
             inStream.on('error', handleError);
 
-            var passThrough = new PassThrough({
+            const passThrough = new PassThrough({
                 encoding: 'utf8'
             });
 
-            var out = passThrough;
+            let out = passThrough;
 
-            for (var i = 0, len = transforms.length; i < len; i++) {
-                let curTransform = transforms[i];
+            for (let i = 0, len = transforms.length; i < len; i++) {
+                const curTransform = transforms[i];
 
-                var transformName = curTransform.name;
+                const transformName = curTransform.name;
 
                 if (logger.isDebugEnabled()) {
                     logger.debug('Applying transform ' + transformName);

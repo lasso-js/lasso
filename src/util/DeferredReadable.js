@@ -1,5 +1,5 @@
-var Readable = require('stream').Readable;
-var inherit = require('raptor-util/inherit');
+const Readable = require('stream').Readable;
+const inherit = require('raptor-util/inherit');
 
 function DeferredReadable(startFn, options) {
     if (startFn && typeof startFn !== 'function') {
@@ -9,15 +9,15 @@ function DeferredReadable(startFn, options) {
 
     DeferredReadable.$super.call(this, options);
 
-    var readCalled = false;
-    var wrappedStream = null;
-    var paused = false;
-    var _this = this;
+    let readCalled = false;
+    let wrappedStream = null;
+    let paused = false;
+    const _this = this;
 
-    var ended = false;
-    var chunkCount = 0;
+    let ended = false;
+    let chunkCount = 0;
 
-    var queuedEmits;
+    let queuedEmits;
 
     this.on('ready', function (wrappedStream) {
         _this.setWrappedStream(wrappedStream);
@@ -65,7 +65,7 @@ function DeferredReadable(startFn, options) {
             readCalled = true;
 
             if (queuedEmits) {
-                for (var i = 0, len = queuedEmits.length; i < len; i++) {
+                for (let i = 0, len = queuedEmits.length; i < len; i++) {
                     Readable.prototype.emit.apply(this, queuedEmits[i]);
                 }
                 queuedEmits = undefined;
@@ -74,7 +74,7 @@ function DeferredReadable(startFn, options) {
             if (wrappedStream) {
                 startReadingWrappedStream();
             } else if (startFn) {
-                var result = startFn.call(this);
+                const result = startFn.call(this);
 
                 if (result) {
                     this.setWrappedStream(result);

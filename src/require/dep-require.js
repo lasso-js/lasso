@@ -1,29 +1,29 @@
-var nodePath = require('path');
-var ok = require('assert').ok;
-var equal = require('assert').equal;
+const nodePath = require('path');
+const ok = require('assert').ok;
+const equal = require('assert').equal;
 const VAR_REQUIRE_PROCESS = 'process=require("process")';
 const VAR_REQUIRE_BUFFER = 'Buffer=require("buffer").Buffer';
 
-var inspectCache = require('./inspect-cache');
-var Deduper = require('./util/Deduper');
-var normalizeMain = require('lasso-modules-client/transport').normalizeMain;
-var lassoCachingFS = require('lasso-caching-fs');
-var lassoPackageRoot = require('lasso-package-root');
-var normalizeFSPath = require('./util/normalizeFSPath');
-var crypto = require('crypto');
+const inspectCache = require('./inspect-cache');
+const Deduper = require('./util/Deduper');
+const normalizeMain = require('lasso-modules-client/transport').normalizeMain;
+const lassoCachingFS = require('lasso-caching-fs');
+const lassoPackageRoot = require('lasso-package-root');
+const normalizeFSPath = require('./util/normalizeFSPath');
+const crypto = require('crypto');
 
 function buildAsyncInfo(path, asyncBlocks, lassoContext) {
     if (asyncBlocks.length === 0) {
         return null;
     }
 
-    var key = 'require-async|' + normalizeFSPath(path);
-    var asyncInfo = lassoContext.data[key];
+    const key = 'require-async|' + normalizeFSPath(path);
+    let asyncInfo = lassoContext.data[key];
 
     if (!asyncInfo) {
         asyncInfo = lassoContext.data[key] = {
             asyncMeta: {},
-            asyncBlocks: asyncBlocks
+            asyncBlocks
         };
 
         asyncBlocks.forEach(function(asyncBlock, i) {
@@ -36,13 +36,13 @@ function buildAsyncInfo(path, asyncBlocks, lassoContext) {
                 return;
             }
 
-            var hash = '_' + crypto.createHash('sha1')
+            const hash = '_' + crypto.createHash('sha1')
                 .update(key)
                 .update(String(i))
                 .digest('hex')
                 .substring(0, 6);
 
-            var name = asyncBlock.name = hash;
+            const name = asyncBlock.name = hash;
             asyncInfo.asyncMeta[name] = asyncBlock.dependencies;
         });
     }
@@ -52,27 +52,27 @@ function buildAsyncInfo(path, asyncBlocks, lassoContext) {
 
 function create(config, lasso) {
     config = config || {};
-    var globals = config.globals;
-    var getClientPath = config.getClientPath;
+    const globals = config.globals;
+    const getClientPath = config.getClientPath;
 
-    var readyDependency = lasso.dependencies.createDependency({
+    const readyDependency = lasso.dependencies.createDependency({
         type: 'commonjs-ready',
         inline: 'end',
         slot: config.lastSlot
     }, __dirname);
 
-    var runtimeDependency = lasso.dependencies.createDependency({
+    const runtimeDependency = lasso.dependencies.createDependency({
         type: 'commonjs-runtime'
     }, __dirname);
 
     function handleMetaRemap(metaEntry, deduper) {
-        var from = metaEntry.from;
-        var to = metaEntry.to;
+        const from = metaEntry.from;
+        const to = metaEntry.to;
 
-        var remapKey = deduper.remapKey(from, to);
+        const remapKey = deduper.remapKey(from, to);
         if (!deduper.hasRemap(remapKey)) {
-            var fromPath = getClientPath(from);
-            var toPath;
+            const fromPath = getClientPath(from);
+            let toPath;
 
             if (to === false) {
                 toPath = false;
@@ -90,34 +90,34 @@ function create(config, lasso) {
     }
 
     function handleMetaInstalled(metaEntry, deduper) {
-        var packageName = metaEntry.packageName;
-        var searchPath = metaEntry.searchPath;
-        var fromDir = metaEntry.fromDir;
-        var basename = nodePath.basename(searchPath);
+        const packageName = metaEntry.packageName;
+        const searchPath = metaEntry.searchPath;
+        const fromDir = metaEntry.fromDir;
+        const basename = nodePath.basename(searchPath);
 
         if (basename === 'node_modules') {
-            var childName = packageName;
-            var parentPath = lassoPackageRoot.getRootDir(fromDir);
-            var pkg = lassoCachingFS.readPackageSync(nodePath.join(searchPath, packageName, 'package.json'));
-            var childVersion = (pkg && pkg.version) || '0';
+            const childName = packageName;
+            const parentPath = lassoPackageRoot.getRootDir(fromDir);
+            const pkg = lassoCachingFS.readPackageSync(nodePath.join(searchPath, packageName, 'package.json'));
+            const childVersion = (pkg && pkg.version) || '0';
 
-            let key = deduper.installedKey(parentPath, childName, childVersion);
+            const key = deduper.installedKey(parentPath, childName, childVersion);
 
             if (!deduper.hasInstalled(key)) {
-                var clientParentPath = getClientPath(parentPath);
+                const clientParentPath = getClientPath(parentPath);
 
                 deduper.addDependency(key, {
                     type: 'commonjs-installed',
                     parentPath: clientParentPath,
-                    childName: childName,
-                    childVersion: childVersion,
+                    childName,
+                    childVersion,
                     parentDir: parentPath
                 });
             }
         } else {
-            let key = deduper.searchPathKey(searchPath);
+            const key = deduper.searchPathKey(searchPath);
             if (!deduper.hasSearchPath(key)) {
-                var clientSearchPath = getClientPath(searchPath);
+                let clientSearchPath = getClientPath(searchPath);
                 if (!clientSearchPath.endsWith('/')) {
                     // Search paths should always end with a forward slash
                     clientSearchPath += '/';
@@ -132,14 +132,14 @@ function create(config, lasso) {
     }
 
     function handleMetaMain(metaEntry, deduper) {
-        var dir = metaEntry.dir;
-        var main = metaEntry.main;
+        const dir = metaEntry.dir;
+        const main = metaEntry.main;
 
-        var key = deduper.mainKey(dir, main);
+        const key = deduper.mainKey(dir, main);
 
         if (!deduper.hasMain(key)) {
-            var dirClientPath = getClientPath(metaEntry.dir);
-            var relativePath = normalizeMain(metaEntry.dir, metaEntry.main);
+            const dirClientPath = getClientPath(metaEntry.dir);
+            const relativePath = normalizeMain(metaEntry.dir, metaEntry.main);
 
             deduper.addDependency(key, {
                 type: 'commonjs-main',
@@ -151,17 +151,17 @@ function create(config, lasso) {
     }
 
     function handleMetaBuiltin(metaEntry, deduper) {
-        var name = metaEntry.name;
-        var target = metaEntry.target;
+        const name = metaEntry.name;
+        const target = metaEntry.target;
 
-        var key = deduper.builtinKey(name, target);
+        const key = deduper.builtinKey(name, target);
 
         if (!deduper.hasBuiltin(key)) {
-            var targetClientPath = getClientPath(metaEntry.target);
+            const targetClientPath = getClientPath(metaEntry.target);
 
             deduper.addDependency(key, {
                 type: 'commonjs-builtin',
-                name: name,
+                name,
                 target: targetClientPath,
                 _sourceFile: metaEntry.target
             });
@@ -169,8 +169,8 @@ function create(config, lasso) {
     }
 
     function handleMeta(meta, deduper) {
-        for (var i = 0; i < meta.length; i++) {
-            var metaEntry = meta[i];
+        for (let i = 0; i < meta.length; i++) {
+            const metaEntry = meta[i];
             switch (metaEntry.type) {
             case 'remap':
                 handleMetaRemap(metaEntry, deduper);
@@ -202,16 +202,16 @@ function create(config, lasso) {
 
         async init (lassoContext) {
             if (!this.path && !this.virtualModule) {
-                let error = new Error('Invalid "require" dependency. "path" property is required');
+                const error = new Error('Invalid "require" dependency. "path" property is required');
                 console.error(module.id, error.stack, this);
                 throw error;
             }
 
             if (!this.resolved) {
-                var virtualModule = this.virtualModule;
+                const virtualModule = this.virtualModule;
 
                 if (virtualModule) {
-                    let path = virtualModule.path || this.path;
+                    const path = virtualModule.path || this.path;
                     ok(path, '"path" is required for a virtual module');
 
                     this.path = path;
@@ -219,17 +219,17 @@ function create(config, lasso) {
                         this.from = nodePath.dirname(path);
                     }
 
-                    var clientPath = virtualModule.clientPath || getClientPath(path);
+                    const clientPath = virtualModule.clientPath || getClientPath(path);
 
                     this.resolved = {
                         path,
                         clientPath
                     };
                 } else if (this.path) {
-                    let from = this.from = this.from || this.getParentManifestDir();
-                    let path = this.path;
-                    let fromFile = this.getParentManifestPath();
-                    let fromFileRelPath = fromFile ? nodePath.relative(process.cwd(), fromFile) : '(unknown)';
+                    const from = this.from = this.from || this.getParentManifestDir();
+                    const path = this.path;
+                    const fromFile = this.getParentManifestPath();
+                    const fromFileRelPath = fromFile ? nodePath.relative(process.cwd(), fromFile) : '(unknown)';
                     this.resolved = lassoContext.resolveCached(path, from);
 
                     if (!this.resolved) {
@@ -258,7 +258,7 @@ function create(config, lasso) {
         calculateKey() {
             // This is a unique key that prevents the same dependency from being
             // added to the dependency graph repeatedly
-            var key = 'modules-require:' + this.path + '@' + this.from;
+            let key = 'modules-require:' + this.path + '@' + this.from;
             if (this.run) {
                 key += '|run';
 
@@ -274,13 +274,13 @@ function create(config, lasso) {
         },
 
         getRequireHandler: function(lassoContext) {
-            var resolved = this.resolved;
-            var requireHandler = this.requireHandler;
+            const resolved = this.resolved;
+            let requireHandler = this.requireHandler;
 
             if (!requireHandler) {
-                var virtualModule = this.virtualModule;
+                const virtualModule = this.virtualModule;
                 if (virtualModule) {
-                    var virtualPath = resolved.path || virtualModule.path || '';
+                    const virtualPath = resolved.path || virtualModule.path || '';
                     requireHandler = lassoContext.dependencyRegistry.createRequireHandler(virtualPath, lassoContext, virtualModule);
                     requireHandler.includePathArg = false;
                 }
@@ -294,13 +294,13 @@ function create(config, lasso) {
                 }
             }
 
-            var transforms = config.transforms;
+            const transforms = config.transforms;
             if (transforms) {
-                let defaultCreateReadStream = requireHandler.createReadStream.bind(requireHandler);
-                let transformedRequireHandler = Object.create(requireHandler);
+                const defaultCreateReadStream = requireHandler.createReadStream.bind(requireHandler);
+                const transformedRequireHandler = Object.create(requireHandler);
 
                 transformedRequireHandler.createReadStream = function createdTransformedReadStream() {
-                    var inStream = defaultCreateReadStream();
+                    const inStream = defaultCreateReadStream();
                     return transforms.apply(resolved.path, inStream, lassoContext);
                 };
                 return transformedRequireHandler;
@@ -312,11 +312,9 @@ function create(config, lasso) {
         async getDependencies (lassoContext) {
             ok(lassoContext, '"lassoContext" argument expected');
 
-            var requireHandler;
-
             // the array of dependencies that we will be returning
-            var dependencies = [];
-            var deduper = new Deduper(lassoContext, dependencies);
+            const dependencies = [];
+            const deduper = new Deduper(lassoContext, dependencies);
 
             // Include client module system if needed and we haven't included it yet
             if (config.includeClient !== false) {
@@ -334,7 +332,7 @@ function create(config, lasso) {
                 deduper.addReady(readyDependency);
             }
 
-            var resolved = this.resolved;
+            const resolved = this.resolved;
 
             if (resolved.voidRemap) {
                 // This module has been remapped to a void/empty object
@@ -343,8 +341,8 @@ function create(config, lasso) {
                 return dependencies;
             }
 
-            var run = this.run === true;
-            var wait = this.wait !== false;
+            const run = this.run === true;
+            const wait = this.wait !== false;
 
             if (resolved.type) {
                 // This is not really a require dependency since a type was provided
@@ -355,7 +353,7 @@ function create(config, lasso) {
                 return dependencies;
             }
 
-            requireHandler = this.getRequireHandler(lassoContext);
+            const requireHandler = this.getRequireHandler(lassoContext);
 
             if (!requireHandler) {
                 // This is not really a dependency that compiles down to a CommonJS module
@@ -364,7 +362,7 @@ function create(config, lasso) {
                 return dependencies;
             }
 
-            var dirname = nodePath.dirname(resolved.path);
+            const dirname = nodePath.dirname(resolved.path);
 
             return requireHandler.init()
                 .then(() => {
@@ -391,7 +389,7 @@ function create(config, lasso) {
                             .then((lastModified) => {
                                 return {
                                     createReadStream: requireHandler.createReadStream.bind(requireHandler),
-                                    lastModified: lastModified
+                                    lastModified
                                 };
                             });
                     }
@@ -403,11 +401,11 @@ function create(config, lasso) {
                         config);
                 })
                 .then((inspectResult) => {
-                    var asyncMeta;
-                    var asyncBlocks;
+                    let asyncMeta;
+                    let asyncBlocks;
 
                     if (inspectResult && inspectResult.asyncBlocks && inspectResult.asyncBlocks.length) {
-                        var asyncInfo = buildAsyncInfo(resolved.path, inspectResult.asyncBlocks, lassoContext);
+                        const asyncInfo = buildAsyncInfo(resolved.path, inspectResult.asyncBlocks, lassoContext);
                         if (asyncInfo) {
                             asyncBlocks = asyncInfo.asyncBlocks;
                             asyncMeta = asyncInfo.asyncMeta;
@@ -415,26 +413,26 @@ function create(config, lasso) {
                     }
 
                     // require was for a source file
-                    var additionalVars;
+                    let additionalVars;
                     ok(inspectResult, 'inspectResult should not be null');
 
                     // the requires that were read from inspection (may remain undefined if no inspection result)
-                    var requires = inspectResult.requires;
+                    const requires = inspectResult.requires;
 
                     if (inspectResult.foundGlobals && (inspectResult.foundGlobals.process || inspectResult.foundGlobals.Buffer)) {
                         additionalVars = [];
-                        var addGlobalVar = (path, varCode) => {
-                            let resolved = lassoContext.resolve(path, dirname);
+                        const addGlobalVar = (path, varCode) => {
+                            const resolved = lassoContext.resolve(path, dirname);
                             if (resolved.meta) {
                                 handleMeta(resolved.meta, deduper);
                             }
 
-                            var requireKey = deduper.requireKey(path, dirname);
+                            const requireKey = deduper.requireKey(path, dirname);
 
                             if (!deduper.hasRequire(requireKey)) {
                                 deduper.addDependency(requireKey, {
                                     type: 'require',
-                                    path: path,
+                                    path,
                                     from: dirname
                                 });
                             }
@@ -455,10 +453,10 @@ function create(config, lasso) {
                     ok(inspectResult.lastModified, 'lastModified expected after inspectResult');
                     equal(typeof inspectResult.lastModified, 'number', 'lastModified should be a number');
 
-                    var globalVars = globals ? globals[this.resolved.path] : null;
+                    const globalVars = globals ? globals[this.resolved.path] : null;
 
                     // Also check if the directory has an browser.json and if so we should include that as well
-                    var lassoJsonPath = nodePath.join(dirname, 'browser.json');
+                    let lassoJsonPath = nodePath.join(dirname, 'browser.json');
                     if (lassoContext.cachingFs.existsSync(lassoJsonPath)) {
                         dependencies.push({
                             type: 'package',
@@ -478,16 +476,16 @@ function create(config, lasso) {
                     // Include all additional dependencies (these were the ones found in the source code)
                     if (requires && requires.length) {
                         requires.forEach(function(inspectResultRequire) {
-                            var inspectResultResolved = inspectResultRequire.resolved;
+                            const inspectResultResolved = inspectResultRequire.resolved;
 
-                            var meta = inspectResultResolved.meta;
+                            const meta = inspectResultResolved.meta;
                             if (meta) {
                                 handleMeta(meta, deduper);
                             }
 
-                            var path = inspectResultRequire.path;
+                            const path = inspectResultRequire.path;
 
-                            var requireKey = deduper.requireKey(path, dirname);
+                            const requireKey = deduper.requireKey(path, dirname);
 
                             if (!deduper.hasRequire(requireKey)) {
                                 deduper.addDependency(requireKey, {
@@ -500,10 +498,10 @@ function create(config, lasso) {
                         });
                     }
 
-                    var defKey = deduper.defKey(resolved.clientPath);
+                    const defKey = deduper.defKey(resolved.clientPath);
 
                     if (!deduper.hasDef(defKey)) {
-                        var defDependency = {
+                        const defDependency = {
                             type: 'commonjs-def',
                             path: resolved.clientPath,
                             file: resolved.path
@@ -540,13 +538,13 @@ function create(config, lasso) {
 
                     // Do we also need to add dependency to run the dependency?
                     if (run === true) {
-                        var runKey = deduper.runKey(resolved.clientPath, wait);
+                        const runKey = deduper.runKey(resolved.clientPath, wait);
 
                         if (!deduper.hasRun(runKey)) {
-                            var runDependency = {
+                            const runDependency = {
                                 type: 'commonjs-run',
                                 path: resolved.clientPath,
-                                wait: wait,
+                                wait,
                                 file: resolved.path
                             };
 
@@ -567,7 +565,7 @@ function create(config, lasso) {
 
                     if (asyncMeta) {
                         return {
-                            dependencies: dependencies,
+                            dependencies,
                             async: asyncMeta,
                             dirname: nodePath.dirname(resolved.path),
                             filename: resolved.path

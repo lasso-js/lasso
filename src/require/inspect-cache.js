@@ -1,13 +1,13 @@
-var ok = require('assert').ok;
-var logger = require('raptor-logging').logger(module);
-var streamToString = require('./util/streamToString');
-var inspect = require('./util/inspect');
-var nodePath = require('path');
-var extend = require('raptor-util/extend');
-var normalizeFSPath = require('./util/normalizeFSPath');
+const ok = require('assert').ok;
+const logger = require('raptor-logging').logger(module);
+const streamToString = require('./util/streamToString');
+const inspect = require('./util/inspect');
+const nodePath = require('path');
+const extend = require('raptor-util/extend');
+const normalizeFSPath = require('./util/normalizeFSPath');
 
 exports.inspectCached = function(path, requireHandler, lassoContext, config) {
-    var debugEnabled = logger.isDebugEnabled();
+    const debugEnabled = logger.isDebugEnabled();
 
     ok(path, '"path" is required');
     ok(requireHandler, '"requireHandler" is required');
@@ -22,13 +22,13 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
     ok(typeof config === 'object', '"config" should be an object');
 
     function resolveInspectedRequires(inspectResult) {
-        var allRequires = [];
-        var fromDir = nodePath.dirname(path);
+        const allRequires = [];
+        const fromDir = nodePath.dirname(path);
 
         function handleRequire(require) {
-            var resolved = lassoContext.resolveCached(require.path, fromDir);
-            var pathRelative = nodePath.relative(process.cwd(), path);
-            var fromRelative = nodePath.relative(process.cwd(), fromDir);
+            const resolved = lassoContext.resolveCached(require.path, fromDir);
+            const pathRelative = nodePath.relative(process.cwd(), path);
+            const fromRelative = nodePath.relative(process.cwd(), fromDir);
             if (!resolved) {
                 throw new Error('Module not found: ' + require.path + ' (from "' + fromRelative + '" and referenced in "' + pathRelative + '")');
             }
@@ -54,8 +54,8 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
     }
 
     // Get or create the required caches
-    var transformsId = config.transforms ? '/' + config.transforms.id : '';
-    var inspectCache = lassoContext.data['lasso-require/inspect'];
+    const transformsId = config.transforms ? '/' + config.transforms.id : '';
+    let inspectCache = lassoContext.data['lasso-require/inspect'];
     if (!inspectCache && lassoContext.cache) {
         inspectCache = lassoContext.data['lasso-require/inspect'] = lassoContext.cache.getCache(
             // Unique cache name based on the set of enabled require transforms:
@@ -64,8 +64,8 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
             'lasso-require/inspect');
     }
 
-    var src;
-    var lastModified;
+    let src;
+    let lastModified;
 
     function readSource() {
         if (src != null) {
@@ -74,7 +74,7 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
         }
 
         // Otherwise, let's read in the stream into a string value and invoke the callback when it is done.
-        var stream = requireHandler.createReadStream();
+        const stream = requireHandler.createReadStream();
         return streamToString(stream)
             .then((_src) => {
                 src = _src;
@@ -82,7 +82,7 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
             });
     }
 
-    var fromCache = true;
+    let fromCache = true;
 
     function cacheBuilder () {
         fromCache = false;
@@ -159,10 +159,10 @@ exports.inspectCached = function(path, requireHandler, lassoContext, config) {
             // case where there is cache hit. Since we have already read in the source this won't need to be
             // done later in the pipeline.
             src = '';
-            var fingerprint = null;
+            let fingerprint = null;
 
-            var stream = requireHandler.createReadStream();
-            var fingerprintStream = lassoContext.createFingerprintStream();
+            const stream = requireHandler.createReadStream();
+            const fingerprintStream = lassoContext.createFingerprintStream();
 
             fingerprintStream
                 .on('fingerprint', function(_fingerprint) {

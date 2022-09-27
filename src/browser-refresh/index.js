@@ -1,7 +1,7 @@
-var browserRefreshClient = require('browser-refresh-client');
-var nodePath = require('path');
+const browserRefreshClient = require('browser-refresh-client');
+const nodePath = require('path');
 
-var styleExtensions = {
+const styleExtensions = {
     css: true,
     less: true,
     styl: true,
@@ -11,7 +11,7 @@ var styleExtensions = {
     webp: true
 };
 
-var imageExtensions = {
+const imageExtensions = {
     png: true,
     jpeg: true,
     jpg: true,
@@ -19,7 +19,7 @@ var imageExtensions = {
     svg: true
 };
 
-var enabled = false;
+let enabled = false;
 
 exports.enable = function(patterns) {
     if (!browserRefreshClient.isBrowserRefreshEnabled() || enabled) {
@@ -42,7 +42,7 @@ exports.enable = function(patterns) {
         .onFileModified(function(path) {
             lasso.handleWatchedFileChanged(path);
 
-            var extname = nodePath.extname(path);
+            let extname = nodePath.extname(path);
             if (extname) {
                 extname = extname.substring(1);
             }

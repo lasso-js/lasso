@@ -1,6 +1,6 @@
-var Slot = require('./Slot');
-var InlinePos = require('./InlinePos');
-var toString = require('./util/to-string');
+const Slot = require('./Slot');
+const InlinePos = require('./InlinePos');
+const toString = require('./util/to-string');
 
 function SlotTracker() {
     this.slots = {};
@@ -11,37 +11,37 @@ SlotTracker.prototype = {
     addInlineCode: function(slotName, contentType, code, inlinePos, mergeInline) {
         this.slotNames[slotName] = true;
 
-        var slotKey = contentType + ':' + slotName;
+        let slotKey = contentType + ':' + slotName;
         if (inlinePos === InlinePos.BEGINNING) {
             slotKey += ':before';
         } else if (inlinePos === InlinePos.END) {
             slotKey += ':after';
         }
 
-        var slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
+        const slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
         slot.addInlineCode(code, mergeInline);
     },
 
     addContent: function(slotName, contentType, content) {
         this.slotNames[slotName] = true;
-        var slotKey = contentType + ':' + slotName;
-        var slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
+        const slotKey = contentType + ':' + slotName;
+        const slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
         slot.addContent(content);
     },
 
     getHtmlBySlot: function() {
-        var htmlBySlot = {};
-        var slots = this.slots;
+        const htmlBySlot = {};
+        const slots = this.slots;
 
         function addCode(slotName, lookup) {
-            var slot = slots[lookup];
+            const slot = slots[lookup];
 
             if (!slot) {
                 return;
             }
 
-            var html = htmlBySlot[slotName];
-            var newHtml = slot.buildHtml();
+            const html = htmlBySlot[slotName];
+            const newHtml = slot.buildHtml();
             htmlBySlot[slotName] =
                 html == null
                     ? newHtml
@@ -49,9 +49,9 @@ SlotTracker.prototype = {
                         `${toString(html, data)}\n${toString(newHtml, data)}`;
         }
 
-        var slotNames = Object.keys(this.slotNames);
-        for (var i = 0, len = slotNames.length; i < len; i++) {
-            var slotName = slotNames[i];
+        const slotNames = Object.keys(this.slotNames);
+        for (let i = 0, len = slotNames.length; i < len; i++) {
+            const slotName = slotNames[i];
 
             addCode(slotName, 'css:' + slotName + ':before');
             addCode(slotName, 'css:' + slotName);

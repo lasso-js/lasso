@@ -1,37 +1,38 @@
-var nodePath = require('path');
-var extend = require('raptor-util').extend;
-var inherit = require('raptor-util').inherit;
-var Dependency = require('./Dependency');
-var CONTENT_TYPE_CSS = require('../content-types').CSS;
-var CONTENT_TYPE_JS = require('../content-types').JS;
-var ok = require('assert').ok;
-var typePathRegExp = /^([A-Za-z0-9_\-]{2,})\s*:\s*(.+)$/; // Hack: {2,} is used because Windows file system paths start with "c:\"
-var readStream = require('../util').readStream;
-var RequireHandler = require('./RequireHandler');
-var equal = require('assert').equal;
-var globNormalizer = require('./glob').normalizer;
-var dependencyResource = require('./dependency-resource');
-var logger = require('raptor-logging').logger(module);
-var slice = Array.prototype.slice;
+const nodePath = require('path');
+const extend = require('raptor-util').extend;
+const inherit = require('raptor-util').inherit;
+const Dependency = require('./Dependency');
+const CONTENT_TYPE_CSS = require('../content-types').CSS;
+const CONTENT_TYPE_JS = require('../content-types').JS;
+const ok = require('assert').ok;
+const typePathRegExp = /^([A-Za-z0-9_\-]{2,})\s*:\s*(.+)$/; // Hack: {2,} is used because Windows file system paths start with "c:\"
+const readStream = require('../util').readStream;
+const RequireHandler = require('./RequireHandler');
+const equal = require('assert').equal;
+const globNormalizer = require('./glob').normalizer;
+const dependencyResource = require('./dependency-resource');
+const logger = require('raptor-logging').logger(module);
+const slice = Array.prototype.slice;
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function createDefaultNormalizer(registry) {
     function parsePath(path) {
-        var typePathMatches = typePathRegExp.exec(path);
+        const typePathMatches = typePathRegExp.exec(path);
         if (typePathMatches) {
             return {
                 type: typePathMatches[1],
                 path: typePathMatches[2]
             };
         } else {
-            var type = registry.typeForPath(path);
+            let type = registry.typeForPath(path);
 
             if (!type) {
                 type = 'package';
             }
 
             return {
-                type: type,
-                path: path
+                type,
+                path
             };
         }
     }
@@ -49,7 +50,7 @@ function createDefaultNormalizer(registry) {
                     dependency.path = dependency.package;
                     delete dependency.package;
                 } else if (dependency.path) {
-                    var parsed = parsePath(dependency.path);
+                    const parsed = parsePath(dependency.path);
                     dependency.type = parsed.type;
                     dependency.path = parsed.path;
                 } else if (dependency.intersection) {
@@ -102,7 +103,7 @@ DependencyRegistry.prototype = {
         // c) "js"
         path = nodePath.basename(path);
 
-        var type = this.extensions[path];
+        let type = this.extensions[path];
 
         if (type) {
             // This is to handle the case where the extension
@@ -110,14 +111,14 @@ DependencyRegistry.prototype = {
             return type;
         }
 
-        var dotPos = path.indexOf('.');
+        let dotPos = path.indexOf('.');
         if (dotPos === -1) {
             return null;
         }
 
         do {
             type = path.substring(dotPos + 1);
-            if (this.extensions.hasOwnProperty(type)) {
+            if (hasOwn.call(this.extensions, type)) {
                 return this.extensions[type];
             }
             // move to the next dot position
@@ -125,7 +126,7 @@ DependencyRegistry.prototype = {
         }
         while (dotPos !== -1);
 
-        var lastDot = path.lastIndexOf('.');
+        const lastDot = path.lastIndexOf('.');
         return path.substring(lastDot + 1);
     },
 
@@ -140,9 +141,9 @@ DependencyRegistry.prototype = {
         equal(typeof type, 'string', '"type" should be a string');
         equal(typeof mixins, 'object', '"mixins" should be a object');
 
-        var isPackageDependency = mixins._packageDependency === true;
+        const isPackageDependency = mixins._packageDependency === true;
 
-        var hasReadFunc = mixins.read;
+        const hasReadFunc = mixins.read;
 
         if (isPackageDependency && hasReadFunc) {
             throw new Error('Manifest dependency of type "' + type + '" is not expected to have a read() method.');
@@ -155,18 +156,18 @@ DependencyRegistry.prototype = {
 
         mixins = extend({}, mixins);
 
-        var properties = mixins.properties || {};
-        var childProperties = Object.create(Dependency.prototype.properties);
+        const properties = mixins.properties || {};
+        const childProperties = Object.create(Dependency.prototype.properties);
         extend(childProperties, properties);
         mixins.properties = childProperties;
 
-        var calculateKey = mixins.calculateKey;
+        const calculateKey = mixins.calculateKey;
         if (calculateKey) {
             mixins.doCalculateKey = calculateKey;
             delete mixins.calculateKey;
         }
 
-        var getLastModified = mixins.getLastModified || mixins.lastModified;
+        const getLastModified = mixins.getLastModified || mixins.lastModified;
         if (getLastModified) {
             mixins.doGetLastModified = getLastModified;
             delete mixins.getLastModified;
@@ -176,7 +177,7 @@ DependencyRegistry.prototype = {
         if (!isPackageDependency && mixins.read) {
             // Wrap the read method to ensure that it always returns a stream
             // instead of possibly using a callback
-            var oldRead = mixins.read;
+            const oldRead = mixins.read;
             delete mixins.read;
 
             mixins.doRead = function(lassoContext) {
@@ -186,7 +187,7 @@ DependencyRegistry.prototype = {
             };
         }
 
-        var _this = this;
+        const _this = this;
 
         function Ctor(dependencyConfig, dirname, filename) {
             this.__dependencyRegistry = _this;
@@ -245,11 +246,11 @@ DependencyRegistry.prototype = {
         equal(typeof type, 'string', '"type" should be a string');
         equal(typeof options, 'object', '"options" should be a object');
 
-        var userRead = options.read;
-        var userCreateReadStream = options.createReadStream;
-        var userGetLastModified = options.getLastModified;
+        const userRead = options.read;
+        const userCreateReadStream = options.createReadStream;
+        const userGetLastModified = options.getLastModified;
 
-        var extensionOptions = extend({}, options);
+        const extensionOptions = extend({}, options);
 
         if (userRead) {
             extensionOptions.read = function(path, lassoContext, callback) {
@@ -284,11 +285,11 @@ DependencyRegistry.prototype = {
                 return this.path;
             },
             async getDependencies (lassoContext) {
-                var path = this.path;
+                const path = this.path;
                 return [
                     {
                         type: 'require',
-                        path: path
+                        path
                     }
                 ];
             }
@@ -297,10 +298,10 @@ DependencyRegistry.prototype = {
 
     getRequireExtensionNames() {
         if (this.requireExtensionNames === undefined) {
-            var extensionsLookup = {};
-
-            let nodeRequireExtensions = require.extensions; // eslint-disable-line node/no-deprecated-api
-            for (let ext in nodeRequireExtensions) {
+            const extensionsLookup = {};
+            // eslint-disable-next-line n/no-deprecated-api
+            const nodeRequireExtensions = require.extensions;
+            for (const ext in nodeRequireExtensions) {
                 if (ext !== '.node') {
                     extensionsLookup[ext] = true;
                 }
@@ -335,16 +336,15 @@ DependencyRegistry.prototype = {
         ok(typeof path === 'string', '"path" should be a string');
         ok(typeof lassoContext === 'object', '"lassoContext" should be an object');
 
-        var basename = nodePath.basename(path);
-        var lastDot = basename.lastIndexOf('.');
-        var ext;
+        const basename = nodePath.basename(path);
+        const lastDot = basename.lastIndexOf('.');
         if (lastDot === -1) {
             return null;
         }
 
-        ext = basename.substring(lastDot + 1);
+        const ext = basename.substring(lastDot + 1);
 
-        var userOptions = this.requireExtensions[ext];
+        const userOptions = this.requireExtensions[ext];
         if (!userOptions) {
             return null;
         }
@@ -388,8 +388,8 @@ DependencyRegistry.prototype = {
         ok(dirname, '"dirname" is required');
         equal(typeof config, 'object', 'Invalid dependency: ' + require('util').inspect(config));
 
-        var type = config.type;
-        var Ctor = this.registeredTypes[type];
+        const type = config.type;
+        const Ctor = this.registeredTypes[type];
         if (!Ctor) {
             throw new Error('Dependency of type "' + type + '" is not supported. (dependency=' + require('util').inspect(config) + ', package="' + filename + '"). Registered types:\n' + Object.keys(this.registeredTypes).join(', '));
         }
@@ -404,17 +404,17 @@ DependencyRegistry.prototype = {
             return dependencies;
         }
 
-        var i = 0;
-        var j = 0;
+        let i = 0;
+        let j = 0;
 
         dependencies = dependencies.concat([]);
 
-        var normalizers = this._finalNormalizers;
-        var normalizerCount = normalizers.length;
+        const normalizers = this._finalNormalizers;
+        const normalizerCount = normalizers.length;
 
-        var context = {
-            dirname: dirname,
-            filename: filename
+        const context = {
+            dirname,
+            filename
         };
 
         function handleNormalizedDependency (dependencies, i, normalizedDependency) {
@@ -439,9 +439,9 @@ DependencyRegistry.prototype = {
                 let dependency = dependencies[i];
 
                 if (!dependency.__Dependency) {
-                    while (j < normalizerCount) {
-                        let normalizeFunc = normalizers[j];
-                        let normalizedDependency = await normalizeFunc(dependency, context);
+                    if (j < normalizerCount) {
+                        const normalizeFunc = normalizers[j];
+                        const normalizedDependency = await normalizeFunc(dependency, context);
                         const handledNormalizedDep = handleNormalizedDependency(dependencies, i, normalizedDependency);
 
                         dependency = handledNormalizedDep || dependency;
@@ -476,14 +476,14 @@ DependencyRegistry.prototype = {
      * JS dependencies without registering a global transform.
      */
     createResourceTransformType (transformFunc) {
-        var transformType = extend({}, dependencyResource);
+        const transformType = extend({}, dependencyResource);
         extend(transformType, {
             isExternalResource: function() {
                 return false;
             },
 
             async read (context) {
-                var readResult = await dependencyResource.read.call(this, {});
+                const readResult = await dependencyResource.read.call(this, {});
 
                 return new Promise((resolve, reject) => {
                     function callback (err, res) {
@@ -493,7 +493,7 @@ DependencyRegistry.prototype = {
                     if (typeof readResult === 'string') {
                         return transformFunc(readResult, callback);
                     } else if (readResult) {
-                        var code = '';
+                        let code = '';
                         readResult
                             .on('data', function(data) {
                                 code += data;

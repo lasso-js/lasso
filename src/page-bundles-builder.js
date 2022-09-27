@@ -1,11 +1,12 @@
-var PageBundles = require('./PageBundles');
-var dependencyWalker = require('./dependency-walker');
-var assert = require('assert');
-var LassoManifest = require('./LassoManifest');
-var LoaderMetadata = require('./LoaderMetadata');
-var DependencyTree = require('./DependencyTree');
-var logger = require('raptor-logging').logger(module);
-var bundlingStrategies = require('./bundling-strategies');
+const PageBundles = require('./PageBundles');
+const dependencyWalker = require('./dependency-walker');
+const assert = require('assert');
+const LassoManifest = require('./LassoManifest');
+const LoaderMetadata = require('./LoaderMetadata');
+const DependencyTree = require('./DependencyTree');
+const logger = require('raptor-logging').logger(module);
+const bundlingStrategies = require('./bundling-strategies');
+const hasOwn = Object.prototype.hasOwnProperty;
 
 async function build (options, config, bundleMappings, lassoContext) {
     // TODO: Change to fully use async/await
@@ -14,40 +15,41 @@ async function build (options, config, bundleMappings, lassoContext) {
     assert.ok(bundleMappings, '"bundleMappings" is required');
     assert.ok(lassoContext, '"lassoContext" is required');
 
-    var pageName = options.name || options.pageName;
-    var lassoManifest = options.lassoManifest;
-    var flags = lassoContext.flags;
+    const pageName = options.name || options.pageName;
+    const lassoManifest = options.lassoManifest;
+    const flags = lassoContext.flags;
 
     assert.ok(pageName, 'page name is required');
     assert.ok(typeof pageName === 'string', 'page name should be a string');
     assert.ok(lassoManifest, '"lassoManifest" is required');
     assert.ok(LassoManifest.isLassoManifest(lassoManifest), '"lassoManifest" is not a valid package');
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
         function callback (err, data) {
             return err ? reject(err) : resolve(data);
         }
 
         // this will keep track of async loader metadata
-        var loaderMetadata = lassoContext.loaderMetadata = new LoaderMetadata();
+        const loaderMetadata = lassoContext.loaderMetadata = new LoaderMetadata();
 
-        var pageBundles = new PageBundles();
+        const pageBundles = new PageBundles();
 
-        var bundlingStrategyFactory = bundlingStrategies[config.getBundlingStrategy() || 'default'];
+        const bundlingStrategyFactory = bundlingStrategies[config.getBundlingStrategy() || 'default'];
 
         if (!bundlingStrategyFactory) {
             throw new Error('Invalid "bundlingStrategy": ' + config.getBundlingStrategy() + '. Expected: ' + Object.keys(bundlingStrategies).join(', '));
         }
 
-        var bundlingStrategy = bundlingStrategyFactory(options, config, bundleMappings, pageBundles, lassoContext);
+        const bundlingStrategy = bundlingStrategyFactory(options, config, bundleMappings, pageBundles, lassoContext);
 
-        var infoEnabled = logger.isInfoEnabled();
+        const infoEnabled = logger.isInfoEnabled();
 
-        var foundAsyncPackages = {};
+        const foundAsyncPackages = {};
 
         // as we discover new manifests with "async" property, we add tasks to work queue
         // that will be later used to build each async package
-        var buildAsyncPackagesWorkQueue = require('raptor-async/work-queue').create({
+        const buildAsyncPackagesWorkQueue = require('raptor-async/work-queue').create({
             // task caused error
             onTaskError: function(err) {
                 // on error, clear the queue of any tasks
@@ -64,15 +66,15 @@ async function build (options, config, bundleMappings, lassoContext) {
         }, async function (task, callback) {
             // this function is called when we need to run task
 
-            var asyncPackageName = task.asyncPackageName;
-            var debugTree = logger.isDebugEnabled() ? new DependencyTree() : null;
+            const asyncPackageName = task.asyncPackageName;
+            const debugTree = logger.isDebugEnabled() ? new DependencyTree() : null;
 
             // register this async package name in loader metadata
             loaderMetadata.addAsyncPackageName(asyncPackageName);
 
             // Since we are building the async bundles in parallel we need to create a new
             // lasso context object, each with its own phaseData
-            var nestedLassoContext = Object.create(lassoContext);
+            const nestedLassoContext = Object.create(lassoContext);
             nestedLassoContext.phaseData = {};
 
             if (infoEnabled) {
@@ -82,7 +84,7 @@ async function build (options, config, bundleMappings, lassoContext) {
             try {
                 await dependencyWalker.walk({
                     dependencies: task.dependencies,
-                    flags: flags,
+                    flags,
                     lassoContext: nestedLassoContext,
                     on: {
                         // as we're building async packages, we need to watch for new async packages
@@ -107,7 +109,7 @@ async function build (options, config, bundleMappings, lassoContext) {
                             // - dependencyChain
                             lassoContext.emit('beforeAddDependencyToAsyncPageBundle', walkContext);
 
-                            var bundle = bundlingStrategy.getBundleForAsyncDependency(dependency, walkContext, debugTree);
+                            const bundle = bundlingStrategy.getBundleForAsyncDependency(dependency, walkContext, debugTree);
                             if (bundle) {
                                 dependency.onAddToAsyncPageBundle(bundle, lassoContext);
                                 pageBundles.addAsyncBundle(bundle);
@@ -133,12 +135,12 @@ async function build (options, config, bundleMappings, lassoContext) {
         // When walking a manifest, we need to check if the manifest has an "async" property
         // which declares asynchronous packages
         function handleManifest(manifest, walkContext) {
-            var async = manifest.async;
+            const async = manifest.async;
             if (async) {
                 // create jobs to build each async package
-                for (var asyncName in async) {
-                    if (async.hasOwnProperty(asyncName)) {
-                        if (!foundAsyncPackages.hasOwnProperty(asyncName)) {
+                for (const asyncName in async) {
+                    if (hasOwn.call(async, asyncName)) {
+                        if (!hasOwn.call(foundAsyncPackages, asyncName)) {
                             foundAsyncPackages[asyncName] = true;
                             buildAsyncPackagesWorkQueue.push({
                                 asyncPackageName: asyncName,
@@ -155,13 +157,13 @@ async function build (options, config, bundleMappings, lassoContext) {
          *         packages that are asynchronous.                            *
          **********************************************************************/
         async function buildSyncPageBundles () {
-            var debugTree = logger.isDebugEnabled() ? new DependencyTree() : null;
+            const debugTree = logger.isDebugEnabled() ? new DependencyTree() : null;
             lassoContext.setPhase('page-bundle-mappings');
 
             await dependencyWalker.walk({
-                lassoManifest: lassoManifest,
-                flags: flags,
-                lassoContext: lassoContext,
+                lassoManifest,
+                flags,
+                lassoContext,
                 on: {
                     manifest: handleManifest,
                     dependency: function(dependency, walkContext) {
@@ -184,7 +186,7 @@ async function build (options, config, bundleMappings, lassoContext) {
                         // - dependencyChain
                         lassoContext.emit('beforeAddDependencyToSyncPageBundle', walkContext);
 
-                        var bundle = bundlingStrategy.getBundleForSyncDependency(dependency, walkContext, debugTree);
+                        const bundle = bundlingStrategy.getBundleForSyncDependency(dependency, walkContext, debugTree);
                         if (bundle) {
                             // We know that the dependency is now actually part of the page
                             // (it wasn't just mapped into a bundle during configuration)

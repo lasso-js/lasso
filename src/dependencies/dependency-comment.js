@@ -1,7 +1,7 @@
 module.exports = {
 
     properties: {
-        'path': 'string'
+        path: 'string'
     },
 
     // we don't actually produce JavaScript or CSS

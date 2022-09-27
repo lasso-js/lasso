@@ -1,4 +1,4 @@
-var transport = require('lasso-modules-client/transport');
+const transport = require('lasso-modules-client/transport');
 
 exports.create = function(config, lasso) {
     return {

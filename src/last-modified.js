@@ -1,4 +1,4 @@
-var cachingFs = require('./caching-fs');
+const cachingFs = require('./caching-fs');
 
 // TODO: Change in lasso-caching-fs
 exports.forFile = async function (filePath) {

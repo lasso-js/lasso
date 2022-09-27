@@ -1,18 +1,18 @@
-var Readable = require('stream').Readable;
+const Readable = require('stream').Readable;
 
-var inherit = require('raptor-util/inherit');
+const inherit = require('raptor-util/inherit');
 
 function CombinedStream(options) {
     CombinedStream.$super.call(this, options);
 
-    var streams = this.streams = [];
-    var combined = this;
-    var separator;
-    var curStream;
-    var i = -1;
-    var len;
-    var paused = false;
-    var reading = false;
+    const streams = this.streams = [];
+    const combined = this;
+    let separator;
+    let curStream;
+    let i = -1;
+    let len;
+    let paused = false;
+    let reading = false;
 
     if (options) {
         separator = options.separator;
@@ -30,7 +30,7 @@ function CombinedStream(options) {
         }
     }
 
-    var depth = 0;
+    let depth = 0;
 
     /*
     Node.js internally uses process.nextTick() during stream data

@@ -1,19 +1,21 @@
-var extend = require('raptor-util').extend;
-var DependencyList = require('./DependencyList');
-var ok = require('assert').ok;
+const extend = require('raptor-util').extend;
+const DependencyList = require('./DependencyList');
+const ok = require('assert').ok;
 
-var nodePath = require('path');
-var FlagSet = require('./FlagSet');
-var nextId = 0;
+const nodePath = require('path');
+const FlagSet = require('./FlagSet');
+let nextId = 0;
 
-var condition = require('./condition');
+const condition = require('./condition');
 
-var lassoResolveFrom = require('lasso-resolve-from');
+const lassoResolveFrom = require('lasso-resolve-from');
 
-var logger = require('raptor-logging').logger(module);
+const logger = require('raptor-logging').logger(module);
+
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function resolveBrowserPath(dir, path) {
-    var resolved;
+    let resolved;
 
     if (path.charAt(0) === '.') {
         resolved = lassoResolveFrom(dir, path);
@@ -28,9 +30,9 @@ function resolveBrowserPath(dir, path) {
 }
 
 function LassoManifest(options) {
-    var dependencyRegistry = options.dependencyRegistry;
+    const dependencyRegistry = options.dependencyRegistry;
 
-    var async;
+    let async;
 
     if (options.manifest) {
         // save off the async property value
@@ -51,8 +53,8 @@ function LassoManifest(options) {
         this.filename = options.filename;
     }
 
-    var dirname = this.dirname;
-    var filename = this.filename;
+    const dirname = this.dirname;
+    const filename = this.filename;
 
     ok(dirname, '"dirname" is required');
     ok(typeof dirname === 'string', '"dirname" must be a string');
@@ -72,9 +74,9 @@ function LassoManifest(options) {
 
         this.async = {};
 
-        for (var asyncPackageName in async) {
-            if (async.hasOwnProperty(asyncPackageName)) {
-                var asyncDependencies = async[asyncPackageName];
+        for (const asyncPackageName in async) {
+            if (hasOwn.call(async, asyncPackageName)) {
+                const asyncDependencies = async[asyncPackageName];
                 this.async[asyncPackageName] = new DependencyList(
                     asyncDependencies,
                     dependencyRegistry,
@@ -84,15 +86,15 @@ function LassoManifest(options) {
         }
     }
 
-    var requireRemap = this.requireRemap;
+    const requireRemap = this.requireRemap;
     if (requireRemap && Array.isArray(requireRemap)) {
         this.requireRemap = requireRemap.map((requireRemap) => {
-            var from = resolveBrowserPath(dirname, requireRemap.from);
-            var to = resolveBrowserPath(dirname, requireRemap.to);
+            const from = resolveBrowserPath(dirname, requireRemap.from);
+            const to = resolveBrowserPath(dirname, requireRemap.to);
 
             return {
-                from: from,
-                to: to,
+                from,
+                to,
                 condition: condition.fromObject(requireRemap)
             };
         });
@@ -118,7 +120,7 @@ LassoManifest.prototype = {
     async getDependencies (options) {
         logger.debug('getDependencies()');
 
-        var flags = options && options.flags;
+        let flags = options && options.flags;
         if (!flags || !flags.__FlagSet) {
             flags = new FlagSet(flags);
         }
@@ -132,8 +134,8 @@ LassoManifest.prototype = {
 
     getRequireRemap: function(lassoContext) {
         if (this.requireRemap && Array.isArray(this.requireRemap)) {
-            var filteredRemaps = {};
-            var flags = lassoContext.flags;
+            const filteredRemaps = {};
+            const flags = lassoContext.flags;
 
             this.requireRemap.forEach(function(remap) {
                 if (remap.condition && !remap.condition(flags)) {
