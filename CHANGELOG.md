@@ -1,6 +1,9 @@
 Changelog
 =========
 
+# 4.0.1
+- Fix regression with the `getImageInfo` api.
+
 # 4.0.0
 - **BREAKING**: Requires a minimum of node 16
 - Upgrades internal dependencies (biggest user facing change being JS/CSS parsing and minification of newer features).
