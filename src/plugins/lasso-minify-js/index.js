@@ -1,24 +1,6 @@
 var Terser = require('terser');
 var codeFrame = require('babel-code-frame');
-var internalOptions = ['inlineOnly'];
 var hasOwn = Object.prototype.hasOwnProperty;
-
-function minify(src, pluginOptions) {
-    var minifyOptions = {};
-    for (var key in pluginOptions) {
-        if (hasOwn.call(pluginOptions, key) && internalOptions.indexOf(key) === -1) {
-            minifyOptions[key] = pluginOptions[key];
-        }
-    }
-
-    var result = Terser.minify(src, minifyOptions);
-
-    if (result.error) {
-        throw result.error;
-    }
-
-    return result.code;
-}
 
 function isInline(lassoContext) {
     if (lassoContext.inline === true) {
@@ -40,16 +22,23 @@ module.exports = function (lasso, pluginConfig) {
 
         stream: false,
 
-        transform: function(code, lassoContext) {
+        transform: async function(code, lassoContext) {
             if (pluginConfig.inlineOnly === true && !isInline(lassoContext)) {
                 // Skip minification when we are not minifying inline code
                 return code;
             }
 
+            var minifyOptions = {};
+            for (var key in pluginConfig) {
+                if (key !== 'inlineOnly' && hasOwn.call(pluginConfig, key)) {
+                    minifyOptions[key] = pluginConfig[key];
+                }
+            }
+
             try {
-                var minified = minify(code, pluginConfig);
-                if (minified.length && !minified.endsWith(';')) {
-                    minified += ';';
+                var minified = (await Terser.minify(code, minifyOptions)).code;
+                if (minified && !minified.endsWith(';')) {
+                    return minified + ';';
                 }
                 return minified;
             } catch (e) {
