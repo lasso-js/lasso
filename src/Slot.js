@@ -39,7 +39,7 @@ Slot.prototype = {
     addInlineCode: function(code, merge) {
         if (merge) {
             var prev = this.content.length ? this.content[this.content.length - 1] : null;
-            if (prev && prev.inline && prev.merge) {
+            if (prev && prev.inline && prev.merge && typeof prev.code === 'string') {
                 prev.code += '\n' + code;
                 return;
             }
@@ -70,6 +70,8 @@ Slot.prototype = {
                 if (builder) {
                     isTemplate = true;
                     output.push(builder(content.code));
+                } else {
+                    throw new Error("Invalid inline content type '" + this.contentType + "'.");
                 }
             } else {
                 isTemplate = isTemplate || typeof content.code === 'function';
