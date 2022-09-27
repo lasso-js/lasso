@@ -1,7 +1,7 @@
-var ok = require('assert').ok;
-var toString = require('./util/to-string');
-var stringifyAttrs = require('./util/stringify-attrs');
-var inlineBuilders = {
+const ok = require('assert').ok;
+const toString = require('./util/to-string');
+const stringifyAttrs = require('./util/stringify-attrs');
+const inlineBuilders = {
     js: (source) => (data) => {
         const scriptAttrs = data.externalScriptAttrs;
         const code = toString(source, data);
@@ -38,7 +38,7 @@ function Slot(contentType) {
 Slot.prototype = {
     addInlineCode: function(code, merge) {
         if (merge) {
-            var prev = this.content.length ? this.content[this.content.length - 1] : null;
+            const prev = this.content.length ? this.content[this.content.length - 1] : null;
             if (prev && prev.inline && prev.merge && typeof prev.code === 'string') {
                 prev.code += '\n' + code;
                 return;
@@ -47,7 +47,7 @@ Slot.prototype = {
 
         this.content.push({
             inline: true,
-            code: code,
+            code,
             merge: merge !== false
         });
     },

@@ -1,15 +1,15 @@
-var inherit = require('raptor-util/inherit');
+const inherit = require('raptor-util/inherit');
 
-var Transform = require('stream').Transform;
-var Readable = require('stream').Readable;
+const Transform = require('stream').Transform;
+const Readable = require('stream').Readable;
 
 // ReplayStream
 function ReplayStream(cachingStream, options) {
     ReplayStream.$super.call(this, options);
 
-    var _this = this;
-    var _chunks = cachingStream._chunks;
-    var _pos = 0;
+    const _this = this;
+    const _chunks = cachingStream._chunks;
+    let _pos = 0;
 
     function continueReading() {
         while (_pos < _chunks.length) {

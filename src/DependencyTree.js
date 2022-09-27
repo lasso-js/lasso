@@ -1,3 +1,5 @@
+const hasOwn = Object.prototype.hasOwnProperty;
+
 function Node(dependency, parent) {
     this.dependency = dependency;
     this.children = [];
@@ -13,7 +15,7 @@ function DependencyTree() {
 
 DependencyTree.prototype = {
     add: function(dependency, parentDependency) {
-        var parentNode = parentDependency
+        const parentNode = parentDependency
             ? this._nodes[parentDependency.getKey()]
             : this._root;
 
@@ -21,24 +23,24 @@ DependencyTree.prototype = {
             throw new Error('parentNode node not found: ' + parentDependency.getKey());
         }
 
-        var node = new Node(dependency, parentNode);
+        const node = new Node(dependency, parentNode);
 
         parentNode.children.push(node);
         this._nodes[dependency.getKey()] = node;
     },
 
     addToBundle: function(bundle, dependency, parentDependency) {
-        var bundleTree = this._bundleTrees[bundle.getKey()];
+        let bundleTree = this._bundleTrees[bundle.getKey()];
         if (!bundleTree) {
             bundleTree = this._bundleTrees[bundle.getKey()] = new DependencyTree();
             bundleTree.bundle = bundle;
         }
 
-        var parentNode = parentDependency
+        const parentNode = parentDependency
             ? this._nodes[parentDependency.getKey()]
             : this._root;
 
-        var copyNodes = function(node) {
+        function copyNodes(node) {
             if (node.isRoot || bundleTree._nodes[node.dependency.getKey()]) {
                 return;
             }
@@ -56,11 +58,11 @@ DependencyTree.prototype = {
     },
 
     bundlesToString: function() {
-        var lines = [];
+        const lines = [];
 
-        for (var k in this._bundleTrees) {
-            if (this._bundleTrees.hasOwnProperty(k)) {
-                var bundleTree = this._bundleTrees[k];
+        for (const k in this._bundleTrees) {
+            if (hasOwn.call(this._bundleTrees, k)) {
+                const bundleTree = this._bundleTrees[k];
                 lines.push('Bundle ' + bundleTree.bundle.toString() + ':');
                 lines.push(bundleTree.toString());
             }
@@ -70,12 +72,12 @@ DependencyTree.prototype = {
     },
 
     toString: function(indent) {
-        var lines = [];
+        const lines = [];
 
         function toStringHelper(node, indent) {
-            for (var i = 0, len = node.children.length; i < len; i++) {
-                var child = node.children[i];
-                var line = indent;
+            for (let i = 0, len = node.children.length; i < len; i++) {
+                const child = node.children[i];
+                let line = indent;
                 if (!child.dependency.isPackageDependency()) {
                     line += '+ ';
                 }

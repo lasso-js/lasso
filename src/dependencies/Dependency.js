@@ -1,20 +1,21 @@
-var nodePath = require('path');
-var condition = require('../condition');
+const nodePath = require('path');
+const condition = require('../condition');
 
-var CONTENT_TYPE_CSS = require('../content-types').CSS;
-var CONTENT_TYPE_JS = require('../content-types').JS;
-var CONTENT_TYPE_NONE = require('../content-types').NONE;
-var util = require('../util');
-var ok = require('assert').ok;
-var equal = require('assert').equal;
-var Readable = require('stream').Readable;
-var manifestLoader = require('../manifest-loader');
-var logger = require('raptor-logging').logger(module);
-var lastModified = require('../last-modified');
-var AsyncValue = require('raptor-async/AsyncValue');
-var EventEmitter = require('events').EventEmitter;
+const CONTENT_TYPE_CSS = require('../content-types').CSS;
+const CONTENT_TYPE_JS = require('../content-types').JS;
+const CONTENT_TYPE_NONE = require('../content-types').NONE;
+const util = require('../util');
+const ok = require('assert').ok;
+const equal = require('assert').equal;
+const Readable = require('stream').Readable;
+const manifestLoader = require('../manifest-loader');
+const logger = require('raptor-logging').logger(module);
+const lastModified = require('../last-modified');
+const AsyncValue = require('raptor-async/AsyncValue');
+const EventEmitter = require('events').EventEmitter;
+const hasOwn = Object.prototype.hasOwnProperty;
 
-var NON_KEY_PROPERTIES = {
+const NON_KEY_PROPERTIES = {
     inline: true,
     slot: true,
     'js-slot': true,
@@ -28,10 +29,10 @@ function getPackagePath(d) {
 
 function doCalculateFingerprint (dependency, lassoContext) {
     return new Promise((resolve, reject) => {
-        var input = dependency.read(lassoContext);
-        var cachingReadStream = util.createCachingStream();
+        const input = dependency.read(lassoContext);
+        const cachingReadStream = util.createCachingStream();
 
-        var fingerprintStream = util.createFingerprintStream()
+        const fingerprintStream = util.createFingerprintStream()
             .on('error', reject)
             .on('fingerprint', function(fingerprint) {
                 dependency._cachingReadStream = cachingReadStream;
@@ -46,7 +47,7 @@ function doCalculateFingerprint (dependency, lassoContext) {
 
         input
             .on('error', function(e) {
-                var message = 'Unable to read dependency "' + dependency + '" referenced in "' + dependency.getParentManifestPath() + '". ';
+                let message = 'Unable to read dependency "' + dependency + '" referenced in "' + dependency.getParentManifestPath() + '". ';
                 if (e.code === 'ENOENT' && e.path) {
                     message += 'File does not exist: ' + e.path;
                 } else {
@@ -105,19 +106,19 @@ Dependency.prototype = {
     __Dependency: true,
 
     properties: {
-        'type': 'string',
-        'attributes': 'object',
-        'inline': 'string',
-        'slot': 'string',
+        type: 'string',
+        attributes: 'object',
+        inline: 'string',
+        slot: 'string',
         'css-slot': 'string',
         'js-slot': 'string',
         // TODO: Change: Should these be removed?
-        'if': 'string',
+        if: 'string',
         'if-extension': 'string', /* DEPRECRATED */
         'if-not-extension': 'string', /* DEPRECRATED */
         'if-flag': 'string',
         'if-not-flag': 'string',
-        'getDefaultBundleName': 'function'
+        getDefaultBundleName: 'function'
     },
 
     async init (lassoContext) {
@@ -150,14 +151,14 @@ Dependency.prototype = {
     },
 
     set: function(props) {
-        var propertyTypes = this.properties;
+        const propertyTypes = this.properties;
 
-        for (var k in props) {
-            if (props.hasOwnProperty(k)) {
-                var v = props[k];
+        for (const k in props) {
+            if (hasOwn.call(props, k)) {
+                let v = props[k];
 
                 if (propertyTypes) {
-                    var type = propertyTypes[k];
+                    const type = propertyTypes[k];
                     if (!type && !k.startsWith('_')) {
                         throw new Error('Dependency of type "' + this.type + '" does not support property "' + k + '". Package: ' + getPackagePath(this));
                     }
@@ -196,7 +197,7 @@ Dependency.prototype = {
      * (possibly because it was already resolved).
      */
     resolvePath: function(path, from) {
-        var result = this._context.resolve(path, from || this.__dirname, {
+        const result = this._context.resolve(path, from || this.__dirname, {
             moduleFallbackToRelative: true
         });
         return result && result.path;
@@ -242,24 +243,23 @@ Dependency.prototype = {
         let manifest;
 
         if (typeof this.loadPackageManifest === 'function') {
-            let packageManifestResult;
-            packageManifestResult = await this.loadPackageManifest(lassoContext);
+            const packageManifestResult = await this.loadPackageManifest(lassoContext);
 
             if (!packageManifestResult) {
                 return null;
             }
 
-            var dependencyRegistry = this.__dependencyRegistry;
-            var LassoManifest = require('../LassoManifest');
+            const dependencyRegistry = this.__dependencyRegistry;
+            const LassoManifest = require('../LassoManifest');
 
             if (typeof packageManifestResult === 'string') {
-                var manifestPath = packageManifestResult;
-                var from = this.getParentManifestDir();
+                const manifestPath = packageManifestResult;
+                const from = this.getParentManifestDir();
 
                 try {
                     manifest = this.createPackageManifest(manifestLoader.load(manifestPath, from));
                 } catch (e) {
-                    var err;
+                    let err;
                     if (e.fileNotFound) {
                         err = new Error('Lasso manifest not found for path "' +
                             manifestPath + '" (searching from "' + from + '"). Dependency: ' +
@@ -275,7 +275,7 @@ Dependency.prototype = {
             } else if (!LassoManifest.isLassoManifest(packageManifestResult)) {
                 manifest = new LassoManifest({
                     manifest: packageManifestResult,
-                    dependencyRegistry: dependencyRegistry,
+                    dependencyRegistry,
                     dirname: this.getParentManifestDir(),
                     filename: this.getParentManifestPath()
                 });
@@ -285,7 +285,7 @@ Dependency.prototype = {
 
             return manifest;
         } else if (typeof this.getDependencies === 'function') {
-            let dependencies = await this.getDependencies(lassoContext);
+            const dependencies = await this.getDependencies(lassoContext);
             if (dependencies) {
                 manifest = this.createPackageManifest(dependencies);
             }
@@ -299,7 +299,7 @@ Dependency.prototype = {
     _getKeyPropertyNames: function() {
         return Object.keys(this)
             .filter(function(k) {
-                return !k.startsWith('_') && k !== 'type' && !NON_KEY_PROPERTIES.hasOwnProperty(k);
+                return !k.startsWith('_') && k !== 'type' && !hasOwn.call(NON_KEY_PROPERTIES, k);
             }, this)
             .sort();
     },
@@ -348,11 +348,11 @@ Dependency.prototype = {
             }
 
             // no data holder so let's create one
-            var keyAsyncValue;
+            let keyAsyncValue;
             this._keyAsyncValue = keyAsyncValue = new AsyncValue();
             this._keyAsyncValue.done(callback);
 
-            let handleKey = (key) => {
+            const handleKey = (key) => {
                 if (key === null) {
                     key = this.type + '|' + lassoContext.uniqueId();
                 } else if (typeof key !== 'string') {
@@ -416,7 +416,7 @@ Dependency.prototype = {
     },
 
     calculateKeyFromProps: function() {
-        var key = this._getKeyPropertyNames()
+        const key = this._getKeyPropertyNames()
             .map(function(k) {
                 return k + '=' + this[k];
             }, this)
@@ -505,7 +505,7 @@ Dependency.prototype = {
     },
 
     createPackageManifest: function(manifest, dirname, filename) {
-        var LassoManifest = require('../LassoManifest');
+        const LassoManifest = require('../LassoManifest');
 
         if (Array.isArray(manifest) || !manifest) {
             manifest = {
@@ -517,7 +517,7 @@ Dependency.prototype = {
         }
 
         return new LassoManifest({
-            manifest: manifest,
+            manifest,
             dependencyRegistry: this.__dependencyRegistry,
             dirname: dirname || this.getParentManifestDir(),
             filename: filename || this.getParentManifestPath()
@@ -525,7 +525,7 @@ Dependency.prototype = {
     },
 
     getDir: function() {
-        var sourceFile = this.getSourceFile();
+        const sourceFile = this.getSourceFile();
         // if (!sourceFile) {
         //     throw new Error('Unable to determine directory that dependency is associated with because getSourceFile() returned null and getDir() is not implemented. Dependency: ' + this.toString());
         // }
@@ -537,12 +537,12 @@ Dependency.prototype = {
     },
 
     toString() {
-        var entries = [];
-        var type = this.type;
+        const entries = [];
+        const type = this.type;
 
-        for (var k in this) {
-            if (this.hasOwnProperty(k) && !k.startsWith('_') && k !== 'type') {
-                var v = this[k];
+        for (const k in this) {
+            if (hasOwn.call(this, k) && !k.startsWith('_') && k !== 'type') {
+                const v = this[k];
                 entries.push(k + '=' + JSON.stringify(v));
             }
         }
@@ -556,10 +556,10 @@ Dependency.prototype = {
     },
 
     shouldCache: function(lassoContext) {
-        var cacheable = true;
-        var isStatic = false;
+        let cacheable = true;
+        let isStatic = false;
 
-        var cacheConfig = this.cacheConfig;
+        const cacheConfig = this.cacheConfig;
         if (cacheConfig) {
             cacheable = cacheConfig.cacheable !== false;
             isStatic = cacheConfig.static === true;
@@ -568,7 +568,7 @@ Dependency.prototype = {
         }
 
         if (isStatic) {
-            var transformer = lassoContext.transformer;
+            const transformer = lassoContext.transformer;
             if (!transformer || transformer.hasTransforms() === false) {
                 // Don't bother caching a dependency if it is static and there are no transforms
                 return false;
@@ -626,7 +626,7 @@ Dependency.prototype = {
     },
 
     inspect: function() {
-        var inspected = {
+        const inspected = {
             type: this.type
         };
 

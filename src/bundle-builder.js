@@ -1,10 +1,10 @@
-var dependencyWalker = require('./dependency-walker');
-var DependencyTree = require('./DependencyTree');
-var logger = require('raptor-logging').logger(module);
-var lassoPackageRoot = require('lasso-package-root');
-var nodePath = require('path');
+const dependencyWalker = require('./dependency-walker');
+const DependencyTree = require('./DependencyTree');
+const logger = require('raptor-logging').logger(module);
+const lassoPackageRoot = require('lasso-package-root');
+const nodePath = require('path');
 
-var recurseHandlers = {
+const recurseHandlers = {
     none: function(rootDependency, lassoContext) {
         return {
             shouldIncludeDependency: function(dependency) {
@@ -30,11 +30,11 @@ var recurseHandlers = {
     },
 
     dir: function(rootDependency, lassoContext) {
-        var baseDir = rootDependency.getDir(lassoContext) || '';
+        const baseDir = rootDependency.getDir(lassoContext) || '';
 
         return {
             shouldIncludeDependency: function(dependency) {
-                var dir = dependency.getDir(lassoContext);
+                const dir = dependency.getDir(lassoContext);
                 return dir === baseDir;
             },
 
@@ -49,14 +49,14 @@ var recurseHandlers = {
     },
 
     dirtree: function(rootDependency, lassoContext) {
-        var baseDir = rootDependency.getDir(lassoContext);
+        const baseDir = rootDependency.getDir(lassoContext);
 
         function checkDir(dependency) {
             if (!baseDir) {
                 return false;
             }
 
-            var dir = dependency.getDir(lassoContext);
+            const dir = dependency.getDir(lassoContext);
             if (!dir) {
                 return false;
             }
@@ -76,8 +76,8 @@ var recurseHandlers = {
     },
 
     module: function(rootDependency, lassoContext) {
-        var baseDir = rootDependency.getDir(lassoContext);
-        var nodeModulesDir;
+        let baseDir = rootDependency.getDir(lassoContext);
+        let nodeModulesDir;
 
         if (baseDir) {
             baseDir = lassoPackageRoot.getRootDir(baseDir);
@@ -90,7 +90,7 @@ var recurseHandlers = {
                 return false;
             }
 
-            var dir = dependency.getDir(lassoContext);
+            const dir = dependency.getDir(lassoContext);
             if (!dir) {
                 return false;
             }
@@ -131,25 +131,25 @@ function shouldRecurseIntoPackageDependency (rootDependency, recurseHandler, dep
 }
 
 async function buildBundle(bundleMappings, dependencyRegistry, bundleConfig, lassoContext) {
-    var tree = logger.isDebugEnabled() ? new DependencyTree() : null;
-    var flags = lassoContext.flags;
+    const tree = logger.isDebugEnabled() ? new DependencyTree() : null;
+    const flags = lassoContext.flags;
 
-    var bundleDependencies = bundleConfig.getDependencies(dependencyRegistry);
-    var targetBundleName = bundleConfig.name;
+    const bundleDependencies = bundleConfig.getDependencies(dependencyRegistry);
+    const targetBundleName = bundleConfig.name;
 
     // Each bundle should have its own phase data. Phase data is just a bucket of data that can
     // be used by dependency handlers to keep track of what has been done for the current "phase"
     // of optimization.
     lassoContext.setPhase('app-bundle-mappings');
 
-    let dependencies = await bundleDependencies.normalize();
+    const dependencies = await bundleDependencies.normalize();
 
     for (const rootDependency of dependencies) {
         await rootDependency.init(lassoContext);
 
         logger.debug('Root init');
 
-        var recurseInto = rootDependency._recurseInto || bundleConfig.getRecurseInto();
+        let recurseInto = rootDependency._recurseInto || bundleConfig.getRecurseInto();
 
         if (!recurseInto) {
             if (rootDependency.getDir()) {
@@ -163,12 +163,12 @@ async function buildBundle(bundleMappings, dependencyRegistry, bundleConfig, las
             throw new Error('Invalid recursion option: ' + recurseInto);
         }
 
-        var recurseHandler = recurseHandlers[recurseInto](rootDependency, lassoContext);
+        const recurseHandler = recurseHandlers[recurseInto](rootDependency, lassoContext);
 
         await dependencyWalker.walk({
-            lassoContext: lassoContext,
+            lassoContext,
             dependency: rootDependency,
-            flags: flags,
+            flags,
             shouldSkipDependency (dependency) {
                 if (dependency.isPageBundleOnlyDependency()) {
                     return true;

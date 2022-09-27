@@ -1,7 +1,7 @@
-var ok = require('assert').ok;
-var DependencyList = require('./DependencyList');
+const ok = require('assert').ok;
+const DependencyList = require('./DependencyList');
 
-var BundleConfig = function(dirname, filename) {
+const BundleConfig = function(dirname, filename) {
     ok(dirname, '"dirname" is required');
     ok(typeof dirname === 'string', '"dirname" is required');
 

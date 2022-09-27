@@ -1,13 +1,14 @@
-var Bundle = require('./Bundle');
-var InlinePos = require('./InlinePos');
-var EventEmitter = require('events').EventEmitter;
-var ok = require('assert').ok;
+const Bundle = require('./Bundle');
+const InlinePos = require('./InlinePos');
+const EventEmitter = require('events').EventEmitter;
+const ok = require('assert').ok;
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function safeRelativePath(path) {
     return path.replace(/[^A-Za-z0-9_.\-\/\\$@]/g, '_');
 }
 
-var BundleMappings = function(config, pageName) {
+function BundleMappings(config, pageName) {
     BundleMappings.$super.call(this);
 
     ok(pageName == null || typeof pageName === 'string', 'pageName should be a String');
@@ -38,8 +39,8 @@ BundleMappings.prototype = {
     },
 
     getBundleMappingForDependency: function(dependency) {
-        var key = dependency.getKey();
-        var bundleMapping = this.dependencyToBundleMapping[key];
+        const key = dependency.getKey();
+        const bundleMapping = this.dependencyToBundleMapping[key];
         if (bundleMapping) {
             return bundleMapping;
         } else if (this.parentBundleMappings) {
@@ -50,8 +51,8 @@ BundleMappings.prototype = {
     },
 
     getBundleForDependency: function(dependency) {
-        var key = dependency.getKey();
-        var bundleMapping = this.dependencyToBundleMapping[key];
+        const key = dependency.getKey();
+        const bundleMapping = this.dependencyToBundleMapping[key];
         if (bundleMapping) {
             return bundleMapping.bundle;
         } else if (this.parentBundleMappings) {
@@ -62,7 +63,7 @@ BundleMappings.prototype = {
     },
 
     removeBundleMapping: function(bundleMapping) {
-        var dependency = bundleMapping.dependency;
+        const dependency = bundleMapping.dependency;
         delete bundleMapping.bundleMappings.dependencyToBundleMapping[dependency.getKey()];
         bundleMapping.bundle.removeDependencyByIndex(bundleMapping.index);
     },
@@ -70,13 +71,13 @@ BundleMappings.prototype = {
     addDependencyToBundle: function(dependency, targetBundleName, dependencySlot, bundleConfig, lassoContext) {
         ok(lassoContext, 'lassoContext expected');
 
-        var targetBundle;
+        let targetBundle;
 
         if (dependency.isPackageDependency()) {
             throw new Error('Illegal argument. Dependency cannot be a package dependency. Dependency: ' + dependency.toString());
         }
 
-        var inlinePos = dependency.inline;
+        let inlinePos = dependency.inline;
 
         if (inlinePos != null) {
             if (inlinePos === 'true' || inlinePos === true || inlinePos === 'end') {
@@ -93,7 +94,7 @@ BundleMappings.prototype = {
             }
         }
 
-        var bundleKey = Bundle.getKey(dependencySlot, dependency.getContentType(), inlinePos, targetBundleName);
+        const bundleKey = Bundle.getKey(dependencySlot, dependency.getContentType(), inlinePos, targetBundleName);
 
         targetBundle = this.bundlesByKey[bundleKey];
 
@@ -111,11 +112,11 @@ BundleMappings.prototype = {
             this.bundlesByKey[bundleKey] = targetBundle;
         }
 
-        var index = targetBundle.addDependency(dependency);
+        const index = targetBundle.addDependency(dependency);
 
-        var bundleMapping = {
+        const bundleMapping = {
             // store the index of the dependency within the bundle
-            index: index,
+            index,
 
             // store the bundle associated with the mapping
             bundle: targetBundle,
@@ -124,14 +125,14 @@ BundleMappings.prototype = {
             bundleMappings: this,
 
             // store the dependency associated with the mapping
-            dependency: dependency
+            dependency
         };
 
         this.dependencyToBundleMapping[dependency.getKey()] = bundleMapping;
 
         dependency.emit('addedToBundle', {
             bundle: targetBundle,
-            lassoContext: lassoContext
+            lassoContext
         });
 
         return targetBundle;
@@ -144,9 +145,9 @@ BundleMappings.prototype = {
             throw new Error('Illegal argument. Dependency cannot be a package dependency. Dependency: ' + dependency.toString());
         }
 
-        var bundle;
-        var defaultBundleName = dependency.getDefaultBundleName(pageBundleName, lassoContext);
-        var flags = lassoContext.flags;
+        let bundle;
+        const defaultBundleName = dependency.getDefaultBundleName(pageBundleName, lassoContext);
+        const flags = lassoContext.flags;
 
         if (this.inPlaceDeploymentEnabled && dependency.isInPlaceDeploymentAllowed()) {
             // Create a bundle with a single dependency for each dependency
@@ -187,14 +188,14 @@ BundleMappings.prototype = {
             // `${dependencyType}-${pageBundleName}` as the
             // bundle name.
 
-            var targetBundle;
+            let targetBundle;
 
             if (dependency.getUnbundledTarget) {
                 targetBundle = dependency.getUnbundledTarget(lassoContext);
             }
 
             if (!targetBundle && dependency.getSourceFile) {
-                let sourceFile = dependency.getSourceFile();
+                const sourceFile = dependency.getSourceFile();
 
                 if (sourceFile) {
                     targetBundle = lassoContext.getClientPath(sourceFile);
@@ -204,14 +205,14 @@ BundleMappings.prototype = {
             if (targetBundle) {
                 targetBundle = safeRelativePath(targetBundle);
 
-                var prefix = pageBundleName.replace(/[\\\/]/g, '-');
+                let prefix = pageBundleName.replace(/[\\\/]/g, '-');
 
                 if (flags && !flags.isEmpty()) {
                     prefix += '-' + flags.getKey();
                 }
 
                 if (dependency.getUnbundledTargetPrefix) {
-                    let unbundledTargetPrefix = dependency.getUnbundledTargetPrefix(lassoContext);
+                    const unbundledTargetPrefix = dependency.getUnbundledTargetPrefix(lassoContext);
                     if (unbundledTargetPrefix) {
                         prefix += '/' + unbundledTargetPrefix;
                     }
@@ -220,7 +221,7 @@ BundleMappings.prototype = {
                 targetBundle = prefix + '/' + targetBundle;
             }
 
-            var finalBundleName = defaultBundleName || targetBundle;
+            let finalBundleName = defaultBundleName || targetBundle;
             if (!finalBundleName) {
                 finalBundleName = dependency.type + '-' + pageBundleName;
 
@@ -257,10 +258,10 @@ BundleMappings.prototype = {
     },
 
     toString: function() {
-        var lines = [];
-        for (var k in this.dependencyToBundleMapping) {
-            if (this.dependencyToBundleMapping.hasOwnProperty(k)) {
-                var targetBundle = this.dependencyToBundleMapping[k].bundle;
+        const lines = [];
+        for (const k in this.dependencyToBundleMapping) {
+            if (hasOwn.call(this.dependencyToBundleMapping, k)) {
+                const targetBundle = this.dependencyToBundleMapping[k].bundle;
                 lines.push(k + ' --> ' + targetBundle.toString());
             }
         }

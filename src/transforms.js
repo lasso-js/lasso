@@ -1,17 +1,17 @@
-var inspect = require('util').inspect;
-var ok = require('assert').ok;
-var DeferredReadable = require('./util').DeferredReadable;
-var PassThrough = require('stream').PassThrough;
-var through = require('through');
+const inspect = require('util').inspect;
+const ok = require('assert').ok;
+const DeferredReadable = require('./util').DeferredReadable;
+const PassThrough = require('stream').PassThrough;
+const through = require('through');
 
 function Transformer(transforms) {
     this.transforms = transforms;
 }
 
 function handleNonStreamTransform(inStream, transform, applyTransform, handleError) {
-    var code = '';
+    let code = '';
 
-    var outStream = through(
+    const outStream = through(
         function write(data) {
             code += data;
         },
@@ -21,7 +21,7 @@ function handleNonStreamTransform(inStream, transform, applyTransform, handleErr
                 outStream.push(null);
             }
 
-            var transformedCode = applyTransform(code, transform);
+            const transformedCode = applyTransform(code, transform);
 
             if (transformedCode != null) {
                 if (typeof transformedCode === 'string') {
@@ -47,7 +47,7 @@ Transformer.prototype = {
     },
 
     transform (inStream, lassoContext) {
-        var transforms = this.transforms;
+        const transforms = this.transforms;
 
         if (!transforms.length) {
             return inStream;
@@ -55,7 +55,7 @@ Transformer.prototype = {
 
         ok(lassoContext, 'lassoContext is required');
         ok(inStream, 'inStream is required');
-        var config = lassoContext.config;
+        const config = lassoContext.config;
         ok(config, 'config expected in context');
 
         function applyTransform(input, transform) {
@@ -63,7 +63,7 @@ Transformer.prototype = {
         }
 
         return new DeferredReadable(function() {
-            var deferredStream = this;
+            const deferredStream = this;
 
             function handleError(e) {
                 deferredStream.emit('error', e);
@@ -72,12 +72,12 @@ Transformer.prototype = {
 
             inStream.on('error', handleError);
 
-            var passThrough = new PassThrough();
+            const passThrough = new PassThrough();
 
-            var out = passThrough;
+            let out = passThrough;
 
-            for (var i = 0, len = transforms.length; i < len; i++) {
-                var transform = transforms[i];
+            for (let i = 0, len = transforms.length; i < len; i++) {
+                const transform = transforms[i];
 
                 if (transform.stream === true) {
                     // applyTransform will return a new stream that we can read from
@@ -122,7 +122,7 @@ exports.createTransformer = async function (unfilteredTransforms, lassoContext) 
         ok(Array.isArray(unfilteredTransforms), 'unfilteredTransforms should be an array');
     }
 
-    var contentType = lassoContext.contentType;
+    const contentType = lassoContext.contentType;
     ok(typeof contentType === 'string', '"contentType" is required');
 
     const filteredTransforms = [];

@@ -1,6 +1,6 @@
-var contentTypes = require('./content-types');
+const contentTypes = require('./content-types');
 
-var Bundle = function(name) {
+const Bundle = function(name) {
     this.name = name;
     this.dependencies = [];
     this.slot = 'body';
@@ -55,7 +55,7 @@ Bundle.prototype = {
     },
 
     addDependency: function(dependency) {
-        var index = this.dependencies.length;
+        const index = this.dependencies.length;
         this.dependencies.push(dependency);
         return index;
     },
@@ -77,7 +77,7 @@ Bundle.prototype = {
     },
 
     getHtmlAttributes: function() {
-        var attributes = {};
+        const attributes = {};
         this.dependencies.forEach(function(dependency) {
             if (typeof dependency.attributes === 'object') {
                 Object.keys(dependency.attributes).forEach(function(key) {
@@ -89,7 +89,7 @@ Bundle.prototype = {
     },
 
     getLabel: function() {
-        var contentType;
+        let contentType;
 
         if (this.isJavaScript()) {
             contentType = contentTypes.JS;
@@ -181,7 +181,7 @@ Bundle.prototype = {
     },
 
     toString: function() {
-        var details = [this.slot, this.contentType];
+        const details = [this.slot, this.contentType];
         if (this.inlinePos) {
             details.push('inlinePos=' + this.inlinePos);
         }

@@ -1,15 +1,15 @@
-var transforms = require('./transforms');
-var through = require('through');
-var logger = require('raptor-logging').logger(module);
-var ok = require('assert').ok;
-var fs = require('fs');
-var CombinedStream = require('./util/CombinedStream');
-var DeferredReadable = require('./util/DeferredReadable');
-var nodePath = require('path');
-var AsyncValue = require('raptor-async/AsyncValue');
+const transforms = require('./transforms');
+const through = require('through');
+const logger = require('raptor-logging').logger(module);
+const ok = require('assert').ok;
+const fs = require('fs');
+const CombinedStream = require('./util/CombinedStream');
+const DeferredReadable = require('./util/DeferredReadable');
+const nodePath = require('path');
+const AsyncValue = require('raptor-async/AsyncValue');
 
 function createReadDependencyStream(dependency, lassoContext, transformerAsyncValue) {
-    var deferredReadable = new DeferredReadable();
+    const deferredReadable = new DeferredReadable();
 
     transformerAsyncValue.done(function(err, transformer) {
         if (err) {
@@ -17,9 +17,9 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
             return;
         }
 
-        var contentType = dependency.getContentType();
+        const contentType = dependency.getContentType();
 
-        var readContext = Object.create(lassoContext || {});
+        const readContext = Object.create(lassoContext || {});
         readContext.contentType = contentType;
         readContext.dependency = dependency;
         readContext.transformer = transformer;
@@ -30,8 +30,8 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
         }
 
         function createReadStream() {
-            var err;
-            var readStream = dependency.read(readContext);
+            let err;
+            const readStream = dependency.read(readContext);
             if (!readStream) {
                 err = new Error('Dependency did not return read stream: ' + dependency);
             }
@@ -61,11 +61,11 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
                 readContext);
         }
 
-        var cache = lassoContext.cache;
-        var cacheKey = dependency.getReadCacheKey();
+        const cache = lassoContext.cache;
+        const cacheKey = dependency.getReadCacheKey();
 
         if (cache && dependency.shouldCache(lassoContext) && cacheKey) {
-            var readCache = cache.readCache;
+            const readCache = cache.readCache;
 
             dependency.getLastModified(lassoContext)
                 .then((lastModified) => {
@@ -76,10 +76,10 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
                         return;
                     }
 
-                    var cachedReadStream = readCache.createReadStream(
+                    const cachedReadStream = readCache.createReadStream(
                         cacheKey,
                         {
-                            lastModified: lastModified,
+                            lastModified,
                             builder: function () {
                                 // The read dependency has not been cached
                                 return Promise.resolve(createReadStream);
@@ -97,16 +97,16 @@ function createReadDependencyStream(dependency, lassoContext, transformerAsyncVa
 }
 
 function createReadBundleStream(bundle, lassoContext, transformerAsyncValue) {
-    var combinedStream = new CombinedStream({
+    const combinedStream = new CombinedStream({
         separator: '\n'
     });
 
     if (!bundle.hasContent()) {
         return combinedStream;
     }
-    var curIndex;
-    var timeoutId;
-    var timeout = lassoContext.config.getBundleReadTimeout();
+    let curIndex;
+    let timeoutId;
+    let timeout = lassoContext.config.getBundleReadTimeout();
 
     if (timeout == null) {
         timeout = exports.DEFAULT_READ_TIMEOUT;
@@ -114,13 +114,13 @@ function createReadBundleStream(bundle, lassoContext, transformerAsyncValue) {
 
     logger.info('Bundle read timeout value: ' + timeout);
 
-    var dependencies = bundle.getDependencies();
-    var len = dependencies.length;
+    const dependencies = bundle.getDependencies();
+    const len = dependencies.length;
 
     combinedStream.on('beginStream', function(event) {
         curIndex = event.index;
 
-        var dependency = event.stream._dependency;
+        const dependency = event.stream._dependency;
         logger.debug('(' + (curIndex + 1) + ' of ' + len + ')', 'Begin reading dependency: ', dependency.toString());
 
         if (timeout > 0) {
@@ -139,23 +139,23 @@ function createReadBundleStream(bundle, lassoContext, transformerAsyncValue) {
             clearTimeout(timeoutId);
         }
 
-        var dependency = event.stream._dependency;
+        const dependency = event.stream._dependency;
         logger.debug('(' + (curIndex + 1) + ' of ' + len + ')', 'Completed reading dependency: ', dependency.toString());
     });
 
     logger.debug('Reading bundle: ' + bundle.getKey());
 
-    for (var i = 0; i < len; i++) {
-        var dependency = dependencies[i];
+    for (let i = 0; i < len; i++) {
+        const dependency = dependencies[i];
 
         if (dependency && dependency.hasContent() && !dependency.isExternalResource(lassoContext)) {
             // Each transform needs its own lassoContext since we update the lassoContext with the
             // current dependency and each dependency is transformed in parallel
-            var readContext = Object.create(lassoContext || {});
+            const readContext = Object.create(lassoContext || {});
             readContext.dependency = dependency;
             readContext.bundle = bundle;
 
-            var stream = createReadDependencyStream(dependency, readContext, transformerAsyncValue);
+            const stream = createReadDependencyStream(dependency, readContext, transformerAsyncValue);
 
             // tag the stream with the dependency
             stream._dependency = dependency;
@@ -165,8 +165,8 @@ function createReadBundleStream(bundle, lassoContext, transformerAsyncValue) {
     }
 
     function onTimeout() {
-        var dependency = dependencies[curIndex];
-        var message = 'Reading dependency timed out after ' + timeout + 'ms: ' + dependency.toString() + '. The timeout value can be set via the bundleReadTimeout configuration option (defaults to ' + exports.DEFAULT_READ_TIMEOUT + ').';
+        const dependency = dependencies[curIndex];
+        const message = 'Reading dependency timed out after ' + timeout + 'ms: ' + dependency.toString() + '. The timeout value can be set via the bundleReadTimeout configuration option (defaults to ' + exports.DEFAULT_READ_TIMEOUT + ').';
         combinedStream.emit('error', new Error(message));
 
         combinedStream.forEachStream(function(stream) {
@@ -183,11 +183,11 @@ function createBundleReader(bundle, lassoContext) {
     ok(bundle, 'bundle is required');
     ok(lassoContext, 'lassoContext is required');
 
-    var transformContext = Object.create(lassoContext || {});
+    const transformContext = Object.create(lassoContext || {});
     transformContext.contentType = bundle.contentType;
 
     // TODO: Change to fully use async/await
-    var transformerAsyncValue = new AsyncValue();
+    const transformerAsyncValue = new AsyncValue();
     transforms.createTransformer(lassoContext.config.getTransforms(), transformContext)
         .then((transformer) => {
             transformerAsyncValue.resolve(transformer);
@@ -211,7 +211,7 @@ function createBundleReader(bundle, lassoContext) {
             if (!bundle.hasContent()) return '';
 
             return new Promise((resolve, reject) => {
-                var hasError = false;
+                let hasError = false;
 
                 function handleError(e) {
                     if (hasError) {
@@ -222,10 +222,10 @@ function createBundleReader(bundle, lassoContext) {
                     reject(e);
                 }
 
-                var input = this.readBundle();
-                var code = '';
+                const input = this.readBundle();
+                let code = '';
 
-                var captureStream = through(
+                const captureStream = through(
                     function write (data) {
                         code += data;
                     },
@@ -249,18 +249,18 @@ function createBundleReader(bundle, lassoContext) {
 function createResourceReader(path, lassoContext) {
     return {
         readResource (options) {
-            var readStream = fs.createReadStream(path, options);
+            const readStream = fs.createReadStream(path, options);
 
-            var filename = nodePath.basename(path);
+            const filename = nodePath.basename(path);
             // Use the file extension as the content type
-            var contentType = filename.substring(filename.lastIndexOf('.') + 1);
+            const contentType = filename.substring(filename.lastIndexOf('.') + 1);
 
-            var transformContext = Object.create(lassoContext || {});
+            const transformContext = Object.create(lassoContext || {});
             transformContext.contentType = contentType;
             transformContext.path = path;
             transformContext.dir = nodePath.dirname(path);
 
-            var readable = new DeferredReadable();
+            const readable = new DeferredReadable();
 
             transforms.createTransformer(lassoContext.config.getTransforms(), transformContext)
                 .then((transformer) => {

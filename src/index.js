@@ -15,7 +15,7 @@ if (!getClientPath) {
     throw new Error('getClientPath is not defined');
 }
 
-var configDefaults = {
+const configDefaults = {
     outputDir: 'static',
     urlPrefix: '/static',
     includeSlotNames: false,
@@ -37,7 +37,7 @@ function create(config, baseDir, filename) {
         filename = nodePath.resolve(process.cwd(), filename);
 
         baseDir = nodePath.dirname(filename);
-        var json = fs.readFileSync(filename, {encoding: 'utf8'});
+        const json = fs.readFileSync(filename, { encoding: 'utf8' });
         config = JSON.parse(stripJsonComments(json));
     }
 
@@ -49,13 +49,13 @@ function create(config, baseDir, filename) {
         config = configLoader.load(config, baseDir, filename, configDefaults);
     }
 
-    var Lasso = require('./Lasso');
-    var theLasso = new Lasso(config);
+    const Lasso = require('./Lasso');
+    const theLasso = new Lasso(config);
     return theLasso;
 }
 
-var defaultLasso = null;
-var isConfigured = false;
+let defaultLasso = null;
+let isConfigured = false;
 
 function getDefaultLasso() {
     if (!defaultLasso) {
@@ -84,7 +84,7 @@ function setDevelopmentMode() {
     });
 }
 
-var NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase();
+const NODE_ENV = process.env.NODE_ENV && process.env.NODE_ENV.toLowerCase();
 
 if (NODE_ENV === 'development' || NODE_ENV === 'dev') {
     setDevelopmentMode();
@@ -113,8 +113,8 @@ async function lassoPage(pageConfig) {
     ok(pageConfig, '"pageConfig" is required');
     ok(typeof pageConfig === 'object', '"pageConfig" should be an object');
 
-    var dependencies = pageConfig.dependencies;
-    var packagePath = pageConfig.packagePath;
+    let dependencies = pageConfig.dependencies;
+    let packagePath = pageConfig.packagePath;
 
     ok(dependencies || packagePath, '"page.dependencies" or "page.packagePath" is required');
     if (dependencies) {

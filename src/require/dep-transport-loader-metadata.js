@@ -1,4 +1,4 @@
-var transport = require('lasso-modules-client/transport');
+const transport = require('lasso-modules-client/transport');
 
 exports.create = function(config, lasso) {
     return {
@@ -7,7 +7,7 @@ exports.create = function(config, lasso) {
         async init(lassoContext) {},
 
         read: function(lassoContext) {
-            var loaderMetadata = lassoContext && lassoContext.loaderMetadata;
+            const loaderMetadata = lassoContext && lassoContext.loaderMetadata;
             if (!loaderMetadata) {
                 return null;
             }

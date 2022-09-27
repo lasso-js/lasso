@@ -1,11 +1,11 @@
-var nodePath = require('path');
-var fs = require('fs');
+const nodePath = require('path');
+const fs = require('fs');
 
-var lassoModulesClientMainPath = require.resolve('lasso-modules-client');
-var modGlobalVarRegex = /\$_mod/g;
+const lassoModulesClientMainPath = require.resolve('lasso-modules-client');
+const modGlobalVarRegex = /\$_mod/g;
 
 exports.create = function(config, lasso) {
-    var modulesRuntimeGlobal = config.modulesRuntimeGlobal;
+    const modulesRuntimeGlobal = config.modulesRuntimeGlobal;
 
     return {
         getDir: function() {

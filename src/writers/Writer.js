@@ -1,12 +1,12 @@
-var nodePath = require('path');
-var fileSep = nodePath.sep;
-var logger = require('raptor-logging').logger(module);
-var EventEmitter = require('events').EventEmitter;
-var extend = require('raptor-util').extend;
-var createError = require('raptor-util/createError');
-var reader = require('../reader');
-var ok = require('assert').ok;
-var equal = require('assert').equal;
+const nodePath = require('path');
+const fileSep = nodePath.sep;
+const logger = require('raptor-logging').logger(module);
+const EventEmitter = require('events').EventEmitter;
+const extend = require('raptor-util').extend;
+const createError = require('raptor-util/createError');
+const reader = require('../reader');
+const ok = require('assert').ok;
+const equal = require('assert').equal;
 
 async function initWriter (writer, lassoContext) {
     if (!writer._initialized && writer.impl.init) {
@@ -42,12 +42,12 @@ Writer.prototype = {
             throw new Error('Path for in-place file should be a string. Actual: ' + path);
         }
 
-        var config = lassoContext.config;
+        const config = lassoContext.config;
 
         if (typeof config.getInPlaceUrlPrefix() === 'string') {
-            var projectRoot = config.getProjectRoot();
+            const projectRoot = config.getProjectRoot();
             if (projectRoot && path.startsWith(projectRoot + fileSep)) {
-                var suffix = path.substring(projectRoot.length);
+                const suffix = path.substring(projectRoot.length);
                 return config.getInPlaceUrlPrefix() + suffix;
             }
         }
@@ -58,7 +58,7 @@ Writer.prototype = {
     getInPlaceUrlForBundle: function(bundle, lassoContext) {
         ok(lassoContext, 'lassoContext is required');
 
-        var dependency = bundle.dependency;
+        const dependency = bundle.dependency;
         if (!dependency) {
             throw new Error('"dependency" expected for in-place bundle');
         }
@@ -71,7 +71,7 @@ Writer.prototype = {
             throw new Error('inPlaceDeployment should be true');
         }
 
-        var sourceFile = dependency.getSourceFile();
+        const sourceFile = dependency.getSourceFile();
         return this.getInPlaceUrlForFile(sourceFile, lassoContext);
     },
 
@@ -80,7 +80,7 @@ Writer.prototype = {
 
         ok(lassoContext, 'lassoContext is required');
 
-        let done = (err) => {
+        const done = (err) => {
             if (err) {
                 throw createError('Error while writing bundle "' + bundle + '" Error: ' + err, err);
             }
@@ -108,7 +108,7 @@ Writer.prototype = {
 
             return done();
         } else if ((bundle.inPlaceDeployment === true) && !bundle.isInline()) {
-            var inPlaceUrl = this.getInPlaceUrlForBundle(bundle, lassoContext);
+            const inPlaceUrl = this.getInPlaceUrlForBundle(bundle, lassoContext);
             if (inPlaceUrl) {
                 if (logger.isInfoEnabled()) {
                     logger.info('In-place deployment enabled for (' + bundle.getKey() + '). Skipping writing...');
@@ -122,22 +122,22 @@ Writer.prototype = {
         lassoContext.bundle = bundle;
         lassoContext.dependencies = bundle.dependencies;
 
-        var bundleReader = reader.createBundleReader(bundle, lassoContext);
+        const bundleReader = reader.createBundleReader(bundle, lassoContext);
 
         logger.info('Writing bundle ' + bundle + '...');
 
-        let checkBundleUpToDate = async () => {
+        const checkBundleUpToDate = async () => {
             if (bundle.isInline()) return;
             // We make the assumption that the bundle was populated with its URL
             // and marked as written if it was indeed up-to-date
             return this.checkBundleUpToDate(bundle, lassoContext);
         };
 
-        let writeBundle = async () => {
+        const writeBundle = async () => {
             // If the bundle is written then there is nothing to do
             if (bundle.isWritten()) return;
 
-            var completed = false;
+            let completed = false;
 
             function handleError(e) {
                 if (!completed) {
@@ -177,7 +177,7 @@ Writer.prototype = {
             ok(writeResult, 'writeResult expected');
             ok(writeResult.url, 'writeResult.url expected');
 
-            var result = extend(writeResult || {}, {
+            const result = extend(writeResult || {}, {
                 sourceFile: path
             });
 
@@ -190,7 +190,7 @@ Writer.prototype = {
         const config = this.config;
 
         if (config.isInPlaceDeploymentEnabled()) {
-            var url = this.getInPlaceUrlForFile(path, lassoContext);
+            const url = this.getInPlaceUrlForFile(path, lassoContext);
             if (url) {
                 return done({ url });
             }
@@ -253,7 +253,7 @@ Writer.prototype = {
         ok(lassoContext, 'lassoContext is required');
 
         if (this.impl.checkBundleUpToDate) {
-            let resourceInfo = await this.impl.checkBundleUpToDate(bundle, lassoContext);
+            const resourceInfo = await this.impl.checkBundleUpToDate(bundle, lassoContext);
             return resourceInfo === false ? null : resourceInfo;
         }
     },

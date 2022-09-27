@@ -1,7 +1,8 @@
-var DeduperContext = require('./DeduperContext');
-var ok = require('assert').ok;
+const DeduperContext = require('./DeduperContext');
+const ok = require('assert').ok;
 
 const REQUIRE_DEDUPER_CONTEXT_KEY = 'dependency-require';
+const hasOwn = Object.prototype.hasOwnProperty;
 
 class Deduper {
     constructor(lassoContext, dependencies) {
@@ -14,14 +15,14 @@ class Deduper {
          * "page-bundle-mappings", "async-page-bundle-mappings", etc. We use the "deduperContext" to prevent adding the same
          * require dependencies over and over again.
          */
-        var deduperContext = lassoContext.phaseData[REQUIRE_DEDUPER_CONTEXT_KEY] ||
+        const deduperContext = lassoContext.phaseData[REQUIRE_DEDUPER_CONTEXT_KEY] ||
             (lassoContext.phaseData[REQUIRE_DEDUPER_CONTEXT_KEY] = new DeduperContext());
 
         this.dependencies = dependencies;
 
         this.deduperContext = deduperContext;
 
-        var lookups = deduperContext.lookups;
+        const lookups = deduperContext.lookups;
         this.lookupDef = lookups.def;
         this.lookupRun = lookups.run;
         this.lookupInstalled = lookups.installed;
@@ -43,7 +44,7 @@ class Deduper {
     }
 
     hasDef(key) {
-        return this.lookupDef.hasOwnProperty(key);
+        return hasOwn.call(this.lookupDef, key);
     }
 
     // Run
@@ -52,7 +53,7 @@ class Deduper {
     }
 
     hasRun(key) {
-        return this.lookupRun.hasOwnProperty(key);
+        return hasOwn.call(this.lookupRun, key);
     }
 
     // Installed
@@ -61,7 +62,7 @@ class Deduper {
     }
 
     hasInstalled(key) {
-        return this.lookupInstalled.hasOwnProperty(key);
+        return hasOwn.call(this.lookupInstalled, key);
     }
 
     // Main
@@ -70,7 +71,7 @@ class Deduper {
     }
 
     hasMain(key) {
-        return this.lookupMain.hasOwnProperty(key);
+        return hasOwn.call(this.lookupMain, key);
     }
 
     // Remap
@@ -79,12 +80,12 @@ class Deduper {
     }
 
     hasRemap(key) {
-        return this.lookupRemap.hasOwnProperty(key);
+        return hasOwn.call(this.lookupRemap, key);
     }
 
     // Require
     requireKey(path, from, run, wait) {
-        var key = path + '@' + from;
+        let key = path + '@' + from;
         if (run) {
             key += '|run|' + wait;
         }
@@ -92,7 +93,7 @@ class Deduper {
     }
 
     hasRequire(key) {
-        return this.lookupRequire.hasOwnProperty(key);
+        return hasOwn.call(this.lookupRequire, key);
     }
 
     // Builtin
@@ -101,7 +102,7 @@ class Deduper {
     }
 
     hasBuiltin(key) {
-        return this.lookupBuiltin.hasOwnProperty(key);
+        return hasOwn.call(this.lookupBuiltin, key);
     }
 
     // Search path
@@ -110,7 +111,7 @@ class Deduper {
     }
 
     hasSearchPath(key) {
-        return this.lookupSearchPath.hasOwnProperty(key);
+        return hasOwn.call(this.lookupSearchPath, key);
     }
 
     addRuntime(runtimeDependency) {
@@ -119,6 +120,7 @@ class Deduper {
             this.deduperContext.runtimeInclude = true;
         }
     }
+
     addReady(readyDependency) {
         if (this.deduperContext.readyIncluded === false) {
             // Add a dependency that will trigger all of the deferred
@@ -128,6 +130,7 @@ class Deduper {
             this.deduperContext.readyIncluded = true;
         }
     }
+
     addProcess(d) {
         if (this.deduperContext.processIncluded === false) {
             this.dependencies.push(d);

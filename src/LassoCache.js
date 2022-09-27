@@ -1,11 +1,11 @@
-var raptorCache = require('raptor-cache');
-var nodePath = require('path');
-var LassoPageResult = require('./LassoPageResult');
-var DEFAULT_BASE_CACHE_DIR = nodePath.join(require('app-root-dir').get(), '.cache/lasso');
-var deserializeLassoPageResult = LassoPageResult.deserialize;
-var serializeLassoPageResult = LassoPageResult.serialize;
-var fs = require('fs');
-var mkdirp = require('mkdirp');
+const raptorCache = require('raptor-cache');
+const nodePath = require('path');
+const LassoPageResult = require('./LassoPageResult');
+const DEFAULT_BASE_CACHE_DIR = nodePath.join(require('app-root-dir').get(), '.cache/lasso');
+const deserializeLassoPageResult = LassoPageResult.deserialize;
+const serializeLassoPageResult = LassoPageResult.serialize;
+const fs = require('fs');
+const mkdirp = require('mkdirp');
 
 function safeFilename(name) {
     return name.replace(/[^A-Za-z0-9_\-\.\/]/g, '-');
@@ -15,7 +15,7 @@ function waitImmediate() {
     return new Promise(resolve => setImmediate(resolve));
 }
 
-var CACHE_DEFAULTS = {
+const CACHE_DEFAULTS = {
     '*': { // Any profile
         '*': { // Any cache
             store: 'memory' // Default to a memory store for all caches for all profiles
@@ -42,7 +42,7 @@ var CACHE_DEFAULTS = {
             encoding: 'utf8'
         }
     },
-    'production': { // Read and write to disk cache in production
+    production: { // Read and write to disk cache in production
         lassoPageResults: {
             store: 'disk'
         },
@@ -73,10 +73,10 @@ class SyncCache {
 }
 
 function LassoCache(key, options) {
-    var cacheProfileName = options.profile;
-    var keyParts = options.keyParts;
+    const cacheProfileName = options.profile;
+    const keyParts = options.keyParts;
 
-    var cacheManager;
+    let cacheManager;
 
     if (typeof options.cacheManagerFactory === 'function') {
         cacheManager = options.cacheManagerFactory({
@@ -92,11 +92,11 @@ function LassoCache(key, options) {
 
     this.key = key;
 
-    var _this = this;
+    const _this = this;
 
     this.cacheManager.on('cacheConfigured', function(eventArgs) {
-        var cacheName = eventArgs.name;
-        var cacheConfig = eventArgs.config;
+        const cacheName = eventArgs.name;
+        const cacheConfig = eventArgs.config;
 
         if (!cacheConfig.dir) {
             // Just in case this this cache uses a disk store we will configure a safe directory to use
@@ -108,7 +108,7 @@ function LassoCache(key, options) {
     this.baseCacheDir = options.dir || DEFAULT_BASE_CACHE_DIR;
 
     if (keyParts) {
-        var keyDir = nodePath.join(this.baseCacheDir, this.baseCacheName);
+        const keyDir = nodePath.join(this.baseCacheDir, this.baseCacheName);
         mkdirp.sync(keyDir);
         const keyFile = nodePath.join(keyDir, 'key');
 

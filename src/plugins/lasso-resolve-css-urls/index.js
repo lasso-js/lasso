@@ -9,9 +9,9 @@ async function defaultUrlResolver (url, lassoContext) {
         return url;
     }
 
-    var queryStart = url.indexOf('?');
-    var query;
-    var target = url;
+    const queryStart = url.indexOf('?');
+    let query;
+    let target = url;
 
     if (queryStart !== -1) {
         query = url.substring(queryStart + 1);
@@ -23,19 +23,19 @@ async function defaultUrlResolver (url, lassoContext) {
     } else if (target.startsWith(REQUIRE_PREFIX)) {
         target = target.substring(REQUIRE_PREFIX.length).trim();
 
-        var from;
+        let from;
         if (lassoContext.dependency) {
             from = lassoContext.dependency.getDir(lassoContext);
         } else {
             from = lassoContext.getProjectRoot();
         }
 
-        var resolved = lassoResolveFrom(from, target);
+        const resolved = lassoResolveFrom(from, target);
 
         if (resolved) {
             target = resolved.path;
         } else {
-            var err = new Error('Module not found: ' + target + ' (from: ' + from + ')');
+            const err = new Error('Module not found: ' + target + ' (from: ' + from + ')');
             err.target = target;
             err.from = from;
             err.code = 'MODULE_NOT_FOUND';
@@ -94,7 +94,7 @@ module.exports = function (lasso, pluginConfig) {
         stream: false,
 
         async transform (code, lassoContext) {
-            var dependency = lassoContext.dependency;
+            const dependency = lassoContext.dependency;
             if (dependency && dependency.resolveCssUrlsEnabled === false) {
                 return code;
             }

@@ -38,6 +38,6 @@ function absWin (p) {
     return isAbsolute;
 }
 
-var isAbsolute = process.platform === 'win32' ? absWin : absUnix;
+const isAbsolute = process.platform === 'win32' ? absWin : absUnix;
 
 exports.isAbsolute = isAbsolute;

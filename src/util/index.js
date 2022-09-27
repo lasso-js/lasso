@@ -1,7 +1,7 @@
-var cachingStream = require('./caching-stream');
-var fingerprintStream = require('./fingerprint-stream');
-var DeferredReadable = require('./DeferredReadable');
-var logger = require('raptor-logging').logger(module);
+const cachingStream = require('./caching-stream');
+const fingerprintStream = require('./fingerprint-stream');
+const DeferredReadable = require('./DeferredReadable');
+const logger = require('raptor-logging').logger(module);
 // var DEFAULT_READ_FILE_OPTIONS = {encoding: 'utf8'};
 
 function merge(src, dest) {
@@ -13,7 +13,7 @@ function merge(src, dest) {
         typeof dest === 'object') {
         Object.getOwnPropertyNames(src)
             .forEach(function(prop) {
-                var descriptor = Object.getOwnPropertyDescriptor(src, prop);
+                const descriptor = Object.getOwnPropertyDescriptor(src, prop);
                 descriptor.value = merge(descriptor.value, dest[prop]);
                 Object.defineProperty(dest, prop, descriptor);
             });
@@ -25,7 +25,7 @@ function merge(src, dest) {
 }
 
 function streamToString(stream, callback) {
-    var str = '';
+    let str = '';
     stream.on('data', function(data) {
         str += data;
     });
@@ -44,11 +44,11 @@ function readStream(func) {
     // 1) Return the actual value or null if there no data
     // 2) Invoke our callback with a value
     // 3) Return a stream
-    var stream = new DeferredReadable(function() {
+    const stream = new DeferredReadable(function() {
         // this function will be called when it is time to start reading data
-        var finished = false;
+        let finished = false;
 
-        var callback = (err, value) => {
+        function callback(err, value) {
             if (finished) {
                 logger.warn(new Error('read callback invoked after finish'));
                 return;
@@ -87,7 +87,7 @@ function readStream(func) {
             }
         };
 
-        var result = func(callback);
+        const result = func(callback);
 
         if (!finished) {
             // callback was not invoked

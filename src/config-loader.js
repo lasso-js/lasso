@@ -1,30 +1,31 @@
-var Config = require('./Config');
-var BundleSetConfig = require('./BundleSetConfig');
-var BundleConfig = require('./BundleConfig');
-var nodePath = require('path');
-var fileWriterFactory = require('./writers/file-writer');
-var fs = require('fs');
-var ok = require('assert').ok;
-var propertyHandlers = require('property-handlers');
-var minifyJSPlugin = require('./plugins/lasso-minify-js');
-var minifyCSSPlugin = require('./plugins/lasso-minify-css');
-var resolveCssUrlsPlugin = require('./plugins/lasso-resolve-css-urls');
-var extend = require('raptor-util/extend');
-var resolveFrom = require('resolve-from');
+const Config = require('./Config');
+const BundleSetConfig = require('./BundleSetConfig');
+const BundleConfig = require('./BundleConfig');
+const nodePath = require('path');
+const fileWriterFactory = require('./writers/file-writer');
+const fs = require('fs');
+const ok = require('assert').ok;
+const propertyHandlers = require('property-handlers');
+const minifyJSPlugin = require('./plugins/lasso-minify-js');
+const minifyCSSPlugin = require('./plugins/lasso-minify-css');
+const resolveCssUrlsPlugin = require('./plugins/lasso-resolve-css-urls');
+const extend = require('raptor-util/extend');
+const resolveFrom = require('resolve-from');
 const complain = require('complain');
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function findRootDir(dirname) {
     if (dirname === '' || dirname === '/') {
         return null;
     }
 
-    var packagePath = nodePath.join(dirname, 'package.json');
+    const packagePath = nodePath.join(dirname, 'package.json');
 
     if (dirname.indexOf('node_modules') === -1 && fs.existsSync(packagePath)) {
         return dirname;
     }
 
-    var parentDirname = nodePath.dirname(dirname);
+    const parentDirname = nodePath.dirname(dirname);
 
     if (parentDirname !== dirname) {
         return findRootDir(parentDirname);
@@ -39,7 +40,7 @@ function load(options, baseDir, filename, configDefaults) {
     ok(baseDir, '"baseDir" argument is required');
 
     function getProjectRootDir(dirname) {
-        var rootDir = findRootDir(dirname);
+        let rootDir = findRootDir(dirname);
         if (!rootDir) {
             rootDir = baseDir;
         }
@@ -58,25 +59,25 @@ function load(options, baseDir, filename, configDefaults) {
     }
 
     if (configDefaults) {
-        for (var key in configDefaults) {
+        for (const key in configDefaults) {
             // copy defaults to options only if options doesn't already
             // have that property
-            if (configDefaults.hasOwnProperty(key) && !options.hasOwnProperty(key)) {
+            if (hasOwn.call(configDefaults, key) && !hasOwn.call(options, key)) {
                 options[key] = configDefaults[key];
             }
         }
     }
 
-    var config = new Config();
+    const config = new Config();
 
     config.rawConfig = options;
 
-    var fileWriterConfig = {};
+    const fileWriterConfig = {};
 
     function addBundles(bundleSetName, bundles) {
-        var bundleSetConfig = new BundleSetConfig(bundleSetName);
+        const bundleSetConfig = new BundleSetConfig(bundleSetName);
         bundles.forEach(function(bundle) {
-            var bundleConfig = new BundleConfig(baseDir, filename);
+            const bundleConfig = new BundleConfig(baseDir, filename);
             bundleConfig.name = bundle.name;
             bundleConfig.asyncOnly = bundle.asyncOnly;
 
@@ -107,7 +108,7 @@ function load(options, baseDir, filename, configDefaults) {
         config.addBundleSetConfig(bundleSetConfig);
     }
 
-    var handlers = {
+    const handlers = {
 
         require: function(value) {
             if (value) {
@@ -252,7 +253,7 @@ function load(options, baseDir, filename, configDefaults) {
             if (value != null) {
                 if (!Array.isArray(value)) {
                     value = Object.keys(value).map(function(moduleName) {
-                        var pluginConfig = value[moduleName];
+                        const pluginConfig = value[moduleName];
                         return {
                             plugin: moduleName,
                             config: pluginConfig
@@ -260,8 +261,8 @@ function load(options, baseDir, filename, configDefaults) {
                     });
                 }
 
-                for (var i = 0; i < value.length; i++) {
-                    var pluginInfo = value[i];
+                for (let i = 0; i < value.length; i++) {
+                    let pluginInfo = value[i];
 
                     if (typeof pluginInfo === 'string' || typeof pluginInfo === 'function') {
                         pluginInfo = {
@@ -278,14 +279,14 @@ function load(options, baseDir, filename, configDefaults) {
                         continue;
                     }
 
-                    var pluginFunc = null;
-                    var pluginConfig = null;
-                    var enabled = true;
+                    let pluginFunc = null;
+                    let pluginConfig = null;
+                    let enabled = true;
 
                     propertyHandlers(pluginInfo, {
                         plugin: function(plugin) {
                             if (typeof plugin === 'string') {
-                                var resolvedPath = null;
+                                let resolvedPath = null;
                                 try {
                                     resolvedPath = resolveFrom(baseDir, plugin);
                                 } catch (e2) {

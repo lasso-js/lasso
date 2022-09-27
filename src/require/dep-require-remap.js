@@ -1,4 +1,4 @@
-var nodePath = require('path');
+const nodePath = require('path');
 
 function create(config, lasso) {
     return {
@@ -9,8 +9,8 @@ function create(config, lasso) {
         },
 
         async init (lassoContext) {
-            var fromPath = this.resolvePath(this.from);
-            var toPath = this.resolvePath(this.to);
+            const fromPath = this.resolvePath(this.from);
+            const toPath = this.resolvePath(this.to);
 
             this.from = fromPath;
             this.to = toPath;

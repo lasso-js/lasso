@@ -1,8 +1,8 @@
-var EventEmitter = require('events').EventEmitter;
-var forEachEntry = require('raptor-util/forEachEntry');
-var perfLogger = require('raptor-logging').logger('lasso/perf');
-var logger = require('raptor-logging').logger(module);
-var createError = require('raptor-util/createError');
+const EventEmitter = require('events').EventEmitter;
+const forEachEntry = require('raptor-util/forEachEntry');
+const perfLogger = require('raptor-logging').logger('lasso/perf');
+const logger = require('raptor-logging').logger(module);
+const createError = require('raptor-util/createError');
 
 /**
  * Helper method to walk all dependencies recursively
@@ -10,17 +10,17 @@ var createError = require('raptor-util/createError');
  * @param options
  */
 async function walk(options) {
-    var startTime = Date.now();
-    var emitter = new EventEmitter();
-    var lassoContext = options.lassoContext || {};
-    var flags = lassoContext.flags;
-    var shouldSkipDependencyFunc = options.shouldSkipDependency;
+    const startTime = Date.now();
+    const emitter = new EventEmitter();
+    const lassoContext = options.lassoContext || {};
+    const flags = lassoContext.flags;
+    const shouldSkipDependencyFunc = options.shouldSkipDependency;
 
-    var walkContext = {
-        lassoContext: lassoContext
+    const walkContext = {
+        lassoContext
     };
 
-    var on = options.on;
+    const on = options.on;
     if (!on) {
         throw new Error('"on" property is required');
     }
@@ -29,7 +29,7 @@ async function walk(options) {
         emitter.on(event, listener);
     });
 
-    var foundDependencies = {};
+    const foundDependencies = {};
 
     async function walkDependencies (dependencies, parentDependency, jsSlot, cssSlot, dependencyChain) {
         logger.debug('walkDependencies', dependencies);
@@ -52,7 +52,7 @@ async function walk(options) {
         logger.debug('walkManifest', manifest);
 
         const dependencies = await manifest.getDependencies({
-            flags: flags,
+            flags,
             lassoContext: options.lassoContext
         });
 
@@ -79,7 +79,7 @@ async function walk(options) {
 
         foundDependencies[key] = true;
 
-        var slot;
+        let slot;
 
         if (!dependency.isPackageDependency()) {
             slot = dependency.getSlot();
@@ -130,7 +130,7 @@ async function walk(options) {
         emitter.emit('end');
     }
 
-    var dependencyChain = [];
+    const dependencyChain = [];
 
     if (options.lassoManifest) {
         await walkManifest(

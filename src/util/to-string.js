@@ -1,4 +1,4 @@
-var EMPTY_OBJECT = {};
+const EMPTY_OBJECT = {};
 module.exports = function toString(val, data) {
     if (typeof val === 'function') {
         val = val(data || EMPTY_OBJECT);

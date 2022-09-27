@@ -1,5 +1,5 @@
-var dependenciesModule = require('./dependencies');
-var ok = require('assert').ok;
+const dependenciesModule = require('./dependencies');
+const ok = require('assert').ok;
 
 function DependencyList(dependencies, dependencyRegistry, dirname, filename) {
     ok(dirname && typeof dirname === 'string', '"dirname" argument should be a string');

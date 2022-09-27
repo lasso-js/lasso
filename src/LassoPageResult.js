@@ -1,7 +1,8 @@
-var extend = require('raptor-util/extend');
-var toString = require('./util/to-string');
+const extend = require('raptor-util/extend');
+const toString = require('./util/to-string');
 const LassoPrebuild = require('./LassoPrebuild');
-var EMPTY_OBJECT = {};
+const EMPTY_OBJECT = {};
+const hasOwn = Object.prototype.hasOwnProperty;
 
 function LassoPageResult (options = {}) {
     const { htmlBySlot, resources } = options;
@@ -23,7 +24,7 @@ function LassoPageResult (options = {}) {
 }
 
 LassoPageResult.deserialize = function (reader) {
-    var json = '';
+    let json = '';
 
     return new Promise((resolve, reject) => {
         reader()
@@ -31,8 +32,8 @@ LassoPageResult.deserialize = function (reader) {
                 json += data;
             })
             .on('end', function () {
-                var o = JSON.parse(json);
-                var lassoPageResult = new LassoPageResult();
+                const o = JSON.parse(json);
+                const lassoPageResult = new LassoPageResult();
                 extend(lassoPageResult, o);
                 resolve(lassoPageResult);
             })
@@ -66,10 +67,10 @@ LassoPageResult.prototype = {
      * @return {Object} An object with slot names as property names and slot HTML as property values.
      */
     get htmlBySlot() {
-        var htmlBySlot = {};
-        for (var slotName in this._htmlBySlot) {
-            if (this._htmlBySlot.hasOwnProperty(slotName)) {
-                var slotHtml = this.getHtmlForSlot(slotName);
+        const htmlBySlot = {};
+        for (const slotName in this._htmlBySlot) {
+            if (hasOwn.call(this._htmlBySlot, slotName)) {
+                const slotHtml = this.getHtmlForSlot(slotName);
                 htmlBySlot[slotName] = slotHtml;
             }
         }
@@ -121,7 +122,7 @@ LassoPageResult.prototype = {
     },
 
     toJSON: function() {
-        var clone = extend({}, this);
+        const clone = extend({}, this);
         // Don't include the loaded templates when generating a JSON string
         delete clone._htmlTemplatesBySlot;
         return clone;
@@ -132,13 +133,13 @@ LassoPageResult.prototype = {
     },
 
     registerBundle: function(bundle, async, lassoContext) {
-        var bundleInfoMap = async
+        const bundleInfoMap = async
             ? this.infoByAsyncBundleName
             : this.infoByBundleName;
 
-        var info = bundleInfoMap[bundle.name] || (bundleInfoMap[bundle.name] = {});
-        var url = bundle.getUrl(lassoContext);
-        var slot = async ? undefined : bundle.slot;
+        const info = bundleInfoMap[bundle.name] || (bundleInfoMap[bundle.name] = {});
+        const url = bundle.getUrl(lassoContext);
+        const slot = async ? undefined : bundle.slot;
 
         if (url) {
             this.addUrl(url, bundle.getSlot(), bundle.getContentType(), async, slot);
@@ -157,11 +158,11 @@ LassoPageResult.prototype = {
 
     addUrl: function(url, slot, contentType, isAsync) {
         if (!isAsync) {
-            var urlsForSlot = this.urlsBySlot[slot] || (this.urlsBySlot[slot] = []);
+            const urlsForSlot = this.urlsBySlot[slot] || (this.urlsBySlot[slot] = []);
             urlsForSlot.push(url);
         }
 
-        var urlsForContentType = this.urlsByContentType[contentType] || (this.urlsByContentType[contentType] = []);
+        const urlsForContentType = this.urlsByContentType[contentType] || (this.urlsByContentType[contentType] = []);
         urlsForContentType.push(url);
     },
 
@@ -172,9 +173,9 @@ LassoPageResult.prototype = {
     addFile: function(filePath, contentType, isAsync, slot) {
         this.files.push({
             path: filePath,
-            contentType: contentType,
+            contentType,
             async: isAsync,
-            slot: slot
+            slot
         });
     },
 
@@ -211,7 +212,7 @@ LassoPageResult.prototype = {
     },
 
     getFilePathsByContentType(contentType) {
-        var paths = [];
+        const paths = [];
         this.files.forEach((file) => {
             if (file.contentType === contentType) {
                 paths.push(file.path);
@@ -233,22 +234,22 @@ LassoPageResult.prototype = {
     },
 
     getFileByBundleName: function(bundleName) {
-        var info = this.infoByBundleName[bundleName];
+        const info = this.infoByBundleName[bundleName];
         return info && info.file;
     },
 
     getFileByAsyncBundleName: function(bundleName) {
-        var info = this.infoByAsyncBundleName[bundleName];
+        const info = this.infoByAsyncBundleName[bundleName];
         return info && info.file;
     },
 
     getUrlByBundleName: function(bundleName) {
-        var info = this.infoByBundleName[bundleName];
+        const info = this.infoByBundleName[bundleName];
         return info && info.url;
     },
 
     getUrlByAsyncBundleName: function(bundleName) {
-        var info = this.infoByAsyncBundleName[bundleName];
+        const info = this.infoByAsyncBundleName[bundleName];
         return info && info.url;
     },
 

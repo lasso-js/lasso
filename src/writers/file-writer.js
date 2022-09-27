@@ -1,13 +1,13 @@
 const MAX_FILE_LENGTH = 255;
 
-var util = require('../util');
-var nodePath = require('path');
-var fs = require('fs');
-var ok = require('assert').ok;
-var logger = require('raptor-logging').logger(module);
-var mkdirp = require('mkdirp');
-var crypto = require('crypto');
-var raptorAsync = require('raptor-async');
+const util = require('../util');
+const nodePath = require('path');
+const fs = require('fs');
+const ok = require('assert').ok;
+const logger = require('raptor-logging').logger(module);
+const mkdirp = require('mkdirp');
+const crypto = require('crypto');
+const raptorAsync = require('raptor-async');
 const Duplex = require('stream').Duplex;
 const hashUtil = require('../util/hash');
 
@@ -22,13 +22,13 @@ function filePathToUrlUnix(path) {
 function enforceFileLengthLimits(path) {
     return path.split(nodePath.sep).map(part => {
         if (part.length < MAX_FILE_LENGTH) return part;
-        var overflow = part.slice(MAX_FILE_LENGTH - hashUtil.HASH_OVERFLOW_LENGTH);
-        var hash = hashUtil.generate(overflow);
+        const overflow = part.slice(MAX_FILE_LENGTH - hashUtil.HASH_OVERFLOW_LENGTH);
+        const hash = hashUtil.generate(overflow);
         return part.slice(0, MAX_FILE_LENGTH - hashUtil.HASH_OVERFLOW_LENGTH) + hash.slice(0, hashUtil.HASH_OVERFLOW_LENGTH);
     }).join(nodePath.sep);
 }
 
-var filePathToUrl = nodePath.sep === '/' ? filePathToUrlUnix : filePathToUrlWindows;
+const filePathToUrl = nodePath.sep === '/' ? filePathToUrlUnix : filePathToUrlWindows;
 
 /**
  * Utility function to generate a random string of characters
@@ -53,28 +53,28 @@ function randomStr(len) {
  * @param {Object} lassoContext An object with lassoContextual information needed to generate a URL
  */
 function getBundleUrl(lassoContext) {
-    var url = this.url;
+    let url = this.url;
 
     if (url) {
         return url;
     }
 
-    var outputFile = this.outputFile;
-    var urlPrefix = this.urlPrefix;
-    var outputDir = this.outputDir;
+    const outputFile = this.outputFile;
+    let urlPrefix = this.urlPrefix;
+    const outputDir = this.outputDir;
 
     ok(lassoContext.config, 'lassoContext.config expected');
     ok(outputFile, 'outputFile expected');
 
     if (typeof urlPrefix === 'string') {
-        var relPath = filePathToUrl(outputFile.substring(outputDir.length));
+        const relPath = filePathToUrl(outputFile.substring(outputDir.length));
         if (urlPrefix.endsWith('/')) {
             urlPrefix = urlPrefix.slice(0, -1);
         }
         url = urlPrefix + relPath;
         return url;
     } else {
-        var basePath = lassoContext.basePath ? nodePath.resolve(process.cwd(), lassoContext.basePath) : process.cwd();
+        const basePath = lassoContext.basePath ? nodePath.resolve(process.cwd(), lassoContext.basePath) : process.cwd();
         return filePathToUrl(nodePath.relative(basePath, outputFile));
     }
 }
@@ -96,13 +96,13 @@ function getBundleUrl(lassoContext) {
  * @return void
  */
 async function writeFile (inStream, outputFile, calculateFingerprint, fingerprintLength) {
-    var outputDir = nodePath.dirname(outputFile);
-    var done = false;
+    const outputDir = nodePath.dirname(outputFile);
+    let done = false;
 
     await mkdirp(outputDir);
 
-    var outStream;
-    var tempFile = outputFile + '.' + process.pid + '.' + randomStr(4);
+    let outStream;
+    const tempFile = outputFile + '.' + process.pid + '.' + randomStr(4);
 
     return new Promise((resolve, reject) => {
         function handleError(err) {
@@ -129,9 +129,9 @@ async function writeFile (inStream, outputFile, calculateFingerprint, fingerprin
             // Pipe the stream to a temporary file and when the fingerprint is known,
             // rename the file to include the known fingerprint
 
-            var fingerprint = fingerprint;
             outStream = fs.createWriteStream(tempFile);
-            var fingerprintStream = util.createFingerprintStream();
+            const fingerprintStream = util.createFingerprintStream();
+            let fingerprint;
 
             outStream
                 .on('close', function() {
@@ -143,7 +143,7 @@ async function writeFile (inStream, outputFile, calculateFingerprint, fingerprin
                         fingerprint = fingerprint.substring(0, fingerprintLength);
                     }
 
-                    var ext = nodePath.extname(outputFile);
+                    const ext = nodePath.extname(outputFile);
                     outputFile = outputFile.slice(0, 0 - ext.length) + '-' + fingerprint + ext;
 
                     fs.stat(outputFile, function (error, stats) {
@@ -154,16 +154,16 @@ async function writeFile (inStream, outputFile, calculateFingerprint, fingerprin
                                 }
 
                                 handleSuccess({
-                                    fingerprint: fingerprint,
-                                    outputFile: outputFile
+                                    fingerprint,
+                                    outputFile
                                 });
                             });
                         } else {
                             // If it already exists then just use that file, but delete the temp file
                             fs.unlink(tempFile, function() {
                                 handleSuccess({
-                                    fingerprint: fingerprint,
-                                    outputFile: outputFile
+                                    fingerprint,
+                                    outputFile
                                 });
                             });
                         }
@@ -201,7 +201,7 @@ async function writeFile (inStream, outputFile, calculateFingerprint, fingerprin
                         }
 
                         handleSuccess({
-                            outputFile: outputFile
+                            outputFile
                         });
                     });
                 });
@@ -211,25 +211,25 @@ async function writeFile (inStream, outputFile, calculateFingerprint, fingerprin
 
 module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
     // The directory to place the built bundle and resource files
-    var outputDir = nodePath.resolve(process.cwd(), fileWriterConfig.outputDir || 'static');
+    const outputDir = nodePath.resolve(process.cwd(), fileWriterConfig.outputDir || 'static');
 
     // Boolean value to indicate if including fingerprints in the output files is enabled
     // or not.
-    var fingerprintsEnabled = fileWriterConfig.fingerprintsEnabled !== false;
+    const fingerprintsEnabled = fileWriterConfig.fingerprintsEnabled !== false;
 
     // Optional URL prefix to use when generating URLs to the bundled files
-    var urlPrefix = fileWriterConfig.urlPrefix;
+    let urlPrefix = fileWriterConfig.urlPrefix;
 
     // Boolean value to indicate if the target slot should be added to the output filename
     // e.g. "head" or "body"
-    var includeSlotNames = fileWriterConfig.includeSlotNames;
+    const includeSlotNames = fileWriterConfig.includeSlotNames;
 
     // If fingerprints are enabled then this flag will be used to determine how many characters
     // the fingerprint should contain
-    var fingerprintLength = fileWriterConfig.fingerprintLength || 8;
+    const fingerprintLength = fileWriterConfig.fingerprintLength || 8;
 
     // Boolean value to indicate if CSS URLs should be relative
-    var relativeUrlsEnabled = fileWriterConfig.relativeUrlsEnabled;
+    const relativeUrlsEnabled = fileWriterConfig.relativeUrlsEnabled;
 
     /**
      * Calculate the output file for  a given bundle given
@@ -242,7 +242,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
         if (bundle.outputFile) {
             return bundle.outputFile;
         }
-        var relativePath;
+        let relativePath;
 
         if (bundle.dependency && bundle.dependency.getSourceFile) {
             relativePath = bundle.dependency.getSourceFile();
@@ -252,7 +252,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
             relativePath = bundle.relativeOutputPath;
         }
 
-        var targetExt = bundle.getContentType();
+        const targetExt = bundle.getContentType();
 
         return getOutputFile(
             relativePath,
@@ -270,7 +270,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
     }
 
     function getOutputFileForResource(path, fingerprintsEnabled, lassoContext) {
-        var relativePath;
+        let relativePath;
 
         if (lassoConfig.isBundlingEnabled() === false || fingerprintsEnabled === false) {
             // When bundling is disabled we maintain the directory structure
@@ -279,10 +279,10 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
 
             relativePath = lassoContext.getClientPath(path);
 
-            var pageName = lassoContext.pageName;
-            var flags = lassoContext.flags;
+            const pageName = lassoContext.pageName;
+            const flags = lassoContext.flags;
             if (pageName) {
-                var prefix = pageName.replace(/[\\\/]/g, '-');
+                let prefix = pageName.replace(/[\\\/]/g, '-');
 
                 if (flags && !flags.isEmpty()) {
                     prefix += '-' + flags.getKey();
@@ -296,8 +296,8 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
     }
 
     function buildResourceCacheKey(cacheKey, lassoContext) {
-        var lassoConfig = lassoContext.config;
-        var pageName = lassoContext.pageName;
+        const lassoConfig = lassoContext.config;
+        const pageName = lassoContext.pageName;
 
         if (pageName && (lassoConfig.isBundlingEnabled() === false || fingerprintsEnabled === false)) {
             return pageName + '-' + cacheKey;
@@ -307,7 +307,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
     }
 
     function getOutputFile(relativePath, filename, targetExt, slotName) {
-        var outputPath;
+        let outputPath;
         if (relativePath) {
             outputPath = nodePath.join(outputDir, relativePath);
         }
@@ -317,12 +317,12 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
             outputPath = nodePath.join(outputDir, filename.replace(/^\//, '').replace(/[^A-Za-z0-9_\-\.]/g, '-'));
         }
 
-        var dirname = nodePath.dirname(outputPath);
-        var basename = nodePath.basename(outputPath);
+        const dirname = nodePath.dirname(outputPath);
+        let basename = nodePath.basename(outputPath);
 
-        var lastDot = basename.lastIndexOf('.');
-        var ext;
-        var nameNoExt;
+        const lastDot = basename.lastIndexOf('.');
+        let ext;
+        let nameNoExt;
 
         if (lastDot !== -1) {
             ext = basename.substring(lastDot + 1);
@@ -349,7 +349,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
     }
 
     function getResourceUrlForHashed (path, lassoContext) {
-        var basePath;
+        let basePath;
 
         if (lassoContext && lassoContext.bundle && lassoContext.bundle.isStyleSheet() && relativeUrlsEnabled !== false) {
             // We should calculate a relative path from the CSS bundle to the resource bundle
@@ -358,7 +358,7 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
         }
 
         if (typeof urlPrefix === 'string') {
-            var relPath = filePathToUrl(path.substring(outputDir.length));
+            const relPath = filePathToUrl(path.substring(outputDir.length));
             if (urlPrefix.endsWith('/')) {
                 urlPrefix = urlPrefix.slice(0, -1);
             }
@@ -400,9 +400,9 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
                 return callback(null, false);
             }
 
-            var outputFile = getOutputFileForResource(path, fingerprintsEnabled, lassoContext);
+            const outputFile = getOutputFileForResource(path, fingerprintsEnabled, lassoContext);
 
-            var work = {
+            const work = {
                 async sourceLastModified () {
                     return lassoContext.getFileLastModified(path);
                 },
@@ -419,11 +419,11 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
                 if (results.outputLastModified >= results.sourceLastModified) {
                     // The resource has not been modified so let the lasso
                     // know what URL to use for the resource
-                    var url = getResourceUrl(outputFile, lassoContext);
+                    const url = getResourceUrl(outputFile, lassoContext);
 
                     callback(null, {
-                        url: url,
-                        outputFile: outputFile
+                        url,
+                        outputFile
                     });
                 } else {
                     // Resource is not up-to-date and needs to be written
@@ -434,22 +434,22 @@ module.exports = function fileWriter(fileWriterConfig, lassoConfig) {
 
         async writeBundle (reader, lassoContext) {
             return new Promise((resolve, reject) => {
-                var input = reader.readBundle();
-                var bundle = lassoContext.bundle;
+                const input = reader.readBundle();
+                const bundle = lassoContext.bundle;
 
                 ok(input, '"input" is required');
                 ok(bundle, '"bundle" is required');
 
                 input.on('error', reject);
 
-                var calculateFingerprint = bundle.config.fingerprintsEnabled;
+                let calculateFingerprint = bundle.config.fingerprintsEnabled;
                 if (calculateFingerprint === undefined) {
                     calculateFingerprint = fingerprintsEnabled;
                 }
 
                 calculateFingerprint = calculateFingerprint === true && !bundle.getFingerprint();
 
-                var outputFile = getOutputFileForBundle(bundle);
+                const outputFile = getOutputFileForBundle(bundle);
 
                 logger.debug('Writing bundle "' + bundle.getLabel() + '" to file "' + outputFile + '"...');
 

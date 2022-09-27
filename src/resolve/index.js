@@ -1,12 +1,12 @@
-var builtinsModule = require('./builtins');
-var parseRequire = require('./parseRequire');
-var nodePath = require('path');
-var getRequireRemapFromDir = require('./getRequireRemapFromDir');
-var lassoResolveFrom = require('lasso-resolve-from');
-var ok = require('assert').ok;
-var cachingFs = require('../caching-fs');
+const builtinsModule = require('./builtins');
+const parseRequire = require('./parseRequire');
+const nodePath = require('path');
+const getRequireRemapFromDir = require('./getRequireRemapFromDir');
+const lassoResolveFrom = require('lasso-resolve-from');
+const ok = require('assert').ok;
+const cachingFs = require('../caching-fs');
 
-var _normalizePath = nodePath.sep === '/'
+const _normalizePath = nodePath.sep === '/'
     ? function _normalizePathUnix(path) {
         // nothing to do for non-Windows platform
         return path;
@@ -17,27 +17,27 @@ var _normalizePath = nodePath.sep === '/'
     };
 
 exports.createResolver = function(lassoContext, getClientPath) {
-    var resolverConfig = lassoContext.config && lassoContext.config.resolver;
-    var requireConfig = lassoContext.config && lassoContext.config._requirePluginConfig;
-    var builtinsConfig = (resolverConfig && resolverConfig.builtins) || (requireConfig && requireConfig.builtins);
+    const resolverConfig = lassoContext.config && lassoContext.config.resolver;
+    const requireConfig = lassoContext.config && lassoContext.config._requirePluginConfig;
+    const builtinsConfig = (resolverConfig && resolverConfig.builtins) || (requireConfig && requireConfig.builtins);
 
-    var postResolveFn = resolverConfig && resolverConfig.postResolve;
-    var builtins = builtinsModule.getBuiltins(builtinsConfig);
+    const postResolveFn = resolverConfig && resolverConfig.postResolve;
+    const builtins = builtinsModule.getBuiltins(builtinsConfig);
 
     function resolve(targetModule, fromDir, options) {
         ok(targetModule, '"targetModule" is required');
         ok(typeof targetModule === 'string', '"targetModule" should be a string');
         ok(typeof fromDir === 'string', '"fromDir" should be a string');
 
-        var parsedRequire = parseRequire(targetModule);
+        const parsedRequire = parseRequire(targetModule);
 
         // Normalize the path by making sure the path separator is always forward slash
         // (normalize does nothing on non-Windows platform)
         targetModule = _normalizePath(parsedRequire.path);
 
-        var dependencyType = parsedRequire.type;
+        const dependencyType = parsedRequire.type;
 
-        var resolveOptions = {
+        const resolveOptions = {
             includeMeta: true
         };
 
@@ -47,11 +47,11 @@ exports.createResolver = function(lassoContext, getClientPath) {
             return lassoContext && getRequireRemapFromDir(dir, lassoContext);
         };
 
-        var resolvedInfo = lassoResolveFrom(fromDir, targetModule, resolveOptions);
+        let resolvedInfo = lassoResolveFrom(fromDir, targetModule, resolveOptions);
 
-        var isBuiltin = resolvedInfo && builtins && builtins[targetModule] === resolvedInfo.path;
+        const isBuiltin = resolvedInfo && builtins && builtins[targetModule] === resolvedInfo.path;
 
-        var clientPath;
+        let clientPath;
 
         if (resolvedInfo && !isBuiltin) {
             clientPath = getClientPath(resolvedInfo.path);
@@ -60,7 +60,7 @@ exports.createResolver = function(lassoContext, getClientPath) {
                 return null;
             }
 
-            var resolvedBuiltin = builtins[targetModule];
+            const resolvedBuiltin = builtins[targetModule];
 
             if (resolvedBuiltin) {
                 resolvedInfo = {
@@ -76,7 +76,7 @@ exports.createResolver = function(lassoContext, getClientPath) {
 
                 clientPath = getClientPath(resolvedBuiltin);
             } else if (options && options.moduleFallbackToRelative) {
-                var resolvedPath = nodePath.resolve(fromDir, targetModule);
+                const resolvedPath = nodePath.resolve(fromDir, targetModule);
 
                 // Since the path looked like it was for a module we should check
                 // to see if the fallback technique actually found a file. If file
@@ -99,10 +99,10 @@ exports.createResolver = function(lassoContext, getClientPath) {
                 postResolveFn(resolvedInfo, lassoContext);
             }
 
-            var result = {
+            const result = {
                 path: resolvedInfo.path,
                 meta: resolvedInfo.meta,
-                clientPath: clientPath
+                clientPath
             };
 
             if (resolvedInfo.voidRemap) {
@@ -125,10 +125,10 @@ exports.createResolver = function(lassoContext, getClientPath) {
             return resolve(targetModule, fromDir, options);
         }
 
-        var key = targetModule + '@' + fromDir;
-        var cache = lassoContext.cache.getSyncCache('resolve');
+        const key = targetModule + '@' + fromDir;
+        const cache = lassoContext.cache.getSyncCache('resolve');
 
-        var result = cache.getSync(key);
+        let result = cache.getSync(key);
 
         if (result === undefined) {
             result = resolve(targetModule, fromDir, options);
