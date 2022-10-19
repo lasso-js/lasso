@@ -1,7 +1,35 @@
 [
   {
     "slots": {
-      "body": "<script src=\"/static/test-page/lasso-modules-client$2.0.7/src/index.js\"></script>\n<script src=\"/static/test-page/lasso$3.4.3/test/autotests/prebuild-page/prebuild-resource/ebay.png.js\"></script>\n<script>$_mod.ready();</script>"
+      "body": [
+        {
+          "contentType": "js",
+          "content": [
+            {
+              "inline": false,
+              "code": {
+                "src": "/static/test-page/lasso-modules-client$2.0.7/src/index.js"
+              }
+            },
+            {
+              "inline": false,
+              "code": {
+                "src": "/static/test-page/lasso$4.0.1/test/autotests/prebuild-page/prebuild-resource/ebay.png.js"
+              }
+            }
+          ]
+        },
+        {
+          "contentType": "js",
+          "content": [
+            {
+              "inline": true,
+              "code": "$_mod.ready();",
+              "merge": true
+            }
+          ]
+        }
+      ]
     },
     "assets": [],
     "name": "test-page"

@@ -1,33 +1,5 @@
 const ok = require('assert').ok;
-const toString = require('./util/to-string');
 const stringifyAttrs = require('./util/stringify-attrs');
-const inlineBuilders = {
-    js: (source) => (data) => {
-        const scriptAttrs = data.externalScriptAttrs;
-        const code = toString(source, data);
-        let result = `<script${stringifyAttrs(data.inlineScriptAttrs)}>`;
-
-        if (scriptAttrs) {
-            if (scriptAttrs.async) {
-                result += wrapInDocumentLoaded(code, true);
-            } else if (scriptAttrs.defer) {
-                result += wrapInDocumentLoaded(code);
-            } else {
-                result += code;
-            }
-        } else {
-            result += code;
-        }
-
-        return `${result}</script>`;
-    },
-    css: (source) => (data) => {
-        return `<style${stringifyAttrs(data.inlineStyleAttrs)}>${toString(
-            source,
-            data
-        )}</style>`;
-    }
-};
 
 function Slot(contentType) {
     ok(contentType, 'contentType is required');
@@ -57,46 +29,62 @@ Slot.prototype = {
             inline: false,
             code: content
         });
-    },
-
-    buildHtml: function() {
-        const output = [];
-        let isTemplate = false;
-        for (let i = 0, len = this.content.length; i < len; i++) {
-            const content = this.content[i];
-            if (content.inline) {
-                const builder = inlineBuilders[this.contentType];
-
-                if (builder) {
-                    isTemplate = true;
-                    output.push(builder(content.code));
-                } else {
-                    throw new Error("Invalid inline content type '" + this.contentType + "'.");
-                }
-            } else {
-                isTemplate = isTemplate || typeof content.code === 'function';
-                output.push(content.code);
-            }
-        }
-
-        if (isTemplate) {
-            return data => {
-                let result = '';
-                for (let i = 0; i < output.length; i++) {
-                    if (i !== 0) {
-                        result += '\n';
-                    }
-
-                    result += toString(output[i], data);
-                }
-
-                return result;
-            };
-        }
-
-        return output.join('\n');
     }
 };
+
+Slot.render = function(slot, data) {
+    let html = '';
+    let sep = '';
+
+    for (const content of slot.content) {
+        html += sep;
+        sep = '\n';
+
+        switch (slot.contentType) {
+        case 'js':
+            html += (content.inline ? inlineScript : externalScript)(content.code, data);
+            break;
+        case 'css':
+            html += (content.inline ? inlineStyle : externalStyle)(content.code, data);
+            break;
+        default:
+            throw new Error('Invalid content type: ' + slot.contentType);
+        }
+    }
+
+    return html;
+};
+
+function inlineScript(content, data) {
+    const scriptAttrs = data.externalScriptAttrs;
+    let result = `<script${stringifyAttrs(data.inlineScriptAttrs)}>`;
+
+    if (scriptAttrs) {
+        if (scriptAttrs.async) {
+            result += wrapInDocumentLoaded(content, true);
+        } else if (scriptAttrs.defer) {
+            result += wrapInDocumentLoaded(content);
+        } else {
+            result += content;
+        }
+    } else {
+        result += content;
+    }
+
+    return `${result}</script>`;
+}
+
+function inlineStyle(content, data) {
+    return `<style${stringifyAttrs(data.inlineStyleAttrs)}>${content}</style>`;
+}
+
+function externalScript(attrs, data) {
+    return `<script${stringifyAttrs(Object.assign({}, attrs, data.externalScriptAttrs))}></script>`;
+}
+
+function externalStyle(attrs, data) {
+    return `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet' }, attrs, data.externalStyleAttrs))}>`;
+}
 
 function wrapInDocumentLoaded(code, isAsync) {
     return (

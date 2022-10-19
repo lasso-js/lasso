@@ -1,6 +1,9 @@
 Changelog
 =========
 
+# 4.0.2
+- Fix issue with caching page results in production mode.
+
 # 4.0.1
 - Fix regression with the `getImageInfo` api.
 

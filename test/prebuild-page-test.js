@@ -8,14 +8,26 @@ const lasso = require('lasso');
 const expect = require('chai').expect;
 
 function replaceLassoVersion (str) {
-    return str.replace(/lasso[^?=\\\/]*/g, 'lasso');
+    return str?.replace(/lasso[^?=\\\/]*/g, 'lasso');
 }
+
+function replaceLassoURLS (slot) {
+    for (const content of slot.content) {
+        if (typeof content.code === "object") {
+            content.code.href = replaceLassoVersion(content.code.href);
+            content.code.src = replaceLassoVersion(content.code.src);
+        } else {
+            content.code = replaceLassoVersion(content.code);
+        }
+    }
+} 
 
 function replaceLassoSlotVersion (prebuild) {
     for (let i = 0; i < prebuild.length; i++) {
-        for (let slot in prebuild[i].slots) {
-            const replaced = replaceLassoVersion(prebuild[i].slots[slot]);
-            prebuild[i].slots[slot] = replaced;
+        for (const name in prebuild[i].slots) {
+            for (const slot of prebuild[i].slots[name]) {
+                replaceLassoURLS(slot);
+            }
         }
     }
 

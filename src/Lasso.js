@@ -28,7 +28,6 @@ const resolveFrom = require('resolve-from');
 const LassoPrebuildResult = require('./LassoPrebuildResult');
 const { buildPrebuildName, buildPrebuildFileName } = require('./util/prebuild.js');
 const hashUtil = require('./util/hash');
-const stringifyAttrs = require('./util/stringify-attrs');
 
 /**
 * Cache of prebuilds by path. If there are multiple slots for the same
@@ -251,10 +250,10 @@ async function doLassoPage (theLasso, options, lassoContext) {
 
     function buildHtmlSlots (pageBundles) {
         pageBundles.forEachBundle(function (bundle) {
-            let html,
+            let attrs,
                 url;
 
-            const htmlAttributes = bundle.getHtmlAttributes();
+            const bundleAttrs = bundle.getHtmlAttributes();
 
             if (bundle.isInline()) {
                 if (fingerprintInlineCode) {
@@ -274,20 +273,20 @@ async function doLassoPage (theLasso, options, lassoContext) {
                 url = bundle.getUrl(lassoContext);
 
                 if (bundle.isJavaScript()) {
-                    html = theLasso.getJavaScriptDependencyHtml(url, htmlAttributes);
+                    attrs = Object.assign({ src: url }, bundleAttrs);
                 } else if (bundle.isStyleSheet()) {
-                    html = theLasso.getCSSDependencyHtml(url, htmlAttributes);
+                    attrs = Object.assign({ href: url }, bundleAttrs);
                 } else if (!bundle.hasContent()) {
                     // ignore this bundle because contentType is "none"
                     return;
                 } else {
                     throw new Error('Invalid bundle content type: ' + bundle.getContentType());
                 }
-                slotTracker.addContent(bundle.getSlot(), bundle.getContentType(), html);
+                slotTracker.addContent(bundle.getSlot(), bundle.getContentType(), attrs);
             }
         });
 
-        lassoPageResult.setHtmlBySlot(slotTracker.getHtmlBySlot());
+        lassoPageResult.setSlotsByName(slotTracker.getSlotsByName());
         lassoPageResult.setInlineCodeFingerprints(inlineCodeFingerprints);
     }
 
@@ -724,14 +723,6 @@ Lasso.prototype = {
         return this.config;
     },
 
-    getJavaScriptDependencyHtml: function(url, attributes) {
-        return data => `<script${stringifyAttrs(Object.assign({ src: url }, attributes, data.externalScriptAttrs))}></script>`;
-    },
-
-    getCSSDependencyHtml: function(url, attributes) {
-        return data => `<link${stringifyAttrs(Object.assign({ rel: 'stylesheet', href: url }, attributes, data.externalStyleAttrs))}>`;
-    },
-
     _resolveflags: function(options) {
         const flagSet = flags.createFlagSet();
 
@@ -891,10 +882,9 @@ Lasso.prototype = {
             throw new Error(`No build could be found using flags: "${flagsStr}" for file at path "${path}"`);
         }
 
-        lassoPageResult = new LassoPageResult({
-            htmlBySlot: build.slots,
-            resources: build.assets
-        });
+        lassoPageResult = new LassoPageResult();
+        lassoPageResult.setSlotsByName(build.slots);
+        lassoPageResult.resources = build.resources;
 
         prebuildToPath[path] = lassoPageResult;
 
