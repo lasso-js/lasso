@@ -1,18 +1,15 @@
-var extend = require('raptor-util/extend');
-var toString = require('./util/to-string');
-const LassoPrebuild = require('./LassoPrebuild');
-var EMPTY_OBJECT = {};
+const Slot = require('./Slot');
+const EMPTY_OBJECT = {};
+const hasOwn = Object.prototype.hasOwnProperty;
 
-function LassoPageResult (options = {}) {
-    const { htmlBySlot, resources } = options;
-
+function LassoPageResult () {
     this.urlsBySlot = {};
     this.urlsByContentType = {};
     this.files = [];
     this.infoByBundleName = {};
     this.infoByAsyncBundleName = {};
-    this._htmlBySlot = htmlBySlot || {};
-    this.resources = resources || [];
+    this.resources = [];
+    this._slotsByName = {};
 
     /**
      * If Lasso is configured to fingerprint inline code for
@@ -31,10 +28,7 @@ LassoPageResult.deserialize = function (reader) {
                 json += data;
             })
             .on('end', function () {
-                var o = JSON.parse(json);
-                var lassoPageResult = new LassoPageResult();
-                extend(lassoPageResult, o);
-                resolve(lassoPageResult);
+                resolve(Object.assign(new LassoPageResult(), JSON.parse(json)));
             })
             .on('error', function (err) {
                 reject(err);
@@ -66,11 +60,10 @@ LassoPageResult.prototype = {
      * @return {Object} An object with slot names as property names and slot HTML as property values.
      */
     get htmlBySlot() {
-        var htmlBySlot = {};
-        for (var slotName in this._htmlBySlot) {
-            if (this._htmlBySlot.hasOwnProperty(slotName)) {
-                var slotHtml = this.getHtmlForSlot(slotName);
-                htmlBySlot[slotName] = slotHtml;
+        const htmlBySlot = {};
+        for (const slotName in this._slotsByName) {
+            if (hasOwn.call(this._slotsByName, slotName)) {
+                htmlBySlot[slotName] = this.getHtmlForSlot(slotName);
             }
         }
 
@@ -94,7 +87,21 @@ LassoPageResult.prototype = {
      * @return {String} The HTML for the slot or an empty string if there is no HTML defined for the slot.
      */
     getHtmlForSlot: function(slotName, data) {
-        return toString(this._htmlBySlot[slotName], data || EMPTY_OBJECT);
+        const slots = this._slotsByName[slotName];
+
+        if (slots) {
+            const slotData = data || EMPTY_OBJECT;
+            let html = '';
+            let sep = '';
+            for (const slot of slots) {
+                html += sep + Slot.render(slot, slotData);
+                sep = '\n';
+            }
+
+            return html;
+        }
+
+        return '';
     },
 
     getHeadHtml: function(data) {
@@ -112,23 +119,8 @@ LassoPageResult.prototype = {
         return this.getHtmlForSlot(slotName, data);
     },
 
-    /**
-     * Returns the JSON representation of the return value of {@Link #getHtmlBySlot}
-     * @return {String} The JSON output
-     */
-    htmlSlotsToJSON: function(indentation) {
-        return JSON.stringify(this.htmlBySlot, null, indentation);
-    },
-
-    toJSON: function() {
-        var clone = extend({}, this);
-        // Don't include the loaded templates when generating a JSON string
-        delete clone._htmlTemplatesBySlot;
-        return clone;
-    },
-
-    setHtmlBySlot: function(htmlBySlot) {
-        this._htmlBySlot = htmlBySlot;
+    setSlotsByName: function(slotsByName) {
+        this._slotsByName = slotsByName;
     },
 
     registerBundle: function(bundle, async, lassoContext) {
@@ -261,12 +253,12 @@ LassoPageResult.prototype = {
     },
 
     toLassoPrebuild (name, flags) {
-        return new LassoPrebuild({
-            slots: this.htmlBySlot,
+        return {
+            slots: this._slotsByName,
             assets: this.resources,
             name,
             flags
-        });
+        };
     }
 };
 

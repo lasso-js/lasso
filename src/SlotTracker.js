@@ -1,15 +1,14 @@
-var Slot = require('./Slot');
-var InlinePos = require('./InlinePos');
-var toString = require('./util/to-string');
+const Slot = require('./Slot');
+const InlinePos = require('./InlinePos');
 
 function SlotTracker() {
     this.slots = {};
-    this.slotNames = {};
+    this.slotNames = new Set();
 }
 
 SlotTracker.prototype = {
     addInlineCode: function(slotName, contentType, code, inlinePos, mergeInline) {
-        this.slotNames[slotName] = true;
+        this.slotNames.add(slotName);
 
         var slotKey = contentType + ':' + slotName;
         if (inlinePos === InlinePos.BEGINNING) {
@@ -23,46 +22,34 @@ SlotTracker.prototype = {
     },
 
     addContent: function(slotName, contentType, content) {
-        this.slotNames[slotName] = true;
-        var slotKey = contentType + ':' + slotName;
-        var slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
+        this.slotNames.add(slotName);
+
+        const slotKey = contentType + ':' + slotName;
+        const slot = this.slots[slotKey] || (this.slots[slotKey] = new Slot(contentType));
         slot.addContent(content);
     },
 
-    getHtmlBySlot: function() {
-        var htmlBySlot = {};
-        var slots = this.slots;
+    getSlotsByName: function() {
+        const slotsByName = {};
+        const slots = this.slots;
 
-        function addCode(slotName, lookup) {
-            var slot = slots[lookup];
-
-            if (!slot) {
-                return;
-            }
-
-            var html = htmlBySlot[slotName];
-            var newHtml = slot.buildHtml();
-            htmlBySlot[slotName] =
-                html == null
-                    ? newHtml
-                    : (data) =>
-                        `${toString(html, data)}\n${toString(newHtml, data)}`;
+        function addCode(slotList, key) {
+            const slot = slots[key];
+            if (slot) slotList.push(slot);
         }
 
-        var slotNames = Object.keys(this.slotNames);
-        for (var i = 0, len = slotNames.length; i < len; i++) {
-            var slotName = slotNames[i];
+        for (const slotName of this.slotNames) {
+            const slotList = slotsByName[slotName] = [];
+            addCode(slotList, 'css:' + slotName + ':before');
+            addCode(slotList, 'css:' + slotName);
+            addCode(slotList, 'css:' + slotName + ':after');
 
-            addCode(slotName, 'css:' + slotName + ':before');
-            addCode(slotName, 'css:' + slotName);
-            addCode(slotName, 'css:' + slotName + ':after');
-
-            addCode(slotName, 'js:' + slotName + ':before');
-            addCode(slotName, 'js:' + slotName);
-            addCode(slotName, 'js:' + slotName + ':after');
+            addCode(slotList, 'js:' + slotName + ':before');
+            addCode(slotList, 'js:' + slotName);
+            addCode(slotList, 'js:' + slotName + ':after');
         }
 
-        return htmlBySlot;
+        return slotsByName;
     }
 };
 

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+# 3.4.4
+- Improves caching.
+- Removes Marko as a dependency.
+
 # 3.4.0
 
 - Switches from esprima to espree to parse JavaScript (supports more modern JavaScript).
