@@ -12,7 +12,6 @@ const lassoImagePlugin = require('lasso/plugins/lasso-image'); // Load this modu
 const lasso = require('lasso');
 
 describe('lasso-image', function () {
-
     it('should allow for reading image info on the server', function(done) {
         const imgPath = require.resolve('./fixtures/ebay.png');
 
@@ -88,6 +87,54 @@ describe('lasso-image', function () {
         expect(output).to.contain('30');
         expect(output).to.contain('/static');
         expect(output).to.contain('ebay.png');
+        return lasso.flushAllCaches();
+    });
+
+    it('should compile an image into a JavaScript module and retain lasso context', async function() {
+        var myLasso = lasso.create({
+            fileWriter: {
+                fingerprintsEnabled: false,
+                outputDir: nodePath.join(__dirname, 'static')
+            },
+            bundlingEnabled: true,
+            plugins: [
+                {
+                    plugin: lassoImagePlugin,
+                    config: {
+
+                    }
+                }
+            ]
+        });
+
+        var mockRenderContext = {
+            stream: {
+                secure: true
+            }
+        };
+
+        myLasso.writer.writeResource = async (reader, lassoContext) => {
+            var requestContext = lassoContext.data.renderContext.stream;
+            var protocol = requestContext.secure ? 'https:' : 'http:';
+
+            return {
+                url: protocol + '//static.example.com/ebay.png'
+            };
+        };
+
+        await myLasso.lassoPage({
+            name: 'testPage',
+            dependencies: [
+                'require: ./fixtures/ebay.png'
+            ],
+            from: module,
+            data: { renderContext: mockRenderContext }
+        });
+
+        var output = fs.readFileSync(nodePath.join(__dirname, '/static/testPage.js'), {encoding: 'utf8'});
+        expect(output).to.contain('174');
+        expect(output).to.contain('30');
+        expect(output).to.contain('https://static.example.com/ebay.png');
         return lasso.flushAllCaches();
     });
 

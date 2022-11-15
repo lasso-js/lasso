@@ -1,6 +1,9 @@
 Changelog
 =========
 
+# 3.4.5
+- Fix issue where the internal lasso context data was missing for image/resource assets.
+
 # 3.4.4
 - Improves caching.
 - Removes Marko as a dependency.

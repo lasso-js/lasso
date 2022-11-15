@@ -28,7 +28,7 @@ var plugin = function(lasso, config) {
 
         read (lassoContext) {
             return new Promise((resolve, reject) => {
-                plugin.getImageInfo(this.path, { lasso }, (err, imageInfo) => {
+                plugin.getImageInfo(this.path, { lasso, lassoContext }, (err, imageInfo) => {
                     return err ? reject(err) : resolve(JSON.stringify(imageInfo));
                 });
             });
