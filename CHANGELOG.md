@@ -1,6 +1,9 @@
 Changelog
 =========
 
+# 4.0.3
+- Fix issue where the internal lasso context data was missing for image/resource assets.
+
 # 4.0.2
 - Fix issue with caching page results in production mode.
 
