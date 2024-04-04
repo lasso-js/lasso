@@ -8,13 +8,13 @@
             {
               "inline": false,
               "code": {
-                "src": "/static/test-page/lasso-modules-client$2.0.7/src/index.js"
+                "src": "/static/test-page/lasso/src/index.js"
               }
             },
             {
               "inline": false,
               "code": {
-                "src": "/static/test-page/lasso$4.0.1/test/autotests/prebuild-page/prebuild-resource/ebay.png.js"
+                "src": "/static/test-page/lasso/test/autotests/prebuild-page/prebuild-resource/ebay.png.js"
               }
             }
           ]
@@ -31,7 +31,13 @@
         }
       ]
     },
-    "assets": [],
+    "assets": [
+      {
+        "url": "/static/test-page/lasso/test/autotests/prebuild-page/prebuild-resource/ebay.png",
+        "outputFile": "",
+        "sourceFile": ""
+      }
+    ],
     "name": "test-page"
   }
 ]

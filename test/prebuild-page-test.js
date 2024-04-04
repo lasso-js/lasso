@@ -11,7 +11,7 @@ function replaceLassoVersion (str) {
     return str?.replace(/lasso[^?=\\\/]*/g, 'lasso');
 }
 
-function replaceLassoURLS (slot) {
+function replaceLassoSlotURLS (slot) {
     for (const content of slot.content) {
         if (typeof content.code === "object") {
             content.code.href = replaceLassoVersion(content.code.href);
@@ -22,12 +22,22 @@ function replaceLassoURLS (slot) {
     }
 } 
 
+function replaceLasstAssetURLS (asset) {
+    asset.url = replaceLassoVersion(asset.url);
+    asset.outputFile = "";
+    asset.sourceFile = "";
+}
+
 function replaceLassoSlotVersion (prebuild) {
     for (let i = 0; i < prebuild.length; i++) {
         for (const name in prebuild[i].slots) {
             for (const slot of prebuild[i].slots[name]) {
-                replaceLassoURLS(slot);
+                replaceLassoSlotURLS(slot);
             }
+        }
+
+        for (const asset of prebuild[i].assets) {
+            replaceLasstAssetURLS(asset);
         }
     }
 
@@ -79,7 +89,6 @@ describe('lasso/flags', function() {
                     const expectedPrebuildFilePath = nodePath.join(dir, `${prebuildPageName}.prebuild.expected.json`);
                     let expectedPrebuild = require(expectedPrebuildFilePath);
                     expectedPrebuild = replaceLassoSlotVersion(expectedPrebuild);
-
                     expect(actualPrebuild).to.deep.equal(expectedPrebuild);
                 }
             }
