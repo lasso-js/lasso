@@ -106,20 +106,37 @@ describe('lasso-image', function () {
                 }
             ]
         });
+        var originalWriter = myLasso.writer;
+        class Writer {
+            async writeResource (reader, lassoContext) {
+                var requestContext = lassoContext.data.renderContext.stream;
+                var protocol = requestContext.secure ? 'https:' : 'http:';
+
+                return {
+                    url: protocol + '//static.example.com/ebay.png'
+                };
+            }
+            writeBundles() {
+                return originalWriter.writeBundles.apply(originalWriter, arguments);
+            }
+        }
+
+        myLasso.writer = new Writer();
+        myLasso.on('buildCacheKey', function(eventArgs) {
+            var lassoContext = eventArgs.context;
+            var requestContext = lassoContext.data.renderContext.stream;
+
+            var cacheKey = eventArgs.cacheKey;
+
+            if (requestContext.secure) {
+                cacheKey.add('secure');
+            }
+        });
 
         var mockRenderContext = {
             stream: {
                 secure: true
             }
-        };
-
-        myLasso.writer.writeResource = async (reader, lassoContext) => {
-            var requestContext = lassoContext.data.renderContext.stream;
-            var protocol = requestContext.secure ? 'https:' : 'http:';
-
-            return {
-                url: protocol + '//static.example.com/ebay.png'
-            };
         };
 
         await myLasso.lassoPage({
