@@ -51,11 +51,7 @@ exports.createResolver = function(lassoContext, getClientPath) {
 
         const isBuiltin = resolvedInfo && builtins && builtins[targetModule] === resolvedInfo.path;
 
-        let clientPath;
-
-        if (resolvedInfo && !isBuiltin) {
-            clientPath = getClientPath(resolvedInfo.path);
-        } else {
+        if (!(resolvedInfo && !isBuiltin)) {
             if (targetModule.charAt(0) === '.') {
                 return null;
             }
@@ -73,8 +69,6 @@ exports.createResolver = function(lassoContext, getClientPath) {
                         }
                     ]
                 };
-
-                clientPath = getClientPath(resolvedBuiltin);
             } else if (options && options.moduleFallbackToRelative) {
                 const resolvedPath = nodePath.resolve(fromDir, targetModule);
 
@@ -102,7 +96,7 @@ exports.createResolver = function(lassoContext, getClientPath) {
             const result = {
                 path: resolvedInfo.path,
                 meta: resolvedInfo.meta,
-                clientPath
+                clientPath: getClientPath(resolvedInfo.path)
             };
 
             if (resolvedInfo.voidRemap) {
