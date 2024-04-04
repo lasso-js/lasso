@@ -1,1 +1,0 @@
-$_mod.def("/lasso$3.4.3/test/autotests/prebuild-page/prebuild-resource/ebay.png", {"url":"/static/lasso$3.4.3/test/autotests/prebuild-page/prebuild-resource/ebay.png","width":174,"height":30});

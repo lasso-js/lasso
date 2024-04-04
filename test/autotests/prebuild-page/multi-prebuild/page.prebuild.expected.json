@@ -1,17 +1,19 @@
 [
   {
     "slots": {
-      "body": [{
-        "contentType": "js",
-        "content": [
-          {
-            "inline": false,
-            "code": {
-              "src": "/static/page/lasso$4.0.1/test/autotests/prebuild-page/multi-prebuild/a.js"
+      "body": [
+        {
+          "contentType": "js",
+          "content": [
+            {
+              "inline": false,
+              "code": {
+                "src": "/static/page/lasso/test/autotests/prebuild-page/multi-prebuild/a.js"
+              }
             }
-          }
-        ]
-      }]
+          ]
+        }
+      ]
     },
     "assets": [],
     "name": "page"

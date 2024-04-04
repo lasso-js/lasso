@@ -16,3 +16,5 @@ coverage
 ~*
 .nyc_output/
 .vscode
+test/autotests/prebuild-page/*/static
+test/autotests/prebuild-page/*/*.prebuild.json
